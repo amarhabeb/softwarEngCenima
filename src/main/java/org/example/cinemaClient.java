@@ -3,12 +3,7 @@ package org.example;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-/**
- * Constructs the client.
- *
- * @param host the server's host name.
- * @param port the port number.
- */
+
 
 public class cinemaClient extends AbstractClient {
 
@@ -20,7 +15,7 @@ public class cinemaClient extends AbstractClient {
     cinemaClientCLI cinemaCLI;
     public cinemaClient(String host, int port) {
         super(host, port);
-        this.cinemaCLI = new cinemaClientCLI();
+        this.cinemaCLI = new cinemaClientCLI(this);
     }
 
     @Override
@@ -40,13 +35,14 @@ public class cinemaClient extends AbstractClient {
     protected void connectionClosed() {
         // TODO Auto-generated method stub
         super.connectionClosed();
-        cinemaClientCLI.closeConnection();
+        cinemaCLI.closeConnection();
     }
 
 
 
     @Override
     protected void handleMessageFromServer(Object msg) {
+
 
 
     }
