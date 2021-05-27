@@ -1,5 +1,5 @@
 package org.example;
-
+import java.awt.Image;
 
 public class movie {
     private int ID;

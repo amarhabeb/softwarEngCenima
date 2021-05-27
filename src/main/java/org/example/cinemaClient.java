@@ -24,11 +24,7 @@ public class cinemaClient extends AbstractClient {
         super.connectionEstablished();
         LOGGER.info("Connected to server.");
 
-        try {
-            cinemaClientCLI.loop();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        cinemaClientCLI.loop();
     }
 
     @Override
