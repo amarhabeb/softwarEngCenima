@@ -52,6 +52,7 @@ public class cinemaClient extends AbstractClient {
 
             cinemaClient CinemaClient = new cinemaClient(host, port);
             CinemaClient.openConnection();
+            App.main(args);
         }
     }
 }
