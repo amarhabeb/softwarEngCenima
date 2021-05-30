@@ -5,9 +5,9 @@ import java.util.LinkedList;
 public class cinema {
     int ID;
     private LinkedList<show> shows;
-    private LinkedList<movie> movies;
+    private LinkedList<Movie> movies;
 
-    public void addMovie(movie Movie){
+    public void addMovie(Movie Movie){
         movies.add(Movie);
     }
 
@@ -15,7 +15,7 @@ public class cinema {
         shows.add(sh);
     }
 
-    public void deleteMovie(movie M){
+    public void deleteMovie(Movie M){
         movies.remove(M);
     }
 
@@ -27,7 +27,7 @@ public class cinema {
         return shows;
     }
 
-    public LinkedList<movie> getMovies() {
+    public LinkedList<Movie> getMovies() {
         return movies;
     }
 }
