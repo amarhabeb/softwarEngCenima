@@ -1,12 +1,4 @@
 package org.example;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 
 
 import javax.persistence.*;
@@ -25,16 +17,16 @@ public class Movie {
     private String lanuch_date;
     private Boolean is_new;
     private String image;
-    private String status; // can be Available / not available
-    @OneToMany(targetEntity = show.class)
-    private List<show> shows;
+    private String status; // can be AVAILABLE / NOT_AVAILABLE
+    @OneToMany(targetEntity = Show.class)
+    private List<Show> shows;
 
     public Movie() {
         super();
     }
 
 
-    public Movie(String name_en, String name_heb, String director, String summary, String lanuch_date, Boolean is_new, String image, List<show> shows) {
+    public Movie(String name_en, String name_heb, String director, String summary, String lanuch_date, Boolean is_new, String image, List<Show> shows) {
         super();
         this.name_en = name_en;
         this.name_heb = name_heb;
@@ -58,11 +50,11 @@ public class Movie {
         return is_new;
     }
 
-    public List<show> getShows() {
+    public List<Show> getShows() {
         return shows;
     }
 
-    public void setShows(List<show> shows) {
+    public void setShows(List<Show> shows) {
         this.shows = shows;
     }
 

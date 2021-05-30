@@ -4,14 +4,14 @@ import java.util.LinkedList;
 
 public class cinema {
     int ID;
-    private LinkedList<show> shows;
+    private LinkedList<Show> shows;
     private LinkedList<Movie> movies;
 
     public void addMovie(Movie Movie){
         movies.add(Movie);
     }
 
-    public void addShow(show sh){
+    public void addShow(Show sh){
         shows.add(sh);
     }
 
@@ -19,11 +19,11 @@ public class cinema {
         movies.remove(M);
     }
 
-    public void deleteShow(show sh){
+    public void deleteShow(Show sh){
         shows.remove(sh);
     }
 
-    public LinkedList<show> getShows() {
+    public LinkedList<Show> getShows() {
         return shows;
     }
 

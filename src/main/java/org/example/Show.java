@@ -1,14 +1,14 @@
 package org.example;
 
-public class show {
+public class Show {
     private int ID;
     private String date;
     private String time;
     private boolean isOnline;
-    private boolean status;
+    private boolean status;  //can be AVAILABLE / NOT_AVAILABLE
     private double price;
 
-    public show(int ID, String date, String time, boolean isOnline, boolean status, double price) {
+    public Show(int ID, String date, String time, boolean isOnline, boolean status, double price) {
         this.ID = ID;
         this.date = date;
         this.time = time;
