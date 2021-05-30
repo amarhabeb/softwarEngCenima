@@ -1,24 +1,46 @@
 package org.example;
+import javax.persistence.*;
+import java.util.*;
+@Entity
+@Table(name ="showw")
 
 public class show {
-    private int ID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String date;
     private String time;
-    private boolean isOnline;
-    private boolean status;
+    private Boolean online;
+    private  Boolean status;
     private double price;
+    @ManyToOne(targetEntity = movie.class)
+    private movie movie;
 
-    public show(int ID, String date, String time, boolean isOnline, boolean status, double price) {
-        this.ID = ID;
-        this.date = date;
-        this.time = time;
-        this.isOnline = isOnline;
-        this.status = status;
-        this.price = price;
+    public show() {
+        super();
     }
 
-    public int getID() {
-        return ID;
+    public show(String date, String time, Boolean online, Boolean status, double price,movie movie) {
+        super();
+        this.date = date;
+        this.time = time;
+        this.online = online;
+        this.status = status;
+        this.price = price;
+        this.movie=movie;
+
+    }
+
+    public movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(movie movie) {
+        this.movie = movie;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getDate() {
@@ -37,19 +59,19 @@ public class show {
         this.time = time;
     }
 
-    public boolean isOnline() {
-        return isOnline;
+    public Boolean getOnline() {
+        return online;
     }
 
-    public void setOnline(boolean online) {
-        isOnline = online;
+    public void setOnline(Boolean online) {
+        this.online = online;
     }
 
-    public boolean isStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
@@ -60,12 +82,5 @@ public class show {
     public void setPrice(double price) {
         this.price = price;
     }
-
-    //    public boolean soldOut(){
-//
-//    }
-
-//    public boolean isSoon(){
-//
-//    }
 }
+
