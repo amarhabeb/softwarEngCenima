@@ -7,6 +7,7 @@ public class Show {
     private boolean isOnline;
     private boolean status;  //can be AVAILABLE / NOT_AVAILABLE
     private double price;
+    private Movie movie;
 
     public Show(int ID, String date, String time, boolean isOnline, boolean status, double price) {
         this.ID = ID;
@@ -61,11 +62,11 @@ public class Show {
         this.price = price;
     }
 
-    //    public boolean soldOut(){
-//
-//    }
+    public Movie getMovie() {
+        return movie;
+    }
 
-//    public boolean isSoon(){
-//
-//    }
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
 }
