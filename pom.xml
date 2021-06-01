@@ -20,6 +20,16 @@
             <artifactId>javafx-fxml</artifactId>
             <version>16</version>
         </dependency>
+        <dependency>
+      		<groupId>mysql</groupId>
+      		<artifactId>mysql-connector-java</artifactId>
+      		<version>8.0.20</version>
+    	</dependency>
+    	<dependency>
+      		<groupId>org.hibernate</groupId>
+      		<artifactId>hibernate-core</artifactId>
+      		<version>5.4.23.Final</version>
+    	</dependency>
     </dependencies>
     <build>
         <plugins>
@@ -42,7 +52,8 @@
         				<goal>java</goal>
         			</goals>
         			<configuration>
-        				<mainClass>org.example.cinemaServer</mainClass>
+        				<mainClass>org.example.CinemaServer</mainClass>
+        				<cleanupDaemonThreads>false</cleanupDaemonThreads>
         			</configuration>
         		</execution>
         		<execution>
@@ -51,7 +62,8 @@
         				<goal>java</goal>
         			</goals>
         			<configuration>
-        				<mainClass>org.example.cinemaClient</mainClass>
+        				<mainClass>org.example.EmployeeClient</mainClass>
+        				<cleanupDaemonThreads>false</cleanupDaemonThreads>
         			</configuration>
         		</execution>
         	</executions>
