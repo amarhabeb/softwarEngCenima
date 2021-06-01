@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.LinkedList;
 
-public class cinema {
+public class Cinema {
     int ID;
     private LinkedList<Show> shows;
     private LinkedList<Movie> movies;
