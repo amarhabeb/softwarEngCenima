@@ -1,16 +1,16 @@
 package org.example;
 
- abstract class report {
+ abstract class Report {
     protected int ID;
     protected String date;
 
 
-    public report(int ID, String date) {
+    public Report(int ID, String date) {
         this.ID = ID;
         this.date = date;
     }
 
-     public report() {
+     public Report() {
 
      }
 

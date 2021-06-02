@@ -1,23 +1,23 @@
 package org.example;
 
-public class updatePriceRequest {
-    private contentManager requestedBy;
+public class UpdatePriceRequest {
+    private ContentManager requestedBy;
     private double updatedPrice;
     private boolean checked;
     private boolean approved;
 
-    public updatePriceRequest(contentManager requestedBy, double updatedPrice) {
+    public UpdatePriceRequest(ContentManager requestedBy, double updatedPrice) {
         this.requestedBy = requestedBy;
         this.updatedPrice = updatedPrice;
         this.checked = false;
         this.approved = false;
     }
 
-    public contentManager getRequestedBy() {
+    public ContentManager getRequestedBy() {
         return requestedBy;
     }
 
-    public void setRequestedBy(contentManager requestedBy) {
+    public void setRequestedBy(ContentManager requestedBy) {
         this.requestedBy = requestedBy;
     }
 

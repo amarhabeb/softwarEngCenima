@@ -1,6 +1,6 @@
 package org.example;
 
-abstract class order {
+abstract class Order {
     protected int ID;
     protected String orderDAte;
     protected boolean status;
@@ -9,10 +9,10 @@ abstract class order {
     protected int refund;
     protected boolean active;
 
-    public order() {
+    public Order() {
     }
 
-    public order(int ID, String orderDAte, double price, int payment) {
+    public Order(int ID, String orderDAte, double price, int payment) {
         this.ID = ID;
         this.orderDAte = orderDAte;
         this.status = true;

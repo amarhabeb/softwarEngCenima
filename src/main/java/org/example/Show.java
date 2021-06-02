@@ -10,9 +10,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "shows")
 public class Show implements Serializable{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int ID;
     private String date;
     private String time;
@@ -25,7 +25,7 @@ public class Show implements Serializable{
     private int cinema_number;	// later will be a cinema object instead
 
     public Show(String date, String time, boolean isOnline, String status, double price, String movie_name, int hall_number, int cinema_number) {
-    	super();
+        super();
         this.date = date;
         this.time = time;
         this.isOnline = isOnline;
@@ -80,29 +80,29 @@ public class Show implements Serializable{
         this.price = price;
     }
 
-	public String getMovie_name() {
-		return movie_name;
-	}
+    public String getMovie_name() {
+        return movie_name;
+    }
 
-	public void setMovie_name(String movie_name) {
-		this.movie_name = movie_name;
-	}
+    public void setMovie_name(String movie_name) {
+        this.movie_name = movie_name;
+    }
 
-	public int getHall_number() {
-		return hall_number;
-	}
+    public int getHall_number() {
+        return hall_number;
+    }
 
-	public void setHall_number(int hall_number) {
-		this.hall_number = hall_number;
-	}
+    public void setHall_number(int hall_number) {
+        this.hall_number = hall_number;
+    }
 
-	public int getCinema_number() {
-		return cinema_number;
-	}
+    public int getCinema_number() {
+        return cinema_number;
+    }
 
-	public void setCinema_number(int cinema_number) {
-		this.cinema_number = cinema_number;
-	}
+    public void setCinema_number(int cinema_number) {
+        this.cinema_number = cinema_number;
+    }
 
     //    public boolean soldOut(){
 //
@@ -112,3 +112,4 @@ public class Show implements Serializable{
 //
 //    }
 }
+

@@ -2,11 +2,11 @@ package org.example;
 
 import java.util.Timer;
 
-public class linkOrder extends order{
+public class LinkOrder extends Order{
     String link;
     Timer timer;
 
-    public linkOrder(int ID, String orderDate, int payment, double price, String link, Timer timer){
+    public LinkOrder(int ID, String orderDate, int payment, double price, String link, Timer timer){
         this.ID = ID;
         this.orderDAte = orderDate;
         this.payment = payment;

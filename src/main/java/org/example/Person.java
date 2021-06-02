@@ -1,19 +1,19 @@
 package org.example;
 
-public abstract class person {
+public abstract class Person {
     protected int ID;
     protected String name;
     protected String phoneNum;
     protected String email;
 
-        public person(int ID, String name, String phoneNum, String email) {
+        public Person(int ID, String name, String phoneNum, String email) {
             this.ID = ID;
             this.name = name;
             this.phoneNum = phoneNum;
             this.email = email;
         }
 
-        public person() {
+        public Person() {
             this.ID = 0;
 
         }

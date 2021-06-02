@@ -1,11 +1,11 @@
 package org.example;
 
-public class regulations {
+public class Regulations {
     private String regulations;
 
 
 
-    public regulations (String regulations){
+    public Regulations (String regulations){
         this.regulations = regulations;
     }
 

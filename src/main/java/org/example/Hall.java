@@ -1,12 +1,12 @@
 package org.example;
 
-public class hall {
+public class Hall {
     private int number;
     private int capacity;
     private int type;
     private int maxSeats;
 
-    public hall(int number, int capacity, int type, int maxSeats){
+    public Hall(int number, int capacity, int type, int maxSeats){
         this.number = number;
         this.capacity = capacity;
         this.type = type;

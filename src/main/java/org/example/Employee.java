@@ -1,10 +1,10 @@
 package org.example;
 
-  public class employee extends person{
+  public class Employee extends Person{
     protected   String userName;
     protected   String password;
 
-    public employee(int ID, String name, String phoneNum, String email, String userName, String password){
+    public Employee(int ID, String name, String phoneNum, String email, String userName, String password){
         this.ID = ID;
         this.name = name;
         this.phoneNum = phoneNum;

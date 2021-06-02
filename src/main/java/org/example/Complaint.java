@@ -2,14 +2,14 @@ package org.example;
 
 import java.util.Timer;
 
-public class complaint {
+public class Complaint {
     private int ID;
     private int text;
     private Timer timer = new Timer();
     private boolean active;
     private boolean handled;
 
-    public complaint(int id, int text) {
+    public Complaint(int id, int text) {
         ID = id;
         this.text = text;
         this.active = true;

@@ -1,9 +1,9 @@
 package org.example;
 
-public class ticketReport extends report {
+public class TicketReport extends Report {
     private int cinema;
 
-    public ticketReport(int ID, String date, int cinema){
+    public TicketReport(int ID, String date, int cinema){
         this.ID = ID;
         this.date = date;
         this.cinema = cinema;

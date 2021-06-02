@@ -1,10 +1,10 @@
 package org.example;
 
-public abstract class message {
+public abstract class Message {
     protected int ID;
     protected String text;
 
-    public message(int ID, String text){
+    public Message(int ID, String text){
         this.ID = ID;
         this.text = text;
     }
