@@ -9,7 +9,7 @@ import java.util.*;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int ID;
     private String name_en;
     private String name_heb;
     private String director;
@@ -108,7 +108,7 @@ public class Movie {
     }
 
     public int getId() {
-        return id;
+        return ID;
     }
 
     public void setImage(String image) {
@@ -116,9 +116,3 @@ public class Movie {
     }
 
 }
-
-
-
-
-
-
