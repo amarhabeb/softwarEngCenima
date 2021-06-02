@@ -1,21 +1,39 @@
 package org.example;
 
-public class Show {
+
+import java.io.Serializable;
+
+import javax.persistence.*;
+
+
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "shows")
+public class Show implements Serializable{
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
     private int ID;
     private String date;
     private String time;
     private boolean isOnline;
-    private boolean status;  //can be AVAILABLE / NOT_AVAILABLE
+    private String status;  //can be AVAILABLE / NOT_AVAILABLE
     private double price;
-    private Movie movie;
+    //private Movie movie;
+    private String movie_name;	// later will be a movie object instead
+    private int hall_number;	// later will be a hall object instead
+    private int cinema_number;	// later will be a cinema object instead
 
-    public Show(int ID, String date, String time, boolean isOnline, boolean status, double price) {
-        this.ID = ID;
+    public Show(String date, String time, boolean isOnline, String status, double price, String movie_name, int hall_number, int cinema_number) {
+    	super();
         this.date = date;
         this.time = time;
         this.isOnline = isOnline;
         this.status = status;
         this.price = price;
+        this.movie_name = movie_name;
+        this.hall_number = hall_number;
+        this.cinema_number = cinema_number;
     }
 
     public int getID() {
@@ -46,11 +64,11 @@ public class Show {
         isOnline = online;
     }
 
-    public boolean isStatus() {
+    public String isStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -62,11 +80,35 @@ public class Show {
         this.price = price;
     }
 
-    public Movie getMovie() {
-        return movie;
-    }
+	public String getMovie_name() {
+		return movie_name;
+	}
 
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
+	public void setMovie_name(String movie_name) {
+		this.movie_name = movie_name;
+	}
+
+	public int getHall_number() {
+		return hall_number;
+	}
+
+	public void setHall_number(int hall_number) {
+		this.hall_number = hall_number;
+	}
+
+	public int getCinema_number() {
+		return cinema_number;
+	}
+
+	public void setCinema_number(int cinema_number) {
+		this.cinema_number = cinema_number;
+	}
+
+    //    public boolean soldOut(){
+//
+//    }
+
+//    public boolean isSoon(){
+//
+//    }
 }
