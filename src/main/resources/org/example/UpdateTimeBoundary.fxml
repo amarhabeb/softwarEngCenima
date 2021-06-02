@@ -9,17 +9,18 @@
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UpdateTimeBoundary">
+<AnchorPane prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UpdateTimeBoundary">
    <children>
-      <TableView layoutX="293.0" layoutY="77.0" prefHeight="354.0" prefWidth="450.0">
+      <TableView fx:id="ShowsTable" layoutX="260.0" layoutY="77.0" prefHeight="354.0" prefWidth="483.0">
          <columns>
-            <TableColumn prefWidth="75.0" text="Movie Title" />
-            <TableColumn prefWidth="75.0" text="Date" />
-            <TableColumn prefWidth="75.0" text="Time" />
-            <TableColumn prefWidth="75.0" text="Hall" />
-            <TableColumn prefWidth="75.0" text="Online" />
-            <TableColumn prefWidth="75.0" text="Price" />
+            <TableColumn fx:id="movie_name" prefWidth="141.60003662109375" text="Movie Title" />
+            <TableColumn fx:id="date" prefWidth="74.4000244140625" text="Date" />
+            <TableColumn fx:id="time" onEditCommit="#editTime" prefWidth="74.39996337890625" text="Time" />
+            <TableColumn fx:id="hall_number" prefWidth="56.800048828125" text="Hall" />
+            <TableColumn fx:id="online" prefWidth="56.79998779296875" text="Online" />
+            <TableColumn fx:id="price" prefWidth="81.59991455078125" text="Price" />
          </columns>
       </TableView>
       <Button fx:id="refreshBtn2" layoutX="293.0" layoutY="443.0" mnemonicParsing="false" onAction="#clickRefreshBtn2" text="Refresh">
@@ -53,10 +54,20 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Button fx:id="ApplyBtn" layoutX="693.0" layoutY="443.0" mnemonicParsing="false" onAction="#clickApplyBtn" text="Apply" textFill="#d10d0d">
+      <Text layoutX="45.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Double click on a show's time to edit it." wrappingWidth="175.02069091796875">
          <font>
-            <Font name="System Bold Italic" size="12.0" />
+            <Font size="15.0" />
          </font>
-      </Button>
+      </Text>
+      <Text layoutX="45.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press              to apply the change." wrappingWidth="175.02069091796875">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="84.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ENTER" wrappingWidth="175.02069091796875">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

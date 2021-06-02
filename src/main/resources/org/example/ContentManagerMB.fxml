@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ContentManagerMB">
+<AnchorPane prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ContentManagerMB">
    <children>
       <Button fx:id="UpdateShowsTimesBtn" layoutX="30.0" layoutY="333.0" mnemonicParsing="false" onAction="#clickUpdateShowsTimesBtn" prefHeight="55.0" prefWidth="172.0" text="Update Shows Times" textAlignment="CENTER">
          <font>
@@ -39,14 +39,14 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <TableView layoutX="293.0" layoutY="77.0" prefHeight="354.0" prefWidth="450.0">
+      <TableView fx:id="ShowsTable" layoutX="260.0" layoutY="77.0" prefHeight="354.0" prefWidth="483.0">
          <columns>
-            <TableColumn prefWidth="75.0" text="Movie Title" />
-            <TableColumn prefWidth="75.0" text="Date" />
-            <TableColumn prefWidth="75.0" text="Time" />
-            <TableColumn prefWidth="75.0" text="Hall" />
-            <TableColumn prefWidth="75.0" text="Online" />
-            <TableColumn prefWidth="75.0" text="Price" />
+            <TableColumn fx:id="movie_name" prefWidth="141.60003662109375" text="Movie Title" />
+            <TableColumn fx:id="date" prefWidth="74.4000244140625" text="Date" />
+            <TableColumn fx:id="time" prefWidth="74.39996337890625" text="Time" />
+            <TableColumn fx:id="hall_number" prefWidth="56.800048828125" text="Hall" />
+            <TableColumn fx:id="online" prefWidth="56.79998779296875" text="Online" />
+            <TableColumn fx:id="price" prefWidth="81.59991455078125" text="Price" />
          </columns>
       </TableView>
       <Button fx:id="refreshBtn" layoutX="293.0" layoutY="443.0" mnemonicParsing="false" onAction="#clickRefreshBtn" text="Refresh">
