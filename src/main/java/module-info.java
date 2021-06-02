@@ -6,6 +6,7 @@ module org.example {
 	requires java.desktop;
     requires org.hibernate.orm.core;
     requires java.persistence;
+    requires java.naming;
 
     opens org.example to javafx.fxml;
     exports org.example;
