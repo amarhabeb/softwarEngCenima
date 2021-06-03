@@ -14,21 +14,17 @@ import javax.persistence.criteria.Root;
 
 
 public class ShowsHandler {
-
+		
 	// to load all shows from the database
 	public static List<Show> loadShows(Session session) throws Exception{
 		try {
-            //Transaction transaction = session.beginTransaction();
-            session.getTransaction().begin();
+            Transaction transaction = session.beginTransaction();
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<Show> query = builder.createQuery(Show.class);
 			query.from(Show.class);
-            //session.refresh(Show.class);
 			List<Show> data = session.createQuery(query).getResultList();
 			System.out.println(data.size());
-
-			//transaction.commit();
-            session.getTransaction().commit();
+			transaction.commit();
 			return data;
 		} catch (Exception exception) {
 			if (session != null) {
@@ -117,7 +113,11 @@ public class ShowsHandler {
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
             transaction.commit();
-            //session.clear();
+            session.clear();
+            System.out.println("CHECKING IF CHANGED:");
+            for(Show show:ShowsHandler.loadShows(session)) {
+				System.out.println(show.getTime());
+			}
             return true;
             // Save everything.
         } catch (Exception exception) {

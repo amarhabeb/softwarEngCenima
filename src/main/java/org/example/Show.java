@@ -39,6 +39,10 @@ public class Show implements Serializable{
         this.cinema_number = cinema_number;
     }
 
+    public Show() {
+        super();
+    }
+
     public int getID() {
         return ID;
     }
