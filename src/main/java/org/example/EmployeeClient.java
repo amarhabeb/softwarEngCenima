@@ -52,7 +52,8 @@ public class EmployeeClient extends AbstractClient {
     protected void handleMessageFromServer(Object msg) {
 		LinkedList<Object> message = (LinkedList<Object>)(msg);
     	if(message.get(0).equals("ShowsTimeChanged")) {
-    		
+    		//Show result=(Show)message.get(1);
+    		//ShowsData.add(result);
 		}
     	if(message.get(0).equals("ShowsLoaded")) {
     		// get second argument which is the updated data and assign it to the static variable

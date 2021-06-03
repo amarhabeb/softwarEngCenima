@@ -24,6 +24,9 @@ public class Show implements Serializable{
     private int hall_number;	// later will be a hall object instead
     private int cinema_number;	// later will be a cinema object instead
 
+    public Show(){
+    }
+
     public Show(String date, String time, boolean isOnline, String status, double price, String movie_name, int hall_number, int cinema_number) {
         super();
         this.date = date;
