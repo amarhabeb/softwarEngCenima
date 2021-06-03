@@ -18,7 +18,7 @@ import java.util.List;
 public class CinemaServer extends AbstractServer{
 
 	private static Session session;
-	
+
 	private static SessionFactory getSessionFactory() throws HibernateException {
 		Configuration configuration = new Configuration();
 
@@ -48,6 +48,7 @@ public class CinemaServer extends AbstractServer{
     			String newTime = (String) message.get(2);
     			// change time of show in database
     			boolean success = ShowsHandler.updateTime(session, show_id, newTime);
+    			//session.refresh(Show.class);
     			if(!success) {
     				throw new Exception("Show's time couldnt be updated");
     			}

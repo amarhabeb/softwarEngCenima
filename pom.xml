@@ -23,7 +23,7 @@
         <dependency>
       		<groupId>mysql</groupId>
       		<artifactId>mysql-connector-java</artifactId>
-      		<version>8.0.20</version>
+      		<version>8.0.24</version>
     	</dependency>
     	<dependency>
       		<groupId>org.hibernate</groupId>
@@ -39,6 +39,8 @@
                 <version>3.8.0</version>
                 <configuration>
                     <release>15</release>
+                    <source>14</source>
+                    <target>14</target>
                 </configuration>
             </plugin>
             <plugin>
