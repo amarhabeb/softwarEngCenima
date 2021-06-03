@@ -36,27 +36,63 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 	
 	@FXML // fx:id="refreshBtn2"
     private Button refreshBtn2; // Value injected by FXMLLoader
-
-    @FXML
-    void clickRefreshBtn2(ActionEvent event) {
-		// add message to ClientInput so it could be sent to server
-		LinkedList<Object> message = new LinkedList<Object>();
-		message.add("LoadShows");
+	 
+	static Boolean ShowsTimeChanged = true;	// holds if the shows time is changed yet
+	// change time of show in DataBase and brings the Shows from the DataBase and updates 
+	// the ShowsData local list
+	void ChangeShowTime(int show_id, String NewTime) {
+		ShowsTimeChanged = false;	// show time isn't changed yet
+		// create message and send it to the server
+    	LinkedList<Object> message = new LinkedList<Object>();
+		message.add("ChangeShowTime");
+		message.add(show_id);
+		message.add(NewTime);
 		synchronized(EmployeeClient.ShowsDataLock)
 		{	
 			EmployeeClientCLI.sendMessage(message);
-				
-			// wait for Data to be updated
-			while(!EmployeeClient.ShowsDataUpdated) {
+							
+			// wait for Data to be changed
+			while(!ShowsTimeChanged) {
 				try {
 					EmployeeClient.ShowsDataLock.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
+			}	
 		}	
-		
+		// update ShowData if necessary
+		if(!EmployeeClient.ShowsDataUpdated) {
+			UpdateShowsData();
+		}
+	}
+	
+	// brings the Shows from the DataBase and updates the ShowsData local list
+	void UpdateShowsData() {
+		// add message to ClientInput so it could be sent to server
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadShows");
+		synchronized(EmployeeClient.ShowsDataLock)
+		{	
+			EmployeeClientCLI.sendMessage(message);
+							
+			// wait for Data to be updated
+			while(!EmployeeClient.ShowsDataUpdated) {
+				try {
+						EmployeeClient.ShowsDataLock.wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}	
+		}	
+	}
+	
+    @FXML
+    void clickRefreshBtn2(ActionEvent event) {
+    	if(!EmployeeClient.ShowsDataUpdated) {
+    		UpdateShowsData();
+    	}
 		// set items in table
 		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
 		ShowsTable.setItems(DataList);
@@ -98,33 +134,18 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
                         .getID();
             	String NewTime = time.getNewValue();
             	
-            	// create message and send it to the server
-            	LinkedList<Object> message = new LinkedList<Object>();
-    			message.add("ChangeShowTime");
-    			message.add(show_id);
-    			message.add(NewTime);
-    			EmployeeClientCLI.sendMessage(message);
+            	ChangeShowTime(show_id, NewTime);
+            	
+            	// set items in table
+        		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
+        		ShowsTable.setItems(DataList);
             }
     	});
 		
+		System.out.println("ShowDataUpdated: "+EmployeeClient.ShowsDataUpdated);
+		// update ShowData if necessary
 		if(!EmployeeClient.ShowsDataUpdated) {
-			// add message to ClientInput so it could be sent to server
-			LinkedList<Object> message = new LinkedList<Object>();
-			message.add("LoadShows");
-			synchronized(EmployeeClient.ShowsDataLock)
-			{	
-				EmployeeClientCLI.sendMessage(message);
-				
-				// wait for Data to be updated
-				while(!EmployeeClient.ShowsDataUpdated) {
-					try {
-						EmployeeClient.ShowsDataLock.wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}	
+			UpdateShowsData();
 		}
 		// set items in table
 		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);

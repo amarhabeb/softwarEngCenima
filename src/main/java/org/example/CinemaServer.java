@@ -37,8 +37,6 @@ public class CinemaServer extends AbstractServer{
     }
 
 
-
-                    /********** implement************/
     @SuppressWarnings("unchecked")
 	@Override
     protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
@@ -56,6 +54,7 @@ public class CinemaServer extends AbstractServer{
     			// reply to client	
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("ShowsTimeChanged");
+				client.sendToClient(messageToClient);
     		}
     	
     		if(message.get(0).equals("LoadShows")) {

@@ -36,25 +36,32 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	@FXML private TableColumn<Show, Boolean> online;
 	@FXML private TableColumn<Show, Double> price;
 	
-	@FXML
-    void clickRefreshBtn(ActionEvent event) {
+	// brings the Shows from the DataBase and updates the ShowsData local list
+	void UpdateShowsData() {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadShows");
 		synchronized(EmployeeClient.ShowsDataLock)
 		{	
 			EmployeeClientCLI.sendMessage(message);
-				
+						
 			// wait for Data to be updated
 			while(!EmployeeClient.ShowsDataUpdated) {
 				try {
-					EmployeeClient.ShowsDataLock.wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+						EmployeeClient.ShowsDataLock.wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}	
 		}	
+	}
+	
+	@FXML
+    void clickRefreshBtn(ActionEvent event) {
+		if(!EmployeeClient.ShowsDataUpdated) {
+			UpdateShowsData();
+    	}
 		// set items in table
 		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
 		ShowsTable.setItems(DataList);
@@ -76,24 +83,9 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 		online.setCellValueFactory(new PropertyValueFactory<Show, Boolean>("online"));
 		price.setCellValueFactory(new PropertyValueFactory<Show, Double>("price"));
 		
+		System.out.println("ShowDataUpdated: "+EmployeeClient.ShowsDataUpdated);
 		if(!EmployeeClient.ShowsDataUpdated) {
-			// add message to ClientInput so it could be sent to server
-			LinkedList<Object> message = new LinkedList<Object>();
-			message.add("LoadShows");
-			synchronized(EmployeeClient.ShowsDataLock)
-			{	
-				EmployeeClientCLI.sendMessage(message);
-				
-				// wait for Data to be updated
-				while(!EmployeeClient.ShowsDataUpdated) {
-					try {
-						EmployeeClient.ShowsDataLock.wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}	
-			}	
+			UpdateShowsData();
 		}
 		// set items in table
 		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
