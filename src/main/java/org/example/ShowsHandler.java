@@ -113,6 +113,7 @@ public class ShowsHandler {
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
             transaction.commit();
+            session.clear();
             System.out.println("CHECKING IF CHANGED:");
             for(Show show:ShowsHandler.loadShows(session)) {
 				System.out.println(show.getTime());
