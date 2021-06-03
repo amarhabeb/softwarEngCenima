@@ -26,6 +26,7 @@ public class ShowsHandler {
             //session.refresh(Show.class);
 			List<Show> data = session.createQuery(query).getResultList();
 			System.out.println(data.size());
+
 			//transaction.commit();
             session.getTransaction().commit();
 			return data;
@@ -116,19 +117,8 @@ public class ShowsHandler {
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
             transaction.commit();
-//            System.out.println("CHECKING IF CHANGED:");
-//            for(Show show:ShowsHandler.loadShows(session)) {
-//			System.out.println(show.getTime());
-//			}
-//            CriteriaQuery<Show> query = builder.createQuery(Show.class);
-//            query.from(Show.class);
-//            query.where(builder.equal(root.get("ID"),show_id));
-//            List<Show> data = session.createQuery(query).getResultList();
-//            //System.out.println(data.size());
-//            transaction.commit();
-//            return data.get(0);
+            //session.clear();
             return true;
-            //return true;
             // Save everything.
         } catch (Exception exception) {
             if (session != null) {
