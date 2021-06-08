@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
@@ -11,8 +13,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UpdateTimeBoundary">
+<AnchorPane prefHeight="500.0" prefWidth="771.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UpdateTimeBoundary">
    <children>
+      <ImageView fitHeight="500.0" fitWidth="757.0" layoutX="-73.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@file:///Users/mariadawood/Desktop/softwarEngCenima/src/main/resources/org/example/99d97c1857c469bee9c5bd2391674284.jpg" />
+         </image>
+      </ImageView>
       <TableView fx:id="ShowsTable" layoutX="260.0" layoutY="77.0" prefHeight="354.0" prefWidth="483.0">
          <columns>
             <TableColumn fx:id="movie_name" prefWidth="141.60003662109375" text="Movie Title" />
@@ -32,8 +39,24 @@
          <font>
             <Font name="System Bold Italic" size="38.0" />
          </font>
+         <textFill>
+            <LinearGradient endX="0.9664268585131894" endY="0.7889688249400479" startX="1.0" startY="0.11990407673860912">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.8355262875556946" green="0.1005726084113121" blue="0.1005726084113121" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.6644737124443054" green="0.4922027289867401" blue="0.4922027289867401" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
       </Label>
-      <Button fx:id="GoBackToMainBtn" layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onAction="#clickGoBackToMainBtn" prefHeight="26.0" prefWidth="112.0" text="&lt;&lt; go back to main">
+      <Button fx:id="GoBackToMainBtn" layoutX="23.0" layoutY="21.0" mnemonicParsing="false" onAction="#clickGoBackToMainBtn" prefHeight="26.0" prefWidth="112.0" text="&lt;&lt; go back to main">
          <font>
             <Font name="System Italic" size="11.0" />
          </font>
@@ -54,19 +77,14 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Text layoutX="45.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Double click on a show's time to edit it." wrappingWidth="175.02069091796875">
+      <Text layoutX="12.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Double click on a show's time to edit it." wrappingWidth="246.02069091796875">
          <font>
             <Font size="15.0" />
          </font>
       </Text>
-      <Text layoutX="45.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press              to apply the change." wrappingWidth="175.02069091796875">
+      <Text layoutX="12.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press ENTER to apply changes." wrappingWidth="237.02069091796875">
          <font>
             <Font size="15.0" />
-         </font>
-      </Text>
-      <Text layoutX="84.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ENTER" wrappingWidth="175.02069091796875">
-         <font>
-            <Font name="System Bold Italic" size="15.0" />
          </font>
       </Text>
    </children>
