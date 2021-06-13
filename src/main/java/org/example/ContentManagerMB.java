@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import javafx.scene.image.ImageView;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -35,6 +35,8 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	@FXML private TableColumn<Show, Integer> hall_number;
 	@FXML private TableColumn<Show, Boolean> online;
 	@FXML private TableColumn<Show, Double> price;
+    @FXML private ImageView Background;
+	
 	
 	// brings the Shows from the DataBase and updates the ShowsData local list
 	void UpdateShowsData() {
