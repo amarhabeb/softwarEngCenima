@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UpdateTimeBoundary">
+<AnchorPane prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.UpdatePriceBoundary">
    <children>
       <ImageView fitHeight="488.0" fitWidth="800.0">
          <image>
@@ -60,7 +60,7 @@
             </LinearGradient>
          </textFill>
       </Button>
-      <Text fill="#c51010" layoutX="112.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Double click on a show's time to edit it." wrappingWidth="112.0">
+      <Text fill="#c51010" layoutX="112.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Double click on a show's price to edit it." wrappingWidth="112.0">
          <font>
             <Font name="System Bold Italic" size="15.0" />
          </font>
@@ -75,7 +75,7 @@
             <Font name="System Bold Italic" size="45.0" />
          </font>
       </Label>
-      <Label layoutX="277.0" layoutY="419.0" text="Update Shows Times" textFill="WHITE">
+      <Label layoutX="277.0" layoutY="419.0" text="Update Shows Prices" textFill="WHITE">
          <font>
             <Font name="System Bold" size="25.0" />
          </font>

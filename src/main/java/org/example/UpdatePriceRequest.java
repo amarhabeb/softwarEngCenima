@@ -2,12 +2,14 @@ package org.example;
 
 public class UpdatePriceRequest {
     private ContentManager requestedBy;
+    int show_id;
     private double updatedPrice;
     private boolean checked;
     private boolean approved;
 
-    public UpdatePriceRequest(ContentManager requestedBy, double updatedPrice) {
+    public UpdatePriceRequest(ContentManager requestedBy, int show_id, double updatedPrice) {
         this.requestedBy = requestedBy;
+        this.show_id = show_id;
         this.updatedPrice = updatedPrice;
         this.checked = false;
         this.approved = false;
@@ -44,4 +46,12 @@ public class UpdatePriceRequest {
     public void setApproved(boolean approved) {
         this.approved = approved;
     }
+
+	public int getShow_id() {
+		return show_id;
+	}
+
+	public void setShow_id(int show_id) {
+		this.show_id = show_id;
+	}
 }
