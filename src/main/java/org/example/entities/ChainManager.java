@@ -7,4 +7,8 @@ public class ChainManager extends Manager {
         super(ID, name, phoneNum, email, userName, password);
     }
 
+    public ChainManager(){
+        super();
+    }
+
 }

@@ -8,14 +8,12 @@ public class Package extends Order{
     @OneToMany
     private List<Ticket> tickets;
 
-    public Package(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
-
-    public Package(LocalDate orderDate, boolean status, double price, int payment, int refund, boolean active, List<Ticket> tickets) {
+    public Package(LocalDate orderDate, boolean status, double price, Payment payment, int refund, boolean active, List<Ticket> tickets) {
         super(orderDate, status, price, payment, refund, active);
         this.tickets = tickets;
     }
+
+    public Package(){super();}
 
     public List<Ticket> getTickets() {
         return tickets;
@@ -24,4 +22,14 @@ public class Package extends Order{
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
+
+    /*public void addTicket(Ticket t){
+        if(tickets.size()!=10) {
+            tickets.add(t);
+        }
+
+    }
+    public void deleteTicket(Ticket t){
+        tickets.remove(t);
+    }*/
 }

@@ -2,11 +2,15 @@ package org.example.entities;
 
 import org.example.entities.Report;
 
-public class ComplaintsReport extends Report {
-    public ComplaintsReport(int ID, String date) {
+import java.time.LocalDate;
 
-        this.ID = ID;
-        this.date = date;
+public class ComplaintsReport extends Report {
+    public ComplaintsReport(int ID, LocalDate date) {
+        super(ID,date);
+    }
+
+    public ComplaintsReport(){
+        super();
     }
 
 

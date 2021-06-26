@@ -41,6 +41,8 @@ public class Show implements Serializable{
 
     }
 
+    public Show(){}
+
     public int getID() {
         return ID;
     }

@@ -1,7 +1,6 @@
 package org.example;
 
 import org.example.entities.Complaint;
-import org.example.entities.Show;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 

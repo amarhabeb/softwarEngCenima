@@ -15,7 +15,7 @@ public class Movie {
     private String name_en;
     private String name_heb;
     private String director;
-    private String[] cast;
+    private List<String> cast;
     private String summary;
     private LocalDate lanuch_date;
     private Boolean is_new;
@@ -24,13 +24,10 @@ public class Movie {
     @OneToMany(targetEntity = Show.class)
     private List<Show> shows;
 
-    public Movie() {
-        super();
-    }
+    public Movie() {    }
 
 
-    public Movie(String name_en, String name_heb, String director, String[] cast, String summary, LocalDate lanuch_date, Boolean is_new, String image, List<Show> shows) {
-        super();
+    public Movie(String name_en, String name_heb, String director, List<String> cast, String summary, LocalDate lanuch_date, Boolean is_new, String image, List<Show> shows) {
         this.name_en = name_en;
         this.name_heb = name_heb;
         this.director = director;
@@ -119,12 +116,24 @@ public class Movie {
         this.image = image;
     }
 
-    public String[] getCast() {
+    public List<String> getCast() {
         return cast;
     }
 
-    public void setCast(String[] cast) {
+    public void setCast(List<String> cast) {
         this.cast = cast;
+    }
+    public void addActor(String actor){
+        cast.add(actor);
+    }
+    public void deleteActor(String actor){
+        cast.remove(actor);
+    }
+    public void addShow(Show sh){
+        shows.add(sh);
+    }
+    public void deleteShow(Show sh){
+        shows.remove(sh);
     }
 
     //calculate number of days between the movie's launch date and today, if less than 7, it's soon

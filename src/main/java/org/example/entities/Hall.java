@@ -17,6 +17,8 @@ public class Hall {
     @ManyToOne(targetEntity = Cinema.class)
     private Cinema cinema;
 
+    public Hall(){}
+
     public Hall(int number, int capacity, int type, int maxSeats, List<Seat> seats, Cinema cinema) {
         this.number = number;
         this.capacity = capacity;

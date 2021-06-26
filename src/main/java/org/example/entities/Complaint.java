@@ -20,6 +20,8 @@ public class Complaint {
         this.handled = false;
     }
 
+    public Complaint(){}
+
     public void setText(int text) {
         this.text = text;
     }
