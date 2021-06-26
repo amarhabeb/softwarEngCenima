@@ -1,6 +1,16 @@
 package org.example.entities;
 
-abstract class Order {
+import javax.persistence.*;
+import java.io.Serializable;
+
+
+
+@Entity
+@Table(name = "orders")
+abstract public class Order implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     protected int ID;
     protected String orderDate;
     protected boolean status;
@@ -9,17 +19,19 @@ abstract class Order {
     protected int refund;
     protected boolean active;
 
-    public Order() {
-    }
 
-    public Order(int ID, String orderDate, boolean status, double price, int payment, int refund, boolean active) {
-        this.ID = ID;
+
+    public Order( String orderDate, boolean status, double price, int payment, int refund, boolean active) {
+        super();
         this.orderDate = orderDate;
         this.status = status;
         this.price = price;
         this.payment = payment;
         this.refund = refund;
         this.active = active;
+    }
+    public Order() {
+        super();
     }
 
     public String getOrderDate() {
