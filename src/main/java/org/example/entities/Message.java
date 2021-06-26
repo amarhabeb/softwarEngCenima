@@ -1,13 +1,21 @@
 package org.example.entities;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public abstract class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     protected int ID;
     protected String text;
 
-    public Message(int ID, String text){
-        this.ID = ID;
+    public Message(String text){
         this.text = text;
     }
+    public Message(){}
 
     public String getText() {
         return text;

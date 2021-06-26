@@ -1,9 +1,11 @@
 package org.example.entities;
 
+import java.time.LocalDate;
+
 public class LinksPackagesReport extends Report{
-    public LinksPackagesReport(int ID, String date){
-        this.ID = ID;
+    public LinksPackagesReport(LocalDate date){
         this.date = date;
     }
+    public LinksPackagesReport(){super();}
 
 }

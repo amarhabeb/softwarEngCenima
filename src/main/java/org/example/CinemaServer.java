@@ -1,6 +1,7 @@
 package org.example;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -50,7 +51,7 @@ public class CinemaServer extends AbstractServer{
     	try {
     		if(message.get(0).equals("ChangeShowTime")) {
     			int show_id = (int) message.get(1);
-    			String newTime = (String) message.get(2);
+    			LocalTime newTime = (LocalTime) message.get(2);
     			// change time of show in database
     			boolean success = ShowsHandler.updateTime(session, show_id, newTime);
     			//session.refresh(Show.class);
@@ -138,7 +139,7 @@ public class CinemaServer extends AbstractServer{
 		//*MISSING CODE*//
 		
 		// Initialize halls
-		for (int hall_number = 0; hall_number < 50; hall_number++) {
+		/*for (int hall_number = 0; hall_number < 50; hall_number++) {
 			Hall hall = new Hall(hall_number+1, random.nextInt(100)+75, random.nextInt(2), currentRegs);
 			// add hall to database
 			try {
@@ -147,7 +148,7 @@ public class CinemaServer extends AbstractServer{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}*/
 		
 		// Initialize shows
 //		for (int i = 0; i < 30; i++) {

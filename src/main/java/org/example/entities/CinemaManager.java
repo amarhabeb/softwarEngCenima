@@ -11,6 +11,9 @@ public class CinemaManager extends Manager {
         super(ID, name, phoneNum, email, userName, password);
         this.cinema = cinema;
     }
+    public CinemaManager(){
+        super();
+    }
 
     public Cinema getCinema(){
         return this.cinema;

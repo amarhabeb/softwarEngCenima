@@ -1,17 +1,21 @@
 package org.example.entities;
 
+import java.time.LocalDate;
 import java.util.Timer;
 
 public class Link extends Order{
     private String link;
     private Timer timer;
 
-    public Link(String link, Timer timer, int ID, String orderDate, boolean status, double price, int payment, int refund, boolean active) {
-        super(ID, orderDate, status, price, payment, refund, active);
+    public Link(String link, Timer timer, LocalDate orderDate, boolean status, double price, Payment payment, int refund, boolean active) {
+        super(orderDate, status, price, payment, refund, active);
         this.link = link;
         this.timer = timer;
     }
 
+    public Link(){
+        super();
+    }
     public String getLink() {
         return link;
     }

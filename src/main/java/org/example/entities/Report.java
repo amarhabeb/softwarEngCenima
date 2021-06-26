@@ -1,12 +1,20 @@
 package org.example.entities;
 
- abstract class Report {
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.time.LocalDate;
+
+abstract class Report {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     protected int ID;
-    protected String date;
+    protected LocalDate date;
 
 
-    public Report(int ID, String date) {
-        this.ID = ID;
+    public Report(LocalDate date) {
         this.date = date;
     }
 
@@ -18,11 +26,11 @@ package org.example.entities;
         return ID;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 }
