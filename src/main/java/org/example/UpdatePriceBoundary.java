@@ -4,18 +4,26 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
+
+
 import javafx.fxml.Initializable;
+import javafx.util.Callback;
 import javafx.util.converter.DoubleStringConverter;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.io.Serializable;
+
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,9 +43,8 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
 	@FXML // fx:id="refreshBtn2"
     private Button refreshBtn2; // Value injected by FXMLLoader
 	 
-	static Boolean ShowsPriceChanged = true;	// holds if the shows time is changed yet
-	// change time of show in DataBase and brings the Shows from the DataBase and updates 
-	// the ShowsData local list
+	static Boolean ShowsPriceChanged = true;	// holds if the shows price is changed yet
+	// send request for price updating to the server, which will notify the chain manager
 	void ChangeShowPrice(int show_id, Double NewPrice) {
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
@@ -98,10 +105,18 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
     	ShowsTable.setEditable(true);
     	
 		// set-up the columns in the table
-		movie_name.setCellValueFactory(new PropertyValueFactory<Show, String>("movie_name"));
+		movie_name.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getMovie().getName_en()));
+		     }
+		  });
 		date.setCellValueFactory(new PropertyValueFactory<Show, String>("date"));
 		time.setCellValueFactory(new PropertyValueFactory<Show, String>("time"));
-		hall_number.setCellValueFactory(new PropertyValueFactory<Show, Integer>("hall_number"));
+		hall_number.setCellValueFactory(new Callback<CellDataFeatures<Show, Integer>, ObservableValue<Integer>>() {
+		     public ObservableValue<Integer> call(CellDataFeatures<Show, Integer> show) {
+		         return (new SimpleIntegerProperty(show.getValue().getHall().getNumber()).asObject());
+		     }
+		  });
 		online.setCellValueFactory(new PropertyValueFactory<Show, Boolean>("online"));
 		price.setCellValueFactory(new PropertyValueFactory<Show, Double>("price"));
 		price.setCellFactory(TextFieldTableCell.<Show, Double>forTableColumn(new DoubleStringConverter()));

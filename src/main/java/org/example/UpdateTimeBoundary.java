@@ -5,10 +5,12 @@ import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -16,7 +18,9 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -118,11 +122,19 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
     	ShowsTable.setEditable(true);
     	
 		// set-up the columns in the table
-		movie_name.setCellValueFactory(new PropertyValueFactory<Show, String>("movie_name"));
+    	movie_name.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getMovie().getName_en()));
+		     }
+		  });
 		date.setCellValueFactory(new PropertyValueFactory<Show, String>("date"));
 		time.setCellValueFactory(new PropertyValueFactory<Show, String>("time"));
 		time.setCellFactory(TextFieldTableCell.forTableColumn());
-		hall_number.setCellValueFactory(new PropertyValueFactory<Show, Integer>("hall_number"));
+		hall_number.setCellValueFactory(new Callback<CellDataFeatures<Show, Integer>, ObservableValue<Integer>>() {
+		     public ObservableValue<Integer> call(CellDataFeatures<Show, Integer> show) {
+		         return (new SimpleIntegerProperty(show.getValue().getHall().getNumber()).asObject());
+		     }
+		  });
 		online.setCellValueFactory(new PropertyValueFactory<Show, Boolean>("online"));
 		price.setCellValueFactory(new PropertyValueFactory<Show, Double>("price"));
 		
