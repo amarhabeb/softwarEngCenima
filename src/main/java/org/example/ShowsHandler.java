@@ -1,5 +1,6 @@
 package org.example;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -111,7 +112,7 @@ public class ShowsHandler {
 	
 	// update time of a show in the data base
     @SuppressWarnings("exports")
-	public static boolean updateTime(Session session, int show_id, String newTime){
+	public static boolean updateTime(Session session, int show_id, LocalTime newTime){
         try {
             
             CriteriaBuilder builder = session.getCriteriaBuilder();
