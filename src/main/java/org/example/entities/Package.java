@@ -1,6 +1,7 @@
 package org.example.entities;
 
 import javax.persistence.OneToMany;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Package extends Order{
@@ -11,8 +12,8 @@ public class Package extends Order{
         this.tickets = tickets;
     }
 
-    public Package(int ID, String orderDate, boolean status, double price, int payment, int refund, boolean active, List<Ticket> tickets) {
-        super(ID, orderDate, status, price, payment, refund, active);
+    public Package(LocalDate orderDate, boolean status, double price, int payment, int refund, boolean active, List<Ticket> tickets) {
+        super(orderDate, status, price, payment, refund, active);
         this.tickets = tickets;
     }
 

@@ -66,6 +66,13 @@ public class Hall {
         this.seats = seats;
     }
 
+    public void addSeat(Seat s){
+        seats.add(s);
+    }
+    public void removeSeat(Seat s){
+        seats.remove(s);
+    }
+
     public Cinema getCinema() {
         return cinema;
     }
