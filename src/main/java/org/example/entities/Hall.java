@@ -1,7 +1,10 @@
 package org.example.entities;
 
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.awt.*;
 import java.lang.Math;
+import java.util.List;
 
 
 public class Hall {
@@ -9,14 +12,18 @@ public class Hall {
     private int capacity;	// this is X in the requirements file
     private int type;
     private int maxSeats;
-    @OneToMany
-    private Seat[] seats;
+    @OneToMany(targetEntity = Seat.class)
+    private List<Seat> seats;
+    @ManyToOne(targetEntity = Cinema.class)
+    private Cinema cinema;
 
-    public Hall(int number, int capacity, int type, Regulations reg){
+    public Hall(int number, int capacity, int type, int maxSeats, List<Seat> seats, Cinema cinema) {
         this.number = number;
         this.capacity = capacity;
         this.type = type;
-        this.maxSeats = calculateMaxSeats(capacity, reg);
+        this.maxSeats = maxSeats;
+        this.seats = seats;
+        this.cinema=cinema;
     }
 
     public int getNumber() {
@@ -51,12 +58,20 @@ public class Hall {
         this.maxSeats = maxSeats;
     }
 
-    public Seat[] getSeats() {
+    public List<Seat> getSeats() {
         return seats;
     }
 
-    public void setSeats(Seat[] seats) {
+    public void setSeats(List<Seat> seats) {
         this.seats = seats;
+    }
+
+    public Cinema getCinema() {
+        return cinema;
+    }
+
+    public void setCinema(Cinema cinema) {
+        this.cinema = cinema;
     }
 
     public boolean isFull(){

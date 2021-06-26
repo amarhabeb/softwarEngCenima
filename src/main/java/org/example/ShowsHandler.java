@@ -18,7 +18,7 @@ import javax.persistence.criteria.Root;
 public class ShowsHandler {
 		
 	// to load all shows from the database
-	@SuppressWarnings("exports")
+
 	public static List<Show> loadShows(Session session) throws Exception{
 		try {
             Transaction transaction = session.beginTransaction();

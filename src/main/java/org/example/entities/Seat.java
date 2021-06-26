@@ -1,5 +1,7 @@
 package org.example.entities;
 
+import javax.persistence.ManyToOne;
+
 public class Seat {
     private boolean available;
     private int number; //I guess there's no need for this field,
@@ -35,4 +37,5 @@ public class Seat {
     public void setLine(int line) {
         this.line = line;
     }
+
 }
