@@ -22,13 +22,14 @@ public class Show implements Serializable{
     private boolean isOnline;
     private String status;  //can be AVAILABLE / NOT_AVAILABLE
     private double price;
+    @ManyToOne(targetEntity = Movie.class)
     private Movie movie;
+    @OneToOne(targetEntity = Hall.class)
     private Hall hall;
-    private Cinema cinema;
+
     
     
-    
-    public Show(LocalDate date, LocalTime time, boolean isOnline, String status, double price, Movie movie, Hall hall, Cinema cinema) {
+    public Show(LocalDate date, LocalTime time, boolean isOnline, String status, double price, Movie movie, Hall hall) {
         super();
         this.date = date;
         this.time = time;
@@ -37,7 +38,7 @@ public class Show implements Serializable{
         this.price = price;
         this.movie = movie;
         this.hall = hall;
-        this.cinema = cinema;
+
     }
 
     public int getID() {
@@ -100,13 +101,6 @@ public class Show implements Serializable{
 		this.hall = hall;
 	}
 
-	public Cinema getCinema() {
-		return cinema;
-	}
-
-	public void setCinema(Cinema cinema) {
-		this.cinema = cinema;
-	}
 
     public boolean soldOut(){
         if(hall.isFull()){
