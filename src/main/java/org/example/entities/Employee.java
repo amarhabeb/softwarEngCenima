@@ -1,6 +1,6 @@
-package org.example;
+package org.example.entities;
 
-  public class Employee extends Person{
+public class Employee extends Person {
     protected   String userName;
     protected   String password;
 

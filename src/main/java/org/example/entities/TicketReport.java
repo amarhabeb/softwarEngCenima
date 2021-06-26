@@ -1,19 +1,19 @@
-package org.example;
+package org.example.entities;
 
 public class TicketReport extends Report {
-    private int cinema;
+    private Cinema cinema;
 
-    public TicketReport(int ID, String date, int cinema){
+    public TicketReport(int ID, String date, Cinema cinema){
         this.ID = ID;
         this.date = date;
         this.cinema = cinema;
     }
 
-    public int getCinema() {
+    public Cinema getCinema() {
         return cinema;
     }
 
-    public void setCinema(int cinema) {
+    public void setCinema(Cinema cinema) {
         this.cinema = cinema;
     }
 }

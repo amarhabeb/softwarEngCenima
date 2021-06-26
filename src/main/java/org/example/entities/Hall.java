@@ -1,4 +1,6 @@
-package org.example;
+package org.example.entities;
+
+import javax.persistence.OneToMany;
 import java.lang.Math;
 
 
@@ -7,7 +9,8 @@ public class Hall {
     private int capacity;	// this is X in the requirements file
     private int type;
     private int maxSeats;
-    
+    @OneToMany
+    private Seat[] seats;
 
     public Hall(int number, int capacity, int type, Regulations reg){
         this.number = number;
@@ -48,10 +51,19 @@ public class Hall {
         this.maxSeats = maxSeats;
     }
 
+    public Seat[] getSeats() {
+        return seats;
+    }
+
+    public void setSeats(Seat[] seats) {
+        this.seats = seats;
+    }
+
     public boolean isFull(){
         return capacity == maxSeats;
     }
-    
+
+    ///////// WILL BE CHANGED //////////
     // a function to calculate the maxSeats of a hall considering the current regulations
     private int calculateMaxSeats(int capacity, Regulations reg) {
     	if (reg.getRegulations() == false) {

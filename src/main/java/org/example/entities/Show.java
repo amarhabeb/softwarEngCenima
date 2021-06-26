@@ -1,7 +1,10 @@
-package org.example;
+package org.example.entities;
 
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 import javax.persistence.*;
 
@@ -14,21 +17,18 @@ public class Show implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int ID;
-    private String date;
-    private String time;
+    private LocalDate date;
+    private LocalTime time;
     private boolean isOnline;
     private String status;  //can be AVAILABLE / NOT_AVAILABLE
     private double price;
     private Movie movie;
-    //private String movie_name;
     private Hall hall;
-    //private int hall_number;
     private Cinema cinema;
-    //private int cinema_number;
     
     
     
-    public Show(String date, String time, boolean isOnline, String status, double price, Movie movie, Hall hall, Cinema cinema) {
+    public Show(LocalDate date, LocalTime time, boolean isOnline, String status, double price, Movie movie, Hall hall, Cinema cinema) {
         super();
         this.date = date;
         this.time = time;
@@ -44,19 +44,19 @@ public class Show implements Serializable{
         return ID;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 
@@ -108,13 +108,12 @@ public class Show implements Serializable{
 		this.cinema = cinema;
 	}
 
+    public boolean soldOut(){
+        if(hall.isFull()){
+            return true;
+        }
+        return false;
+    }
 
-    //    public boolean soldOut(){
-//
-//    }
-
-//    public boolean isSoon(){
-//
-//    }
 }
 

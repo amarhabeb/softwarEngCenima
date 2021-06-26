@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+
+import org.example.entities.Show;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -67,7 +69,7 @@ public class ShowsHandler {
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
             transaction.commit();
-            session.clear();
+            //session.clear();
             return true;
             // Save everything.
         } catch (Exception exception) {

@@ -1,7 +1,9 @@
-package org.example;
+package org.example.entities;
 
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 @Entity
 @Table(name ="movie")
@@ -13,8 +15,9 @@ public class Movie {
     private String name_en;
     private String name_heb;
     private String director;
+    private String[] cast;
     private String summary;
-    private String lanuch_date;
+    private LocalDate lanuch_date;
     private Boolean is_new;
     private String image;
     private String status; // can be AVAILABLE / NOT_AVAILABLE
@@ -26,11 +29,12 @@ public class Movie {
     }
 
 
-    public Movie(String name_en, String name_heb, String director, String summary, String lanuch_date, Boolean is_new, String image, List<Show> shows) {
+    public Movie(String name_en, String name_heb, String director, String[] cast, String summary, LocalDate lanuch_date, Boolean is_new, String image, List<Show> shows) {
         super();
         this.name_en = name_en;
         this.name_heb = name_heb;
         this.director = director;
+        this.cast=cast;
         this.summary = summary;
         this.lanuch_date = lanuch_date;
         this.is_new = is_new;
@@ -90,11 +94,11 @@ public class Movie {
         this.summary = summary;
     }
 
-    public String getLanuch_date() {
+    public LocalDate getLanuch_date() {
         return lanuch_date;
     }
 
-    public void setLanuch_date(String lanuch_date) {
+    public void setLanuch_date(LocalDate lanuch_date) {
         this.lanuch_date = lanuch_date;
     }
 
@@ -115,4 +119,20 @@ public class Movie {
         this.image = image;
     }
 
+    public String[] getCast() {
+        return cast;
+    }
+
+    public void setCast(String[] cast) {
+        this.cast = cast;
+    }
+
+    //calculate number of days between the movie's launch date and today, if less than 7, it's soon
+    public boolean isSoon(){
+        long diff= ChronoUnit.DAYS.between(LocalDate.now(), lanuch_date);
+        if(diff<=7){
+            return true;
+        }
+        return false;
+    }
 }

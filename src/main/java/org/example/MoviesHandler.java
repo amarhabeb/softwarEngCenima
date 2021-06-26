@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.entities.Movie;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 

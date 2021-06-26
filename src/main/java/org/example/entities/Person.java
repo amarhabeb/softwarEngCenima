@@ -1,4 +1,4 @@
-package org.example;
+package org.example.entities;
 
 public abstract class Person {
     protected int ID;
