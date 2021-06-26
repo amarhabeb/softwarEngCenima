@@ -19,24 +19,25 @@ public class Show implements Serializable{
     private boolean isOnline;
     private String status;  //can be AVAILABLE / NOT_AVAILABLE
     private double price;
-    //private Movie movie;
-    private String movie_name;	// later will be a movie object instead
-    private int hall_number;	// later will be a hall object instead
-    private int cinema_number;	// later will be a cinema object instead
-
-    public Show(){
-    }
-
-    public Show(String date, String time, boolean isOnline, String status, double price, String movie_name, int hall_number, int cinema_number) {
+    private Movie movie;
+    //private String movie_name;
+    private Hall hall;
+    //private int hall_number;
+    private Cinema cinema;
+    //private int cinema_number;
+    
+    
+    
+    public Show(String date, String time, boolean isOnline, String status, double price, Movie movie, Hall hall, Cinema cinema) {
         super();
         this.date = date;
         this.time = time;
         this.isOnline = isOnline;
         this.status = status;
         this.price = price;
-        this.movie_name = movie_name;
-        this.hall_number = hall_number;
-        this.cinema_number = cinema_number;
+        this.movie = movie;
+        this.hall = hall;
+        this.cinema = cinema;
     }
 
     public int getID() {
@@ -59,7 +60,7 @@ public class Show implements Serializable{
         this.time = time;
     }
 
-    public boolean isOnline() {
+    public boolean getIsOnline() {
         return isOnline;
     }
 
@@ -67,7 +68,7 @@ public class Show implements Serializable{
         isOnline = online;
     }
 
-    public String isStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -83,29 +84,30 @@ public class Show implements Serializable{
         this.price = price;
     }
 
-    public String getMovie_name() {
-        return movie_name;
-    }
+	public Movie getMovie() {
+		return movie;
+	}
 
-    public void setMovie_name(String movie_name) {
-        this.movie_name = movie_name;
-    }
+	public void setMovie(Movie movie) {
+		this.movie = movie;
+	}
 
-    public int getHall_number() {
-        return hall_number;
-    }
+	public Hall getHall() {
+		return hall;
+	}
 
-    public void setHall_number(int hall_number) {
-        this.hall_number = hall_number;
-    }
+	public void setHall(Hall hall) {
+		this.hall = hall;
+	}
 
-    public int getCinema_number() {
-        return cinema_number;
-    }
+	public Cinema getCinema() {
+		return cinema;
+	}
 
-    public void setCinema_number(int cinema_number) {
-        this.cinema_number = cinema_number;
-    }
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
+	}
+
 
     //    public boolean soldOut(){
 //

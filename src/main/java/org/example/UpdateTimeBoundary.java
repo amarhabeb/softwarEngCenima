@@ -5,10 +5,12 @@ import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -16,7 +18,9 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
-
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -36,27 +40,63 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 	
 	@FXML // fx:id="refreshBtn2"
     private Button refreshBtn2; // Value injected by FXMLLoader
-
-    @FXML
-    void clickRefreshBtn2(ActionEvent event) {
-		// add message to ClientInput so it could be sent to server
-		LinkedList<Object> message = new LinkedList<Object>();
-		message.add("LoadShows");
+	 
+	static Boolean ShowsTimeChanged = true;	// holds if the shows time is changed yet
+	// change time of show in DataBase and brings the Shows from the DataBase and updates 
+	// the ShowsData local list
+	void ChangeShowTime(int show_id, String NewTime) {
+		ShowsTimeChanged = false;	// show time isn't changed yet
+		// create message and send it to the server
+    	LinkedList<Object> message = new LinkedList<Object>();
+		message.add("ChangeShowTime");
+		message.add(show_id);
+		message.add(NewTime);
 		synchronized(EmployeeClient.ShowsDataLock)
 		{	
 			EmployeeClientCLI.sendMessage(message);
-				
-			// wait for Data to be updated
-			while(!EmployeeClient.ShowsDataUpdated) {
+							
+			// wait for Data to be changed
+			while(!ShowsTimeChanged) {
 				try {
 					EmployeeClient.ShowsDataLock.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
+			}	
 		}	
-		
+		// update ShowData if necessary
+		if(!EmployeeClient.ShowsDataUpdated) {
+			UpdateShowsData();
+		}
+	}
+	
+	// brings the Shows from the DataBase and updates the ShowsData local list
+	void UpdateShowsData() {
+		// add message to ClientInput so it could be sent to server
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadShows");
+		synchronized(EmployeeClient.ShowsDataLock)
+		{	
+			EmployeeClientCLI.sendMessage(message);
+							
+			// wait for Data to be updated
+			while(!EmployeeClient.ShowsDataUpdated) {
+				try {
+						EmployeeClient.ShowsDataLock.wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}	
+		}	
+	}
+	
+    @FXML
+    void clickRefreshBtn2(ActionEvent event) {
+    	if(!EmployeeClient.ShowsDataUpdated) {
+    		UpdateShowsData();
+    	}
 		// set items in table
 		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
 		ShowsTable.setItems(DataList);
@@ -82,11 +122,19 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
     	ShowsTable.setEditable(true);
     	
 		// set-up the columns in the table
-		movie_name.setCellValueFactory(new PropertyValueFactory<Show, String>("movie_name"));
+    	movie_name.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getMovie().getName_en()));
+		     }
+		  });
 		date.setCellValueFactory(new PropertyValueFactory<Show, String>("date"));
 		time.setCellValueFactory(new PropertyValueFactory<Show, String>("time"));
 		time.setCellFactory(TextFieldTableCell.forTableColumn());
-		hall_number.setCellValueFactory(new PropertyValueFactory<Show, Integer>("hall_number"));
+		hall_number.setCellValueFactory(new Callback<CellDataFeatures<Show, Integer>, ObservableValue<Integer>>() {
+		     public ObservableValue<Integer> call(CellDataFeatures<Show, Integer> show) {
+		         return (new SimpleIntegerProperty(show.getValue().getHall().getNumber()).asObject());
+		     }
+		  });
 		online.setCellValueFactory(new PropertyValueFactory<Show, Boolean>("online"));
 		price.setCellValueFactory(new PropertyValueFactory<Show, Double>("price"));
 		
@@ -98,33 +146,18 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
                         .getID();
             	String NewTime = time.getNewValue();
             	
-            	// create message and send it to the server
-            	LinkedList<Object> message = new LinkedList<Object>();
-    			message.add("ChangeShowTime");
-    			message.add(show_id);
-    			message.add(NewTime);
-    			EmployeeClientCLI.sendMessage(message);
+            	ChangeShowTime(show_id, NewTime);
+            	
+            	// set items in table
+        		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
+        		ShowsTable.setItems(DataList);
             }
     	});
 		
+		System.out.println("ShowDataUpdated: "+EmployeeClient.ShowsDataUpdated);
+		// update ShowData if necessary
 		if(!EmployeeClient.ShowsDataUpdated) {
-			// add message to ClientInput so it could be sent to server
-			LinkedList<Object> message = new LinkedList<Object>();
-			message.add("LoadShows");
-			synchronized(EmployeeClient.ShowsDataLock)
-			{	
-				EmployeeClientCLI.sendMessage(message);
-				
-				// wait for Data to be updated
-				while(!EmployeeClient.ShowsDataUpdated) {
-					try {
-						EmployeeClient.ShowsDataLock.wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}	
+			UpdateShowsData();
 		}
 		// set items in table
 		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);

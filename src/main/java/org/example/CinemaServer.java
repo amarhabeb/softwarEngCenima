@@ -16,7 +16,9 @@ import java.util.List;
 
 
 public class CinemaServer extends AbstractServer{
-
+	
+	public static Regulations currentRegs = null;	// this is the regulations of the cinema chain 
+	
 	private static Session session;
 
 	private static SessionFactory getSessionFactory() throws HibernateException {
@@ -37,8 +39,6 @@ public class CinemaServer extends AbstractServer{
     }
 
 
-
-                    /********** implement************/
     @SuppressWarnings("unchecked")
 	@Override
     protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
@@ -56,7 +56,8 @@ public class CinemaServer extends AbstractServer{
     			}
     			// reply to client	
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				//messageToClient.add("ShowsTimeChanged");
+				messageToClient.add("ShowsTimeChanged");
+				client.sendToClient(messageToClient);
     		}
     	
     		if(message.get(0).equals("LoadShows")) {
@@ -128,17 +129,37 @@ public class CinemaServer extends AbstractServer{
 		String[] movie_names = {"Harry Potter 7", "Joker", "The Avengers", "Star Wars", "Inception", "The Dark Night", "Captain America", 
 				"Avatar", "Jaws", "Rocky", "Titanic", "Lord Of The Rings"};
 		String[] availability = {"AVAILABLE", "NOT_AVAILABLE"};
-		for (int i = 0; i < 30; i++) {
-			Show show = new Show(getRandom(dates), getRandom(times), random.nextBoolean(), getRandom(availability), 
-					round(50 + (100 - 50) * random.nextDouble(),2), getRandom(movie_names), random.nextInt(49)+1, random.nextInt(5));
-			// add show to database
+		
+		// INITIALIZERS //
+		
+		//*MISSING CODE*//
+		
+		// Initialize halls
+		for (int hall_number = 0; hall_number < 50; hall_number++) {
+			Hall hall = new Hall(hall_number+1, random.nextInt(100)+75, random.nextInt(2), currentRegs);
+			// add hall to database
 			try {
-				ShowsHandler.addShow(session, show);
+				ShowsHandler.addHall(session, hall);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		
+		// Initialize shows
+//		for (int i = 0; i < 30; i++) {
+//			Show show = new Show(getRandom(dates), getRandom(times), random.nextBoolean(), getRandom(availability), 
+//					round(50 + (100 - 50) * random.nextDouble(),2), 
+//					// corresponding Hall, Movie and Cinema// 
+//					);
+//			// add show to database
+//			try {
+//				ShowsHandler.addShow(session, show);
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 	}
 
     public static void main(String[] args) throws IOException {

@@ -11,8 +11,7 @@ public class EmployeeClient extends AbstractClient {
 	
 	// these static variables are shared upon all threads
 	static List<Show> ShowsData = new LinkedList<>();	// holds the shows data
-	static Boolean ShowsDataUpdated = false;	// holdS if the list ShowsData is updated to the last version (will be set to false only when 
-												//adding/deleting from data base).
+	static Boolean ShowsDataUpdated = false;	// holdS if the list ShowsData is updated to the last version
 	static Object ShowsDataLock = new Object();	// lock for accessing the ShowsData List
 	
 	
@@ -52,15 +51,19 @@ public class EmployeeClient extends AbstractClient {
     protected void handleMessageFromServer(Object msg) {
 		LinkedList<Object> message = (LinkedList<Object>)(msg);
     	if(message.get(0).equals("ShowsTimeChanged")) {
-    		//Show result=(Show)message.get(1);
-    		//ShowsData.add(result);
+    		System.out.println("Message ShowsTimeChanged replied");
+    		synchronized(ShowsDataLock) {
+	    		UpdateTimeBoundary.ShowsTimeChanged = true;	// time is now changed
+	    		ShowsDataUpdated = false;	// client's ShowsData is now not updated
+	    		ShowsDataLock.notifyAll();
+    		}
 		}
     	if(message.get(0).equals("ShowsLoaded")) {
     		// get second argument which is the updated data and assign it to the static variable
     		ShowsData = (List<Show>) message.get(1);
     		synchronized(ShowsDataLock) {
     			ShowsDataUpdated = true;	// client's ShowsData is now updated
-    			ShowsDataLock.notify();
+    			ShowsDataLock.notifyAll();
     		}
     	}
 

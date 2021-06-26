@@ -16,6 +16,7 @@ import javax.persistence.criteria.Root;
 public class ShowsHandler {
 		
 	// to load all shows from the database
+	@SuppressWarnings("exports")
 	public static List<Show> loadShows(Session session) throws Exception{
 		try {
             Transaction transaction = session.beginTransaction();
@@ -23,7 +24,6 @@ public class ShowsHandler {
 			CriteriaQuery<Show> query = builder.createQuery(Show.class);
 			query.from(Show.class);
 			List<Show> data = session.createQuery(query).getResultList();
-			System.out.println(data.size());
 			transaction.commit();
 			return data;
 		} catch (Exception exception) {
@@ -37,6 +37,7 @@ public class ShowsHandler {
 	}
 	
 	// to add a show to the database
+	@SuppressWarnings("exports")
 	public static boolean addShow(Session session, Show show) throws Exception{
 		try {
 			Transaction transaction = session.beginTransaction();
@@ -55,6 +56,7 @@ public class ShowsHandler {
 	}
 	
 	// delete show from data base
+	@SuppressWarnings("exports")
 	public static boolean deleteShow(Session session, int show_id){
         try {
             CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -79,6 +81,7 @@ public class ShowsHandler {
     }
 	
 	// update price of a show in the data base
+	@SuppressWarnings("exports")
 	public static boolean updatePrice(Session session, int show_id, double newPrice){
 		try {
             
@@ -89,6 +92,7 @@ public class ShowsHandler {
             update_query.where(builder.equal(root.get("ID"),show_id));
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
+            session.clear();
             transaction.commit();
             session.clear();
             return true;
@@ -104,7 +108,8 @@ public class ShowsHandler {
     }
 	
 	// update time of a show in the data base
-    public static boolean updateTime(Session session, int show_id, String newTime){
+    @SuppressWarnings("exports")
+	public static boolean updateTime(Session session, int show_id, String newTime){
         try {
             
             CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -114,12 +119,9 @@ public class ShowsHandler {
             update_query.where(builder.equal(root.get("ID"),show_id));
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
+            session.clear();
             transaction.commit();
             session.clear();
-            System.out.println("CHECKING IF CHANGED:");
-            for(Show show:ShowsHandler.loadShows(session)) {
-				System.out.println(show.getTime());
-			}
             return true;
             // Save everything.
         } catch (Exception exception) {
