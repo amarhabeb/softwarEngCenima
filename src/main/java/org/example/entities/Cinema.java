@@ -1,4 +1,7 @@
-package org.example;
+package org.example.entities;
+
+import org.example.entities.Movie;
+import org.example.entities.Show;
 
 import java.util.LinkedList;
 

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.entities;
 
  abstract class Report {
     protected int ID;

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.entities;
 
 public class Regulations {
     private boolean regulations;	// will be false if there is no limitations

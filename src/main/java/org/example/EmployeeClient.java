@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.entities.Show;
+
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;

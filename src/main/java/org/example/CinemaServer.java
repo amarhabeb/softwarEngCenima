@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
 
+import org.example.entities.Hall;
+import org.example.entities.Regulations;
+import org.example.entities.Show;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -17,7 +20,7 @@ import java.util.List;
 
 public class CinemaServer extends AbstractServer{
 	
-	public static Regulations currentRegs = null;	// this is the regulations of the cinema chain 
+	public static Regulations currentRegs = null;	// this is the regulations of the cinema chain
 	
 	private static Session session;
 

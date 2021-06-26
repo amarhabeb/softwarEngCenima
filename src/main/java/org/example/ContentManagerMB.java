@@ -16,6 +16,7 @@ import java.io.Serializable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import org.example.entities.Show;
 
 
 @SuppressWarnings("serial")
