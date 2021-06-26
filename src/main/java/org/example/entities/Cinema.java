@@ -3,11 +3,19 @@ package org.example.entities;
 import org.example.entities.Movie;
 import org.example.entities.Show;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.LinkedList;
 
 public class Cinema {
-    int ID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int ID;
+    @OneToMany(targetEntity = Show.class)
     private LinkedList<Show> shows;
+    @OneToMany(targetEntity = Movie.class)
     private LinkedList<Movie> movies;
 
     public void addMovie(Movie Movie){
