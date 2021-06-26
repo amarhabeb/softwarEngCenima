@@ -9,6 +9,7 @@ public class Cinema {
     int ID;
     private LinkedList<Show> shows;
     private LinkedList<Movie> movies;
+    ///change
 
     public void addMovie(Movie Movie){
         movies.add(Movie);
