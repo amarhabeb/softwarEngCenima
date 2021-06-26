@@ -27,7 +27,22 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	@FXML // fx:id="UpdateShowsTimesBtn"
 	private Button UpdateShowsTimesBtn; // Value injected by FXMLLoader
 	
+	@FXML
+    private Button UpdateShowsPricesBtn;
+
+    @FXML
+    private Button AddShowsBtn;
+
+    @FXML
+    private Button RemoveShowsBtn;
+
+    @FXML
+    private Button AddMoviesBtn;
+
+    @FXML
+    private Button RemoveMoviesBtn;
 	
+    
 	@FXML private TableView<Show> ShowsTable;
 	@FXML private TableColumn<Show, String> movie_name;
 	@FXML private TableColumn<Show, String> date;
@@ -73,6 +88,31 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	void clickUpdateShowsTimesBtn(ActionEvent event) throws IOException {
 		 App.setRoot("UpdateTimeBoundary");
 	}
+	
+	@FXML
+    void clickAddMoviesBtn(ActionEvent event) {
+
+    }
+
+    @FXML
+    void clickAddShowsBtn(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void clickRemoveMoviesBtn(ActionEvent event) {
+
+    }
+
+    @FXML
+    void clickRemoveShowsBtn(ActionEvent event) {
+
+    }
+
+    @FXML
+    void clickUpdateShowsPricesBtn(ActionEvent event) throws IOException{
+    	App.setRoot("UpdatePriceBoundary");
+    }
 	
 	
 	@Override
