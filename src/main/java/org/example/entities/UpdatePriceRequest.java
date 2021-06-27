@@ -9,14 +9,14 @@ public class UpdatePriceRequest {
     private ContentManager requestedBy;
     int show_id;
     private double updatedPrice;
-    private boolean checked;
+    //private boolean checked;
     private boolean approved;
 
     public UpdatePriceRequest(ContentManager requestedBy, int show_id, double updatedPrice) {
         this.requestedBy = requestedBy;
         this.show_id = show_id;
         this.updatedPrice = updatedPrice;
-        this.checked = false;
+        //this.checked = false;
         this.approved = false;
     }
     public UpdatePriceRequest(){}
@@ -37,13 +37,13 @@ public class UpdatePriceRequest {
         this.updatedPrice = updatedPrice;
     }
 
-    public boolean isChecked() {
+    /*public boolean isChecked() {
         return checked;
-    }
+    }*/
 
-    public void setChecked(boolean checked) {
+    /*public void setChecked(boolean checked) {
         this.checked = checked;
-    }
+    }*/
 
     public boolean isApproved() {
         return approved;
