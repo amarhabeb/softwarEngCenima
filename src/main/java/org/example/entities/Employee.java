@@ -1,4 +1,9 @@
 package org.example.entities;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name ="employee")
 
 public class Employee extends Person {
     protected   String userName;

@@ -6,7 +6,11 @@ import java.awt.*;
 import java.lang.Math;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name ="hall")
 public class Hall {
     private int number;
     private int capacity;	// this is X in the requirements file

@@ -3,7 +3,11 @@ package org.example.entities;
 import org.example.entities.Manager;
 
 import javax.persistence.OneToOne;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name ="cinemamanger")
 public class CinemaManager extends Manager {
     @OneToOne
     private Cinema cinema;
