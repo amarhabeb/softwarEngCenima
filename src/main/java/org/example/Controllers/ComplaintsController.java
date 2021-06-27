@@ -56,4 +56,21 @@ public class ComplaintsController {
             return false;
         }
     }
+    public static boolean addComplaint(Session session, Complaint comp) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            session.save(comp);
+            session.flush();
+            transaction.commit();
+            return true;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occured, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+    }
+
 }
