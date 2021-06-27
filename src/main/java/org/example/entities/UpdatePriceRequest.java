@@ -16,6 +16,7 @@ public class UpdatePriceRequest {
         this.checked = false;
         this.approved = false;
     }
+    public UpdatePriceRequest(){}
 
     public org.example.ContentManager getRequestedBy() {
         return requestedBy;

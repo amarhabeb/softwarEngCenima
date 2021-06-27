@@ -5,15 +5,14 @@ public class Employee extends Person {
     protected   String password;
 
     public Employee(int ID, String name, String phoneNum, String email, String userName, String password){
-        this.ID = ID;
-        this.name = name;
-        this.phoneNum = phoneNum;
-        this.email = email;
+        super(ID, name, phoneNum, email);
         this.userName = userName;
         this.password = password;
 
     }
-
+    public Employee(){
+        super();
+    }
 
       public String getUserName() {
           return userName;

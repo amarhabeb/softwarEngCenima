@@ -14,8 +14,6 @@ public abstract class Person {
         }
 
         public Person() {
-            this.ID = 0;
-
         }
 
         public int getID() {

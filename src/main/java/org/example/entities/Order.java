@@ -15,13 +15,12 @@ abstract public class Order implements Serializable {
     protected LocalDate orderDate;
     protected boolean status;
     protected double price;
-    protected int payment;
+    @OneToOne(targetEntity = Payment.class)
+    protected Payment payment;
     protected int refund;
     protected boolean active;
 
-
-
-    public Order( LocalDate orderDate, boolean status, double price, int payment, int refund, boolean active) {
+    public Order( LocalDate orderDate, boolean status, double price, Payment payment, int refund, boolean active) {
         super();
         this.orderDate = orderDate;
         this.status = status;
@@ -58,11 +57,11 @@ abstract public class Order implements Serializable {
         this.price = price;
     }
 
-    public int getPayment() {
+    public Payment getPayment() {
         return payment;
     }
 
-    public void setPayment(int payment) {
+    public void setPayment(Payment payment) {
         this.payment = payment;
     }
 

@@ -16,7 +16,7 @@ public class Seat {
         this.line = line;
         this.hall=hall;
     }
-
+    public Seat(){}
     public boolean isAvailable() {
         return available;
     }
