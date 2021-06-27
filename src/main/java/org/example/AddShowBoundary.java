@@ -134,11 +134,13 @@ public class AddShowBoundary implements Initializable, Serializable{
 		// update MoviesData if necessary
 		if(!CinemaClient.MoviesDataUpdated) {
 			UpdateMoviesData();
+		}
 		if(!CinemaClient.HallsDataUpdated) {
 			UpdateHallsData();
 		}
 		if(!CinemaClient.CinemasDataUpdated) {
 			UpdateCinemasData();
+		}
 		
     	// initialize movie choice box
     	for (Movie movie:CinemaClient.MoviesData) {
