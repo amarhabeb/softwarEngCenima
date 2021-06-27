@@ -1,7 +1,5 @@
 package org.example;
 
-import org.example.entities.Show;
-
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,7 +7,7 @@ import java.util.logging.Logger;
 
 
 
-public class EmployeeClient extends AbstractClient {
+public class CinemaClient extends AbstractClient {
 	
 	// these static variables are shared upon all threads
 	static List<Show> ShowsData = new LinkedList<>();	// holds the shows data
@@ -18,12 +16,12 @@ public class EmployeeClient extends AbstractClient {
 	
 	
     private static final Logger LOGGER =
-            Logger.getLogger(EmployeeClient.class.getName());
+            Logger.getLogger(CinemaClient.class.getName());
 
-    EmployeeClientCLI cinemaClientCLI;
-    public EmployeeClient(String host, int port) {
+    CinemaClientCLI cinemaClientCLI;
+    public CinemaClient(String host, int port) {
         super(host, port);
-        this.cinemaClientCLI = new EmployeeClientCLI(this);
+        this.cinemaClientCLI = new CinemaClientCLI(this);
     }
 
     @Override
@@ -79,8 +77,8 @@ public class EmployeeClient extends AbstractClient {
             String host = args[0];
             int port = Integer.parseInt(args[1]);
 
-            EmployeeClient CinemaClient = new EmployeeClient(host, port);
-            CinemaClient.openConnection();
+            CinemaClient cinemaClient = new CinemaClient(host, port);
+            cinemaClient.openConnection();
             App.main(args);
         }
     }
