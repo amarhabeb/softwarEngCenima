@@ -1,4 +1,9 @@
 package org.example.entities;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name ="updatepricerequest")
 
 public class UpdatePriceRequest {
     private ContentManager requestedBy;

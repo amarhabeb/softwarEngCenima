@@ -1,6 +1,11 @@
 package org.example.entities;
 
 import javax.persistence.ManyToOne;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name ="seat")
 
 public class Seat {
     private boolean available;

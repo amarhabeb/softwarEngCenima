@@ -3,6 +3,11 @@ package org.example.entities;
 import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name ="package")
 
 public class Package extends Order{
     @OneToMany
