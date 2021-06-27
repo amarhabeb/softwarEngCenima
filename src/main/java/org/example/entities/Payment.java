@@ -1,6 +1,11 @@
 package org.example.entities;
 
 import javax.persistence.OneToOne;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name ="payment")
 
 public class Payment {
     private double amount;

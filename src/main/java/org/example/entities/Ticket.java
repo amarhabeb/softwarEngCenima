@@ -3,6 +3,11 @@ package org.example.entities;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name ="ticket")
 
 public class Ticket extends Order{
     @ManyToOne
