@@ -1,15 +1,13 @@
 package org.example.entities;
 
-import org.example.ContentManager;
-
 public class UpdatePriceRequest {
-    private org.example.ContentManager requestedBy;
+    private ContentManager requestedBy;
     int show_id;
     private double updatedPrice;
     private boolean checked;
     private boolean approved;
 
-    public UpdatePriceRequest(org.example.ContentManager requestedBy, int show_id, double updatedPrice) {
+    public UpdatePriceRequest(ContentManager requestedBy, int show_id, double updatedPrice) {
         this.requestedBy = requestedBy;
         this.show_id = show_id;
         this.updatedPrice = updatedPrice;
@@ -18,7 +16,7 @@ public class UpdatePriceRequest {
     }
     public UpdatePriceRequest(){}
 
-    public org.example.ContentManager getRequestedBy() {
+    public ContentManager getRequestedBy() {
         return requestedBy;
     }
 

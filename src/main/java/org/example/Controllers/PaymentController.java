@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Controllers;
 
 import org.example.entities.Payment;
 import org.hibernate.Session;
