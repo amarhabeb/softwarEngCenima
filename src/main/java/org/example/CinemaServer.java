@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.time.LocalTime;
 
+import org.example.Controllers.ShowsHandler;
 import org.example.entities.Hall;
 import org.example.entities.Regulations;
 import org.example.entities.Show;
