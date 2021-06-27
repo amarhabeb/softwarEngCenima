@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 
 
-public class EmployeeClient extends AbstractClient {
+public class CinemaClient extends AbstractClient {
 	
 	// these static variables are shared upon all threads
 	static List<Show> ShowsData = new LinkedList<>();	// holds the shows data
@@ -16,12 +16,12 @@ public class EmployeeClient extends AbstractClient {
 	
 	
     private static final Logger LOGGER =
-            Logger.getLogger(EmployeeClient.class.getName());
+            Logger.getLogger(CinemaClient.class.getName());
 
-    EmployeeClientCLI cinemaClientCLI;
-    public EmployeeClient(String host, int port) {
+    CinemaClientCLI cinemaClientCLI;
+    public CinemaClient(String host, int port) {
         super(host, port);
-        this.cinemaClientCLI = new EmployeeClientCLI(this);
+        this.cinemaClientCLI = new CinemaClientCLI(this);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class EmployeeClient extends AbstractClient {
             String host = args[0];
             int port = Integer.parseInt(args[1]);
 
-            EmployeeClient CinemaClient = new EmployeeClient(host, port);
+            CinemaClient CinemaClient = new CinemaClient(host, port);
             CinemaClient.openConnection();
             App.main(args);
         }

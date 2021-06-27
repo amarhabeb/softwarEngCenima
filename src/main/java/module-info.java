@@ -8,6 +8,7 @@ module org.example {
     requires java.persistence;
     requires java.naming;
 	requires javafx.base;
+	requires net.bytebuddy;
 
     opens org.example to javafx.fxml;
     exports org.example;

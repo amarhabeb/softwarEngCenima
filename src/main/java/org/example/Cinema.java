@@ -4,6 +4,7 @@ import java.util.LinkedList;
 
 public class Cinema {
     int ID;
+    String branch_name;
     private LinkedList<Show> shows;
     private LinkedList<Movie> movies;
 
@@ -30,4 +31,20 @@ public class Cinema {
     public LinkedList<Movie> getMovies() {
         return movies;
     }
+
+	public String getBranch_name() {
+		return branch_name;
+	}
+
+	public void setBranch_name(String branch_name) {
+		this.branch_name = branch_name;
+	}
+
+	public void setShows(LinkedList<Show> shows) {
+		this.shows = shows;
+	}
+
+	public void setMovies(LinkedList<Movie> movies) {
+		this.movies = movies;
+	}
 }
