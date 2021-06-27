@@ -3,6 +3,7 @@ package org.example;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Random;
+import java.time.LocalTime;
 
 import org.example.entities.Hall;
 import org.example.entities.Regulations;
@@ -50,7 +51,7 @@ public class CinemaServer extends AbstractServer{
     	try {
     		if(message.get(0).equals("ChangeShowTime")) {
     			int show_id = (int) message.get(1);
-    			String newTime = (String) message.get(2);
+    			LocalTime newTime = (LocalTime) message.get(2);
     			// change time of show in database
     			boolean success = ShowsHandler.updateTime(session, show_id, newTime);
     			//session.refresh(Show.class);
