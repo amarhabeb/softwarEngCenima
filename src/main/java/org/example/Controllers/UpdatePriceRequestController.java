@@ -1,6 +1,5 @@
 package org.example.Controllers;
 
-import org.example.entities.Show;
 import org.example.entities.UpdatePriceRequest;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
