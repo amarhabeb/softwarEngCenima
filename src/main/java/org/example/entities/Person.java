@@ -1,13 +1,20 @@
 package org.example.entities;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 public abstract class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     protected int ID;
     protected String name;
     protected String phoneNum;
     protected String email;
 
-        public Person(int ID, String name, String phoneNum, String email) {
-            this.ID = ID;
+        public Person(String name, String phoneNum, String email) {
             this.name = name;
             this.phoneNum = phoneNum;
             this.email = email;
