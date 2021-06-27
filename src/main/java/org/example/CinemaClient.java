@@ -77,8 +77,8 @@ public class CinemaClient extends AbstractClient {
             String host = args[0];
             int port = Integer.parseInt(args[1]);
 
-            CinemaClient CinemaClient = new CinemaClient(host, port);
-            CinemaClient.openConnection();
+            CinemaClient cinemaClient = new CinemaClient(host, port);
+            cinemaClient.openConnection();
             App.main(args);
         }
     }
