@@ -14,6 +14,9 @@ public class Cinema {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
+    
+    String branch_name;
+    
     @OneToMany(targetEntity = Show.class)
     private List<Show> shows;
     @OneToMany(targetEntity = Movie.class)
@@ -64,4 +67,12 @@ public class Cinema {
     public List<Hall> getHalls(){
         return halls;
     }
+    
+    public String getBranch_name() {
+		return branch_name;
+	}
+
+	public void setBranch_name(String branch_name) {
+		this.branch_name = branch_name;
+	}
 }
