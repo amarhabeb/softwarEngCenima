@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Boundaries;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;

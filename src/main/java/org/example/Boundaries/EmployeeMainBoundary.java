@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Boundaries;
 
 public abstract class EmployeeMainBoundary implements EmployeeBoundary{
 	

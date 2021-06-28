@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Boundaries;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
