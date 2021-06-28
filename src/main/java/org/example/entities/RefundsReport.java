@@ -10,6 +10,7 @@ import javax.persistence.Table;
 @Table(name ="refundsreport")
 
 public class RefundsReport extends Report {
+
     public RefundsReport(LocalDate date){
         this.date = date;
     }

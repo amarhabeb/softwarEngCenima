@@ -9,21 +9,20 @@ import javax.persistence.Table;
 @Table(name ="ticketreport")
 
 public class TicketReport extends Report {
-    @ManyToOne
-    private Cinema cinema;
+    private int ticket_id;
 
-    public TicketReport(LocalDate date, Cinema cinema){
-        this.ID = ID;
-        this.date = date;
-        this.cinema = cinema;
+    public TicketReport(LocalDate date, int ticket_id){
+        super(date);
+        this.ticket_id=ticket_id;
+
     }
     public TicketReport(){super();}
 
-    public Cinema getCinema() {
-        return cinema;
+    public int getTicket_id() {
+        return ticket_id;
     }
 
-    public void setCinema(Cinema cinema) {
-        this.cinema = cinema;
+    public void setTicket_id(int ticket_id) {
+        this.ticket_id = ticket_id;
     }
 }
