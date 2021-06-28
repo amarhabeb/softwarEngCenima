@@ -4,15 +4,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.io.IOException;
 
-public class EmployeeClientCLI {
+public class CinemaClientCLI {
 	
 	static Queue<LinkedList<Object>> ClientInput;
-	private EmployeeClient client;
+	private CinemaClient client;
     private boolean isRunning;
    // private static final String SHELL_STRING = "Enter message (or exit to quit)> ";
     private Thread loopThread;
     
-    public EmployeeClientCLI(EmployeeClient client) {
+    public CinemaClientCLI(CinemaClient client) {
         this.client = client;
         this.isRunning = false;
     	ClientInput = new LinkedList<>();
@@ -60,6 +60,6 @@ public class EmployeeClientCLI {
     
     // add message to queue for client
     public static void sendMessage(LinkedList<Object> message) {
-    	EmployeeClientCLI.ClientInput.add(message);
+    	CinemaClientCLI.ClientInput.add(message);
     }
 }
