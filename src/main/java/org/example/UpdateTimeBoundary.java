@@ -25,7 +25,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import org.example.entities.Show;
 
 
 @SuppressWarnings("serial")
@@ -52,14 +51,14 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 		message.add("ChangeShowTime");
 		message.add(show_id);
 		message.add(NewTime);
-		synchronized(EmployeeClient.ShowsDataLock)
+		synchronized(CinemaClient.ShowsDataLock)
 		{	
-			EmployeeClientCLI.sendMessage(message);
+			CinemaClientCLI.sendMessage(message);
 							
 			// wait for Data to be changed
 			while(!ShowsTimeChanged) {
 				try {
-					EmployeeClient.ShowsDataLock.wait();
+					CinemaClient.ShowsDataLock.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -67,7 +66,7 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 			}	
 		}	
 		// update ShowData if necessary
-		if(!EmployeeClient.ShowsDataUpdated) {
+		if(!CinemaClient.ShowsDataUpdated) {
 			UpdateShowsData();
 		}
 	}
@@ -77,14 +76,14 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadShows");
-		synchronized(EmployeeClient.ShowsDataLock)
+		synchronized(CinemaClient.ShowsDataLock)
 		{	
-			EmployeeClientCLI.sendMessage(message);
+			CinemaClientCLI.sendMessage(message);
 							
 			// wait for Data to be updated
-			while(!EmployeeClient.ShowsDataUpdated) {
+			while(!CinemaClient.ShowsDataUpdated) {
 				try {
-						EmployeeClient.ShowsDataLock.wait();
+						CinemaClient.ShowsDataLock.wait();
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -95,11 +94,11 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 	
     @FXML
     void clickRefreshBtn2(ActionEvent event) {
-    	if(!EmployeeClient.ShowsDataUpdated) {
+    	if(!CinemaClient.ShowsDataUpdated) {
     		UpdateShowsData();
     	}
 		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
+		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 		ShowsTable.setItems(DataList);
 		System.out.println("refreshed");
     }
@@ -150,18 +149,18 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
             	ChangeShowTime(show_id, NewTime);
             	
             	// set items in table
-        		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
+        		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
         		ShowsTable.setItems(DataList);
             }
     	});
 		
-		System.out.println("ShowDataUpdated: "+EmployeeClient.ShowsDataUpdated);
+		System.out.println("ShowDataUpdated: "+CinemaClient.ShowsDataUpdated);
 		// update ShowData if necessary
-		if(!EmployeeClient.ShowsDataUpdated) {
+		if(!CinemaClient.ShowsDataUpdated) {
 			UpdateShowsData();
 		}
 		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
+		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 		ShowsTable.setItems(DataList);
 	}
 }
