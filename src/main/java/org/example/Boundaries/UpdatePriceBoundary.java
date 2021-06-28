@@ -29,11 +29,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+import org.example.App;
+import org.example.OCSF.CinemaClient;
+import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Show;
+import org.example.entities.UpdatePriceRequest;
 
 
 @SuppressWarnings("serial")
 public class UpdatePriceBoundary implements Initializable, Serializable{
+	
 	@FXML private TableView<Show> ShowsTable;
 	@FXML private TableColumn<Show, String> movie_name;
 	@FXML private TableColumn<Show, String> date;
@@ -41,11 +46,12 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
 	@FXML private TableColumn<Show, Integer> hall_number;
 	@FXML private TableColumn<Show, Boolean> online;
 	@FXML private TableColumn<Show, Double> price;
+	@FXML private TableColumn<Show, String> cinema;
 	
 	@FXML // fx:id="refreshBtn2"
     private Button refreshBtn2; // Value injected by FXMLLoader
 	 
-	static Boolean ShowsPriceChanged = true;	// holds if the shows price is changed yet
+	public static Boolean ShowsPriceChanged = true;	// holds if the shows price is changed yet
 	// send request for price updating to the server, which will notify the chain manager
 	void ChangeShowPrice(int show_id, Double NewPrice) {
 		// create message and send it to the server
@@ -122,6 +128,11 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
 		online.setCellValueFactory(new PropertyValueFactory<Show, Boolean>("online"));
 		price.setCellValueFactory(new PropertyValueFactory<Show, Double>("price"));
 		price.setCellFactory(TextFieldTableCell.<Show, Double>forTableColumn(new DoubleStringConverter()));
+		cinema.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getHall().getCinema().getBranch_name()));
+		     }
+		  });
 		
 		price.setOnEditCommit(new EventHandler <CellEditEvent<Show, Double>>() {
             @Override

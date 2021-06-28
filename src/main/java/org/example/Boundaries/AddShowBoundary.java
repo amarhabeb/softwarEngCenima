@@ -1,12 +1,20 @@
 package org.example.Boundaries;
 
 import java.awt.event.ActionEvent;
+import javafx.event.EventHandler;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import org.example.App;
+import org.example.OCSF.CinemaClient;
+import org.example.OCSF.CinemaClientCLI;
+import org.example.entities.Cinema;
+import org.example.entities.Hall;
+import org.example.entities.Movie;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
+@SuppressWarnings("serial")
 public class AddShowBoundary implements Initializable, Serializable{
 
     @FXML // fx:id="GoBackToMainBtn"
@@ -56,12 +65,12 @@ public class AddShowBoundary implements Initializable, Serializable{
 
     @FXML
     void clickAddShowBtn(ActionEvent event) throws IOException {
-    	App.setRoot("ContentManagerMB");
+    	
     }
 
     @FXML
-    void clickGoBackToMainBtn(ActionEvent event) {
-
+    void clickGoBackToMainBtn(ActionEvent event) throws IOException {
+    	App.setRoot("ContentManagerMB");
     }
     
  // brings the Movies from the DataBase and updates the MoviesData local list
@@ -127,10 +136,23 @@ public class AddShowBoundary implements Initializable, Serializable{
   		}	
   	}
 
-    
-    @Override
+  	void CheckIfFilled() {
+  		// if all choiceboxes were filled
+  		if(movieChoice.getValue()!= null && dayChoice.getValue()!= null &&
+  				monthChoice.getValue()!= null && yearChoice.getValue()!= null &&
+  				hoursChoice.getValue()!= null && minsChoice.getValue()!= null &&
+  				onlineChoice.getValue()!= null && hallChoice.getValue()!= null &&
+  				cinemaChoice.getValue()!= null && priceTextField.getText()!=null) {
+  			AddShowBtn.setDisable(true);
+  		}
+  		else {
+  			AddShowBtn.setDisable(false);
+  		}
+  	}
+   
+  	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-    	
+  		
 		// update MoviesData if necessary
 		if(!CinemaClient.MoviesDataUpdated) {
 			UpdateMoviesData();
@@ -174,6 +196,7 @@ public class AddShowBoundary implements Initializable, Serializable{
     	
     	//Initialize online choice box
     	onlineChoice.getItems().addAll(true, false);
+    	onlineChoice.setValue(false);	// default value
     	
     	// initialize hall choice box
     	for (Hall hall:CinemaClient.HallsData) {
@@ -184,6 +207,52 @@ public class AddShowBoundary implements Initializable, Serializable{
     	for (Cinema cinema:CinemaClient.CinemasData) {
         	cinemaChoice.getItems().add(cinema.getBranch_name());
         }
+    	
+    	// disable button
+  		CheckIfFilled();
+    	
+    	//choice box listener
+    	movieChoice.setOnAction((event) -> {
+    	    CheckIfFilled();
+    	});
+    	dayChoice.setOnAction((event) -> {
+    	    CheckIfFilled();
+    	});
+    	monthChoice.setOnAction((event) -> {
+    	    CheckIfFilled();
+    	});
+    	yearChoice.setOnAction((event) -> {
+    	    CheckIfFilled();
+    	});
+    	hoursChoice.setOnAction((event) -> {
+    	    CheckIfFilled();
+    	});
+    	minsChoice.setOnAction((event) -> {
+    	    CheckIfFilled();
+    	});
+    	onlineChoice.setOnAction((event) -> {
+    	    CheckIfFilled();
+    	});
+    	hallChoice.setOnAction((event) -> {
+    	    CheckIfFilled();
+    	});
+    	cinemaChoice.setOnAction((event) -> {
+    	    CheckIfFilled();
+    	});
+    	priceTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+    		double val;
+    		try {
+    			val = Double.valueOf(newValue);
+    		}catch (NumberFormatException e) {
+				val = -1;	
+			}finally {
+				if(val<0) {	// invalid input
+	    			//* CODE FOR MESSAGE POP-UP *//
+					priceTextField.setText(null);
+	    		}
+				CheckIfFilled();
+			}
+    	});
     }
 
 }

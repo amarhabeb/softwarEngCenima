@@ -2,7 +2,11 @@ package org.example.Controllers;
 
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+
 import org.example.entities.Movie;
+import org.hibernate.Session;
 
 public class MoviesCatalogController {
 	 public static List<Movie> loadMovies(Session session){
