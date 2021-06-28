@@ -11,7 +11,7 @@ import java.util.List;
 
 public class RefundController {
 
-    public static List<Refund> loadRefund(Session session) throws Exception{
+    public static List<Refund> loadRefunds(Session session) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
