@@ -12,7 +12,7 @@ public class Link extends Order{
     private String link;
     private Timer timer;
 
-    public Link(String link, Timer timer, LocalDate orderDate, boolean status, double price, Payment payment, int refund, boolean active) {
+    public Link(String link, Timer timer, LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
         super(orderDate, status, price, payment, refund, active);
         this.link = link;
         this.timer = timer;
