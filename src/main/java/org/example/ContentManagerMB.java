@@ -59,14 +59,14 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadShows");
-		synchronized(EmployeeClient.ShowsDataLock)
+		synchronized(CinemaClient.ShowsDataLock)
 		{	
-			EmployeeClientCLI.sendMessage(message);
+			CinemaClientCLI.sendMessage(message);
 						
 			// wait for Data to be updated
-			while(!EmployeeClient.ShowsDataUpdated) {
+			while(!CinemaClient.ShowsDataUpdated) {
 				try {
-						EmployeeClient.ShowsDataLock.wait();
+						CinemaClient.ShowsDataLock.wait();
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -75,13 +75,15 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 		}	
 	}
 	
+		
+	
 	@FXML
     void clickRefreshBtn(ActionEvent event) {
-		if(!EmployeeClient.ShowsDataUpdated) {
+		if(!CinemaClient.ShowsDataUpdated) {
 			UpdateShowsData();
     	}
 		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
+		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 		ShowsTable.setItems(DataList);
 	}
 
@@ -126,12 +128,12 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 		online.setCellValueFactory(new PropertyValueFactory<Show, Boolean>("online"));
 		price.setCellValueFactory(new PropertyValueFactory<Show, Double>("price"));
 		
-		System.out.println("ShowDataUpdated: "+EmployeeClient.ShowsDataUpdated);
-		if(!EmployeeClient.ShowsDataUpdated) {
+		System.out.println("ShowDataUpdated: "+CinemaClient.ShowsDataUpdated);
+		if(!CinemaClient.ShowsDataUpdated) {
 			UpdateShowsData();
 		}
 		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
+		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 		ShowsTable.setItems(DataList);
 	}
 }
