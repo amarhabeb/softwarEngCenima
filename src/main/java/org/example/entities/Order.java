@@ -58,7 +58,7 @@ abstract public class Order implements Serializable {
         this.price = price;
     }
 
-    public Payment getPayment() {
+    public  Payment getPayment() {
         return payment;
     }
 

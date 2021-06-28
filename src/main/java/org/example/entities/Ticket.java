@@ -10,13 +10,14 @@ import javax.persistence.Table;
 @Table(name ="ticket")
 
 public class Ticket extends Order{
-    @ManyToOne
+    @ManyToOne(targetEntity = Cinema.class)
     private Cinema cinema;
-    private Seat seat;
-    public Ticket(Cinema cinema, Seat seat, int ID, LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
+    //private Seat seat;
+    private  int seat_id;
+    public Ticket(Cinema cinema, int seat, int ID, LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
         super( orderDate, status, price, payment, refund, active);
         this.cinema=cinema;
-        this.seat=seat;
+        this.seat_id=seat;
     }
     public Ticket(){
         super();
@@ -26,15 +27,18 @@ public class Ticket extends Order{
         return cinema;
     }
 
-    public Seat getSeat() {
-        return seat;
+
+    public int getSeat_id() {
+        return seat_id;
+    }
+
+    public void setSeat_id(int seat_id) {
+        this.seat_id = seat_id;
     }
 
     public void setCinema(Cinema cinema) {
         this.cinema = cinema;
     }
 
-    public void setSeat(Seat seat) {
-        this.seat = seat;
-    }
+
 }
