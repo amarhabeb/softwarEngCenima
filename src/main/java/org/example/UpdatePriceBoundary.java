@@ -28,8 +28,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import org.example.entities.Show;
-import org.example.entities.UpdatePriceRequest;
 
 
 @SuppressWarnings("serial")
@@ -53,7 +51,7 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
 		message.add("ChangePriceRequest");
 		UpdatePriceRequest updatePriceReq = new UpdatePriceRequest(null, show_id, NewPrice);
 		message.add(updatePriceReq);
-		EmployeeClientCLI.sendMessage(message);
+		CinemaClientCLI.sendMessage(message);
 	}
 	
 	// brings the Shows from the DataBase and updates the ShowsData local list
@@ -61,14 +59,14 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadShows");
-		synchronized(EmployeeClient.ShowsDataLock)
+		synchronized(CinemaClient.ShowsDataLock)
 		{	
-			EmployeeClientCLI.sendMessage(message);
+			CinemaClientCLI.sendMessage(message);
 							
 			// wait for Data to be updated
-			while(!EmployeeClient.ShowsDataUpdated) {
+			while(!CinemaClient.ShowsDataUpdated) {
 				try {
-						EmployeeClient.ShowsDataLock.wait();
+						CinemaClient.ShowsDataLock.wait();
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -79,11 +77,11 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
 	
     @FXML
     void clickRefreshBtn2(ActionEvent event) {
-    	if(!EmployeeClient.ShowsDataUpdated) {
+    	if(!CinemaClient.ShowsDataUpdated) {
     		UpdateShowsData();
     	}
 		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
+		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 		ShowsTable.setItems(DataList);
 		System.out.println("refreshed");
     }
@@ -136,18 +134,18 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
             	// CODE FOR WINDOW POPUP THAT SAYS "UPDATING PRICE REQUEST WAS SENT" //
             	
             	// set items in table
-        		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
+        		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
         		ShowsTable.setItems(DataList);
             }
     	});
 		
-		System.out.println("ShowDataUpdated: "+EmployeeClient.ShowsDataUpdated);
+		System.out.println("ShowDataUpdated: "+CinemaClient.ShowsDataUpdated);
 		// update ShowData if necessary
-		if(!EmployeeClient.ShowsDataUpdated) {
+		if(!CinemaClient.ShowsDataUpdated) {
 			UpdateShowsData();
 		}
 		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(EmployeeClient.ShowsData);
+		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 		ShowsTable.setItems(DataList);
 	}
 }
