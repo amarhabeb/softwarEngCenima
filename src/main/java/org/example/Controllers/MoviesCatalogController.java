@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Controllers;
 
 import java.util.List;
 

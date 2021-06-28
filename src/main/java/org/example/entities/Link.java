@@ -2,6 +2,11 @@ package org.example.entities;
 
 import java.time.LocalDate;
 import java.util.Timer;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name ="link")
 
 public class Link extends Order{
     private String link;

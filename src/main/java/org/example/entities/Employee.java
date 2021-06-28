@@ -1,11 +1,16 @@
 package org.example.entities;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name ="employee")
 
 public class Employee extends Person {
     protected   String userName;
     protected   String password;
 
-    public Employee(int ID, String name, String phoneNum, String email, String userName, String password){
-        super(ID, name, phoneNum, email);
+    public Employee(String name, String phoneNum, String email, String userName, String password){
+        super(name, phoneNum, email);
         this.userName = userName;
         this.password = password;
 

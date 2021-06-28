@@ -2,6 +2,11 @@ package org.example.entities;
 
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name ="ticketreport")
 
 public class TicketReport extends Report {
     @ManyToOne

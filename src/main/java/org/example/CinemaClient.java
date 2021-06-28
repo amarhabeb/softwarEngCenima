@@ -1,7 +1,7 @@
 package org.example;
 
-import org.example.entities.Show;
 
+import org.example.entities.Show;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class CinemaClient extends AbstractClient {
     @SuppressWarnings("unchecked")
     protected void handleMessageFromServer(Object msg) {
 		LinkedList<Object> message = (LinkedList<Object>)(msg);
-		
+
     	if(message.get(0).equals("ShowsTimeChanged")) {
     		System.out.println("Message ShowsTimeChanged replied");
     		synchronized(ShowsDataLock) {
@@ -61,6 +61,7 @@ public class CinemaClient extends AbstractClient {
 	    		ShowsDataLock.notifyAll();
     		}
 		}
+
     	
     	if(message.get(0).equals("ShowsPriceChanged")) {
     		System.out.println("Message ShowsPriceChanged replied");
@@ -71,6 +72,7 @@ public class CinemaClient extends AbstractClient {
     		}
 		}
     	
+
     	if(message.get(0).equals("ShowsLoaded")) {
     		// get second argument which is the updated data and assign it to the static variable
     		ShowsData = (List<Show>) message.get(1);
@@ -89,9 +91,9 @@ public class CinemaClient extends AbstractClient {
         } else {
             String host = args[0];
             int port = Integer.parseInt(args[1]);
+            CinemaClient cinemaClient = new CinemaClient(host, port);
+            cinemaClient.openConnection();
 
-            CinemaClient CinemaClient = new CinemaClient(host, port);
-            CinemaClient.openConnection();
             App.main(args);
         }
     }
