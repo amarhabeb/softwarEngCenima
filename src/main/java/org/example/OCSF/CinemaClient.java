@@ -16,7 +16,7 @@ public class CinemaClient extends AbstractClient {
 	
 	// these static variables are shared upon all threads
 	public static List<Show> ShowsData = new LinkedList<>();	// holds the shows data
-	public static Boolean ShowsDataUpdated = false;	// holdS if the list ShowsData is updated to the last version
+	public static Boolean ShowsDataUpdated = false;	// holdS if the list ShowsData got updated yet
 	public static Object ShowsDataLock = new Object();	// lock for accessing the ShowsData List
 	
 	

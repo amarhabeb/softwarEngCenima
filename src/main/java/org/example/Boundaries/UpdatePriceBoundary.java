@@ -65,6 +65,7 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
 	// brings the Shows from the DataBase and updates the ShowsData local list
 	void UpdateShowsData() {
 		// add message to ClientInput so it could be sent to server
+		CinemaClient.ShowsDataUpdated = false;
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadShows");
 		synchronized(CinemaClient.ShowsDataLock)
@@ -85,9 +86,7 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
 	
     @FXML
     void clickRefreshBtn2(ActionEvent event) {
-    	if(!CinemaClient.ShowsDataUpdated) {
-    		UpdateShowsData();
-    	}
+    	UpdateShowsData();
 		// set items in table
 		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 		ShowsTable.setItems(DataList);
@@ -118,8 +117,16 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
 		         return (new SimpleStringProperty(show.getValue().getMovie().getName_en()));
 		     }
 		  });
-		date.setCellValueFactory(new PropertyValueFactory<Show, String>("date"));
-		time.setCellValueFactory(new PropertyValueFactory<Show, String>("time"));
+		date.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getDate().toString()));
+		     }
+		  });
+		time.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getTime().toString()));
+		     }
+		  });
 		hall_number.setCellValueFactory(new Callback<CellDataFeatures<Show, Integer>, ObservableValue<Integer>>() {
 		     public ObservableValue<Integer> call(CellDataFeatures<Show, Integer> show) {
 		         return (new SimpleIntegerProperty(show.getValue().getHall().getNumber()).asObject());
@@ -153,10 +160,8 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
     	});
 		
 		System.out.println("ShowDataUpdated: "+CinemaClient.ShowsDataUpdated);
-		// update ShowData if necessary
-		if(!CinemaClient.ShowsDataUpdated) {
-			UpdateShowsData();
-		}
+		// update ShowData
+		UpdateShowsData();
 		// set items in table
 		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 		ShowsTable.setItems(DataList);

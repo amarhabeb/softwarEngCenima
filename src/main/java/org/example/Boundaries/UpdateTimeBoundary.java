@@ -15,6 +15,8 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -50,7 +52,7 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 	public static Boolean ShowsTimeChanged = true;	// holds if the shows time is changed yet
 	// change time of show in DataBase and brings the Shows from the DataBase and updates 
 	// the ShowsData local list
-	void ChangeShowTime(int show_id, String NewTime) {
+	void ChangeShowTime(int show_id, LocalTime NewTime) {
 		ShowsTimeChanged = false;	// show time isn't changed yet
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
@@ -71,15 +73,14 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 				}
 			}	
 		}	
-		// update ShowData if necessary
-		if(!CinemaClient.ShowsDataUpdated) {
-			UpdateShowsData();
-		}
+		// update ShowData
+		UpdateShowsData();
 	}
 	
 	// brings the Shows from the DataBase and updates the ShowsData local list
 	void UpdateShowsData() {
 		// add message to ClientInput so it could be sent to server
+		CinemaClient.ShowsDataUpdated = false;
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadShows");
 		synchronized(CinemaClient.ShowsDataLock)
@@ -100,9 +101,8 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 	
     @FXML
     void clickRefreshBtn2(ActionEvent event) {
-    	if(!CinemaClient.ShowsDataUpdated) {
-    		UpdateShowsData();
-    	}
+    	UpdateShowsData();
+   
 		// set items in table
 		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 		ShowsTable.setItems(DataList);
@@ -133,8 +133,16 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 		         return (new SimpleStringProperty(show.getValue().getMovie().getName_en()));
 		     }
 		  });
-		date.setCellValueFactory(new PropertyValueFactory<Show, String>("date"));
-		time.setCellValueFactory(new PropertyValueFactory<Show, String>("time"));
+		date.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getDate().toString()));
+		     }
+		  });
+		time.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getTime().toString()));
+		     }
+		  });
 		time.setCellFactory(TextFieldTableCell.forTableColumn());
 		hall_number.setCellValueFactory(new Callback<CellDataFeatures<Show, Integer>, ObservableValue<Integer>>() {
 		     public ObservableValue<Integer> call(CellDataFeatures<Show, Integer> show) {
@@ -155,21 +163,24 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
             	int show_id = ((Show) time.getTableView().getItems().get(
                         time.getTablePosition().getRow()))
                         .getID();
-            	String NewTime = time.getNewValue();
-            	
-            	ChangeShowTime(show_id, NewTime);
-            	
-            	// set items in table
-        		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-        		ShowsTable.setItems(DataList);
+            	String NewTime_Str = time.getNewValue();
+            	try {
+            		LocalTime NewTime = LocalTime.parse(NewTime_Str);
+            		ChangeShowTime(show_id, NewTime);
+            	} catch (DateTimeParseException e){
+            		//* CODE FOR POP-UP WINDOW *//
+            	}finally {
+            		// set items in table
+            		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
+            		ShowsTable.setItems(DataList);
+            	}
             }
     	});
 		
 		System.out.println("ShowDataUpdated: "+CinemaClient.ShowsDataUpdated);
-		// update ShowData if necessary
-		if(!CinemaClient.ShowsDataUpdated) {
-			UpdateShowsData();
-		}
+		// update ShowData
+		UpdateShowsData();
+		
 		// set items in table
 		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 		ShowsTable.setItems(DataList);

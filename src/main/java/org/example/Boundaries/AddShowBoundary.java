@@ -124,6 +124,7 @@ public class AddShowBoundary implements Initializable, Serializable{
  // brings the Movies from the DataBase and updates the MoviesData local list
  	void UpdateMoviesData() {
  		// add message to ClientInput so it could be sent to server
+ 		CinemaClient.MoviesDataUpdated = false;
  		LinkedList<Object> message = new LinkedList<Object>();
  		message.add("LoadMovies");
  		synchronized(CinemaClient.MoviesDataLock)
@@ -145,6 +146,7 @@ public class AddShowBoundary implements Initializable, Serializable{
  // brings the Halls from the DataBase and updates the MoviesData local list
   	void UpdateHallsData() {
   		// add message to ClientInput so it could be sent to server
+  		CinemaClient.HallsDataUpdated = false;
   		LinkedList<Object> message = new LinkedList<Object>();
   		message.add("LoadHalls");
   		synchronized(CinemaClient.HallsDataLock)
@@ -166,6 +168,7 @@ public class AddShowBoundary implements Initializable, Serializable{
  // brings the Movies from the DataBase and updates the CinemasData local list
   	void UpdateCinemasData() {
   		// add message to ClientInput so it could be sent to server
+  		CinemaClient.CinemasDataUpdated = false;
   		LinkedList<Object> message = new LinkedList<Object>();
   		message.add("LoadCinemas");
   		synchronized(CinemaClient.CinemasDataLock)
@@ -201,16 +204,10 @@ public class AddShowBoundary implements Initializable, Serializable{
   	@Override
 	public void initialize(URL url, ResourceBundle rb) {
   		
-		// update MoviesData if necessary
-		if(!CinemaClient.MoviesDataUpdated) {
-			UpdateMoviesData();
-		}
-		if(!CinemaClient.HallsDataUpdated) {
-			UpdateHallsData();
-		}
-		if(!CinemaClient.CinemasDataUpdated) {
-			UpdateCinemasData();
-		}
+		// update data
+		UpdateMoviesData();
+		UpdateHallsData();
+		UpdateCinemasData();
 		
     	// initialize movie choice box
     	for (Movie movie:CinemaClient.MoviesData) {
