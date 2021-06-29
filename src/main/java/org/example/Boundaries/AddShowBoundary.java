@@ -65,7 +65,25 @@ public class AddShowBoundary implements Initializable, Serializable{
 
     @FXML // fx:id="AddShowBtn"
     private Button AddShowBtn; // Value injected by FXMLLoader
-
+    
+    void resetChoiceBoxes() {
+    	// disable button
+  		CheckIfFilled();
+  		// reset choices
+    	movieChoice.setValue(null);
+    	dayChoice.setValue(null);
+  		monthChoice.setValue(null);
+  		yearChoice.setValue(null);  		
+  		hoursChoice.setValue(null);
+  		minsChoice.setValue(null);  		
+  		onlineChoice.setValue(false);
+  		hallChoice.setValue(null);
+  		cinemaChoice.setValue(null);
+  		priceTextField.setText(null);
+  		
+  		hallChoice.setDisable(false);
+    }
+    
     @FXML
     void clickAddShowBtn(ActionEvent event) throws IOException {
     	// get chosen attributes
@@ -87,6 +105,15 @@ public class AddShowBoundary implements Initializable, Serializable{
   		
   		// create show object
   		Show show = new Show(date, time, online, "AVAILABLE", price, movie, hall);
+  		
+  		// add new show object to database
+  		// create message and send it to the server
+    	LinkedList<Object> message = new LinkedList<Object>();
+		message.add("AddShow");
+		message.add(show);
+		CinemaClientCLI.sendMessage(message);
+		
+		resetChoiceBoxes();
     }
 
     @FXML
