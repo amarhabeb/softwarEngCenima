@@ -31,7 +31,7 @@ public class AddShowBoundary implements Initializable, Serializable{
     private Button GoBackToMainBtn; // Value injected by FXMLLoader
 
     @FXML // fx:id="movieChoice"
-    private ChoiceBox<String> movieChoice; // Value injected by FXMLLoader
+    private ChoiceBox<Movie> movieChoice; // Value injected by FXMLLoader
 
     @FXML // fx:id="dayChoice"
     private ChoiceBox<Integer> dayChoice; // Value injected by FXMLLoader
@@ -55,17 +55,26 @@ public class AddShowBoundary implements Initializable, Serializable{
     private TextField priceTextField; // Value injected by FXMLLoader
 
     @FXML // fx:id="cinemaChoice"
-    private ChoiceBox<String> cinemaChoice; // Value injected by FXMLLoader
+    private ChoiceBox<Cinema> cinemaChoice; // Value injected by FXMLLoader
 
     @FXML // fx:id="hallChoice"
-    private ChoiceBox<Integer> hallChoice; // Value injected by FXMLLoader
+    private ChoiceBox<Hall> hallChoice; // Value injected by FXMLLoader
 
     @FXML // fx:id="AddShowBtn"
     private Button AddShowBtn; // Value injected by FXMLLoader
 
     @FXML
     void clickAddShowBtn(ActionEvent event) throws IOException {
-    	
+    	Movie movie = movieChoice.getValue();
+    	Integer day = dayChoice.getValue();
+  		Integer month = monthChoice.getValue();
+  		Integer year = yearChoice.getValue();
+  		String hour = hoursChoice.getValue();
+  		String min = minsChoice.getValue();
+  		Boolean online = onlineChoice.getValue();
+  		Hall hall = hallChoice.getValue();
+  		Cinema cinema = cinemaChoice.getValue();
+  		Double price = Double.valueOf(priceTextField.getText());
     }
 
     @FXML
@@ -166,7 +175,7 @@ public class AddShowBoundary implements Initializable, Serializable{
 		
     	// initialize movie choice box
     	for (Movie movie:CinemaClient.MoviesData) {
-        	movieChoice.getItems().add(movie.getName_en());
+        	movieChoice.getItems().add(movie);
         }
     	
     	// initialize date choice boxes
@@ -200,12 +209,12 @@ public class AddShowBoundary implements Initializable, Serializable{
     	
     	// initialize hall choice box
     	for (Hall hall:CinemaClient.HallsData) {
-        	hallChoice.getItems().add(hall.getNumber());
+        	hallChoice.getItems().add(hall);
         }
     	
     	// initialize cinema choice box
     	for (Cinema cinema:CinemaClient.CinemasData) {
-        	cinemaChoice.getItems().add(cinema.getBranch_name());
+        	cinemaChoice.getItems().add(cinema);
         }
     	
     	// disable button

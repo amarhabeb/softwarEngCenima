@@ -110,4 +110,9 @@ public class Hall {
     		}
     	}
     }
+    
+    @Override
+    public String toString() {
+        return Integer.toString(number);
+    }
 }
