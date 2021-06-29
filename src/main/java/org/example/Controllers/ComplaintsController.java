@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ComplaintsController {
@@ -72,5 +73,31 @@ public class ComplaintsController {
             return false;
         }
     }
+    public static boolean deactivateAllComplaintsAfter24Hours(Session session){
+        try {
+
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaUpdate<Complaint> update_query=builder.createCriteriaUpdate(Complaint.class);
+            Root<Complaint> root=update_query.from(Complaint.class);
+            update_query.set("handled", false);
+            update_query.set("active", false);
+            update_query.where(builder.equal(root.get("creationDate"), LocalDateTime.now().minusHours(24)));
+            Transaction transaction = session.beginTransaction();
+            session.createQuery(update_query).executeUpdate();
+            session.clear();
+            transaction.commit();
+            session.clear();
+            return true;
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occured, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+    }
+
 
 }
