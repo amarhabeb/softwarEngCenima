@@ -8,6 +8,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.example.entities.Movie;
 import org.hibernate.Session;
 
+
+
+
 public class MoviesCatalogController {
 	 public static List<Movie> loadMovies(Session session){
 	        try {
