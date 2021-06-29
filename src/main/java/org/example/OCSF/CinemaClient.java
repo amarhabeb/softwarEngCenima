@@ -2,8 +2,7 @@ package org.example.OCSF;
 
 
 import org.example.App;
-import org.example.Boundaries.UpdatePriceBoundary;
-import org.example.Boundaries.UpdateTimeBoundary;
+import org.example.Boundaries.*;
 import org.example.entities.Show;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -88,7 +87,7 @@ public class CinemaClient extends AbstractClient {
 	if(message.get(0).equals("ShowDeleted")) {
     		System.out.println("Message ShowsPriceChanged replied");
     		synchronized(ShowsDataLock) {
-	    		DeleteShowBoundary.ShowDeleted = true;	// Show is now deleted
+    			DeleteShowBoundary.ShowDeleted = true;	// Show is now deleted
 	    		ShowsDataUpdated = false;	// client's ShowsData is now not updated
 	    		ShowsDataLock.notifyAll();
     		}
