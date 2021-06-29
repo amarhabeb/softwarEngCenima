@@ -77,6 +77,22 @@ public class PackagesController {
             return null;
          }
         }
+    public static Boolean addPackage(Package newpackage, Session session) throws Exception {
+        try {
+            Transaction transaction = session.beginTransaction();
+            session.save(newpackage);
+            session.flush();
+            transaction.commit();
+            return true;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
     }
+}
 
 
