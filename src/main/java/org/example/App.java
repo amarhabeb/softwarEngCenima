@@ -8,8 +8,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-import org.example.Boundaries.ContentManagerMB;
-
 /**
  * JavaFX App
  */
@@ -17,7 +15,8 @@ public class App extends Application {
 
     private static Scene scene;
 
-    @Override
+    @SuppressWarnings("exports")
+	@Override
     public void start(Stage stage) throws IOException {
     	stage.setTitle("Content Manager");
         scene = new Scene(loadFXML("ContentManagerMB"), 800, 488);
@@ -25,7 +24,7 @@ public class App extends Application {
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 

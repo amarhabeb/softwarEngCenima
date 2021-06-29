@@ -26,6 +26,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
+import org.example.App;
+import org.example.OCSF.CinemaClient;
+import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Show;
 
 
@@ -39,11 +42,12 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 	@FXML private TableColumn<Show, Integer> hall_number;
 	@FXML private TableColumn<Show, Boolean> online;
 	@FXML private TableColumn<Show, Double> price;
+	@FXML private TableColumn<Show, String> cinema;
 	
 	@FXML // fx:id="refreshBtn2"
     private Button refreshBtn2; // Value injected by FXMLLoader
 	 
-	static Boolean ShowsTimeChanged = true;	// holds if the shows time is changed yet
+	public static Boolean ShowsTimeChanged = true;	// holds if the shows time is changed yet
 	// change time of show in DataBase and brings the Shows from the DataBase and updates 
 	// the ShowsData local list
 	void ChangeShowTime(int show_id, String NewTime) {
@@ -139,6 +143,11 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 		  });
 		online.setCellValueFactory(new PropertyValueFactory<Show, Boolean>("online"));
 		price.setCellValueFactory(new PropertyValueFactory<Show, Double>("price"));
+		cinema.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getHall().getCinema().getBranch_name()));
+		     }
+		  });
 		
 		time.setOnEditCommit(new EventHandler <CellEditEvent<Show, String>>() {
             @Override
