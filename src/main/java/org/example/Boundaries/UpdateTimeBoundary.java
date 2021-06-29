@@ -35,7 +35,7 @@ import org.example.entities.Show;
 
 
 @SuppressWarnings("serial")
-public class UpdateTimeBoundary implements Initializable, Serializable{
+public class UpdateTimeBoundary extends ContentManagerDisplayBoundary implements Initializable, Serializable{
 	
 	@FXML private TableView<Show> ShowsTable;
 	@FXML private TableColumn<Show, String> movie_name;
@@ -75,28 +75,6 @@ public class UpdateTimeBoundary implements Initializable, Serializable{
 		}	
 		// update ShowData
 		UpdateShowsData();
-	}
-	
-	// brings the Shows from the DataBase and updates the ShowsData local list
-	void UpdateShowsData() {
-		// add message to ClientInput so it could be sent to server
-		CinemaClient.ShowsDataUpdated = false;
-		LinkedList<Object> message = new LinkedList<Object>();
-		message.add("LoadShows");
-		synchronized(CinemaClient.ShowsDataLock)
-		{	
-			CinemaClientCLI.sendMessage(message);
-							
-			// wait for Data to be updated
-			while(!CinemaClient.ShowsDataUpdated) {
-				try {
-						CinemaClient.ShowsDataLock.wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			}	
-		}	
 	}
 	
     @FXML
