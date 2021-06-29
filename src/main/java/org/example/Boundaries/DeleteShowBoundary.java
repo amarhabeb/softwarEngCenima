@@ -1,11 +1,8 @@
-/**
- * Sample Skeleton for 'DeleteShowBoundary.fxml' Controller Class
- */
+package org.example.Boundaries;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
-import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
@@ -13,7 +10,6 @@ import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Show;
-import org.example.entities.UpdatePriceRequest;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -21,19 +17,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
-import javafx.util.converter.DoubleStringConverter;
 
 @SuppressWarnings("serial")
 public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements Initializable, Serializable{
