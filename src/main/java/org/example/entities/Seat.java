@@ -1,13 +1,15 @@
 package org.example.entities;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name ="seat")
 
 public class Seat {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int ID;
     private boolean available;
     private int number; //I guess there's no need for this field,
                         // we can give the index of each seat in Seats[] as its number
@@ -52,5 +54,9 @@ public class Seat {
 
     public void setHall(Hall hall) {
         this.hall = hall;
+    }
+
+    public int getID() {
+        return ID;
     }
 }
