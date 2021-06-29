@@ -102,8 +102,8 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
     }
 
     @FXML
-    void clickAddShowsBtn(ActionEvent event) {
-
+    void clickAddShowsBtn(ActionEvent event) throws IOException{
+    	App.setRoot("AddShowBoundary");
     }
     
     @FXML
