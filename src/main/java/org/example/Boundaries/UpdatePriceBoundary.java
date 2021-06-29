@@ -37,7 +37,7 @@ import org.example.entities.UpdatePriceRequest;
 
 
 @SuppressWarnings("serial")
-public class UpdatePriceBoundary implements Initializable, Serializable{
+public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implements Initializable, Serializable{
 	
 	@FXML private TableView<Show> ShowsTable;
 	@FXML private TableColumn<Show, String> movie_name;
@@ -60,28 +60,6 @@ public class UpdatePriceBoundary implements Initializable, Serializable{
 		UpdatePriceRequest updatePriceReq = new UpdatePriceRequest(null, show_id, NewPrice);
 		message.add(updatePriceReq);
 		CinemaClientCLI.sendMessage(message);
-	}
-	
-	// brings the Shows from the DataBase and updates the ShowsData local list
-	void UpdateShowsData() {
-		// add message to ClientInput so it could be sent to server
-		CinemaClient.ShowsDataUpdated = false;
-		LinkedList<Object> message = new LinkedList<Object>();
-		message.add("LoadShows");
-		synchronized(CinemaClient.ShowsDataLock)
-		{	
-			CinemaClientCLI.sendMessage(message);
-							
-			// wait for Data to be updated
-			while(!CinemaClient.ShowsDataUpdated) {
-				try {
-						CinemaClient.ShowsDataLock.wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			}	
-		}	
 	}
 	
     @FXML
