@@ -32,7 +32,7 @@ public class MoviesHandler {
 
     }
 
-   public static boolean addMovies(Session session, Movie newMovie) {
+   public static boolean addMovie(Session session, Movie newMovie) {
        try {
            session.save(newMovie);
            session.flush();
