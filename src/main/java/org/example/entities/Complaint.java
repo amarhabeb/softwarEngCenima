@@ -3,6 +3,7 @@ package org.example.entities;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.Timer;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -15,12 +16,14 @@ public class Complaint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private int text;
-    private Timer timer = new Timer();
+    //private Timer timer = new Timer();
+    private LocalDateTime creationDate;
     private boolean active;
     private boolean handled;
 
     public Complaint(int text) {
         this.text = text;
+        this.creationDate= LocalDateTime.now();
         this.active = true;
         this.handled = false;
     }
@@ -31,8 +34,12 @@ public class Complaint {
         this.text = text;
     }
 
-    public void setTimer(Timer timer) {
+    /*public void setTimer(Timer timer) {
         this.timer = timer;
+    }*/
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
     }
 
     public void setActive(boolean active) {
@@ -51,16 +58,19 @@ public class Complaint {
     public int getText() {
         return text;
     }
-
+    /*
     public Timer getTimer() {
         return timer;
     }
-
+*/
     public boolean isActive() {
         return active;
     }
 
     public boolean isHandled() {
         return handled;
+    }
+    public void deactivateComplaint(){
+        this.active=false;
     }
 }
