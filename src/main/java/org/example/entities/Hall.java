@@ -96,26 +96,22 @@ public class Hall {
 
     ///////// WILL BE CHANGED //////////
     // a function to calculate the maxSeats of a hall considering the current regulations
-    private int calculateMaxSeats(int capacity, Regulations reg) {
+    public void setMaxSeats(Regulations reg) {
     	if (reg.getRegulations() == false) {
-    		return capacity;
+    		this.maxSeats=capacity;
     	}
     	int Y = reg.getY();
     	if(1.2*Y < capacity) {
-    		return Y;
+    		this.maxSeats= Y;
     	}
     	else{
     		if(0.8*Y < capacity) {
-    			return (int) Math.round(0.8*Y);
+    			this.maxSeats= (int) Math.round(0.8*Y);
     		}
     		else {
-    			return (int) Math.round(0.5*capacity);
+                this.maxSeats= Math.round(0.5*capacity);
     		}
     	}
     }
-    
-    @Override
-    public String toString() {
-        return Integer.toString(number);
-    }
+
 }
