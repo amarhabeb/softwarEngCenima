@@ -11,11 +11,13 @@ import javax.persistence.Table;
 public class Link extends Order{
     private String link;
     private Timer timer;
+    private int movie_id;  //This also gives us Shows times to display in the link message
 
-    public Link(String link, Timer timer, LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
+    public Link(String link, Timer timer, int movie_id, LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
         super(orderDate, status, price, payment, refund, active);
         this.link = link;
         this.timer = timer;
+        this.movie_id=movie_id;
     }
 
     public Link(){

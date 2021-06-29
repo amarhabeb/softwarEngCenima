@@ -6,8 +6,5 @@ import javax.persistence.Table;
 @Table(name ="newmoviemessage")
 
 public class NewMovieMessage extends Message{
-    public NewMovieMessage(int ID, String text) {
-        super(text);
-    }
-    public NewMovieMessage(){super();}
+    public NewMovieMessage(){super("New movie launched today waiting for you to watch!!");}
 }

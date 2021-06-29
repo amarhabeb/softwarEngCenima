@@ -12,12 +12,14 @@ import javax.persistence.Table;
 public class Ticket extends Order{
     @ManyToOne(targetEntity = Cinema.class)
     private Cinema cinema;
+    private int show_id;
     //private Seat seat;
     private  int seat_id;
-    public Ticket(Cinema cinema, int seat, int ID, LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
+    public Ticket(Cinema cinema, int seat_id, int show_id, int ID, LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
         super( orderDate, status, price, payment, refund, active);
         this.cinema=cinema;
-        this.seat_id=seat;
+        this.seat_id=seat_id;
+        this.show_id=show_id;
     }
     public Ticket(){
         super();

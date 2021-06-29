@@ -7,8 +7,5 @@ import javax.persistence.Table;
 
 public class ReminderMessage extends Message{
 
-    public ReminderMessage(int ID, String text) {
-        super(text);
-    }
-    public ReminderMessage(){super();}
+    public ReminderMessage(){super("Your Link is about to be active in 1 hour. Stay Tuned!");}
 }
