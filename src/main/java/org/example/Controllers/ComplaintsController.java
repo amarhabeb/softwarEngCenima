@@ -26,7 +26,7 @@ public class ComplaintsController {
             if (session != null) {
                 session.getTransaction().rollback();
             }
-            System.err.println("An error occured, changes have been rolled back.");
+            System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
             return null;
         }
@@ -39,7 +39,7 @@ public class ComplaintsController {
             CriteriaUpdate<Complaint> update_query=builder.createCriteriaUpdate(Complaint.class);
             Root<Complaint> root=update_query.from(Complaint.class);
             update_query.set("handled", true);
-            update_query.set("actice", false);
+            update_query.set("active", false);
             update_query.where(builder.equal(root.get("ID"),complaint_id));
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
@@ -52,7 +52,7 @@ public class ComplaintsController {
             if (session != null) {
                 session.getTransaction().rollback();
             }
-            System.err.println("An error occured, changes have been rolled back.");
+            System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
             return false;
         }
@@ -68,7 +68,7 @@ public class ComplaintsController {
             if (session != null) {
                 session.getTransaction().rollback();
             }
-            System.err.println("An error occured, changes have been rolled back.");
+            System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
             return false;
         }
@@ -93,7 +93,7 @@ public class ComplaintsController {
             if (session != null) {
                 session.getTransaction().rollback();
             }
-            System.err.println("An error occured, changes have been rolled back.");
+            System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
             return false;
         }
