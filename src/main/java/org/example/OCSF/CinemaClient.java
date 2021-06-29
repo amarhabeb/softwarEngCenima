@@ -63,7 +63,7 @@ public class CinemaClient extends AbstractClient {
 	    		ShowsDataUpdated = false;	// client's ShowsData is now not updated
 	    		ShowsDataLock.notifyAll();
     		}
-		}
+	}
 
     	
     	if(message.get(0).equals("ShowsPriceChanged")) {
@@ -73,7 +73,7 @@ public class CinemaClient extends AbstractClient {
 	    		ShowsDataUpdated = false;	// client's ShowsData is now not updated
 	    		ShowsDataLock.notifyAll();
     		}
-		}
+	}
     	
 
     	if(message.get(0).equals("ShowsLoaded")) {
@@ -82,6 +82,15 @@ public class CinemaClient extends AbstractClient {
     		synchronized(ShowsDataLock) {
     			ShowsDataUpdated = true;	// client's ShowsData is now updated
     			ShowsDataLock.notifyAll();
+    		}
+    	}
+	    
+	if(message.get(0).equals("ShowDeleted")) {
+    		System.out.println("Message ShowsPriceChanged replied");
+    		synchronized(ShowsDataLock) {
+	    		DeleteShowBoundary.ShowDeleted = true;	// Show is now deleted
+	    		ShowsDataUpdated = false;	// client's ShowsData is now not updated
+	    		ShowsDataLock.notifyAll();
     		}
     	}
 
