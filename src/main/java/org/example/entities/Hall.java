@@ -100,18 +100,18 @@ public class Hall {
     	if (reg.getRegulations() == false) {
     		this.maxSeats=capacity;
     	}
-    	int Y = reg.getY();
-    	if(1.2*Y < capacity) {
-    		this.maxSeats= Y;
-    	}
-    	else{
-    		if(0.8*Y < capacity) {
-    			this.maxSeats= (int) Math.round(0.8*Y);
-    		}
-    		else {
-                this.maxSeats= Math.round(0.5*capacity);
-    		}
-    	}
+    	else {
+            int Y = reg.getY();
+            if (1.2 * Y < capacity) {
+                this.maxSeats = Y;
+            } else {
+                if (0.8 * Y < capacity) {
+                    this.maxSeats = (int) Math.round(0.8 * Y);
+                } else {
+                    this.maxSeats = (int) Math.round(0.5 * capacity);
+                }
+            }
+        }
     }
 
 }
