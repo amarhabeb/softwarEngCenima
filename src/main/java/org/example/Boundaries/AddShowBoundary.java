@@ -81,7 +81,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		cinemaChoice.setValue(null);
   		priceTextField.setText(null);
   		
-  		hallChoice.setDisable(false);
+  		hallChoice.setDisable(true);
     }
     
     @FXML
@@ -113,7 +113,13 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
 		message.add(show);
 		CinemaClientCLI.sendMessage(message);
 		
+		//*CODE FOR POP-UP MESSAGE*//
+		
 		resetChoiceBoxes();
+		// update data
+		UpdateMoviesData();
+		UpdateHallsData();
+		UpdateCinemasData();
     }
 
     @FXML
@@ -128,10 +134,10 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   				hoursChoice.getValue()!= null && minsChoice.getValue()!= null &&
   				onlineChoice.getValue()!= null && hallChoice.getValue()!= null &&
   				cinemaChoice.getValue()!= null && priceTextField.getText()!=null) {
-  			AddShowBtn.setDisable(true);
+  			AddShowBtn.setDisable(false);
   		}
   		else {
-  			AddShowBtn.setDisable(false);
+  			AddShowBtn.setDisable(true);
   		}
   	}
    
@@ -178,7 +184,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	
     	// disable button
   		CheckIfFilled();
-  		hallChoice.setDisable(false);
+  		hallChoice.setDisable(true);
     	
     	//choice box listener
     	movieChoice.setOnAction((event) -> {
@@ -210,7 +216,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	    // initialize hall choice box
     	    Cinema cinema = cinemaChoice.getValue();
     	    if(cinema!=null) {
-    	    	hallChoice.setDisable(true);
+    	    	hallChoice.setDisable(false);
     	    	List<Hall> cinemas_halls = new LinkedList<Hall>();
     	    	for(Hall hall:CinemaClient.HallsData) {	// if hall is in chosen cinema then add it
     	    		if(hall.getCinema()==cinema) {
@@ -221,7 +227,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	    }
     	    else {
     	    	hallChoice.setItems(null);
-    	    	hallChoice.setDisable(false);
+    	    	hallChoice.setDisable(true);
     	    }
     	});
     	priceTextField.textProperty().addListener((observable, oldValue, newValue) -> {

@@ -155,7 +155,6 @@ public class UpdateTimeBoundary extends ContentManagerDisplayBoundary implements
             }
     	});
 		
-		System.out.println("ShowDataUpdated: "+CinemaClient.ShowsDataUpdated);
 		// update ShowData
 		UpdateShowsData();
 		

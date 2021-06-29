@@ -137,7 +137,6 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
             }
     	});
 		
-		System.out.println("ShowDataUpdated: "+CinemaClient.ShowsDataUpdated);
 		// update ShowData
 		UpdateShowsData();
 		// set items in table
