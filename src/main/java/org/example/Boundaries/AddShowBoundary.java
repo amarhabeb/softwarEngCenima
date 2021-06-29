@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.time.LocalTime;
+import java.time.LocalDate;
 
 import org.example.App;
 import org.example.OCSF.CinemaClient;
@@ -15,6 +17,7 @@ import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Cinema;
 import org.example.entities.Hall;
 import org.example.entities.Movie;
+import org.example.entities.Show;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,10 +43,10 @@ public class AddShowBoundary implements Initializable, Serializable{
     private ChoiceBox<Integer> monthChoice; // Value injected by FXMLLoader
 
     @FXML // fx:id="hoursChoice"
-    private ChoiceBox<String> hoursChoice; // Value injected by FXMLLoader
+    private ChoiceBox<Integer> hoursChoice; // Value injected by FXMLLoader
 
     @FXML // fx:id="minsChoice"
-    private ChoiceBox<String> minsChoice; // Value injected by FXMLLoader
+    private ChoiceBox<Integer> minsChoice; // Value injected by FXMLLoader
 
     @FXML // fx:id="yearChoice"
     private ChoiceBox<Integer> yearChoice; // Value injected by FXMLLoader
@@ -65,16 +68,25 @@ public class AddShowBoundary implements Initializable, Serializable{
 
     @FXML
     void clickAddShowBtn(ActionEvent event) throws IOException {
+    	// get chosen attributes
     	Movie movie = movieChoice.getValue();
+    	
     	Integer day = dayChoice.getValue();
   		Integer month = monthChoice.getValue();
   		Integer year = yearChoice.getValue();
-  		String hour = hoursChoice.getValue();
-  		String min = minsChoice.getValue();
+  		LocalDate date = LocalDate.of(year, month, day);	// create time object
+  		
+  		Integer hour = hoursChoice.getValue();
+  		Integer min = minsChoice.getValue();
+  		LocalTime time = LocalTime.of(hour, min);	// create time object
+  		
   		Boolean online = onlineChoice.getValue();
   		Hall hall = hallChoice.getValue();
-  		Cinema cinema = cinemaChoice.getValue();
+  		// Cinema cinema = cinemaChoice.getValue();
   		Double price = Double.valueOf(priceTextField.getText());
+  		
+  		// create show object
+  		Show show = new Show(date, time, online, "AVAILABLE", price, movie, hall);
     }
 
     @FXML
@@ -191,26 +203,15 @@ public class AddShowBoundary implements Initializable, Serializable{
     	
     	// initialize time choice boxes
     	for (int hour = 0; hour<=23; hour++) {
-    		String hour_str = Integer.toString(hour);
-    		if(hour<=9)
-    			hour_str = "0" + hour_str;
-        	hoursChoice.getItems().add(hour_str);
+        	hoursChoice.getItems().add(hour);
         }
     	for (int min = 0; min<=59; min++) {
-    		String min_str = Integer.toString(min);
-    		if(min<=9)
-    			min_str = "0" + min_str;
-        	minsChoice.getItems().add(min_str);
+        	minsChoice.getItems().add(min);
         }
     	
     	//Initialize online choice box
     	onlineChoice.getItems().addAll(true, false);
     	onlineChoice.setValue(false);	// default value
-    	
-    	// initialize hall choice box
-    	for (Hall hall:CinemaClient.HallsData) {
-        	hallChoice.getItems().add(hall);
-        }
     	
     	// initialize cinema choice box
     	for (Cinema cinema:CinemaClient.CinemasData) {
@@ -219,6 +220,7 @@ public class AddShowBoundary implements Initializable, Serializable{
     	
     	// disable button
   		CheckIfFilled();
+  		hallChoice.setDisable(false);
     	
     	//choice box listener
     	movieChoice.setOnAction((event) -> {
@@ -247,6 +249,22 @@ public class AddShowBoundary implements Initializable, Serializable{
     	});
     	cinemaChoice.setOnAction((event) -> {
     	    CheckIfFilled();
+    	    // initialize hall choice box
+    	    Cinema cinema = cinemaChoice.getValue();
+    	    if(cinema!=null) {
+    	    	hallChoice.setDisable(true);
+    	    	List<Hall> cinemas_halls = new LinkedList<Hall>();
+    	    	for(Hall hall:CinemaClient.HallsData) {	// if hall is in chosen cinema then add it
+    	    		if(hall.getCinema()==cinema) {
+    	    			cinemas_halls.add(hall);
+    	    		}
+    	    	}
+	            hallChoice.setItems(CinemaClient.HallsData);
+    	    }
+    	    else {
+    	    	hallChoice.setItems(null);
+    	    	hallChoice.setDisable(false);
+    	    }
     	});
     	priceTextField.textProperty().addListener((observable, oldValue, newValue) -> {
     		double val;
