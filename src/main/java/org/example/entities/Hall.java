@@ -1,17 +1,16 @@
 package org.example.entities;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.awt.*;
 import java.lang.Math;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 @Entity
 @Table(name ="hall")
 public class Hall {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int ID;
     private int number;
     private int capacity;	// this is X in the requirements file
     private int type;
@@ -91,28 +90,28 @@ public class Hall {
         return capacity == maxSeats;
     }
 
+    public int getID() {
+        return ID;
+    }
+
     ///////// WILL BE CHANGED //////////
     // a function to calculate the maxSeats of a hall considering the current regulations
-    private int calculateMaxSeats(int capacity, Regulations reg) {
+    public void setMaxSeats(Regulations reg) {
     	if (reg.getRegulations() == false) {
-    		return capacity;
+    		this.maxSeats=capacity;
     	}
-    	int Y = reg.getY();
-    	if(1.2*Y < capacity) {
-    		return Y;
-    	}
-    	else{
-    		if(0.8*Y < capacity) {
-    			return (int) Math.round(0.8*Y);
-    		}
-    		else {
-    			return (int) Math.round(0.5*capacity);
-    		}
-    	}
+    	else {
+            int Y = reg.getY();
+            if (1.2 * Y < capacity) {
+                this.maxSeats = Y;
+            } else {
+                if (0.8 * Y < capacity) {
+                    this.maxSeats = (int) Math.round(0.8 * Y);
+                } else {
+                    this.maxSeats = (int) Math.round(0.5 * capacity);
+                }
+            }
+        }
     }
-    
-    @Override
-    public String toString() {
-        return Integer.toString(number);
-    }
+
 }
