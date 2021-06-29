@@ -8,8 +8,10 @@ import javax.persistence.Table;
 @Table(name ="linkmessage")
 
 public class LinkMessage extends Message {
-    public LinkMessage(int ID, String text) {
-        super(text);
+    private Link link;
+    public LinkMessage(Link link){
+        super("Details of your link with the times it's available:");
+        this.link=link;
     }
     public LinkMessage(){super();}
 }

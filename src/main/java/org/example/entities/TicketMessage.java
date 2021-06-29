@@ -7,9 +7,10 @@ import javax.persistence.Table;
 @Table(name ="ticketmessage")
 
 public class TicketMessage extends Message {
-
-    public TicketMessage(int ID, String text) {
-        super(text);
+    private Ticket ticket;
+    public TicketMessage(Ticket ticket){
+        super("Details of your Ticket:");
+        this.ticket=ticket;
     }
     public TicketMessage(){super();}
 }
