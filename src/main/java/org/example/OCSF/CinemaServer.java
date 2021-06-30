@@ -171,7 +171,7 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("LoadMovies")) {
 				// load data
-				List<Movie> Data = MoviesHandler.loadMovies(session);
+				List<Movie> Data = MoviesController.loadMovies(session);
 				try {
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
@@ -187,7 +187,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("AddMovie")) {
 				Movie newMovie = (Movie) message.get(1);
 				// adding a movie into  database
-				boolean success = MoviesHandler.addMovie(session,newMovie );
+				boolean success = MoviesController.addMovie(session,newMovie );
 				//session.refresh(Movie.class);
 				if(!success) {
 					throw new Exception("Movie  couldnt be added");
@@ -201,7 +201,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("DeleteMovie")) {
 				int movie_id = (int) message.get(1);
 				// delete movie from database
-				boolean success = MoviesHandler.deleteMovie(session,movie_id );
+				boolean success = MoviesController.deleteMovie(session,movie_id );
 				//session.refresh(Movie.class);
 				if(!success) {
 					throw new Exception("the Movie couldnt be deleted");

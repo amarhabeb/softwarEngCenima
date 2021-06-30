@@ -4,14 +4,16 @@ import org.example.entities.Movie;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.util.List;
 
 
-public class MoviesHandler {
+public class MoviesController {
     
     public static List<Movie> loadMovies(Session session){
         try {
@@ -68,4 +70,28 @@ public class MoviesHandler {
            return false;
        }
    }
+    /// still something wrong with SQL condition //////
+    public static List<Movie> loadNewMovies(Session session) throws Exception {
+        try {
+            Transaction transaction = session.beginTransaction();
+            //CriteriaBuilder builder = session.getCriteriaBuilder();
+            //CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
+            Query q=session.createQuery("select* from movie where day(launch_date) = :d").
+                    setParameter("d", LocalDate.now().getDayOfMonth());
+            //Root<Movie> root = query.from(Movie.class);
+            //query.select(root).where(builder.equal(root.get("launch_date"), LocalDate.now().getDayOfMonth()));
+            //query.where(builder.equal(query.get("launch_date"), LocalDate.now()));
+            //List<Movie> data = session.createQuery(query).getResultList();
+            List<Movie> data=q.getResultList();
+            transaction.commit();
+            return data;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
+    }
 }

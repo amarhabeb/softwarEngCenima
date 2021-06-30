@@ -11,6 +11,7 @@ public class UpdatePriceRequest {
     private double updatedPrice;
     //private boolean checked;
     private boolean approved;
+    private boolean active;
 
     public UpdatePriceRequest(ContentManager requestedBy, int show_id, double updatedPrice) {
         this.requestedBy = requestedBy;
@@ -18,6 +19,7 @@ public class UpdatePriceRequest {
         this.updatedPrice = updatedPrice;
         //this.checked = false;
         this.approved = false;
+        this.active=true;
     }
     public UpdatePriceRequest(){}
 
