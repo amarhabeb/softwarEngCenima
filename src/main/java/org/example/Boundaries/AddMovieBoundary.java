@@ -1,5 +1,18 @@
 package org.example.Boundaries;
 
-public class AddMovieBoundary {
+import java.io.Serializable;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.fxml.Initializable;
+
+@SuppressWarnings("serial")
+public class AddMovieBoundary extends ContentManagerDisplayBoundary implements Initializable, Serializable{
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

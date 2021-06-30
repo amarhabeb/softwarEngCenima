@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
 
-class ContentManagerDisplayBoundary {
+class ContentManagerDisplayBoundary implements EmployeeBoundary{
 	
 	// brings the Shows from the DataBase and updates the ShowsData local list
 	void UpdateShowsData() {
