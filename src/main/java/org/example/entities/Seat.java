@@ -16,12 +16,14 @@ public class Seat {
     private int line; // no need as above reason
     @ManyToOne(targetEntity = Hall.class)
     private Hall hall;
+    private boolean active;
 
     public Seat(boolean available, int number, int line, Hall hall) {
         this.available = available;
         this.number = number;
         this.line = line;
         this.hall=hall;
+        this.active=true;
     }
     public Seat(){}
     public boolean isAvailable() {
