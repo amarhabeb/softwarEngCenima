@@ -8,11 +8,13 @@ import javax.persistence.Table;
 public class Employee extends Person {
     protected   String userName;
     protected   String password;
+    protected boolean active;
 
     public Employee(String name, String phoneNum, String email, String userName, String password){
         super(name, phoneNum, email);
         this.userName = userName;
         this.password = password;
+        this.active=true;
 
     }
     public Employee(){
