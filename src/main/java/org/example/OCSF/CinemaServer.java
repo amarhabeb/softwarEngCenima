@@ -554,7 +554,7 @@ public class CinemaServer extends AbstractServer{
 			Hall hall = new Hall(hall_number+1, random.nextInt(100)+75, random.nextInt(2), currentRegs);
 			// add hall to database
 			try {
-				ShowsHandler.addHall(session, hall);
+				HallController.addHall(session, hall);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

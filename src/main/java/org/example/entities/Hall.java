@@ -19,16 +19,18 @@ public class Hall {
     private List<Seat> seats;
     @ManyToOne(targetEntity = Cinema.class)
     private Cinema cinema;
+    private boolean active;
 
     public Hall(){}
 
-    public Hall(int number, int capacity, int type, int maxSeats, List<Seat> seats, Cinema cinema) {
+    public Hall(int number, int capacity, int type, List<Seat> seats, Cinema cinema) {
         this.number = number;
         this.capacity = capacity;
         this.type = type;
-        this.maxSeats = maxSeats;
+        this.maxSeats = capacity;
         this.seats = seats;
         this.cinema=cinema;
+        active=true;
     }
 
     public int getNumber() {
