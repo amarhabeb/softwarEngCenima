@@ -11,6 +11,7 @@ import java.util.*;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int ID;
     private String name_en;
     private String name_heb;

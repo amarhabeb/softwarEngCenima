@@ -10,6 +10,7 @@ import java.util.List;
 public class Hall {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int ID;
     private int number;
     private int capacity;	// this is X in the requirements file

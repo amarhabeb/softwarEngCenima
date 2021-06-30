@@ -1,12 +1,8 @@
 package org.example.entities;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Timer;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
 @Table(name ="complaint")
@@ -14,6 +10,7 @@ import javax.persistence.Table;
 public class Complaint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int ID;
     private int text;
     //private Timer timer = new Timer();

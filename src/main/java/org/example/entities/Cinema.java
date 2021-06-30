@@ -12,6 +12,7 @@ import java.util.List;
 public class Cinema {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int ID;
     
     String branch_name;
@@ -23,6 +24,8 @@ public class Cinema {
     @OneToMany(targetEntity = Hall.class)
     private List<Hall> halls;
 
+    private boolean active;
+
     public Cinema() {
     }
 
@@ -30,6 +33,7 @@ public class Cinema {
         this.shows = shows;
         this.movies = movies;
         this.halls = halls;
+        this.active=true;
     }
 
     public void addMovie(Movie Movie){
