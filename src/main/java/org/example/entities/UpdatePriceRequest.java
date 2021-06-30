@@ -1,11 +1,14 @@
 package org.example.entities;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name ="updatepricerequest")
 
 public class UpdatePriceRequest {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int ID;
     private ContentManager requestedBy;
     int show_id;
     private double updatedPrice;
@@ -39,6 +42,17 @@ public class UpdatePriceRequest {
         this.updatedPrice = updatedPrice;
     }
 
+    public int getID() {
+        return ID;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
     /*public boolean isChecked() {
         return checked;
     }*/
