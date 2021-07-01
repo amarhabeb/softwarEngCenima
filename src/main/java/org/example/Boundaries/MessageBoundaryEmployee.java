@@ -17,7 +17,7 @@ import javafx.util.Pair;
 
 public class MessageBoundaryEmployee extends MessageBoundary implements EmployeeBoundary{
 	
-	public void displayLogIn() {
+	public Optional<Pair<String, String>> displayLogIn() {
 		// Create the custom dialog
 		Dialog<Pair<String, String>> dialog = new Dialog<>();
 		dialog.setTitle("Login");
@@ -70,8 +70,6 @@ public class MessageBoundaryEmployee extends MessageBoundary implements Employee
 
 		Optional<Pair<String, String>> result = dialog.showAndWait();
 
-		result.ifPresent(usernamePassword -> {
-		    System.out.println("Username=" + usernamePassword.getKey() + ", Password=" + usernamePassword.getValue());
-		});
+		return result;
 	}
 }
