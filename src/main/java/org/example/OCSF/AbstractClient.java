@@ -352,8 +352,9 @@ public abstract class AbstractClient implements Runnable
      * messages.
      *
      * @param msg   the message sent.
+     * @throws Exception 
      */
-    protected abstract void handleMessageFromServer(Object msg);
+    protected abstract void handleMessageFromServer(Object msg) throws Exception;
 
 
 // METHODS TO BE USED FROM WITHIN THE FRAMEWORK ONLY ----------------

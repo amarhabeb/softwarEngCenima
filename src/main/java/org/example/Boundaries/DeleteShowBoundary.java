@@ -59,11 +59,11 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
     @FXML // fx:id="selectedTimeText"
     private Text selectedTimeText; // Value injected by FXMLLoader
     
-    public static Boolean ShowDeleted = true;	// holds if the shows time is changed yet
+    public static Boolean ShowDeleted = true;	// holds if the show is deleted yet
     // delete show in DataBase and brings the Shows from the DataBase and updates 
  	// the ShowsData local list
     void DeleteShow(int show_id) {
-		ShowDeleted = false;	// show time isn't changed yet
+		ShowDeleted = false;	// show isn't deleted yet
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
 		message.add("DeleteShow");
@@ -89,10 +89,14 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
     @FXML
     void clickDeleteShowBtn(ActionEvent event) {
     	int show_id = selected_show.getID();
-    	// delete show entity
-    	DeleteShow(show_id);
 		
-		//*ADD CODE FOR WINDOW POP-UP*//
+    	try {
+    		// delete show entity
+        	DeleteShow(show_id);
+    		MessageBoundaryEmployee.displayInfo("Show successfully deleted.");
+    	}catch(Exception e) {	// server threw exception while trying to delete show
+    		MessageBoundaryEmployee.displayError("An error occured. Show couldn't be deleted.");
+    	}
 		
     	// set items in table
     	ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);

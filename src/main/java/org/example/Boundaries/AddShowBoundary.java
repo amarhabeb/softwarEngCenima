@@ -66,6 +66,33 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     @FXML // fx:id="AddShowBtn"
     private Button AddShowBtn; // Value injected by FXMLLoader
     
+    public static Boolean ShowAdded = true;	// holds if the show is added yet
+    // add show in DataBase and brings the Shows from the DataBase and updates 
+ 	// the ShowsData local list
+    void AddShow(Show show) {
+		ShowAdded = false;	// show isn't added yet
+		// create message and send it to the server
+    	LinkedList<Object> message = new LinkedList<Object>();
+		message.add("AddShow");
+		message.add(show);
+		synchronized(CinemaClient.ShowsDataLock)
+		{	
+			CinemaClientCLI.sendMessage(message);
+							
+			// wait for Data to be changed
+			while(!ShowAdded) {
+				try {
+					CinemaClient.ShowsDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+		}	
+		// update ShowData
+		UpdateShowsData();
+	}
+    
     void resetChoiceBoxes() {
     	// disable button
   		CheckIfFilled();
@@ -106,14 +133,13 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		// create show object
   		Show show = new Show(date, time, online, "AVAILABLE", price, movie, hall);
   		
-  		// add new show object to database
-  		// create message and send it to the server
-    	LinkedList<Object> message = new LinkedList<Object>();
-		message.add("AddShow");
-		message.add(show);
-		CinemaClientCLI.sendMessage(message);
-		
-		//*CODE FOR POP-UP MESSAGE*//
+  		try {
+	  		// add new show object to database
+	  		AddShow(show);
+	  		MessageBoundaryEmployee.displayInfo("Show successfully added.");
+  		}catch(Exception e) {
+  			MessageBoundaryEmployee.displayError("An error occured. Show couldn't be added.");
+  		}
 		
 		resetChoiceBoxes();
 		// update data
@@ -238,7 +264,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
 				val = -1;	
 			}finally {
 				if(val<0) {	// invalid input
-	    			//* CODE FOR MESSAGE POP-UP *//
+					MessageBoundaryEmployee.displayError("Price must be a non-negative number.");
 					priceTextField.setText(null);
 	    		}
 				CheckIfFilled();
