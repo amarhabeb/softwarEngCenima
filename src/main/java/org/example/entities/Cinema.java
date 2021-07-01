@@ -14,7 +14,7 @@ public class Cinema {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int ID;
-    
+    private CinemaManager Manager;
     String branch_name;
     
     @OneToMany(targetEntity = Show.class)
@@ -83,4 +83,8 @@ public class Cinema {
     public String toString() {
         return branch_name;
     }
+
+	public void setmanager(CinemaManager manager) {
+this.Manager=manager;		
+	}
 }

@@ -8,12 +8,14 @@ import java.time.temporal.ChronoUnit;
 
 import javax.persistence.*;
 
+import org.hibernate.cfg.Configuration;
+
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "shows")
 public class Show implements Serializable{
-    @Id
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int ID;
@@ -26,8 +28,8 @@ public class Show implements Serializable{
     private Movie movie;
     @OneToOne(targetEntity = Hall.class)
     private Hall hall;
-
-    
+	private org.example.entities.Link link;
+    private Cinema cinema1;
     
     public Show(LocalDate date, LocalTime time, boolean isOnline, String status, double price, Movie movie, Hall hall) {
         super();
@@ -110,6 +112,15 @@ public class Show implements Serializable{
         }
         return false;
     }
+
+	public Link getLinks() {
+		// TODO Auto-generated method stub
+		return link;
+	}
+
+	public void setCinema(Cinema cinema) {
+this.cinema1=cinema;		
+	}
 
 }
 
