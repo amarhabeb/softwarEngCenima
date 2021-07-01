@@ -125,11 +125,17 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
             	int show_id = ((Show) price.getTableView().getItems().get(
                         price.getTablePosition().getRow()))
                         .getID();
-            	double NewPrice = price.getNewValue();
-            	
-            	ChangeShowPrice(show_id, NewPrice);
-            	
-            	// CODE FOR WINDOW POPUP THAT SAYS "UPDATING PRICE REQUEST WAS SENT" //
+            	try {
+            		double NewPrice = price.getNewValue();
+            		try {
+                		ChangeShowPrice(show_id, NewPrice);
+            			MessageBoundaryEmployee.displayInfo("Show's price successfully updated.");
+            		}catch (Exception e) {	// server threw exception while trying to update
+            			MessageBoundaryEmployee.displayError("An error occured. Show's price couldn't be updated.");
+            		}
+            	}catch(NumberFormatException e) {
+            		MessageBoundaryEmployee.displayError("Price must be a non-negative number.");
+            	}
             	
             	// set items in table
         		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);

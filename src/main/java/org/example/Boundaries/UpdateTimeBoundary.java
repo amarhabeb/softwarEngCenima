@@ -144,9 +144,15 @@ public class UpdateTimeBoundary extends ContentManagerDisplayBoundary implements
             	String NewTime_Str = time.getNewValue();
             	try {
             		LocalTime NewTime = LocalTime.parse(NewTime_Str);
-            		ChangeShowTime(show_id, NewTime);
-            	} catch (DateTimeParseException e){
-            		//* CODE FOR POP-UP WINDOW *//
+            		try {
+            			ChangeShowTime(show_id, NewTime);
+            			MessageBoundaryEmployee.displayInfo("Show's time successfully updated.");
+            		}catch(Exception e) {
+            			MessageBoundaryEmployee.displayError("An error occured. Show's time couldn't be updated.");
+            		}
+            		
+            	} catch (DateTimeParseException e){	// invalid time input
+            		MessageBoundaryEmployee.displayError("Time must be of the form HH:MM.");
             	}finally {
             		// set items in table
             		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
