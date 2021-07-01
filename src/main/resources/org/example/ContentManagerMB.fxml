@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ContentManagerMB">
+<AnchorPane prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.ContentManagerMB">
    <children>
       <ImageView fitHeight="488.0" fitWidth="800.0">
          <image>
@@ -50,16 +50,6 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <TableView fx:id="ShowsTable" layoutX="266.0" layoutY="91.0" prefHeight="318.0" prefWidth="493.0">
-         <columns>
-            <TableColumn fx:id="movie_name" prefWidth="141.60003662109375" text="Movie Title" />
-            <TableColumn fx:id="date" prefWidth="74.4000244140625" text="Date" />
-            <TableColumn fx:id="time" prefWidth="74.39996337890625" text="Time" />
-            <TableColumn fx:id="hall_number" prefWidth="56.800048828125" text="Hall" />
-            <TableColumn fx:id="online" prefWidth="56.79998779296875" text="Online" />
-            <TableColumn fx:id="price" prefWidth="81.59991455078125" text="Price" />
-         </columns>
-      </TableView>
       <Button fx:id="refreshBtn" layoutX="705.0" layoutY="424.0" mnemonicParsing="false" onAction="#clickRefreshBtn" text="Refresh">
          <font>
             <Font name="System Italic" size="12.0" />
@@ -70,5 +60,16 @@
             <Font name="System Bold Italic" size="45.0" />
          </font>
       </Label>
+      <TableView fx:id="ShowsTable" layoutX="266.0" layoutY="91.0" prefHeight="318.0" prefWidth="515.0">
+         <columns>
+            <TableColumn fx:id="movie_name" prefWidth="105.5999755859375" text="Movie Title" />
+            <TableColumn fx:id="date" prefWidth="72.79998779296875" text="Date" />
+            <TableColumn fx:id="time" onEditCommit="#editTime" prefWidth="56.79998779296875" text="Time" />
+            <TableColumn fx:id="hall_number" prefWidth="45.5999755859375" text="Hall" />
+            <TableColumn fx:id="online" prefWidth="60.79998779296875" text="Online" />
+            <TableColumn fx:id="price" prefWidth="78.4000244140625" text="Price" />
+            <TableColumn fx:id="cinema" prefWidth="93.60002441406255" text="Cinema" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>

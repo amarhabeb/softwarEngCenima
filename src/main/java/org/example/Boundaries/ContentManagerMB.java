@@ -5,14 +5,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.util.Callback;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 import java.io.Serializable;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -55,6 +61,7 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	@FXML private TableColumn<Show, Integer> hall_number;
 	@FXML private TableColumn<Show, Boolean> online;
 	@FXML private TableColumn<Show, Double> price;
+	@FXML private TableColumn<Show, String> cinema;
     @FXML private ImageView Background;
 	
 	
@@ -125,12 +132,33 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		// set-up the columns in the table
-		movie_name.setCellValueFactory(new PropertyValueFactory<Show, String>("movie_name"));
-		date.setCellValueFactory(new PropertyValueFactory<Show, String>("date"));
-		time.setCellValueFactory(new PropertyValueFactory<Show, String>("time"));
-		hall_number.setCellValueFactory(new PropertyValueFactory<Show, Integer>("hall_number"));
+		movie_name.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getMovie().getName_en()));
+		     }
+		  });
+		date.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getDate().toString()));
+		     }
+		  });
+		time.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getTime().toString()));
+		     }
+		  });
+		hall_number.setCellValueFactory(new Callback<CellDataFeatures<Show, Integer>, ObservableValue<Integer>>() {
+		     public ObservableValue<Integer> call(CellDataFeatures<Show, Integer> show) {
+		         return (new SimpleIntegerProperty(show.getValue().getHall().getNumber()).asObject());
+		     }
+		  });
 		online.setCellValueFactory(new PropertyValueFactory<Show, Boolean>("online"));
 		price.setCellValueFactory(new PropertyValueFactory<Show, Double>("price"));
+		cinema.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
+		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
+		         return (new SimpleStringProperty(show.getValue().getHall().getCinema().getBranch_name()));
+		     }
+		  });
 		
 		System.out.println("ShowDataUpdated: "+CinemaClient.ShowsDataUpdated);
 		if(!CinemaClient.ShowsDataUpdated) {
