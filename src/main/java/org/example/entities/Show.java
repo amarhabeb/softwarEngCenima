@@ -3,6 +3,7 @@ package org.example.entities;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
@@ -17,8 +18,8 @@ public class Show implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int ID;
-    private LocalDate date;
-    private LocalTime time;
+    private LocalDateTime dateTime;
+    //private LocalTime time;
     private boolean isOnline;
     private String status;  //can be AVAILABLE / NOT_AVAILABLE
     private double price;
@@ -29,10 +30,10 @@ public class Show implements Serializable{
 
     
     
-    public Show(LocalDate date, LocalTime time, boolean isOnline, String status, double price, Movie movie, Hall hall) {
+    public Show(LocalDateTime date, LocalTime time, boolean isOnline, String status, double price, Movie movie, Hall hall) {
         super();
-        this.date = date;
-        this.time = time;
+        this.dateTime = date;
+        //this.time = time;
         this.isOnline = isOnline;
         this.status = status;
         this.price = price;
@@ -47,21 +48,21 @@ public class Show implements Serializable{
         return ID;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getDate() {
+        return dateTime;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDate(LocalDateTime date) {
+        this.dateTime = date;
     }
 
-    public LocalTime getTime() {
+    /*public LocalTime getTime() {
         return time;
     }
 
     public void setTime(LocalTime time) {
         this.time = time;
-    }
+    }*/
 
     public boolean getIsOnline() {
         return isOnline;
