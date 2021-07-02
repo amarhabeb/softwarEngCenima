@@ -22,4 +22,8 @@ public class CinemaManager extends Manager {
     public Cinema getCinema(){
         return this.cinema;
     }
+	public void setCinema(Cinema cinema2) {
+        this.cinema = cinema2;
+		
+	}
 }

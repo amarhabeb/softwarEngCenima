@@ -8,6 +8,7 @@ import javax.persistence.Table;
 public class Regulations {
     private boolean status;	// will be false if there is no limitations
     private int Y;	// this is the same Y described in the requirements file
+	private Cinema cinema;
     public Regulations (boolean status, int Y){
         this.status = status;
         this.Y = Y;
@@ -27,5 +28,9 @@ public class Regulations {
 
 	public void setY(int y) {
 		Y = y;
+	}
+
+	public void setCinema(Cinema cinema) {
+this.cinema=cinema;		
 	}
 }

@@ -1,6 +1,9 @@
 package org.example.entities;
 
 import javax.persistence.*;
+
+import org.example.Controllers.ShowsHandler;
+
 import java.awt.*;
 import java.lang.Math;
 import java.util.List;
@@ -21,6 +24,8 @@ public class Hall {
     @ManyToOne(targetEntity = Cinema.class)
     private Cinema cinema;
     private boolean active;
+	//public Object getShows;
+    private List<Show> shows;
 
     public Hall(){}
 
@@ -96,7 +101,10 @@ public class Hall {
     public int getID() {
         return ID;
     }
-
+   
+    public List<Show> getShows() {
+        return shows;
+    }   
     ///////// WILL BE CHANGED //////////
     // a function to calculate the maxSeats of a hall considering the current regulations
     public void setMaxSeats(Regulations reg) {

@@ -17,6 +17,7 @@ public class Complaint {
     private LocalDateTime creationDate;
     private boolean active;
     private boolean handled;
+	private Customer customer;
 
     public Complaint(int text) {
         this.text = text;
@@ -70,4 +71,10 @@ public class Complaint {
     public void deactivateComplaint(){
         this.active=false;
     }
+
+	public void setCustomer(Customer customer) {
+		// TODO Auto-generated method stub
+		this.customer=customer;
+		
+	}
 }

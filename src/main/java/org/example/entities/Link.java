@@ -9,7 +9,7 @@ import javax.persistence.Table;
 @Table(name ="link")
 
 public class Link extends Order{
-    private String link;
+    private Link link;
     private Timer timer;
     private int movie_id;  //This also gives us Shows times to display in the link message
 
@@ -27,8 +27,8 @@ public class Link extends Order{
         return link;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public void setLink(Link link2) {
+        this.link = link2;
     }
 
     public Timer getTimer() {
@@ -38,4 +38,6 @@ public class Link extends Order{
     public void setTimer(Timer timer) {
         this.timer = timer;
     }
+
+	
 }

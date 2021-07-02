@@ -508,16 +508,6 @@ public class CinemaServer extends AbstractServer{
 				client.sendToClient(messageToClient);
 			}
 
-
-
-
-
-
-
-
-
-
-    		
     	} catch (Exception exception) {
     		if (session != null) {
     			session.getTransaction().rollback();
@@ -617,9 +607,7 @@ public class CinemaServer extends AbstractServer{
 			}
 		}
 	
-		
-		
-		
+	
 		/*Shows*/
 		private static void generateShows(int amount) throws Exception {
 			Random random = new Random();
@@ -640,6 +628,27 @@ public class CinemaServer extends AbstractServer{
 			}
 		}
 		
+		private static void generateSeats(int amount) throws Exception {
+			{
+				Random random = new Random();
+               Hall hall;         //not sure of how hall should be sent
+               for(int lines=1;lines<=(amount/10);lines++)
+			for (int seat=1 ; seat<=10; seat++) {
+			  Seat seat1=new Seat(random.nextBoolean(),seat,lines, hall) ;
+			  session.save(seat1);
+			  session.flush();
+			    }
+			}
+			}
+		private static void  Regulations () throws Exception{
+			Random random = new Random();
+			int Y;//??
+			
+		Regulations regulation=new  Regulations (random.nextBoolean(),  Y);
+		session.save(regulation);
+		  session.flush();
+		}
+			
 		static String HarryPotterCast() {
 			String Cast="Emma Watson,Richard Griffiths,Harry Melling,Daniel Radcliffe,Julie Walters,Bonnie Wright,Rupert Grint";
 					return Cast;
@@ -837,7 +846,7 @@ public class CinemaServer extends AbstractServer{
         				 index=rnd.nextInt(AllShows.size());
         				 Hall hall=AllHalls.get(index); //we choose one hall
         				 show1.setHall(hall); //for each show we have one hall
-        				 hall.getShows.add(show1); //and for each hall we have many shows
+        				 hall.getShows().add(show1); //and for each hall we have many shows
        			 }
         			 CinemaController cinema =new CinemaController();
         			 List<Cinema> allCinemas=CinemaController.loadCinemas(session);
@@ -909,7 +918,7 @@ public class CinemaServer extends AbstractServer{
         				 index=rnd.nextInt(AllCustomers.size());
         				 Customer customer =AllCustomers.get(index);
         				 complaint1.setCustomer(customer);
-        				 customer.getComplaint().add(complaint1);
+        				 customer.getComplaints().add(complaint1);
         			 }
         			 
 

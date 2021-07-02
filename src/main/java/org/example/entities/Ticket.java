@@ -15,6 +15,7 @@ public class Ticket extends Order{
     private int show_id;
     //private Seat seat;
     private  int seat_id;
+	private Show show;
     public Ticket(Cinema cinema, int seat_id, int show_id, int ID, LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
         super( orderDate, status, price, payment, refund, active);
         this.cinema=cinema;
@@ -41,6 +42,9 @@ public class Ticket extends Order{
     public void setCinema(Cinema cinema) {
         this.cinema = cinema;
     }
+	public void setShow(Show show) {
+this.show=show;		
+	}
 
 
 }

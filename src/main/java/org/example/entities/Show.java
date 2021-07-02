@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -28,9 +29,11 @@ public class Show implements Serializable{
     private Movie movie;
     @OneToOne(targetEntity = Hall.class)
     private Hall hall;
-	private org.example.entities.Link link;
+
     private Cinema cinema1;
-    
+    private List<Link> link;
+    private List<Ticket> ticket;
+
     public Show(LocalDate date, LocalTime time, boolean isOnline, String status, double price, Movie movie, Hall hall) {
         super();
         this.date = date;
@@ -113,7 +116,7 @@ public class Show implements Serializable{
         return false;
     }
 
-	public Link getLinks() {
+	public List<Link> getLinks() {
 		// TODO Auto-generated method stub
 		return link;
 	}
@@ -121,6 +124,14 @@ public class Show implements Serializable{
 	public void setCinema(Cinema cinema) {
 this.cinema1=cinema;		
 	}
+
+	public List<Ticket> getTickets() {
+      return ticket ;
+	}
+
+	/*public Configuration getTickets() {
+    return ticket;		
+	}*/
 
 }
 

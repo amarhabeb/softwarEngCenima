@@ -25,6 +25,7 @@ public class Cinema {
     private List<Hall> halls;
 
     private boolean active;
+	private Regulations regulation;
 
     public Cinema() {
     }
@@ -86,5 +87,10 @@ public class Cinema {
 
 	public void setmanager(CinemaManager manager) {
 this.Manager=manager;		
+	}
+
+	public void setRegulation(Regulations reg) {
+		// TODO Auto-generated method stub
+		this.regulation=reg;
 	}
 }
