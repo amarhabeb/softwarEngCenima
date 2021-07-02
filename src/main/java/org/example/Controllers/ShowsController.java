@@ -16,7 +16,7 @@ import javax.persistence.criteria.Root;
 
 
 
-public class ShowsHandler {
+public class ShowsController {
 		
 	// to load all shows from the database
 

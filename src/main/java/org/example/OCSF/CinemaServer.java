@@ -53,7 +53,7 @@ public class CinemaServer extends AbstractServer{
     			int show_id = (int) message.get(1);
     			LocalTime newTime = (LocalTime) message.get(2);
     			// change time of show in database
-    			boolean success = ShowsHandler.updateTime(session, show_id, newTime);
+    			boolean success = ShowsController.updateTime(session, show_id, newTime);
     			//session.refresh(Show.class);
     			if(!success) {
     				throw new Exception("Show's time couldnt be updated");
@@ -68,7 +68,7 @@ public class CinemaServer extends AbstractServer{
     			int show_id = (int) message.get(1);
     			double newPrice = (double) message.get(2);
     			// change price of show in database
-    			boolean success = ShowsHandler.updatePrice(session, show_id, newPrice);
+    			boolean success = ShowsController.updatePrice(session, show_id, newPrice);
     			//session.refresh(Show.class);
     			if(!success) {
     				throw new Exception("Show's price couldnt be updated");
@@ -82,7 +82,7 @@ public class CinemaServer extends AbstractServer{
     		
     		if(message.get(0).equals("LoadShows")) {
     			// load data
-    			List<Show> Data = ShowsHandler.loadShows(session);
+    			List<Show> Data = ShowsController.loadShows(session);
     			try {	
     				// reply to client	
     				LinkedList<Object> messageToClient = new LinkedList<Object>();
@@ -359,7 +359,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("AddShow")) {
 				Show show = (Show) message.get(1);
 				// adding show into  database
-				boolean success = ShowsHandler.addShow(session,show );
+				boolean success = ShowsController.addShow(session,show );
 				//session.refresh(Show.class);
 				if(!success) {
 					throw new Exception("Show  couldnt be added");
@@ -373,7 +373,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("DeleteShow")) {
 				int show_id = (int) message.get(1);
 				// delete Show from database
-				boolean success = ShowsHandler.deleteShow(session,show_id );
+				boolean success = ShowsController.deleteShow(session,show_id );
 				//session.refresh(Show.class);
 				if(!success) {
 					throw new Exception("the Show couldnt be deleted");

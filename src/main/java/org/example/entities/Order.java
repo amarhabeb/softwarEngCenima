@@ -13,13 +13,13 @@ abstract public class Order implements Serializable {
     @Column(name = "id")
     protected int ID;
     protected LocalDate orderDate;
-    protected boolean status;
+    protected boolean status; //true if valid, false if canceled
     protected double price;
     @OneToOne(targetEntity = Payment.class)
     protected Payment payment;
     @OneToOne(targetEntity = Refund.class)
     protected Refund refund;
-    protected boolean active;
+    protected boolean active;   //true if active, false if "deleted" from database
 
     public Order( LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
         super();
