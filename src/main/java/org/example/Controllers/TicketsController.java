@@ -92,6 +92,17 @@ public class TicketsController {
             LocalDateTime dt=loadTicketShowTime(session, ticket_id);
             double price=loadTicketPrice(session, ticket_id);
             double r=calcRefund(dt);
+            //if refund is 50%
+            if (r==0.5){
+                price*=0.5;
+            }
+            //if refund is 0, do nothing and return
+            else if(r==0){
+                transaction.commit();
+                session.clear();
+                return null;
+            }
+            //if refund is 100%
             Refund refund=new Refund(price, ticket_id, LocalDateTime.now());
             boolean answer= RefundController.addRefund(session,refund);
 
