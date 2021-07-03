@@ -24,7 +24,7 @@ public class Cinema {
     @OneToMany(targetEntity = Hall.class)
     private List<Hall> halls;
 
-    private boolean active;
+    private boolean active=true;
 
     public Cinema() {
     }
@@ -82,5 +82,17 @@ public class Cinema {
     @Override
     public String toString() {
         return branch_name;
+    }
+
+    public void setShows(List<Show> shows) {
+        this.shows = shows;
+    }
+
+    public void setMovies(List<Movie> movies) {
+        this.movies = movies;
+    }
+
+    public void setHalls(List<Hall> halls) {
+        this.halls = halls;
     }
 }

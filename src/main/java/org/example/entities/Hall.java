@@ -24,14 +24,22 @@ public class Hall {
 
     public Hall(){}
 
-    public Hall(int number, int capacity, int type, List<Seat> seats, Cinema cinema) {
+    public Hall(int number, int capacity,  Cinema cinema) {
         this.number = number;
         this.capacity = capacity;
         this.type = type;
         this.maxSeats = capacity;
-        this.seats = seats;
         this.cinema=cinema;
         active=true;
+
+        List<Seat> tempSeats = null;
+        for (int i=1; i<=capacity; i++){
+            Seat seat = new Seat(true, i%10, i/10 +1, this);/*every line has 10 seats*/
+            tempSeats.add(seat);
+        }
+        this.seats = tempSeats;
+
+
     }
 
     public int getNumber() {
