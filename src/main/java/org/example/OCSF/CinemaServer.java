@@ -1,13 +1,14 @@
 package org.example.OCSF;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.Random;
 import java.time.LocalTime;
 
 import org.example.Controllers.*;
-import org.example.LinksController;
 import org.example.entities.*;
+import org.example.init;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,9 +21,9 @@ import java.util.List;
 
 
 public class CinemaServer extends AbstractServer{
-	
+
 	public static Regulations currentRegs = null;	// this is the regulations of the cinema chain
-	
+
 	private static Session session;
 
 	private static SessionFactory getSessionFactory() throws HibernateException {
@@ -30,7 +31,7 @@ public class CinemaServer extends AbstractServer{
 
 		// Add ALL of your entities here. You can also try adding a whole package.
 		configuration.addAnnotatedClass(Show.class);
-		
+
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties())
 				.build();
@@ -38,62 +39,62 @@ public class CinemaServer extends AbstractServer{
 		return configuration.buildSessionFactory(serviceRegistry);
 	}
 
-    public CinemaServer(int port) {
-        super(port);
-    }
+	public CinemaServer(int port) {
+		super(port);
+	}
 
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@Override
-    protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-    	System.out.println("message reached server");
-    	LinkedList<Object> message = (LinkedList<Object>)(msg);
-    	try {
-    		if(message.get(0).equals("ChangeShowTime")) {
-    			int show_id = (int) message.get(1);
-    			LocalTime newTime = (LocalTime) message.get(2);
-    			// change time of show in database
-    			boolean success = ShowsController.updateTime(session, show_id, newTime);
-    			//session.refresh(Show.class);
-    			if(!success) {
-    				throw new Exception("Show's time couldnt be updated");
-    			}
-    			// reply to client	
+	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+		System.out.println("message reached server");
+		LinkedList<Object> message = (LinkedList<Object>)(msg);
+		try {
+			if(message.get(0).equals("ChangeShowTime")) {
+				int show_id = (int) message.get(1);
+				LocalTime newTime = (LocalTime) message.get(2);
+				// change time of show in database
+				boolean success = ShowsController.updateTime(session, show_id, newTime);
+				//session.refresh(Show.class);
+				if(!success) {
+					throw new Exception("Show's time couldnt be updated");
+				}
+				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("ShowsTimeChanged");
 				client.sendToClient(messageToClient);
-    		}
-    		
-    		if(message.get(0).equals("ChangePriceRequest")) {
-    			int show_id = (int) message.get(1);
-    			double newPrice = (double) message.get(2);
-    			// change price of show in database
-    			boolean success = ShowsController.updatePrice(session, show_id, newPrice);
-    			//session.refresh(Show.class);
-    			if(!success) {
-    				throw new Exception("Show's price couldnt be updated");
-    			}
-    			// reply to client	
+			}
+
+			if(message.get(0).equals("ChangePriceRequest")) {
+				int show_id = (int) message.get(1);
+				double newPrice = (double) message.get(2);
+				// change price of show in database
+				boolean success = ShowsController.updatePrice(session, show_id, newPrice);
+				//session.refresh(Show.class);
+				if(!success) {
+					throw new Exception("Show's price couldnt be updated");
+				}
+				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("ShowsPriceChanged");
 				client.sendToClient(messageToClient);
-    		}
-    	
-    		
-    		if(message.get(0).equals("LoadShows")) {
-    			// load data
-    			List<Show> Data = ShowsController.loadShows(session);
-    			try {	
-    				// reply to client	
-    				LinkedList<Object> messageToClient = new LinkedList<Object>();
-    				messageToClient.add("ShowsLoaded");
-    				messageToClient.add(Data);
+			}
+
+
+			if(message.get(0).equals("LoadShows")) {
+				// load data
+				List<Show> Data = ShowsController.loadShows(session);
+				try {
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("ShowsLoaded");
+					messageToClient.add(Data);
 					client.sendToClient(messageToClient);
-    			} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-    			}
-    		}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 
 			if(message.get(0).equals("LoadComplaints")) {
 				// load data
@@ -481,14 +482,14 @@ public class CinemaServer extends AbstractServer{
 
 
 
-    		
-    	} catch (Exception exception) {
-    		if (session != null) {
-    			session.getTransaction().rollback();
-    		}
-    		System.err.println("An error occured, changes have been rolled back.");
-    		exception.printStackTrace();
-    	}
+
+		} catch (Exception exception) {
+			if (session != null) {
+				session.getTransaction().rollback();
+			}
+			System.err.println("An error occured, changes have been rolled back.");
+			exception.printStackTrace();
+		}
 
 
 
@@ -497,86 +498,259 @@ public class CinemaServer extends AbstractServer{
 
 
 
-    }
-    
-    @Override
-    protected void serverClosed() {
-    	session.close();   // close session when server closes
-    }
-
-    @Override
-    protected synchronized void clientDisconnected(ConnectionToClient client) {
-        // TODO Auto-generated method stub
-
-        System.out.println("Client Disconnected.");
-        super.clientDisconnected(client);
-    }
-
-
-    @Override
-    protected void clientConnected(ConnectionToClient client) {
-        super.clientConnected(client);
-        System.out.println("Client connected: " + client.getInetAddress());
-    }
-    
-    // get random object from array
-    public static String getRandom(String[] array) {	// for picking random element from an array of Strings
-	    int rnd = new Random().nextInt(array.length);
-	    return array[rnd];
 	}
-    
-    // round double to #places
-    public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
 
-        long factor = (long) Math.pow(10, places);
-        value = value * factor;
-        long tmp = Math.round(value);
-        return (double) tmp / factor;
-    }
-    
-    private static void InitializeDataBase(){
-    	SessionFactory sessionFactory = getSessionFactory();
+	@Override
+	protected void serverClosed() {
+		session.close();   // close session when server closes
+	}
+
+	@Override
+	protected synchronized void clientDisconnected(ConnectionToClient client) {
+		// TODO Auto-generated method stub
+
+		System.out.println("Client Disconnected.");
+		super.clientDisconnected(client);
+	}
+
+
+	@Override
+	protected void clientConnected(ConnectionToClient client) {
+		super.clientConnected(client);
+		System.out.println("Client connected: " + client.getInetAddress());
+	}
+
+	// get random object from array
+	public static String getRandom(String[] array) {	// for picking random element from an array of Strings
+		int rnd = new Random().nextInt(array.length);
+		return array[rnd];
+	}
+
+	// round double to #places
+	public static double round(double value, int places) {
+		if (places < 0) throw new IllegalArgumentException();
+
+		long factor = (long) Math.pow(10, places);
+		value = value * factor;
+		long tmp = Math.round(value);
+		return (double) tmp / factor;
+	}
+
+	/********************************************/
+
+	private static void InitializeDataBase() throws Exception {
+		SessionFactory sessionFactory = getSessionFactory();
 		session = sessionFactory.openSession();
-		Random random = new Random();
-		String[] dates = {"1/6/2021", "2/6/2021", "3/6/2021", "4/6/2021", "5/6/2021", "6/6/2021", "7/6/2021"};
-		String[] times = {"18:00", "18:30", "19:00", "19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30"};
-		String[] movie_names = {"Harry Potter 7", "Joker", "The Avengers", "Star Wars", "Inception", "The Dark Night", "Captain America", 
-				"Avatar", "Jaws", "Rocky", "Titanic", "Lord Of The Rings"};
-		String[] availability = {"AVAILABLE", "NOT_AVAILABLE"};
-		
-		// INITIALIZERS //
-		
-		//*MISSING CODE*//
-		
-		// Initialize halls
+		generateMovies(session);
 
-		
-		// Initialize shows
-//		for (int i = 0; i < 30; i++) {
-//			Show show = new Show(getRandom(dates), getRandom(times), random.nextBoolean(), getRandom(availability), 
-//					round(50 + (100 - 50) * random.nextDouble(),2), 
-//					// corresponding Hall, Movie and Cinema// 
-//					);
-//			// add show to database
-//			try {
-//				ShowsHandler.addShow(session, show);
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
+
 	}
 
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.out.println("Required argument: <port>");
-        } else {
-        	// initialize the DataBase
+
+
+	private static void generateMovies(Session session) throws Exception {
+		try {
+			Cinema cinema1 = new Cinema();
+			List<Movie> moviesList = null;
+			List<Show> emptyShowList = null;
+    		/*when we create the movie we give its empty list of shows
+    		and when we create the shows list we set its in the movie
+    		 */
+			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),init.HarryPotterSummary(),"18/07/2020",0,  image, emptyShowList);
+			moviesList.add(HarryPotter7);
+			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), "31/08/2019",0, image, emptyShowList);
+			moviesList.add(Joker);
+			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), "14/08/2020",1, image, emptyShowList);
+			moviesList.add(TheAvengers);
+			Movie StarWars=new Movie("Star Wars","מלחמת הכוכבים","George Lucas",init.StarWarsCast(), init.StarWarsSummary(), "14/08/2020",1, image, emptyShowList);
+			moviesList.add(StarWars);
+			Movie Inception=new Movie("Incepteion","התחלה","Emma Thomas",init.InceptionCast(), init.InceptionSummary(), "14/08/2020",1, image, emptyShowList);
+			moviesList.add(Inception);
+			Movie TheDarKnight=new Movie("The Dark Knight","האביר האפל","Emma Thomas,Charles Roven,Christopher Nolan",init.TheDarkKnightCast(), init.TheDarkKnightSummary(), "14/08/2020",1, image, emptyShowList);
+			moviesList.add(TheDarKnight);
+			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), "14/08/2020",1, image, emptyShowList);
+			moviesList.add(CaptainAmerica);
+			Movie Avatar=new Movie("Avatar","אווטאר","James Cameron,Jon Landau",init.AvatarCast(), init.AvatarSummary(), "14/08/2020",1, image, emptyShowList);
+			moviesList.add(Avatar);
+			Movie Jaws=new Movie("Jaws","מלתעות","Steven Spielberg",init.JawsCast(), init.JawsSummary(), "14/08/2020",1, image, emptyShowList);
+			moviesList.add(Jaws);
+			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), "14/08/2020",1, image, emptyShowList);
+			moviesList.add(Rocky);
+			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), "14/08/2020",1, image, emptyShowList);
+			moviesList.add(Titanic);
+			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), "14/08/2020",1, image, emptyShowList);
+			moviesList.add(LordOfTheRings);
+			cinema1.setMovies(moviesList);
+
+
+			List<Hall> cinemaHalls = null;
+			List<Show> shows = null;
+			for (int i=1; i<=5;i++){
+				Hall cinemaHall = new Hall(i, 2*i*10, cinema1,shows);
+				cinemaHalls.add(cinemaHall);
+				HallController.addHall(CinemaServer.session,cinemaHall);
+			}
+			int[] days = {1,2,3,4,5,6,7};
+			int[] months = {6,6,6,6,6,6,6,};
+			int[] years = {2021,2021,2021,2021,2021,2021,2021};
+
+			int[] hours = {18,18,19,19,20,20,21,21,22,22};
+			int[] minutes = {00,30,00,30,00,30,00,30,00,30,};
+
+
+			String[] availability = {"AVAILABLE", "NOT_AVAILABLE"};
+
+
+
+
+
+			for (int i=0; i<2; i++){
+				for (int j=0; j<3; j++){
+					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), (i+j)%2==0, availability[(i+j)%2], 60, HarryPotter7, cinemaHalls.get((i+j)%5));
+					cinema1.addShow(show);
+					HarryPotter7.addShow(show);
+					ShowsController.addShow(CinemaServer.session,show);
+				}
+			}
+			MoviesController.addMovie(CinemaServer.session,HarryPotter7);
+
+			for (int i=0; i<2; i++){
+				for (int j=0; j<3; j++){
+					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), (i+j)%2==0, availability[(i+j)%2], 100, Joker, cinemaHalls.get((i+j)%5+1));
+					cinema1.addShow(show);
+					Joker.addShow(show);
+					ShowsController.addShow(CinemaServer.session,show);
+				}
+			}
+			MoviesController.addMovie(CinemaServer.session,Joker);
+
+
+			for (int i=0; i<2; i++){
+				for (int j=3; j<6; j++){
+					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), (i+j)%2==0, availability[(i+j)%2], 90, TheAvengers, cinemaHalls.get((i+j)%5));
+					cinema1.addShow(show);
+					TheAvengers.addShow(show);
+					ShowsController.addShow(CinemaServer.session,show);
+				}
+			}
+			MoviesController.addMovie(CinemaServer.session,TheAvengers);
+
+
+			for (int i=0; i<2; i++){
+				for (int j=3; j<6; j++){
+					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), (i+j)%2==0, availability[(i+j)%2], 70, StarWars, cinemaHalls.get((i+j)%5+1));
+					cinema1.addShow(show);
+					StarWars.addShow(show);
+					ShowsController.addShow(CinemaServer.session,show);
+				}
+			}
+			MoviesController.addMovie(CinemaServer.session,StarWars);
+
+			for (int i=0; i<2; i++){
+				for (int j=6; j<10; j++){
+					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), (i+j)%2==0, availability[(i+j)%2], 120, Inception, cinemaHalls.get((i+j)%5));
+					cinema1.addShow(show);
+					Inception.addShow(show);
+					ShowsController.addShow(CinemaServer.session,show);
+				}
+			}
+			MoviesController.addMovie(CinemaServer.session,Inception);
+
+			for (int i=0; i<2; i++){
+				for (int j=6; j<10; j++){
+					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), (i+j)%2==0, availability[(i+j)%2], 80, TheDarKnight, cinemaHalls.get((i+j)%5+1));
+					cinema1.addShow(show);
+					TheDarKnight.addShow(show);
+					ShowsController.addShow(CinemaServer.session,show);
+				}
+			}
+			MoviesController.addMovie(CinemaServer.session,TheDarKnight);
+
+			for (int i=2; i<4; i++){
+				for (int j=0; j<3; j++){
+					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), (i+j)%2==0, availability[(i+j)%2], 90, CaptainAmerica, cinemaHalls.get((i+j)%5));
+					cinema1.addShow(show);
+					CaptainAmerica.addShow(show);
+					ShowsController.addShow(CinemaServer.session,show);
+				}
+			}
+			MoviesController.addMovie(CinemaServer.session,CaptainAmerica);
+
+			for (int i=2; i<4; i++){
+				for (int j=0; j<3; j++){
+					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), (i+j)%2==0, availability[(i+j)%2], 95, Avatar, cinemaHalls.get((i+j)%5+1));
+					cinema1.addShow(show);
+					Avatar.addShow(show);
+					ShowsController.addShow(CinemaServer.session,show);
+				}
+			}
+			MoviesController.addMovie(CinemaServer.session,Avatar);
+
+			for (int i=2; i<4; i++){
+				for (int j=3; j<6; j++){
+					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), (i+j)%2==0, availability[(i+j)%2], 45, Jaws, cinemaHalls.get((i+j)%5));
+					cinema1.addShow(show);
+					Jaws.addShow(show);
+					ShowsController.addShow(CinemaServer.session,show);
+				}
+			}
+			MoviesController.addMovie(CinemaServer.session,Jaws);
+
+			for (int i=2; i<4; i++){
+				for (int j=3; j<6; j++){
+					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), (i+j)%2==0, availability[(i+j)%2], 90, Rocky, cinemaHalls.get((i+j)%5+1));
+					cinema1.addShow(show);
+					Rocky.addShow(show);
+					ShowsController.addShow(CinemaServer.session,show);
+				}
+			}
+			MoviesController.addMovie(CinemaServer.session,Rocky);
+
+			for (int i=2; i<4; i++){
+				for (int j=6; j<10; j++){
+					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), (i+j)%2==0, availability[(i+j)%2], 40, Titanic, cinemaHalls.get((i+j)%5));
+					cinema1.addShow(show);
+					Titanic.addShow(show);
+					ShowsController.addShow(CinemaServer.session,show);
+				}
+			}
+			MoviesController.addMovie(CinemaServer.session,Titanic);
+
+			for (int i=2; i<4; i++){
+				for (int j=6; j<10; j++){
+					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), (i+j)%2==0, availability[(i+j)%2], 80, LordOfTheRings, cinemaHalls.get((i+j)%5+1));
+					cinema1.addShow(show);
+					LordOfTheRings.addShow(show);
+					ShowsController.addShow(CinemaServer.session,show);
+				}
+			}
+			MoviesController.addMovie(CinemaServer.session,LordOfTheRings);
+			CinemaController.addCinema(CinemaServer.session,cinema1);
+
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+
+	/***************************************/
+
+
+
+
+	public static void main(String[] args) throws IOException {
+		if (args.length != 1) {
+			System.out.println("Required argument: <port>");
+		} else {
+			// initialize the DataBase
 			InitializeDataBase();
-            CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
-            server.listen();
-        }
-    }
+			CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
+			server.listen();
+		}
+	}
 
 }

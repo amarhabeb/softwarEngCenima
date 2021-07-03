@@ -1,5 +1,7 @@
 package org.example.Controllers;
 
+
+
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
@@ -70,3 +72,5 @@ public class MailController {
     }
 
 }
+
+

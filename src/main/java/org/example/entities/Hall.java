@@ -3,7 +3,6 @@ package org.example.entities;
 import javax.persistence.*;
 import java.awt.*;
 import java.lang.Math;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,25 +14,46 @@ public class Hall {
     private int ID;
     private int number;
     private int capacity;	// this is X in the requirements file
+    private int type;
     private int maxSeats;
     @OneToMany(targetEntity = Seat.class)
     private List<Seat> seats;
     @ManyToOne(targetEntity = Cinema.class)
     private Cinema cinema;
     private boolean active;
-    @ManyToOne(targetEntity = Show.class)
-    ArrayList<Show> shows;
+    @OneToMany(targetEntity = Show.class)
+    List<Show> shows;
+
     public Hall(){}
 
-    public Hall(int number, int capacity,  List<Seat> seats, Cinema cinema,ArrayList<Show> shows) {
+    public Hall(int number, int capacity,  Cinema cinema,List<Show>shows) {
         this.number = number;
         this.capacity = capacity;
-
+        this.type = type;
         this.maxSeats = capacity;
-        this.seats = seats;
         this.cinema=cinema;
         active=true;
         this.shows=shows;
+
+        List<Seat> tempSeats = null;
+        for (int i=1; i<=capacity; i++){
+            Seat seat = new Seat(true, i%10, i/10 +1, this);/*every line has 10 seats*/
+            tempSeats.add(seat);
+        }
+        this.seats = tempSeats;
+
+
+    }
+    public void addShow(Show show){
+        shows.add(show);
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setShows(List<Show> shows) {
+        this.shows = shows;
     }
 
     public int getNumber() {
@@ -44,7 +64,9 @@ public class Hall {
         return capacity;
     }
 
-
+    public int getType() {
+        return type;
+    }
 
     public int getMaxSeats() {
         return maxSeats;
@@ -58,7 +80,9 @@ public class Hall {
         this.capacity = capacity;
     }
 
-
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public void setMaxSeats(int maxSeats) {
         this.maxSeats = maxSeats;
@@ -98,10 +122,10 @@ public class Hall {
     ///////// WILL BE CHANGED //////////
     // a function to calculate the maxSeats of a hall considering the current regulations
     public void setMaxSeats(Regulations reg) {
-    	if (reg.getRegulations() == false) {
-    		this.maxSeats=capacity;
-    	}
-    	else {
+        if (reg.getRegulations() == false) {
+            this.maxSeats=capacity;
+        }
+        else {
             int Y = reg.getY();
             if (1.2 * Y < capacity) {
                 this.maxSeats = Y;
