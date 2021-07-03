@@ -1,7 +1,7 @@
 package org.example.entities;
 
 import java.time.LocalDate;
-import java.util.Timer;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -10,19 +10,24 @@ import javax.persistence.Table;
 
 public class Link extends Order{
     private String link;
-    private Timer timer;
-    private int movie_id;  //This also gives us Shows times to display in the link message
+    private LocalDateTime fromTime;
+    private LocalDateTime toTime;
+    private int movie_id;
 
-    public Link(String link, Timer timer, int movie_id, LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
+
+
+    public Link(String link, LocalDateTime fromTime, LocalDateTime toTime , int movie_id, LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
         super(orderDate, status, price, payment, refund, active);
         this.link = link;
-        this.timer = timer;
+        this.fromTime=fromTime;
+        this.toTime=toTime;
         this.movie_id=movie_id;
     }
 
     public Link(){
         super();
     }
+
     public String getLink() {
         return link;
     }
@@ -31,11 +36,27 @@ public class Link extends Order{
         this.link = link;
     }
 
-    public Timer getTimer() {
-        return timer;
+    public LocalDateTime getFromTime() {
+        return fromTime;
     }
 
-    public void setTimer(Timer timer) {
-        this.timer = timer;
+    public void setFromTime(LocalDateTime fromTime) {
+        this.fromTime = fromTime;
+    }
+
+    public LocalDateTime getToTime() {
+        return toTime;
+    }
+
+    public void setToTime(LocalDateTime toTime) {
+        this.toTime = toTime;
+    }
+
+    public int getMovie_id() {
+        return movie_id;
+    }
+
+    public void setMovie_id(int movie_id) {
+        this.movie_id = movie_id;
     }
 }
