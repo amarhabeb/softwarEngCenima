@@ -3,6 +3,7 @@ package org.example.entities;
 import javax.persistence.*;
 import java.awt.*;
 import java.lang.Math;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,32 +15,25 @@ public class Hall {
     private int ID;
     private int number;
     private int capacity;	// this is X in the requirements file
-    private int type;
     private int maxSeats;
     @OneToMany(targetEntity = Seat.class)
     private List<Seat> seats;
     @ManyToOne(targetEntity = Cinema.class)
     private Cinema cinema;
     private boolean active;
-
+    @ManyToOne(targetEntity = Show.class)
+    ArrayList<Show> shows;
     public Hall(){}
 
-    public Hall(int number, int capacity,  Cinema cinema) {
+    public Hall(int number, int capacity,  List<Seat> seats, Cinema cinema,ArrayList<Show> shows) {
         this.number = number;
         this.capacity = capacity;
-        this.type = type;
+
         this.maxSeats = capacity;
+        this.seats = seats;
         this.cinema=cinema;
         active=true;
-
-        List<Seat> tempSeats = null;
-        for (int i=1; i<=capacity; i++){
-            Seat seat = new Seat(true, i%10, i/10 +1, this);/*every line has 10 seats*/
-            tempSeats.add(seat);
-        }
-        this.seats = tempSeats;
-
-
+        this.shows=shows;
     }
 
     public int getNumber() {
@@ -50,9 +44,7 @@ public class Hall {
         return capacity;
     }
 
-    public int getType() {
-        return type;
-    }
+
 
     public int getMaxSeats() {
         return maxSeats;
@@ -66,9 +58,7 @@ public class Hall {
         this.capacity = capacity;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
+
 
     public void setMaxSeats(int maxSeats) {
         this.maxSeats = maxSeats;

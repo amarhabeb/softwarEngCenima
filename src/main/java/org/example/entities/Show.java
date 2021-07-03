@@ -25,7 +25,7 @@ public class Show implements Serializable{
     private double price;
     @ManyToOne(targetEntity = Movie.class)
     private Movie movie;
-    @OneToOne(targetEntity = Hall.class)
+    @OneToMany(targetEntity = Hall.class)
     private Hall hall;
 
     

@@ -44,6 +44,17 @@ public class ShowsController {
 	public static boolean addShow(Session session, Show show) throws Exception{
 		try {
 			Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Show> query = builder.createQuery(Show.class);
+            query.from(Show.class);
+            List<Show> data = session.createQuery(query).getResultList();
+            for(int i=0;i<data.size();i++){
+                Show temp = data.get(i);
+                if(temp.getDate()==show.getDate() && temp.getHall()==show.getHall()){
+                    return false;
+                }
+            }
+
 			session.save(show);
             session.flush();
             transaction.commit();

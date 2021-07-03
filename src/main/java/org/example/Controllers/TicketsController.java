@@ -1,17 +1,22 @@
 package org.example.Controllers;
 
 import org.example.entities.*;
-import org.example.Controllers.RefundController;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.persistence.Query;
 import javax.persistence.criteria.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 public class TicketsController {
     public static List<Ticket> loadTickets(Session session) throws Exception{
         try {
@@ -70,10 +75,7 @@ public class TicketsController {
             return false;
         }
     }
-    public static TicketMessage sendTicketAsMessage(TicketMessage mesage) throws Exception {
-        return mesage;
-        // we have to change it
-    }
+
     //cancel ticket in data base, calculate refund, add it to data base, then return it
     public static Refund cancelTicket(Session session, int ticket_id){
         try {
