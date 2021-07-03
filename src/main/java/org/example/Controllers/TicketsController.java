@@ -26,7 +26,7 @@ public class TicketsController {
             if (session != null) {
                 session.getTransaction().rollback();
             }
-            System.err.println("An error occured, changes have been rolled back.");
+            System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
             return null;
         }
@@ -48,7 +48,7 @@ public class TicketsController {
             if (session != null) {  
                 session.getTransaction().rollback();
             }
-            System.err.println("An error occured, changes have been rolled back.");
+            System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
             return null;
         }
@@ -65,7 +65,7 @@ public class TicketsController {
             if (session != null) {
                 session.getTransaction().rollback();
             }
-            System.err.println("An error occured, changes have been rolled back.");
+            System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
             return false;
         }
@@ -74,7 +74,7 @@ public class TicketsController {
         return mesage;
         // we have to change it
     }
-    //cancel ticket function, MUST call refund function after calling this one
+    //cancel ticket in data base, calculate refund, add it to data base, then return it
     public static Refund cancelTicket(Session session, int ticket_id){
         try {
 
@@ -82,9 +82,6 @@ public class TicketsController {
             CriteriaUpdate<Ticket> update_query=builder.createCriteriaUpdate(Ticket.class);
             Root<Ticket> root=update_query.from(Ticket.class);
             update_query.set("status", false);
-            //Predicate[] predicates = new Predicate[2];
-            //predicates[0]=builder.equal(root.get("ID"),ticket_id);
-            //predicates[1]=builder.equal(root.get("ID"),ticket_id);
             update_query.where(builder.equal(root.get("ID"),ticket_id));
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
@@ -119,7 +116,7 @@ public class TicketsController {
             if (session != null) {
                 session.getTransaction().rollback();
             }
-            System.err.println("An error occured, changes have been rolled back.");
+            System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
             return null;
         }
@@ -190,25 +187,4 @@ public class TicketsController {
         }
         return refund;
     }
-
-//    public static  List<Seat> loadSeats(int seat_id, Session session) throws Exception {
-//        try {
-//            Transaction transaction = session.beginTransaction();
-//            CriteriaBuilder builder = session.getCriteriaBuilder();
-//            CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
-//            query.from(Ticket.class);
-//            List<Ticket> data = session.createQuery(query).getResultList();
-//            transaction.commit();
-//            return data;
-//        } catch (Exception exception) {
-//            if (session != null) {
-//                session.getTransaction().rollback();
-//            }
-//            System.err.println("An error occured, changes have been rolled back.");
-//            exception.printStackTrace();
-//            return null;
-//        }
-//
-//    }
-
 }

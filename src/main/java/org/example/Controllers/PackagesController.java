@@ -58,10 +58,10 @@ public class PackagesController {
             return null;
         }
     }
-    public static Boolean addPackage(Package newpackage, Session session) throws Exception {
+    public static Boolean addPackage(Package newPackage, Session session) throws Exception {
         try {
             Transaction transaction = session.beginTransaction();
-            session.save(newpackage);
+            session.save(newPackage);
             session.flush();
             transaction.commit();
             return true;
