@@ -82,6 +82,19 @@ public class ShowsController {
             return false;
         } 
     }
+
+    public static List<Show> loadMovieShow(Session session, String show_id){
+        try {
+
+            List<Show> shows = null;
+            return shows;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<Show> shows = null;
+        return shows;
+    }
 	
 	// update price of a show in the data base
 	@SuppressWarnings("exports")

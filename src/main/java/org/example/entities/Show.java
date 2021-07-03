@@ -30,10 +30,9 @@ public class Show implements Serializable{
 
     
     
-    public Show(LocalDateTime date, LocalTime time, boolean isOnline, String status, double price, Movie movie, Hall hall) {
+    public Show(LocalDateTime date, boolean isOnline, String status, double price, Movie movie, Hall hall) {
         super();
         this.dateTime = date;
-        //this.time = time;
         this.isOnline = isOnline;
         this.status = status;
         this.price = price;
