@@ -25,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
 @SuppressWarnings("serial")
@@ -36,20 +37,11 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     @FXML // fx:id="movieChoice"
     private ChoiceBox<Movie> movieChoice; // Value injected by FXMLLoader
 
-    @FXML // fx:id="dayChoice"
-    private ChoiceBox<Integer> dayChoice; // Value injected by FXMLLoader
-
-    @FXML // fx:id="monthChoice"
-    private ChoiceBox<Integer> monthChoice; // Value injected by FXMLLoader
-
     @FXML // fx:id="hoursChoice"
     private ChoiceBox<Integer> hoursChoice; // Value injected by FXMLLoader
 
     @FXML // fx:id="minsChoice"
     private ChoiceBox<Integer> minsChoice; // Value injected by FXMLLoader
-
-    @FXML // fx:id="yearChoice"
-    private ChoiceBox<Integer> yearChoice; // Value injected by FXMLLoader
 
     @FXML // fx:id="onlineChoice"
     private ChoiceBox<Boolean> onlineChoice; // Value injected by FXMLLoader
@@ -65,6 +57,10 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
 
     @FXML // fx:id="AddShowBtn"
     private Button AddShowBtn; // Value injected by FXMLLoader
+    
+    @FXML // fx:id="date"
+    private DatePicker datePicker; // Value injected by FXMLLoader
+
     
     public static Boolean ShowAdded = true;	// holds if the show is added yet
     // add show in DataBase and brings the Shows from the DataBase and updates 
@@ -98,9 +94,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		CheckIfFilled();
   		// reset choices
     	movieChoice.setValue(null);
-    	dayChoice.setValue(null);
-  		monthChoice.setValue(null);
-  		yearChoice.setValue(null);  		
+    	datePicker.setValue(null);	
   		hoursChoice.setValue(null);
   		minsChoice.setValue(null);  		
   		onlineChoice.setValue(false);
@@ -115,16 +109,10 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     void clickAddShowBtn(ActionEvent event) throws IOException {
     	// get chosen attributes
     	Movie movie = movieChoice.getValue();
-    	
-    	Integer day = dayChoice.getValue();
-  		Integer month = monthChoice.getValue();
-  		Integer year = yearChoice.getValue();
-  		LocalDate date = LocalDate.of(year, month, day);	// create time object
-  		
+    	LocalDate date = datePicker.getValue();  		
   		Integer hour = hoursChoice.getValue();
   		Integer min = minsChoice.getValue();
   		LocalTime time = LocalTime.of(hour, min);	// create time object
-  		
   		Boolean online = onlineChoice.getValue();
   		Hall hall = hallChoice.getValue();
   		// Cinema cinema = cinemaChoice.getValue();
@@ -155,8 +143,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
 
   	void CheckIfFilled() {
   		// if all choiceboxes were filled
-  		if(movieChoice.getValue()!= null && dayChoice.getValue()!= null &&
-  				monthChoice.getValue()!= null && yearChoice.getValue()!= null &&
+  		if(movieChoice.getValue()!= null && datePicker.getValue()!= null &&
   				hoursChoice.getValue()!= null && minsChoice.getValue()!= null &&
   				onlineChoice.getValue()!= null && hallChoice.getValue()!= null &&
   				cinemaChoice.getValue()!= null && priceTextField.getText()!=null) {
@@ -178,17 +165,6 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	// initialize movie choice box
     	for (Movie movie:CinemaClient.MoviesData) {
         	movieChoice.getItems().add(movie);
-        }
-    	
-    	// initialize date choice boxes
-    	for (int day = 1; day<=31; day++) {
-        	dayChoice.getItems().add(day);
-        }
-    	for (int month = 1; month<=12; month++) {
-        	monthChoice.getItems().add(month);
-        }
-    	for (int year = 0; year<=10; year++) {
-        	yearChoice.getItems().add(2021+year);
         }
     	
     	// initialize time choice boxes
@@ -216,13 +192,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	movieChoice.setOnAction((event) -> {
     	    CheckIfFilled();
     	});
-    	dayChoice.setOnAction((event) -> {
-    	    CheckIfFilled();
-    	});
-    	monthChoice.setOnAction((event) -> {
-    	    CheckIfFilled();
-    	});
-    	yearChoice.setOnAction((event) -> {
+    	datePicker.setOnAction((event) -> {
     	    CheckIfFilled();
     	});
     	hoursChoice.setOnAction((event) -> {

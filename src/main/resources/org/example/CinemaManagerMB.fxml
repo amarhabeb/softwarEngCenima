@@ -10,8 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16">
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CinemaManagerMB">
    <children>
       <AnchorPane prefHeight="488.0" prefWidth="800.0">
          <children>
@@ -33,25 +32,25 @@
                   <Font name="System Bold Italic" size="45.0" />
                </font>
             </Label>
-            <ChoiceBox fx:id="report_type" layoutX="301.0" layoutY="150.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="report_typeChoice" layoutX="301.0" layoutY="150.0" prefWidth="150.0" />
             <Text layoutX="301.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report type:" wrappingWidth="112.0">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Text>
-            <ChoiceBox fx:id="month" layoutX="301.0" layoutY="217.0" prefHeight="26.0" prefWidth="81.0" />
+            <ChoiceBox fx:id="monthChoice" layoutX="301.0" layoutY="217.0" prefHeight="26.0" prefWidth="81.0" />
             <Text layoutX="301.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month:" wrappingWidth="112.0">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Text>
-            <ChoiceBox fx:id="cinema" layoutX="459.0" layoutY="150.0" prefHeight="26.0" prefWidth="150.0" />
+            <ChoiceBox fx:id="cinemaChoice" layoutX="459.0" layoutY="150.0" prefHeight="26.0" prefWidth="150.0" />
             <Text layoutX="459.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cinema:" wrappingWidth="112.0">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Text>
-            <Button fx:id="AddShowBtn" layoutX="515.0" layoutY="217.0" mnemonicParsing="false" onAction="#clickAddShowBtn" text="VIEW REPORT" textAlignment="CENTER" textFill="#cf2626">
+            <Button fx:id="viewReportBtn" layoutX="515.0" layoutY="217.0" mnemonicParsing="false" onAction="#clickViewReportBtn" text="VIEW REPORT" textAlignment="CENTER" textFill="#cf2626">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>
@@ -61,7 +60,7 @@
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Text>
-            <ChoiceBox fx:id="month1" layoutX="390.0" layoutY="217.0" prefHeight="26.0" prefWidth="81.0" />
+            <ChoiceBox fx:id="yearChoice" layoutX="390.0" layoutY="217.0" prefHeight="26.0" prefWidth="81.0" />
             <Text layoutX="390.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" wrappingWidth="112.0">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
