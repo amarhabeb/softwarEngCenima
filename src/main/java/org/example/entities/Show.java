@@ -47,21 +47,21 @@ public class Show implements Serializable{
         return ID;
     }
 
-    public LocalDateTime getDate() {
-        return dateTime;
+    public LocalDate getDate() {
+        return dateTime.toLocalDate();
     }
 
-    public void setDate(LocalDateTime date) {
-        this.dateTime = date;
+    public void setDate(LocalDate date) {
+    	this.setDateTime(LocalDateTime.of(date, this.getTime()));
     }
 
-    /*public LocalTime getTime() {
-        return time;
+    public LocalTime getTime() {
+        return dateTime.toLocalTime();
     }
 
     public void setTime(LocalTime time) {
-        this.time = time;
-    }*/
+    	this.setDateTime(LocalDateTime.of(this.getDate(), time));
+    }
 
     public boolean getIsOnline() {
         return isOnline;
@@ -110,6 +110,14 @@ public class Show implements Serializable{
         }
         return false;
     }
+
+	public LocalDateTime getDateTime() {
+		return dateTime;
+	}
+
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
+	}
 
 }
 

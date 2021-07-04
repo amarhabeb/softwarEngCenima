@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.time.LocalTime;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.example.App;
 import org.example.OCSF.CinemaClient;
@@ -119,7 +120,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		Double price = Double.valueOf(priceTextField.getText());
   		
   		// create show object
-  		Show show = new Show(date, time, online, "AVAILABLE", price, movie, hall);
+  		Show show = new Show(LocalDateTime.of(date, time), online, "AVAILABLE", price, movie, hall);
   		
   		try {
 	  		// add new show object to database
