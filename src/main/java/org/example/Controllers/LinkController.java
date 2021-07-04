@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import javax.persistence.criteria.*;
 import java.lang.Package;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -42,7 +43,10 @@ public class LinkController {
             Join<Link, Payment> payment = LinkRoot.join("payment");
             Join<Payment, Customer> customerid = LinkRoot.join("id");
             query.from(Link.class);
-            query.select(LinkRoot).where(builder.equal(customerid.get("id"),customer_id));
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(LinkRoot.get("active"),true);
+            predicates[1]=builder.equal(customerid.get("id"),customer_id);
+            query.select(LinkRoot).where(predicates);
             List<Link> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;
@@ -125,7 +129,7 @@ public class LinkController {
             LocalDateTime DT = loadLinkTime(session, link_id);
             if (ChronoUnit.HOURS.between(LocalDateTime.now(),DT) >1){
                 double price=loadLinkPrice(session,link_id);
-                Refund refund=new Refund(price*0.5, link_id,LocalDateTime.now());
+                Refund refund=new Refund(price*0.5, link_id, 0, LocalDateTime.now());
                 boolean answer= RefundController.addRefund(session,refund);
                 transaction.commit();
                 session.clear();
@@ -141,6 +145,29 @@ public class LinkController {
             }
         }
         catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
+    }
+    public static List<Link> makeLinksReportByMonth(Session session, Month month) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Link> query = builder.createQuery(Link.class);
+            Root<Link> root=query.from(Link.class);
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("active"),true);
+            predicates[1]=builder.equal(builder.function("MONTH", Integer.class, root.get("orderDate")),month);
+            query.where(predicates);
+            query.orderBy(builder.asc(root.get("orderDate")));
+            List<Link> data = session.createQuery(query).getResultList();
+            transaction.commit();
+            return data;
+        } catch (Exception exception) {
             if (session != null) {
                 session.getTransaction().rollback();
             }

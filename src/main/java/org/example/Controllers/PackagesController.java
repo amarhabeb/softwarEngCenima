@@ -7,10 +7,8 @@ import org.example.entities.Payment;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
+import java.time.Month;
 import java.util.List;
 
 public class PackagesController {
@@ -68,6 +66,29 @@ public class PackagesController {
             System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
             return false;
+        }
+    }
+    public static List<Package> makePackagesReportByMonth(Session session, Month month) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Package> query = builder.createQuery(Package.class);
+            Root<Package> root=query.from(Package.class);
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("active"),true);
+            predicates[1]=builder.equal(builder.function("MONTH", Integer.class, root.get("orderDate")),month);
+            query.where(predicates);
+            query.orderBy(builder.asc(root.get("orderDate")));
+            List<Package> data = session.createQuery(query).getResultList();
+            transaction.commit();
+            return data;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
         }
     }
 }

@@ -17,7 +17,8 @@ public class SeatController {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Seat> query = builder.createQuery(Seat.class);
-            query.from(Seat.class);
+            Root<Seat> root=query.from(Seat.class);
+            query.where(builder.equal(root.get("active"),true));
             List<Seat> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;

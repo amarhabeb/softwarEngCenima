@@ -25,7 +25,8 @@ public class ShowsController {
             Transaction transaction = session.beginTransaction();
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<Show> query = builder.createQuery(Show.class);
-			query.from(Show.class);
+			Root<Show> root=query.from(Show.class);
+			query.where(builder.equal(root.get("status"),"AVAILABLE"));
 			List<Show> data = session.createQuery(query).getResultList();
 			transaction.commit();
 			return data;
@@ -92,19 +93,6 @@ public class ShowsController {
         } 
     }
 
-    public static List<Show> loadMovieShow(Session session, int movie_id){
-        try {
-
-            List<Show> shows = null;
-            return shows;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        List<Show> shows = null;
-        return shows;
-    }
-	
 	// update price of a show in the data base
 	@SuppressWarnings("exports")
 	public static boolean updatePrice(Session session, int show_id, double newPrice){

@@ -100,7 +100,7 @@ public class TicketsController {
                 return null;
             }
             //if refund is 100%
-            Refund refund=new Refund(price, ticket_id, LocalDateTime.now());
+            Refund refund=new Refund(price, ticket_id, 0 ,LocalDateTime.now());
             boolean answer= RefundController.addRefund(session,refund);
 
             transaction.commit();
@@ -188,21 +188,21 @@ public class TicketsController {
         return refund;
     }
 
-    public static LocalDateTime makeTicketReportByMonth(Session session, int cinema_id, Month month) throws Exception{
+    public static List<Ticket> makeTicketsReportByMonth(Session session, int cinema_id, Month month) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Link> query = builder.createQuery(Link.class);
-            Root<Link> root=query.from(Link.class);
-            Predicate[] predicates=new Predicate[2];
+            CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
+            Root<Ticket> root=query.from(Ticket.class);
+            Predicate[] predicates=new Predicate[3];
             predicates[0]=builder.equal(root.get("cinema_id"),cinema_id);
-            predicates[1]=builder.equal(builder.function("MONTH", Integer.class, root.get("orderDate")),month);
+            predicates[1]=builder.equal(root.get("active"),true);
+            predicates[2]=builder.equal(builder.function("MONTH", Integer.class, root.get("orderDate")),month);
             query.where(predicates);
             query.orderBy(builder.asc(root.get("orderDate")));
-            List<Link> data = session.createQuery(query).getResultList();
-            LocalDateTime time=data.get(0).getFromTime();
+            List<Ticket> data = session.createQuery(query).getResultList();
             transaction.commit();
-            return time;
+            return data;
         } catch (Exception exception) {
             if (session != null) {
                 session.getTransaction().rollback();

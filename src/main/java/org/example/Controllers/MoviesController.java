@@ -19,7 +19,8 @@ public class MoviesController {
         try {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
-            query.from(Movie.class);
+            Root<Movie> root=query.from(Movie.class);
+            query.where(builder.equal(root.get("status"),"AVAILABLE"));
             List<Movie> data = session.createQuery(query).getResultList();
             session.getTransaction().commit();
             return data;
