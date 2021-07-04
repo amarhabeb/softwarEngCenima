@@ -15,7 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Pair;
 
-public class MessageBoundaryEmployee extends MessageBoundary implements EmployeeBoundary{
+public class MessageBoundaryEmployee extends MessageBoundary{
 	
 	public Optional<Pair<String, String>> displayLogIn() {
 		// Create the custom dialog
