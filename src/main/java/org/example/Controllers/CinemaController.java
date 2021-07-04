@@ -26,7 +26,7 @@ public class CinemaController {
             }
             System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
-            return null1;
+            return null11;
         }
     }
 
