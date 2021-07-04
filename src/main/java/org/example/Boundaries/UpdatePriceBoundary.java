@@ -53,7 +53,7 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
 	 
 	public static Boolean ShowsPriceChanged = true;	// holds if the shows price is changed yet
 	// send request for price updating to the server, which will notify the chain manager
-	void ChangeShowPrice(int show_id, Double NewPrice) {
+	synchronized void ChangeShowPrice(int show_id, Double NewPrice) {
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
 		message.add("ChangePriceRequest");

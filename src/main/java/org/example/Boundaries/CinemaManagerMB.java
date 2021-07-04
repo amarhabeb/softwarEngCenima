@@ -1,12 +1,14 @@
 package org.example.Boundaries;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.entities.Cinema;
 import org.example.entities.Hall;
@@ -43,11 +45,15 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
     }
 
     @FXML
-    void clickViewReportBtn(ActionEvent event) {
+    void clickViewReportBtn(ActionEvent event) throws IOException {
     	Integer month = monthChoice.getValue();
   		Integer year = yearChoice.getValue();
   		Cinema cinema = cinemaChoice.getValue();
   		String report_type = report_typeChoice.getValue();
+  		
+  		// *MISSING CODE* //
+  		
+  		App.setRoot("ViewReportBoundary");
     }
     
     void CheckIfFilled() {

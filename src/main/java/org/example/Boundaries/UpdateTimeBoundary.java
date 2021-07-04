@@ -52,7 +52,7 @@ public class UpdateTimeBoundary extends ContentManagerDisplayBoundary implements
 	public static Boolean ShowsTimeChanged = true;	// holds if the shows time is changed yet
 	// change time of show in DataBase and brings the Shows from the DataBase and updates 
 	// the ShowsData local list
-	void ChangeShowTime(int show_id, LocalTime NewTime) {
+	synchronized void ChangeShowTime(int show_id, LocalTime NewTime) {
 		ShowsTimeChanged = false;	// show time isn't changed yet
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();

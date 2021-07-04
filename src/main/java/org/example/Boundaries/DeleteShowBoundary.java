@@ -62,7 +62,7 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
     public static Boolean ShowDeleted = true;	// holds if the show is deleted yet
     // delete show in DataBase and brings the Shows from the DataBase and updates 
  	// the ShowsData local list
-    void DeleteShow(int show_id) {
+    synchronized void DeleteShow(int show_id) {
 		ShowDeleted = false;	// show isn't deleted yet
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();

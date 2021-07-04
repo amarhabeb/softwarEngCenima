@@ -18,7 +18,7 @@ public class App extends Application {
     @SuppressWarnings("exports")
 	@Override
     public void start(Stage stage) throws IOException {
-    	stage.setTitle("Content Manager");
+    	stage.setTitle("Cinema");
         scene = new Scene(loadFXML("ContentManagerMB"), 800, 488);
         stage.setScene(scene);
         stage.show();

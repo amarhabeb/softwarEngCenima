@@ -1,9 +1,11 @@
 package org.example.Boundaries;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
+import org.example.entities.Show;
 
 public abstract class Boundary {
 	
@@ -76,7 +78,7 @@ public abstract class Boundary {
 		}	
 	}
 		  	
-	// brings the Movies from the DataBase and updates the CinemasData local list
+	// brings the Cinemas from the DataBase and updates the CinemasData local list
 	synchronized void UpdateCinemasData() {
 		// add message to ClientInput so it could be sent to server
 		CinemaClient.CinemasDataUpdated = false;
@@ -96,6 +98,37 @@ public abstract class Boundary {
 				}
 			}	
 		}	
-	}	  	
+	}	 
+
+	synchronized void UpdateUpdatePriceRequestsData() {
+		// add message to ClientInput so it could be sent to server
+		CinemaClient.UpdatePriceRequestsDataUpdated = false;
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadUpdatePriceRequests");
+		synchronized(CinemaClient.UpdatePriceRequestsDataLock)
+		{	
+			CinemaClientCLI.sendMessage(message);
+										
+			// wait for Data to be updated
+			while(!CinemaClient.UpdatePriceRequestsDataUpdated) {
+				try {
+						CinemaClient.UpdatePriceRequestsDataLock.wait();
+				} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+				}
+			}	
+		}	
+	}
+	
+	// return show given id
+	public Show idToShow(int id) {
+   	 	for(Show show:CinemaClient.ShowsData) {
+   	 		if(show.getID()==id) {
+   	 			return show;
+   	 		}
+   	 	}
+   	 	return null;
+	}
 		  	
 }
