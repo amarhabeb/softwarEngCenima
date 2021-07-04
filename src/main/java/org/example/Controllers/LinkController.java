@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-public class LinkControllerRayah {
+public class LinkController {
     public static List<Link> loadLinks(Session session) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();

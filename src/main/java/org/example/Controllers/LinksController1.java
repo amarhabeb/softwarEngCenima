@@ -17,7 +17,7 @@ import org.hibernate.Transaction;
 import org.example.entities.Order;
 import org.example.entities.Payment;
 import org.example.entities.*;
-public class LinksController {
+public class LinksController1 {
 	
 	
 	 public static List<Link> loadLinks(Session session) throws Exception{

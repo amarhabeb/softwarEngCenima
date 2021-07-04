@@ -4,7 +4,7 @@ import org.example.entities.Message;
 import org.hibernate.Session;
 
 public class MessageController {
-    public static boolean addMovie(Session session, Message msg) {
+    public static boolean addMessage(Session session, Message msg) {
         try {
             session.save(msg);
             session.flush();

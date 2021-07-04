@@ -2,20 +2,16 @@ package org.example.Controllers;
 
 
 import org.example.entities.Customer;
-import org.example.entities.Movie;
 import org.example.entities.Package;
 import org.example.entities.Payment;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Queue;
 
 public class PackagesController {
     public static List<Package> loadPackages(Session session) throws Exception{

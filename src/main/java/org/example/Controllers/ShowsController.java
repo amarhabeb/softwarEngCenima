@@ -92,7 +92,7 @@ public class ShowsController {
         } 
     }
 
-    public static List<Show> loadMovieShow(Session session, String show_id){
+    public static List<Show> loadMovieShow(Session session, int movie_id){
         try {
 
             List<Show> shows = null;

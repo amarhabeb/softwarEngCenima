@@ -9,8 +9,8 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-class MailController{
-    public static void sendmail(String mesasge1, String mail, String topic){
+public class MailController{
+    public static void sendMail(String mesasge1, String mail, String topic){
         // Recipient's email ID needs to be mentioned.
         String to = mail;
 

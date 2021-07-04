@@ -3,6 +3,7 @@ package org.example.OCSF;
 
 import org.example.App;
 import org.example.Boundaries.*;
+import org.example.entities.Complaint;
 import org.example.entities.Show;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -13,11 +14,22 @@ import java.util.logging.Logger;
 
 public class CinemaClient extends AbstractClient {
 	
-	// these static variables are shared upon all threads
+
 	public static List<Show> ShowsData = new LinkedList<>();	// holds the shows data
 	public static Boolean ShowsDataUpdated = false;	// holdS if the list ShowsData got updated yet
 	public static Object ShowsDataLock = new Object();	// lock for accessing the ShowsData List
-	
+
+	public static List<Show> ComplaintsData = new LinkedList<>();
+	public static Boolean ComplaintsDataUpdated = false;
+	public static Object ComplaintsDataLock = new Object();
+
+	public static List<Show> LinksData = new LinkedList<>();
+	public static Boolean LinksDataUpdated = false;
+	public static Object LinksDataLock = new Object();
+
+	public static List<Show> MoviessData = new LinkedList<>();
+	public static Boolean MoviesDataUpdated = false;
+	public static Object MoviesDataLock = new Object();
 	
     private static final Logger LOGGER =
             Logger.getLogger(CinemaClient.class.getName());
@@ -52,11 +64,14 @@ public class CinemaClient extends AbstractClient {
 
     @Override
     @SuppressWarnings("unchecked")
-    protected void handleMessageFromServer(Object msg) {
+    protected void handleMessageFromServer(Object msg) throws Exception {
 		LinkedList<Object> message = (LinkedList<Object>)(msg);
 
     	if(message.get(0).equals("ShowsTimeChanged")) {
-    		System.out.println("Message ShowsTimeChanged replied");
+    		boolean success = (boolean)message.get(1);
+    		if(!success){
+    			throw new Exception("Controller failed");
+			}
     		synchronized(ShowsDataLock) {
 	    		UpdateTimeBoundary.ShowsTimeChanged = true;	// time is now changed
 	    		ShowsDataUpdated = false;	// client's ShowsData is now not updated
@@ -66,7 +81,10 @@ public class CinemaClient extends AbstractClient {
 
     	
     	if(message.get(0).equals("ShowsPriceChanged")) {
-    		System.out.println("Message ShowsPriceChanged replied");
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
     		synchronized(ShowsDataLock) {
 	    		UpdatePriceBoundary.ShowsPriceChanged = true;	// Price is now changed
 	    		ShowsDataUpdated = false;	// client's ShowsData is now not updated
@@ -83,8 +101,72 @@ public class CinemaClient extends AbstractClient {
     			ShowsDataLock.notifyAll();
     		}
     	}
+
+		if(message.get(0).equals("ComplaintesLoaded")) {
+			// get second argument which is the updated data and assign it to the static variable
+			ComplaintsData = (List<Show>) message.get(1);
+			synchronized(ComplaintsDataLock) {
+				ComplaintsDataUpdated = true;	// client's ComplaintsData is now updated
+				ComplaintsDataLock.notifyAll();
+			}
+		}
+
+		if(message.get(0).equals("ComplaintMarkedAsDone")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(ComplaintsDataLock) {
+				MarkComplaintAsDoneBoundary.ComplaintMarkedAsDone = true;	// Complaint is now  Marked As Done
+				ComplaintsDataUpdated = false;	// client's ComplaintsData is now not updated
+				ComplaintsDataLock.notifyAll();
+			}
+		}
+
+		if(message.get(0).equals("ComplaintAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(ComplaintsDataLock) {
+				AddComplaintBoundary.ComplaintAdded = true;	// Complaint is now added
+				ComplaintsDataUpdated = false;	// client's ComplaintsData is now not updated
+				ComplaintsDataLock.notifyAll();
+			}
+		}
+
+		if(message.get(0).equals("LinksLoaded")) {
+			// get second argument which is the updated data and assign it to the static variable
+			LinksData = (List<Show>) message.get(1);
+			synchronized(LinksDataLock) {
+				LinksDataUpdated = true;	// client's LinksData is now updated
+				LinksDataLock.notifyAll();
+			}
+		}
+
+		if(message.get(0).equals("Costumer'sLinksLoaded")) {
+			// get second argument which is the updated data and assign it to the static variable
+			LinksData = (List<Show>) message.get(1);
+			synchronized(LinksDataLock) {
+				LinksDataUpdated = true;	// client's LinksData is now updated
+				LinksDataLock.notifyAll();
+			}
+		}
+
+		if(message.get(0).equals("ShowsLoaded")) {
+			// get second argument which is the updated data and assign it to the static variable
+			ShowsData = (List<Show>) message.get(1);
+			synchronized(ShowsDataLock) {
+				ShowsDataUpdated = true;	// client's ShowsData is now updated
+				ShowsDataLock.notifyAll();
+			}
+		}
 	    
-	if(message.get(0).equals("ShowDeleted")) {
+
+
+
+
+    	if(message.get(0).equals("ShowDeleted")) {
     		System.out.println("Message ShowsPriceChanged replied");
     		synchronized(ShowsDataLock) {
     			DeleteShowBoundary.ShowDeleted = true;	// Show is now deleted
