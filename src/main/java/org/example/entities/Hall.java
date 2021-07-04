@@ -21,16 +21,19 @@ public class Hall {
     @ManyToOne(targetEntity = Cinema.class)
     private Cinema cinema;
     private boolean active;
+    @OneToMany (targetEntity = Show.class)
+    List<Show> shows;
 
     public Hall(){}
 
-    public Hall(int number, int capacity,  Cinema cinema) {
+    public Hall(int number, int capacity,  Cinema cinema,List<Show> shows) {
         this.number = number;
         this.capacity = capacity;
         this.type = type;
         this.maxSeats = capacity;
         this.cinema=cinema;
         active=true;
+        this.shows=shows;
 
         List<Seat> tempSeats = null;
         for (int i=1; i<=capacity; i++){
@@ -39,6 +42,10 @@ public class Hall {
         }
         this.seats = tempSeats;
 
+
+    }
+    public void addShow(Show show){
+        this.shows.add(show);
 
     }
 
