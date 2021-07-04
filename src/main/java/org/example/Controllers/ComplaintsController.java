@@ -18,7 +18,8 @@ public class ComplaintsController {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Complaint> query = builder.createQuery(Complaint.class);
-            query.from(Complaint.class);
+            Root<Complaint> root=query.from(Complaint.class);
+            query.where(builder.equal(root.get("active"),true));
             List<Complaint> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;
