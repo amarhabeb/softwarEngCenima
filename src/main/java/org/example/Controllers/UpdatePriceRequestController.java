@@ -17,7 +17,8 @@ public class UpdatePriceRequestController {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<UpdatePriceRequest> query = builder.createQuery(UpdatePriceRequest.class);
-            query.from(UpdatePriceRequest.class);
+            Root<UpdatePriceRequest> root=query.from(UpdatePriceRequest.class);
+            query.where(builder.equal(root.get("active"),true));
             List<UpdatePriceRequest> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;

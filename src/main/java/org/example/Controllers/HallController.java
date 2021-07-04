@@ -16,7 +16,8 @@ public class HallController {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Hall> query = builder.createQuery(Hall.class);
-            query.from(Hall.class);
+            Root<Hall> root=query.from(Hall.class);
+            query.where(builder.equal(root.get("active"),true));
             List<Hall> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;

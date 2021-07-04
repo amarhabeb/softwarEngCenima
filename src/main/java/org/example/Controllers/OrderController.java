@@ -19,7 +19,8 @@ public class OrderController {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Order> query = builder.createQuery(Order.class);
-            query.from(Order.class);
+            Root<Order> root =query.from(Order.class);
+            query.where(builder.equal(root.get("active"), true));
             List<Order> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;

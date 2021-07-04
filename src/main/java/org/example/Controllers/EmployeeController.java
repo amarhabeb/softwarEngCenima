@@ -1,6 +1,7 @@
 package org.example.Controllers;
 
 import org.example.entities.Employee;
+import org.example.entities.Order;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -13,7 +14,8 @@ public class EmployeeController {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Employee> query = builder.createQuery(Employee.class);
-            query.from(Employee.class);
+            Root<Employee> root =query.from(Employee.class);
+            query.where(builder.equal(root.get("active"), true));
             List<Employee> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;

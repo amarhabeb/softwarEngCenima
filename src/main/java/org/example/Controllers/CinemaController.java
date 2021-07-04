@@ -16,7 +16,8 @@ public class CinemaController {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Cinema> query = builder.createQuery(Cinema.class);
-            query.from(Cinema.class);
+            Root<Cinema>root=query.from(Cinema.class);
+            query.where(builder.equal(root.get("active"),true));
             List<Cinema> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;
