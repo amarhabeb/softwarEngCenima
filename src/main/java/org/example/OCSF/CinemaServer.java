@@ -584,8 +584,9 @@ public class CinemaServer extends AbstractServer{
 
 
 			List<Hall> cinemaHalls = null;
+			List<Show> shows = null;
 			for (int i=1; i<=5;i++){
-				Hall cinemaHall = new Hall(i, 2*i*10, cinema1);
+				Hall cinemaHall = new Hall(i, 2*i*10, cinema1,shows);
 				cinemaHalls.add(cinemaHall);
 				HallController.addHall(CinemaServer.session,cinemaHall);
 			}
