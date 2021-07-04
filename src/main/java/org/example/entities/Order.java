@@ -3,6 +3,7 @@ package org.example.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -12,7 +13,8 @@ abstract public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     protected int ID;
-    protected LocalDate orderDate;
+    protected LocalDateTime orderDate;
+
     protected boolean status; //true if valid, false if canceled
     protected double price;
     @OneToOne(targetEntity = Payment.class)
@@ -21,7 +23,7 @@ abstract public class Order implements Serializable {
     protected Refund refund;
     protected boolean active;   //true if active, false if "deleted" from database
 
-    public Order( LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
+    public Order( LocalDateTime orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
         super();
         this.orderDate = orderDate;
         this.status = status;
@@ -34,11 +36,11 @@ abstract public class Order implements Serializable {
         super();
     }
 
-    public LocalDate getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDate orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 

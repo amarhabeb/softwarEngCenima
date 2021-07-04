@@ -7,8 +7,8 @@ import org.hibernate.Transaction;
 
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -132,7 +132,7 @@ public class TicketsController {
             query.select(ticketShow).where(builder.equal(ticketShow.get("id"),ticket_id));
             List<Show> data = session.createQuery(query).getResultList();
             //Show data = session.createQuery(query).uniqueResult();
-            LocalDateTime res=data.get(0).getDate();
+            LocalDateTime res=data.get(0).getDateTime();
             transaction.commit();
             return res;
         }
@@ -186,5 +186,30 @@ public class TicketsController {
             }
         }
         return refund;
+    }
+
+    public static LocalDateTime makeTicketReportByMonth(Session session, int cinema_id, Month month) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Link> query = builder.createQuery(Link.class);
+            Root<Link> root=query.from(Link.class);
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("cinema_id"),cinema_id);
+            predicates[1]=builder.equal(builder.function("MONTH", Integer.class, root.get("orderDate")),month);
+            query.where(predicates);
+            query.orderBy(builder.asc(root.get("orderDate")));
+            List<Link> data = session.createQuery(query).getResultList();
+            LocalDateTime time=data.get(0).getFromTime();
+            transaction.commit();
+            return time;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
     }
 }
