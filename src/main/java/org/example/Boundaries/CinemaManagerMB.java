@@ -40,8 +40,8 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
     private ChoiceBox<Integer> yearChoice; // Value injected by FXMLLoader
 
     @FXML
-    void clickViewPriceUpdatingRequestsBtn(ActionEvent event) {
-
+    void clickViewPriceUpdatingRequestsBtn(ActionEvent event) throws IOException {
+    	App.setRoot("PriceUpdatingRequestsBoundary");
     }
 
     @FXML
