@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -188,16 +189,17 @@ public class TicketsController {
         return refund;
     }
 
-    public static List<Ticket> makeTicketsReportByMonth(Session session, int cinema_id, Month month) throws Exception{
+    public static List<Ticket> makeTicketsReportByMonth(Session session, int cinema_id, Month month, Year year) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
             Root<Ticket> root=query.from(Ticket.class);
-            Predicate[] predicates=new Predicate[3];
+            Predicate[] predicates=new Predicate[4];
             predicates[0]=builder.equal(root.get("cinema_id"),cinema_id);
             predicates[1]=builder.equal(root.get("active"),true);
             predicates[2]=builder.equal(builder.function("MONTH", Integer.class, root.get("orderDate")),month);
+            predicates[3]=builder.equal(builder.function("YEAR", Integer.class, root.get("orderDate")),year);
             query.where(predicates);
             query.orderBy(builder.asc(root.get("orderDate")));
             List<Ticket> data = session.createQuery(query).getResultList();
