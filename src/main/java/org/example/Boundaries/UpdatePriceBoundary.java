@@ -44,7 +44,6 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
 	@FXML private TableColumn<Show, String> date;
 	@FXML private TableColumn<Show, String> time;
 	@FXML private TableColumn<Show, Integer> hall_number;
-	@FXML private TableColumn<Show, Boolean> online;
 	@FXML private TableColumn<Show, Double> price;
 	@FXML private TableColumn<Show, String> cinema;
 	
@@ -110,7 +109,6 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
 		         return (new SimpleIntegerProperty(show.getValue().getHall().getNumber()).asObject());
 		     }
 		  });
-		online.setCellValueFactory(new PropertyValueFactory<Show, Boolean>("online"));
 		price.setCellValueFactory(new PropertyValueFactory<Show, Double>("price"));
 		price.setCellFactory(TextFieldTableCell.<Show, Double>forTableColumn(new DoubleStringConverter()));
 		cinema.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {

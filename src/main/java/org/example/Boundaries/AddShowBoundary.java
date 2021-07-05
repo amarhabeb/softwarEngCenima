@@ -44,9 +44,6 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     @FXML // fx:id="minsChoice"
     private ChoiceBox<Integer> minsChoice; // Value injected by FXMLLoader
 
-    @FXML // fx:id="onlineChoice"
-    private ChoiceBox<Boolean> onlineChoice; // Value injected by FXMLLoader
-
     @FXML // fx:id="priceTextField"
     private TextField priceTextField; // Value injected by FXMLLoader
 
@@ -98,7 +95,6 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	datePicker.setValue(null);	
   		hoursChoice.setValue(null);
   		minsChoice.setValue(null);  		
-  		onlineChoice.setValue(false);
   		hallChoice.setValue(null);
   		cinemaChoice.setValue(null);
   		priceTextField.setText(null);
@@ -114,13 +110,12 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		Integer hour = hoursChoice.getValue();
   		Integer min = minsChoice.getValue();
   		LocalTime time = LocalTime.of(hour, min);	// create time object
-  		Boolean online = onlineChoice.getValue();
   		Hall hall = hallChoice.getValue();
   		// Cinema cinema = cinemaChoice.getValue();
   		Double price = Double.valueOf(priceTextField.getText());
   		
   		// create show object
-  		Show show = new Show(LocalDateTime.of(date, time), online, "AVAILABLE", price, movie, hall);
+  		Show show = new Show(LocalDateTime.of(date, time), "AVAILABLE", price, movie, hall);
   		
   		try {
 	  		// add new show object to database
@@ -146,7 +141,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		// if all choiceboxes were filled
   		if(movieChoice.getValue()!= null && datePicker.getValue()!= null &&
   				hoursChoice.getValue()!= null && minsChoice.getValue()!= null &&
-  				onlineChoice.getValue()!= null && hallChoice.getValue()!= null &&
+  				hallChoice.getValue()!= null &&
   				cinemaChoice.getValue()!= null && priceTextField.getText()!=null) {
   			AddShowBtn.setDisable(false);
   		}
@@ -176,10 +171,6 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
         	minsChoice.getItems().add(min);
         }
     	
-    	//Initialize online choice box
-    	onlineChoice.getItems().addAll(true, false);
-    	onlineChoice.setValue(false);	// default value
-    	
     	// initialize cinema choice box
     	for (Cinema cinema:CinemaClient.CinemasData) {
         	cinemaChoice.getItems().add(cinema);
@@ -200,9 +191,6 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	    CheckIfFilled();
     	});
     	minsChoice.setOnAction((event) -> {
-    	    CheckIfFilled();
-    	});
-    	onlineChoice.setOnAction((event) -> {
     	    CheckIfFilled();
     	});
     	hallChoice.setOnAction((event) -> {

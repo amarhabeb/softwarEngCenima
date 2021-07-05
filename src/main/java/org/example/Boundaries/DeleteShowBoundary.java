@@ -35,7 +35,6 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
 	@FXML private TableColumn<Show, String> date;
 	@FXML private TableColumn<Show, String> time;
 	@FXML private TableColumn<Show, Integer> hall_number;
-	@FXML private TableColumn<Show, Boolean> online;
 	@FXML private TableColumn<Show, Double> price;
 	@FXML private TableColumn<Show, String> cinema;
 	
@@ -146,7 +145,6 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
 		         return (new SimpleIntegerProperty(show.getValue().getHall().getNumber()).asObject());
 		     }
 		  });
-		online.setCellValueFactory(new PropertyValueFactory<Show, Boolean>("online"));
 		price.setCellValueFactory(new PropertyValueFactory<Show, Double>("price"));
 		cinema.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
 		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
