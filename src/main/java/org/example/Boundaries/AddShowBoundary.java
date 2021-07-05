@@ -134,7 +134,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
 
     @FXML
     void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-    	App.setRoot("ContentManagerMB");
+    	App.setRoot("ContentManagerMB",null);
     }
 
   	void CheckIfFilled() {

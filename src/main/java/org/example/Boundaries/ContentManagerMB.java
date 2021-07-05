@@ -99,7 +99,7 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 
 	@FXML
 	void clickUpdateShowsTimesBtn(ActionEvent event) throws IOException {
-		 App.setRoot("UpdateTimeBoundary");
+		 App.setRoot("UpdateTimeBoundary",null);
 	}
 	
 	@FXML
@@ -109,12 +109,12 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 
     @FXML
     void clickAddShowsBtn(ActionEvent event) throws IOException{
-    	App.setRoot("AddShowBoundary");
+    	App.setRoot("AddShowBoundary",null);
     }
     
     @FXML
     void clickRemoveMoviesBtn(ActionEvent event) throws IOException {
-    	App.setRoot("DeleteShowBoundary");
+    	App.setRoot("DeleteShowBoundary",null);
     }
 
     @FXML
@@ -124,7 +124,7 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 
     @FXML
     void clickUpdateShowsPricesBtn(ActionEvent event) throws IOException{
-    	App.setRoot("UpdatePriceBoundary");
+    	App.setRoot("UpdatePriceBoundary",null);
     }
 	
 	

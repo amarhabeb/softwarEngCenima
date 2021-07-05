@@ -75,7 +75,7 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
 
     @FXML
     void clickGoBackToMainBtn(ActionEvent event)  throws IOException {
-    	App.setRoot("ContentManagerMB");
+    	App.setRoot("ContentManagerMB",null);
     }
     
     @FXML

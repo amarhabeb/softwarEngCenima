@@ -43,7 +43,7 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
 
     @FXML
     void clickViewPriceUpdatingRequestsBtn(ActionEvent event) throws IOException {
-    	App.setRoot("PriceUpdatingRequestsBoundary");
+    	App.setRoot("PriceUpdatingRequestsBoundary",null);
     }
 
     @FXML
@@ -53,9 +53,14 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
   		Cinema cinema = cinemaChoice.getValue();
   		String report_type = report_typeChoice.getValue();
   		
-  		// *MISSING CODE* //
+  		List<Object> params = new LinkedList<Object>();
+  		params.add(report_type);
+  		params.add(month);
+  		params.add(year);
+  		params.add(cinema);
   		
-  		App.setRoot("ViewReportBoundary");
+  		// pass selected paramaters to view boundary
+  		App.setRoot("ViewReportBoundary",params);
     }
     
     void CheckIfFilled() {

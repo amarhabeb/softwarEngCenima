@@ -105,7 +105,7 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
 
     @FXML
     void clickGoBackToMainBtn(ActionEvent event)  throws IOException {
-    	App.setRoot("ContentManagerMB");
+    	App.setRoot("ContentManagerMB",null);
     }
 
     @FXML

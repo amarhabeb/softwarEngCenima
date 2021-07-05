@@ -11,6 +11,7 @@ public abstract class Boundary {
 	
 	// title of boundary
 	String title = "";
+	List<Object> Params;
 	
 	// brings the Shows from the DataBase and updates the ShowsData local list
 	synchronized void UpdateShowsData() {
@@ -129,6 +130,22 @@ public abstract class Boundary {
    	 		}
    	 	}
    	 	return null;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public List<Object> getParams() {
+		return Params;
+	}
+
+	public void setParams(List<Object> params) {
+		Params = params;
 	}
 		  	
 }
