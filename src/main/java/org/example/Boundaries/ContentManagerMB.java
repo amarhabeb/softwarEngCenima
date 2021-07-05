@@ -59,7 +59,6 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	@FXML private TableColumn<Show, String> date;
 	@FXML private TableColumn<Show, String> time;
 	@FXML private TableColumn<Show, Integer> hall_number;
-	@FXML private TableColumn<Show, Boolean> online;
 	@FXML private TableColumn<Show, Double> price;
 	@FXML private TableColumn<Show, String> cinema;
     @FXML private ImageView Background;
@@ -152,7 +151,6 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 		         return (new SimpleIntegerProperty(show.getValue().getHall().getNumber()).asObject());
 		     }
 		  });
-		online.setCellValueFactory(new PropertyValueFactory<Show, Boolean>("online"));
 		price.setCellValueFactory(new PropertyValueFactory<Show, Double>("price"));
 		cinema.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
 		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {

@@ -44,7 +44,6 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 	@FXML private TableColumn<UpdatePriceRequest, String> date;
 	@FXML private TableColumn<UpdatePriceRequest, String> time;
 	@FXML private TableColumn<UpdatePriceRequest, Integer> hall_number;
-	@FXML private TableColumn<UpdatePriceRequest, Boolean> online;
 	@FXML private TableColumn<UpdatePriceRequest, String> cinema;
 	private TableColumn<UpdatePriceRequest, String> requested_by; // Value injected by FXMLLoader
     @FXML // fx:id="old_price"
@@ -131,7 +130,7 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     	DeleteRequest(selected_request.getID());
     	
     	// set items in table
-    	ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
+    	ObservableList<UpdatePriceRequest> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
     	UpdatePriceRequestsTable.setItems(DataList);
     }
     
@@ -177,12 +176,6 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 		     public ObservableValue<Integer> call(CellDataFeatures<UpdatePriceRequest, Integer> upr) {
 		    	 Show show = idToShow(upr.getValue().getShow_id());
 		         return (new SimpleIntegerProperty(show.getHall().getNumber()).asObject());
-		     }
-		  });
-		online.setCellValueFactory(new Callback<CellDataFeatures<UpdatePriceRequest, Boolean>, ObservableValue<Boolean>>() {
-		     public ObservableValue<Boolean> call(CellDataFeatures<UpdatePriceRequest, Boolean> upr) {
-		    	 Show show = idToShow(upr.getValue().getShow_id());
-		         return (new SimpleBooleanProperty(show.getIsOnline()));
 		     }
 		  });
 		cinema.setCellValueFactory(new Callback<CellDataFeatures<UpdatePriceRequest, String>, ObservableValue<String>>() {

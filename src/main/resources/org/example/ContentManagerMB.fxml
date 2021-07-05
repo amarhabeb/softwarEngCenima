@@ -50,7 +50,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="refreshBtn" layoutX="705.0" layoutY="424.0" mnemonicParsing="false" onAction="#clickRefreshBtn" text="Refresh">
+      <Button fx:id="refreshBtn" layoutX="674.0" layoutY="424.0" mnemonicParsing="false" onAction="#clickRefreshBtn" text="Refresh">
          <font>
             <Font name="System Italic" size="12.0" />
          </font>
@@ -60,13 +60,12 @@
             <Font name="System Bold Italic" size="45.0" />
          </font>
       </Label>
-      <TableView fx:id="ShowsTable" layoutX="266.0" layoutY="91.0" prefHeight="318.0" prefWidth="515.0">
+      <TableView fx:id="ShowsTable" layoutX="266.0" layoutY="91.0" prefHeight="318.0" prefWidth="463.0">
          <columns>
             <TableColumn fx:id="movie_name" prefWidth="105.5999755859375" text="Movie Title" />
             <TableColumn fx:id="date" prefWidth="72.79998779296875" text="Date" />
             <TableColumn fx:id="time" onEditCommit="#editTime" prefWidth="56.79998779296875" text="Time" />
             <TableColumn fx:id="hall_number" prefWidth="45.5999755859375" text="Hall" />
-            <TableColumn fx:id="online" prefWidth="60.79998779296875" text="Online" />
             <TableColumn fx:id="price" prefWidth="78.4000244140625" text="Price" />
             <TableColumn fx:id="cinema" prefWidth="93.60002441406255" text="Cinema" />
          </columns>

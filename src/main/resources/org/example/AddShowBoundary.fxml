@@ -84,30 +84,24 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Text>
-      <Text layoutX="277.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Online:" wrappingWidth="112.0">
+      <Text layoutX="266.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price:" wrappingWidth="112.0">
          <font>
             <Font name="System Bold Italic" size="15.0" />
          </font>
       </Text>
-      <ChoiceBox fx:id="onlineChoice" layoutX="277.0" layoutY="144.0" prefHeight="26.0" prefWidth="46.0" />
-      <Text layoutX="347.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price:" wrappingWidth="112.0">
+      <TextField fx:id="priceTextField" layoutX="265.0" layoutY="144.0" prefHeight="26.0" prefWidth="67.0" />
+      <Text layoutX="348.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cinema:" wrappingWidth="112.0">
          <font>
             <Font name="System Bold Italic" size="15.0" />
          </font>
       </Text>
-      <TextField fx:id="priceTextField" layoutX="346.0" layoutY="144.0" prefHeight="26.0" prefWidth="67.0" />
-      <Text layoutX="429.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cinema:" wrappingWidth="112.0">
+      <ChoiceBox fx:id="cinemaChoice" layoutX="348.0" layoutY="143.0" prefHeight="26.0" prefWidth="46.0" />
+      <Text layoutX="422.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hall:" wrappingWidth="112.0">
          <font>
             <Font name="System Bold Italic" size="15.0" />
          </font>
       </Text>
-      <ChoiceBox fx:id="cinemaChoice" layoutX="429.0" layoutY="143.0" prefHeight="26.0" prefWidth="46.0" />
-      <Text layoutX="503.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hall:" wrappingWidth="112.0">
-         <font>
-            <Font name="System Bold Italic" size="15.0" />
-         </font>
-      </Text>
-      <ChoiceBox fx:id="hallChoice" layoutX="503.0" layoutY="143.0" prefHeight="26.0" prefWidth="46.0" />
+      <ChoiceBox fx:id="hallChoice" layoutX="422.0" layoutY="143.0" prefHeight="26.0" prefWidth="46.0" />
       <Button fx:id="AddShowBtn" layoutX="575.0" layoutY="143.0" mnemonicParsing="false" onAction="#clickAddShowBtn" text="ADD SHOW" textAlignment="CENTER" textFill="#cf2626">
          <font>
             <Font name="System Bold Italic" size="12.0" />
