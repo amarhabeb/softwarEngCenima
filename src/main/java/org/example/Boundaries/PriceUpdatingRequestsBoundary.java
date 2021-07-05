@@ -130,7 +130,7 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     	DeleteRequest(selected_request.getID());
     	
     	// set items in table
-    	ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
+    	ObservableList<UpdatePriceRequest> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
     	UpdatePriceRequestsTable.setItems(DataList);
     }
     
