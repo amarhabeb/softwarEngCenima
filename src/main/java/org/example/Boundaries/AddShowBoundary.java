@@ -208,7 +208,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	    			cinemas_halls.add(hall);
     	    		}
     	    	}
-	            hallChoice.setItems(CinemaClient.HallsData);
+	            hallChoice.setItems((ObservableList<Hall>) cinemas_halls);
     	    }
     	    else {
     	    	hallChoice.setItems(null);

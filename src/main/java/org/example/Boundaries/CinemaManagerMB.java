@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.example.App;
@@ -59,8 +61,16 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
     void CheckIfFilled() {
   		// if all choiceboxes were filled
   		if(report_typeChoice.getValue()!= null && monthChoice.getValue()!= null && 
-  				yearChoice.getValue()!= null && cinemaChoice.getValue()!= null) {
-  			viewReportBtn.setDisable(false);
+  				yearChoice.getValue()!= null) {
+  			if(report_typeChoice.getValue()=="Tickets Sales") {
+  				if(cinemaChoice.getValue()!=null) {
+  					viewReportBtn.setDisable(false);
+  				}else {
+  					viewReportBtn.setDisable(true);
+  				}
+  			}else {
+  				viewReportBtn.setDisable(false);
+  			}
   		}
   		else {
   			viewReportBtn.setDisable(true);
@@ -82,11 +92,6 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
         	yearChoice.getItems().add(2021+year);
         }
     	
-    	// initialize cinema choice box
-    	for (Cinema cinema:CinemaClient.CinemasData) {
-        	cinemaChoice.getItems().add(cinema);
-        }
-    	
     	// initialize report type choice box
         report_typeChoice.getItems().addAll("Tickets Sales", "Packages and Online Shows Sales", "Refunds", "Complaints");
         
@@ -98,7 +103,17 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
     	    CheckIfFilled();
     	});
     	report_typeChoice.setOnAction((event) -> {
-    	    CheckIfFilled();
+    		CheckIfFilled();
+    	    // initialize cinema choice box
+    	    String type = report_typeChoice.getValue();
+    	    if(type=="Tickets Sales") {
+    	    	cinemaChoice.setDisable(false);
+	            cinemaChoice.setItems(CinemaClient.CinemasData);
+    	    }
+    	    else {
+    	    	cinemaChoice.setItems(null);
+    	    	cinemaChoice.setDisable(true);
+    	    }
     	});
     	monthChoice.setOnAction((event) -> {
     	    CheckIfFilled();
