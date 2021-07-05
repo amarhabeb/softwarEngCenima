@@ -5,10 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -32,6 +29,28 @@ public class MoviesController {
             exception.printStackTrace();
             return null;
         } 
+
+    }
+    public static List<Movie> loadOnlineMovies(Session session){
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
+            Root<Movie> root=query.from(Movie.class);
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("status"),"AVAILABLE");
+            predicates[1]=builder.equal(root.get("availableOnline"),true);
+            query.where(predicates);
+            List<Movie> data = session.createQuery(query).getResultList();
+            session.getTransaction().commit();
+            return data;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occured, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
 
     }
 
