@@ -11,7 +11,7 @@ public abstract class Boundary {
 	
 	// title of boundary
 	String title = "";
-	List<Object> Params;
+	List<Object> params;
 	
 	// brings the Shows from the DataBase and updates the ShowsData local list
 	synchronized void UpdateShowsData() {
