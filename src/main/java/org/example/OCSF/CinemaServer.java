@@ -10,8 +10,11 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.lang.Package;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.LinkedList;
@@ -657,9 +660,9 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("addMessage")) {
-				Message msg = (Message) message.get(1);
+				Message msg1 = (Message) message.get(1);
 				// adding message into  database
-				boolean success = MessageController.addMessage(session, msg);
+				boolean success = MessageController.addMessage(session, msg1);
 				//session.refresh(Message.class);
 
 				// reply to client
@@ -728,21 +731,21 @@ public class CinemaServer extends AbstractServer{
 				client.sendToClient(messageToClient);
 			}
 
-			if(message.get(0).equals("loadMovieShows")) {
-				int movie_id = (int)message.get(1);
-				// load data
-				List<Show> Data = ShowsController.loadMovieShow(session,movie_id);
-				try {
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("Movie'sShowsLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+//			if(message.get(0).equals("loadMovieShows")) {
+//				int movie_id = (int)message.get(1);
+//				// load data
+//				List<Show> Data = ShowsController.loadMovieShow(session,movie_id);
+//				try {
+//					// reply to client
+//					LinkedList<Object> messageToClient = new LinkedList<Object>();
+//					messageToClient.add("Movie'sShowsLoaded");
+//					messageToClient.add(Data);
+//					client.sendToClient(messageToClient);
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
 
 			if(message.get(0).equals("loadSeats")) {
 				// load data
@@ -902,29 +905,45 @@ public class CinemaServer extends AbstractServer{
     		/*when we create the movie we give its empty list of shows
     		and when we create the shows list we set its in the movie
     		 */
-			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),init.HarryPotterSummary(),"18/07/2020",0,  image, emptyShowList);
+
+			ImageIcon im = new ImageIcon("src/main/resources/org.example/Images/1.jpg");
+			ImageIcon im1 = new ImageIcon("src/main/resources/org.example/Images/2.jpg");
+			ImageIcon im2 = new ImageIcon("src/main/resources/org.example/Images/3.jpg");
+			ImageIcon im3 = new ImageIcon("src/main/resources/org.example/Images/4.jpg");
+			ImageIcon im4 = new ImageIcon("src/main/resources/org.example/Images/5.jpg");
+			ImageIcon im5 = new ImageIcon("src/main/resources/org.example/Images/6.jpg");
+			ImageIcon im6 = new ImageIcon("src/main/resources/org.example/Images/7.jpg");
+			ImageIcon im7 = new ImageIcon("src/main/resources/org.example/Images/8.jpg");
+			ImageIcon im8 = new ImageIcon("src/main/resources/org.example/Images/9.jpg");
+			ImageIcon im9 = new ImageIcon("src/main/resources/org.example/Images/10.jpg");
+			ImageIcon im10 = new ImageIcon("src/main/resources/org.example/Images/11.jpg");
+			ImageIcon im11= new ImageIcon("src/main/resources/org.example/Images/12.jpg");
+
+
+
+			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),init.HarryPotterSummary(), LocalDate.parse("18-07-2020"),false,  im, emptyShowList);
 			moviesList.add(HarryPotter7);
-			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), "31/08/2019",0, image, emptyShowList);
+			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("31-08-2019"),false, im1, emptyShowList);
 			moviesList.add(Joker);
-			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), "14/08/2020",1, image, emptyShowList);
+			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), LocalDate.parse("14/08/2020"),true, im3, emptyShowList);
 			moviesList.add(TheAvengers);
-			Movie StarWars=new Movie("Star Wars","מלחמת הכוכבים","George Lucas",init.StarWarsCast(), init.StarWarsSummary(), "14/08/2020",1, image, emptyShowList);
+			Movie StarWars=new Movie("Star Wars","מלחמת הכוכבים","George Lucas",init.StarWarsCast(), init.StarWarsSummary(), LocalDate.parse("14-08-2020"),true, im2, emptyShowList);
 			moviesList.add(StarWars);
-			Movie Inception=new Movie("Incepteion","התחלה","Emma Thomas",init.InceptionCast(), init.InceptionSummary(), "14/08/2020",1, image, emptyShowList);
+			Movie Inception=new Movie("Incepteion","התחלה","Emma Thomas",init.InceptionCast(), init.InceptionSummary(), LocalDate.parse("14-08-2020"),true, im4, emptyShowList);
 			moviesList.add(Inception);
-			Movie TheDarKnight=new Movie("The Dark Knight","האביר האפל","Emma Thomas,Charles Roven,Christopher Nolan",init.TheDarkKnightCast(), init.TheDarkKnightSummary(), "14/08/2020",1, image, emptyShowList);
+			Movie TheDarKnight=new Movie("The Dark Knight","האביר האפל","Emma Thomas,Charles Roven,Christopher Nolan",init.TheDarkKnightCast(), init.TheDarkKnightSummary(), LocalDate.parse("14-08-2020"),true, im5, emptyShowList);
 			moviesList.add(TheDarKnight);
-			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), "14/08/2020",1, image, emptyShowList);
+			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), LocalDate.parse("14-08-2020"),true, im6, emptyShowList);
 			moviesList.add(CaptainAmerica);
-			Movie Avatar=new Movie("Avatar","אווטאר","James Cameron,Jon Landau",init.AvatarCast(), init.AvatarSummary(), "14/08/2020",1, image, emptyShowList);
+			Movie Avatar=new Movie("Avatar","אווטאר","James Cameron,Jon Landau",init.AvatarCast(), init.AvatarSummary(), LocalDate.parse("14-08-2020"),true, im7, emptyShowList);
 			moviesList.add(Avatar);
-			Movie Jaws=new Movie("Jaws","מלתעות","Steven Spielberg",init.JawsCast(), init.JawsSummary(), "14/08/2020",1, image, emptyShowList);
+			Movie Jaws=new Movie("Jaws","מלתעות","Steven Spielberg",init.JawsCast(), init.JawsSummary(), LocalDate.parse("14-08-2020"),true, im8, emptyShowList);
 			moviesList.add(Jaws);
-			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), "14/08/2020",1, image, emptyShowList);
+			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), LocalDate.parse("14-08-2020"),true, im9, emptyShowList);
 			moviesList.add(Rocky);
-			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), "14/08/2020",1, image, emptyShowList);
+			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("14-08-2020"),true, im10, emptyShowList);
 			moviesList.add(Titanic);
-			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), "14/08/2020",1, image, emptyShowList);
+			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("14-08-2020"),true, im11, emptyShowList);
 			moviesList.add(LordOfTheRings);
 			cinema1.setMovies(moviesList);
 
@@ -1088,7 +1107,7 @@ public class CinemaServer extends AbstractServer{
 
 
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
         if (args.length != 1) {
             System.out.println("Required argument: <port>");
         } else {
