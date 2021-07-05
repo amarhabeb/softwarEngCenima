@@ -1,11 +1,13 @@
 package org.example.Boundaries;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
+import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.ContentManager;
@@ -87,21 +89,21 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 		UpdateShowsData();
 	}
 	
-	public static Boolean RequestDeleted = true;	// holds if the show is deleted yet
+	public static Boolean RequestApprovedAndDeleted = true;	// holds if the show is deleted yet
     // delete request in DataBase and brings the Shows from the DataBase and updates 
  	// the RequestsData local list
-    synchronized void DeleteRequest(int request_id) {
-		RequestDeleted = false;	// show isn't deleted yet
+    synchronized void ApproveAndDeleteRequest(int request_id) {
+    	RequestApprovedAndDeleted = false;	// show isn't deleted yet
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
-		message.add("DeleteRequest");
+		message.add("ApproveAndDeleteRequest");
 		message.add(request_id);
 		synchronized(CinemaClient.ShowsDataLock)
 		{	
 			CinemaClientCLI.sendMessage(message);
 							
 			// wait for Data to be changed
-			while(!RequestDeleted) {
+			while(!RequestApprovedAndDeleted) {
 				try {
 					CinemaClient.ShowsDataLock.wait();
 				} catch (InterruptedException e) {
@@ -115,6 +117,11 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 	}
     
     @FXML
+    void clickGoBackToMainBtn(ActionEvent event) throws IOException {
+    	App.setRoot("CinemaManagerMB",null);
+    }
+    
+    @FXML
     void clickApproveSelectedBtn(ActionEvent event) {
     	int show_id = selected_request.getShow_id();
 		Double new_price = selected_request.getUpdatedPrice();
@@ -126,8 +133,8 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     		MessageBoundaryEmployee.displayError("An error occured. Show couldn't be updated.");
     	}
 		
-    	// delete request
-    	DeleteRequest(selected_request.getID());
+    	// approve and delete request
+    	ApproveAndDeleteRequest(selected_request.getID());
     	
     	// set items in table
     	ObservableList<UpdatePriceRequest> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
@@ -141,8 +148,8 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 	        	// change show entity
 	            ChangeShowPrice(upr.getShow_id(), upr.getUpdatedPrice());
 	    		
-	        	// delete request
-	        	DeleteRequest(upr.getID());
+	        	// approve and delete request
+	        	ApproveAndDeleteRequest(upr.getID());
 	    	}
 	    	MessageBoundaryEmployee.displayInfo("Shows' prices successfully changed.");
     	}catch(Exception e) {	// server threw exception while trying to delete show

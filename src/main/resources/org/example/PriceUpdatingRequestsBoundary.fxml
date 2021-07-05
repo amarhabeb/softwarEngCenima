@@ -8,6 +8,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -25,7 +28,7 @@
                         <Cursor fx:constant="SE_RESIZE" />
                      </cursor>
                   </ImageView>
-                  <Label layoutX="144.0" layoutY="27.0" text="Price Updating Requests" textFill="WHITE">
+                  <Label layoutX="161.0" layoutY="26.0" text="Price Updating Requests" textFill="WHITE">
                      <font>
                         <Font name="System Bold Italic" size="45.0" />
                      </font>
@@ -61,5 +64,26 @@
             </AnchorPane>
          </children>
       </AnchorPane>
+      <Button fx:id="GoBackToMainBtn" layoutX="23.0" layoutY="21.0" mnemonicParsing="false" onAction="#clickGoBackToMainBtn" prefHeight="26.0" prefWidth="123.0" text="&lt;&lt; go back to main">
+         <font>
+            <Font name="System Bold Italic" size="11.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.35478729009628296" green="0.6100000143051147" blue="0.32330000400543213" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.6736842393875122" green="0.00499025359749794" blue="0.5510903000831604" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Button>
    </children>
 </AnchorPane>

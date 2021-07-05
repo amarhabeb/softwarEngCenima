@@ -7,6 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
+
+import org.example.Boundaries.Boundary;
 
 /**
  * JavaFX App
@@ -24,8 +27,12 @@ public class App extends Application {
         stage.show();
     }
 
-    public static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+    public static void setRoot(String fxml, List<Object> params) throws IOException {
+    	FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+    	Parent root = fxmlLoader.load();
+    	Boundary boundary = fxmlLoader.<Boundary>getController();
+    	boundary.setParams(params);
+        scene.setRoot(root);
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
