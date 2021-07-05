@@ -20,7 +20,7 @@ public class Show implements Serializable{
     private int ID;
     private LocalDateTime dateTime;
     //private LocalTime time;
-    private boolean isOnline;
+    //private boolean isOnline;
     private String status;  //can be AVAILABLE / NOT_AVAILABLE
     private double price;
     @ManyToOne(targetEntity = Movie.class)
@@ -30,10 +30,10 @@ public class Show implements Serializable{
 
     
     
-    public Show(LocalDateTime date, boolean isOnline, String status, double price, Movie movie, Hall hall) {
+    public Show(LocalDateTime date, String status, double price, Movie movie, Hall hall) {
         super();
         this.dateTime = date;
-        this.isOnline = isOnline;
+        //this.isOnline = isOnline;
         this.status = status;
         this.price = price;
         this.movie = movie;
@@ -63,13 +63,13 @@ public class Show implements Serializable{
     	this.setDateTime(LocalDateTime.of(this.getDate(), time));
     }
 
-    public boolean getIsOnline() {
+    /*public boolean getIsOnline() {
         return isOnline;
     }
 
     public void setOnline(boolean online) {
         isOnline = online;
-    }
+    }*/
 
     public String getStatus() {
         return status;

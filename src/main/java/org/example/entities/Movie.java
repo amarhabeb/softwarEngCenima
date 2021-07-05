@@ -26,13 +26,15 @@ public class Movie {
     private Boolean is_new;
     private ImageIcon image;
     private String status; // can be AVAILABLE / NOT_AVAILABLE
+    private boolean availableOnline;
     @OneToMany(targetEntity = Show.class)
     private List<Show> shows;
 
     public Movie() {    }
 
 
-    public Movie(String name_en, String name_heb, String director, List<String> cast, String summary, LocalDate lanuch_date, Boolean is_new,ImageIcon image, List<Show> shows) {
+    public Movie(String name_en, String name_heb, String director, List<String> cast, String summary,
+                 LocalDate lanuch_date, Boolean is_new,ImageIcon image, List<Show> shows, boolean availableOnline) {
         this.name_en = name_en;
         this.name_heb = name_heb;
         this.director = director;
@@ -42,6 +44,7 @@ public class Movie {
         this.is_new = is_new;
         this.image = image;
         this.shows = shows;
+        this.availableOnline=availableOnline;
     }
 
     public String getStatus() {
@@ -103,6 +106,15 @@ public class Movie {
     public void setLanuch_date(LocalDate lanuch_date) {
         this.lanuch_date = lanuch_date;
     }
+
+    public boolean isAvailableOnline() {
+        return availableOnline;
+    }
+
+    public void setAvailableOnline(boolean availableOnline) {
+        this.availableOnline = availableOnline;
+    }
+
 
 
     public void setIs_new(Boolean is_new) {
