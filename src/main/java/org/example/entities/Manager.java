@@ -6,8 +6,8 @@ import javax.persistence.Table;
 @Table(name ="manger")
 
 public class Manager extends Employee {
-    public Manager(String name, String phoneNum, String email, String userName, String password) {
-        super(name, phoneNum, email, userName, password);
+    public Manager(String name, String phoneNum, String email, String userName, String password, int role) {
+        super(name, phoneNum, email, userName, password, role);
     }
     public Manager(){
         super();

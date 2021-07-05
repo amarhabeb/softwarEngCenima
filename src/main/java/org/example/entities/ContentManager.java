@@ -6,7 +6,7 @@ import javax.persistence.Table;
 @Table(name ="contentmanger")
 public class ContentManager extends Manager{
     public ContentManager(String name, String phoneNum, String email, String userName, String password) {
-        super(name, phoneNum, email, userName, password);
+        super(name, phoneNum, email, userName, password, -1);
     }
     public ContentManager(){
         super();
