@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 
 import javax.persistence.criteria.*;
 import java.time.Month;
+import java.time.Year;
 import java.util.List;
 
 public class PackagesController {
@@ -68,15 +69,16 @@ public class PackagesController {
             return false;
         }
     }
-    public static List<Package> makePackagesReportByMonth(Session session, Month month) throws Exception{
+    public static List<Package> makePackagesReportByMonth(Session session, Month month, Year year) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Package> query = builder.createQuery(Package.class);
             Root<Package> root=query.from(Package.class);
-            Predicate[] predicates=new Predicate[2];
+            Predicate[] predicates=new Predicate[3];
             predicates[0]=builder.equal(root.get("active"),true);
             predicates[1]=builder.equal(builder.function("MONTH", Integer.class, root.get("orderDate")),month);
+            predicates[2]=builder.equal(builder.function("YEAR", Integer.class, root.get("orderDate")),year);
             query.where(predicates);
             query.orderBy(builder.asc(root.get("orderDate")));
             List<Package> data = session.createQuery(query).getResultList();
