@@ -7,7 +7,9 @@ import java.util.ResourceBundle;
 
 import org.example.OCSF.CinemaClient;
 import org.example.entities.Cinema;
+import org.example.entities.Link;
 import org.example.entities.Ticket;
+import org.example.entities.Package;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,9 +42,15 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     private Text worstSalesText;
     @FXML
     private Text totalText;
+    @FXML
+    private Text profitsText;
     
     // will hold the tickets of the chosen report
     List<Ticket> tickets = null;
+    // will hold the tickets of the chosen report
+    List<Package> packages = null;
+    // will hold the tickets of the chosen report
+    List<Link> links = null;
     
     @FXML
     void clickGoBackToMainBtn(ActionEvent event) {
@@ -96,18 +104,12 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
   		// set title according to chosen report type
   		title.setText(report_type);
   		
-  		// data represented in chart
-  		XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
-  		String cinema_str;
-  		if(cinema==null) {
-  			cinema_str = "";
-  		}else {
-  			cinema_str = cinema.toString() + ", ";
-  		}
-  	    series.setName(report_type + ", " + cinema_str + month.toString() + ", " + year.toString());
-  		
-  		// if the report is of ticket sales type
+  	    
+  		// if the report is of Tickets Sales type
   		if(report_type == "Tickets Sales") {
+  			// data represented in chart
+  	  		XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
+  	  	    series.setName("Tickets Sales, " + cinema.toString() + ", "+ month.toString() + ", " + year.toString());
 	  		// get needed tickets
 	  		synchronized(CinemaClient.TicketsReportDataLock) {
 		  		UpdateTicketsReportData(cinema.getID(), Month.of(month), Year.of(year));
@@ -119,8 +121,10 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		int daysInMonth = yearMonthObject.lengthOfMonth();
 	  	
 	  		int[] salesInADay = new int[daysInMonth];	// array is initialized by default to zeros
+	  		double profits = 0;
 	  		for (Ticket ticket:tickets) {
 	  			salesInADay[ticket.getOrderDate().getDayOfMonth()-1]++;
+	  			profits+=ticket.getPayment().getAmount();	// calculate how much money was paid for tickets
 	  		}
 	  		
 	  		// fill chart
@@ -128,15 +132,79 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		
 	  		// find the day of max sales
 	  		int max_sales_day = getIndexOfLargest(salesInADay)+1;
-	  		bestSalesText.setText("Best sales of the month were made on " + Integer.toString(max_sales_day) + "/" + Integer.toString(month));
+	  		bestSalesText.setText("Best tickets sales of the month were made on " + Integer.toString(max_sales_day) + "/" + Integer.toString(month));
 	  		
 	  		// find the day of min sales
 	  		int min_sales_day = getIndexOfSmallest(salesInADay)+1;
-	  		worstSalesText.setText("Worst sales of the month were made on " + Integer.toString(min_sales_day) + "/" + Integer.toString(month));
+	  		worstSalesText.setText("Worst tickets sales of the month were made on " + Integer.toString(min_sales_day) + "/" + Integer.toString(month));
 	  		
-	  		// find the day of min sales
+	  		// find the total selled
 	  		int total = tickets.size();
 	  		totalText.setText("Total selled tickets in this month: " + Integer.toString(total));
+	  		
+	  		// find the profits
+	  		profitsText.setText("Profits: " + Double.toString(profits) + "₪");
+  		}
+  		
+  		
+  		// if the report is of Packages and Online Shows Sales type
+  		if(report_type == "Packages and Online Shows Sales") {
+  			// data represented in chart
+  	  		XYChart.Series<Integer, Integer> series_p = new XYChart.Series<>();
+  	  	    series_p.setName("Packages Sales, "+ month.toString() + ", " + year.toString());
+  	  	    XYChart.Series<Integer, Integer> series_l = new XYChart.Series<>();
+	  	    series_l.setName("Online Shows, "+ month.toString() + ", " + year.toString());
+	  		// get needed packages
+	  		synchronized(CinemaClient.PackagesReportDataLock) {
+		  		UpdatePackagesReportData(Month.of(month), Year.of(year));
+		  		packages = CinemaClient.PackagesReportData;
+	  		}
+	  		// get needed packages
+	  		synchronized(CinemaClient.LinksReportDataLock) {
+		  		UpdateLinksReportData(Month.of(month), Year.of(year));
+		  		links = CinemaClient.LinksReportData;
+	  		}
+	  		
+	  		// get number of days in the chosen month
+	  		YearMonth yearMonthObject = YearMonth.of(year, month);
+	  		int daysInMonth = yearMonthObject.lengthOfMonth();
+	  	
+	  		int[] salesInADay_packages = new int[daysInMonth];	// array is initialized by default to zeros
+	  		int[] salesInADay_links = new int[daysInMonth];	// array is initialized by default to zeros
+	  		double profits = 0;
+	  		for (Package p:packages) {
+	  			salesInADay_packages[p.getOrderDate().getDayOfMonth()-1]++;
+	  			profits+=p.getPayment().getAmount();	// calculate how much money was paid for tickets
+	  		}
+	  		for (Link link:links) {
+	  			salesInADay_links[link.getOrderDate().getDayOfMonth()-1]++;
+	  			profits+=link.getPayment().getAmount();	// calculate how much money was paid for tickets
+	  		}
+	  		
+	  		// fill chart
+	  		fillChart(salesInADay_packages, series_p);
+	  		fillChart(salesInADay_links, series_l);
+	  		
+	  		// sum sales
+	  		int[] salesInADay = new int[daysInMonth];
+	  		for(int i=0; i<daysInMonth; i++) {
+	  			salesInADay[i] = salesInADay_packages[i]+salesInADay_links[i];
+	  		}
+	  		
+	  		// find the day of max sales
+	  		int max_sales_day = getIndexOfLargest(salesInADay)+1;
+	  		bestSalesText.setText("Best packages and online shows sales of the month were made on " + Integer.toString(max_sales_day) + "/" + Integer.toString(month));
+	  		
+	  		// find the day of min sales
+	  		int min_sales_day = getIndexOfSmallest(salesInADay)+1;
+	  		worstSalesText.setText("Worst packages and online shows sales of the month were made on " + Integer.toString(min_sales_day) + "/" + Integer.toString(month));
+	  		
+	  		// find the total selled
+	  		int total = packages.size() + links.size();
+	  		totalText.setText("Total selled packages and online shows in this month: " + Integer.toString(total));
+	  		
+	  		// find the profits
+	  		profitsText.setText("Profits: " + Double.toString(profits) + "₪");
   		}
 	}
 

@@ -50,7 +50,12 @@
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Text>
-            <Text fx:id="totalText" fill="WHITE" layoutX="93.0" layoutY="404.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total selled tickets in this month:">
+            <Text fx:id="totalText" fill="WHITE" layoutX="93.0" layoutY="404.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total selled in this month:">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="profitsText" fill="#62ff00" layoutX="93.0" layoutY="426.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Profits: ">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
