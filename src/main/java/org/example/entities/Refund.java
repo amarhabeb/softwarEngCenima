@@ -12,7 +12,7 @@ public class Refund {
     private int ID;
     private double amount;
     private int order_id;  //by this we can get customer_id too
-    private int complaint_id;  //is zero if the reason of the refund is not a complaint (cancelling a show)
+    private int complaint_id;  //is -1 if the reason of the refund is not a complaint (cancelling a show)
     private LocalDateTime date;
 
     public Refund(double amount, int order_id, int complaint_id, LocalDateTime date) {
