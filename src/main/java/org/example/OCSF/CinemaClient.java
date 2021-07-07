@@ -3,6 +3,7 @@ package org.example.OCSF;
 
 import org.example.App;
 import org.example.Boundaries.*;
+import org.example.entities.Cinema;
 import org.example.entities.Complaint;
 import org.example.entities.Show;
 import java.io.IOException;
@@ -30,6 +31,13 @@ public class CinemaClient extends AbstractClient {
 	public static List<Show> MoviessData = new LinkedList<>();
 	public static Boolean MoviesDataUpdated = false;
 	public static Object MoviesDataLock = new Object();
+
+	public static List<Cinema> CinemaData = new LinkedList<>();
+	public static Boolean CinemaDataUpdated = false;
+	public static Object MoviesDataLock = new Object();
+
+
+
 	
     private static final Logger LOGGER =
             Logger.getLogger(CinemaClient.class.getName());
