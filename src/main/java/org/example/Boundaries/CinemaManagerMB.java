@@ -86,9 +86,6 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		// update data
-		UpdateCinemasData();
-		
 		// initialize month and year choice boxes
 		for (int month = 1; month<=12; month++) {
         	monthChoice.getItems().add(month);
@@ -112,8 +109,12 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
     	    // initialize cinema choice box
     	    String type = report_typeChoice.getValue();
     	    if(type=="Tickets Sales") {
-    	    	cinemaChoice.setDisable(false);
-	            cinemaChoice.setItems(CinemaClient.CinemasData);
+    	    	synchronized(CinemaClient.CinemasDataLock) {
+	    	    	// update data
+	    			UpdateCinemasData();
+	    	    	cinemaChoice.setDisable(false);
+		            cinemaChoice.setItems(CinemaClient.CinemasData);
+    	    	}
     	    }
     	    else {
     	    	cinemaChoice.setItems(null);

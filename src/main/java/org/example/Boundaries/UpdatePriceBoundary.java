@@ -63,10 +63,12 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
 	
     @FXML
     void clickRefreshBtn2(ActionEvent event) {
-    	UpdateShowsData();
-		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-		ShowsTable.setItems(DataList);
+    	synchronized(CinemaClient.ShowsDataLock) {
+	    	UpdateShowsData();
+			// set items in table
+			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
+			ShowsTable.setItems(DataList);
+    	}
 		System.out.println("refreshed");
     }
     
@@ -82,7 +84,6 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
     void editTime(ActionEvent event) {
     	
     }
-
     
     @Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -120,31 +121,35 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
 		price.setOnEditCommit(new EventHandler <CellEditEvent<Show, Double>>() {
             @Override
             public void handle(CellEditEvent<Show, Double> price) {
-            	int show_id = ((Show) price.getTableView().getItems().get(
-                        price.getTablePosition().getRow()))
-                        .getID();
-            	try {
-            		double NewPrice = price.getNewValue();
-            		try {
-                		ChangeShowPrice(show_id, NewPrice);
-            			MessageBoundaryEmployee.displayInfo("Show's price successfully updated.");
-            		}catch (Exception e) {	// server threw exception while trying to update
-            			MessageBoundaryEmployee.displayError("An error occured. Show's price couldn't be updated.");
-            		}
-            	}catch(NumberFormatException e) {
-            		MessageBoundaryEmployee.displayError("Price must be a non-negative number.");
+            	synchronized(CinemaClient.ShowsDataLock) {
+	            	int show_id = ((Show) price.getTableView().getItems().get(
+	                        price.getTablePosition().getRow()))
+	                        .getID();
+	            	try {
+	            		double NewPrice = price.getNewValue();
+	            		try {
+	                		ChangeShowPrice(show_id, NewPrice);
+	            			MessageBoundaryEmployee.displayInfo("Show's price successfully updated.");
+	            		}catch (Exception e) {	// server threw exception while trying to update
+	            			MessageBoundaryEmployee.displayError("An error occured. Show's price couldn't be updated.");
+	            		}
+	            	}catch(NumberFormatException e) {
+	            		MessageBoundaryEmployee.displayError("Price must be a non-negative number.");
+	            	}
+	            	
+	            	// set items in table
+	        		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
+	        		ShowsTable.setItems(DataList);
             	}
-            	
-            	// set items in table
-        		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-        		ShowsTable.setItems(DataList);
             }
     	});
 		
-		// update ShowData
-		UpdateShowsData();
-		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-		ShowsTable.setItems(DataList);
+		synchronized(CinemaClient.ShowsDataLock) {
+			// update ShowData
+			UpdateShowsData();
+			// set items in table
+			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
+			ShowsTable.setItems(DataList);
+		}
 	}
 }

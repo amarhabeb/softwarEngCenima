@@ -122,6 +122,27 @@ public abstract class Boundary {
 		}	
 	}
 	
+	synchronized void UpdateTicketsData() {
+		// add message to ClientInput so it could be sent to server
+		CinemaClient.TicketsDataUpdated = false;
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadTickets");
+		synchronized(CinemaClient.TicketsDataLock)
+		{	
+			CinemaClientCLI.sendMessage(message);
+										
+			// wait for Data to be updated
+			while(!CinemaClient.TicketsDataUpdated) {
+				try {
+						CinemaClient.TicketsDataLock.wait();
+				} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+				}
+			}	
+		}	
+	}
+	
 	// return show given id
 	public Show idToShow(int id) {
    	 	for(Show show:CinemaClient.ShowsData) {

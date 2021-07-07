@@ -84,9 +84,9 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 					e.printStackTrace();
 				}
 			}	
+			// update ShowData
+			UpdateShowsData();
 		}	
-		// update ShowData
-		UpdateShowsData();
 	}
 	
 	public static Boolean RequestApprovedAndDeleted = true;	// holds if the show is deleted yet
@@ -98,22 +98,22 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     	LinkedList<Object> message = new LinkedList<Object>();
 		message.add("ApproveAndDeleteRequest");
 		message.add(request_id);
-		synchronized(CinemaClient.ShowsDataLock)
+		synchronized(CinemaClient.UpdatePriceRequestsDataLock)
 		{	
 			CinemaClientCLI.sendMessage(message);
 							
 			// wait for Data to be changed
 			while(!RequestApprovedAndDeleted) {
 				try {
-					CinemaClient.ShowsDataLock.wait();
+					CinemaClient.UpdatePriceRequestsDataLock.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}	
+			// update Data
+			UpdateUpdatePriceRequestsData();
 		}	
-		// update Data
-		UpdateUpdatePriceRequestsData();
 	}
     
     @FXML
@@ -125,35 +125,39 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     void clickApproveSelectedBtn(ActionEvent event) {
     	int show_id = selected_request.getShow_id();
 		Double new_price = selected_request.getUpdatedPrice();
-    	try {
-    		// change show entity
-        	ChangeShowPrice(show_id, new_price);
-    		MessageBoundaryEmployee.displayInfo("Show's price successfully changed.");
-    	}catch(Exception e) {	// server threw exception while trying to delete show
-    		MessageBoundaryEmployee.displayError("An error occured. Show couldn't be updated.");
-    	}
-		
-    	// approve and delete request
-    	ApproveAndDeleteRequest(selected_request.getID());
-    	
-    	// set items in table
-    	ObservableList<UpdatePriceRequest> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
-    	UpdatePriceRequestsTable.setItems(DataList);
+		synchronized(UpdatePriceRequestsDataLock) {
+	    	try {
+	    		// change show entity
+	        	ChangeShowPrice(show_id, new_price);
+	    		MessageBoundaryEmployee.displayInfo("Show's price successfully changed.");
+	    	}catch(Exception e) {	// server threw exception while trying to delete show
+	    		MessageBoundaryEmployee.displayError("An error occured. Show couldn't be updated.");
+	    	}
+			
+	    	// approve and delete request
+	    	ApproveAndDeleteRequest(selected_request.getID());
+	    	
+	    	// set items in table
+	    	ObservableList<UpdatePriceRequest> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
+	    	UpdatePriceRequestsTable.setItems(DataList);
+		}
     }
     
     @FXML
     void clickApproveAllBtn(ActionEvent event) {
-    	try {
-	    	for (UpdatePriceRequest upr:CinemaClient.UpdatePriceRequestsData) {
-	        	// change show entity
-	            ChangeShowPrice(upr.getShow_id(), upr.getUpdatedPrice());
-	    		
-	        	// approve and delete request
-	        	ApproveAndDeleteRequest(upr.getID());
+    	synchronized(UpdatePriceRequestsDataLock) {
+	    	try {
+		    	for (UpdatePriceRequest upr:CinemaClient.UpdatePriceRequestsData) {
+		        	// change show entity
+		            ChangeShowPrice(upr.getShow_id(), upr.getUpdatedPrice());
+		    		
+		        	// approve and delete request
+		        	ApproveAndDeleteRequest(upr.getID());
+		    	}
+		    	MessageBoundaryEmployee.displayInfo("Shows' prices successfully changed.");
+	    	}catch(Exception e) {	// server threw exception while trying to delete show
+	    		MessageBoundaryEmployee.displayError("An error occured. Shows couldn't be updated.");
 	    	}
-	    	MessageBoundaryEmployee.displayInfo("Shows' prices successfully changed.");
-    	}catch(Exception e) {	// server threw exception while trying to delete show
-    		MessageBoundaryEmployee.displayError("An error occured. Shows couldn't be updated.");
     	}
     }
     
@@ -224,13 +228,13 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 			}
 		});
 		
-		
-		// update Data
-		UpdateUpdatePriceRequestsData();
-		UpdateShowsData();
-		// set items in table
-		ObservableList<UpdatePriceRequest> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
-		UpdatePriceRequestsTable.setItems(DataList);
+		synchronized(UpdatePriceRequestsDataLock) {
+			// update Data
+			UpdateUpdatePriceRequestsData();
+			// set items in table
+			ObservableList<UpdatePriceRequest> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
+			UpdatePriceRequestsTable.setItems(DataList);
+		}
 	}
 
 }
