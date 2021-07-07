@@ -1,5 +1,6 @@
 package org.example.OCSF;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.example.Controllers.*;
 import org.example.entities.*;
 import org.example.init;
@@ -35,7 +36,29 @@ public class CinemaServer extends AbstractServer{
 
 		// Add ALL of your entities here. You can also try adding a whole package.
 		configuration.addAnnotatedClass(Show.class);
-		
+		configuration.addAnnotatedClass(ChainManager.class);
+		configuration.addAnnotatedClass(Cinema.class);
+		configuration.addAnnotatedClass(ChainManager.class);
+		configuration.addAnnotatedClass(Complaint.class);
+		configuration.addAnnotatedClass(ContentManager.class);
+		configuration.addAnnotatedClass(Customer.class);
+		configuration.addAnnotatedClass(CustomerService.class);
+		configuration.addAnnotatedClass(Employee.class);
+		configuration.addAnnotatedClass(Hall.class);
+		configuration.addAnnotatedClass(Link.class);
+		configuration.addAnnotatedClass(Manager.class);
+		configuration.addAnnotatedClass(Message.class);
+		configuration.addAnnotatedClass(Movie.class);
+		configuration.addAnnotatedClass(Order.class);
+		configuration.addAnnotatedClass(Package.class);
+		configuration.addAnnotatedClass(Payment.class);
+		configuration.addAnnotatedClass(Person.class);
+		configuration.addAnnotatedClass(Refund.class);
+		configuration.addAnnotatedClass(Regulations.class);
+		configuration.addAnnotatedClass(Seat.class);
+		configuration.addAnnotatedClass(Ticket.class);
+		configuration.addAnnotatedClass(UpdatePriceRequest.class);
+
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties())
 				.build();
@@ -86,9 +109,10 @@ public class CinemaServer extends AbstractServer{
     		
     		if(message.get(0).equals("LoadShows")) {
     			// load data
-    			List<Show> Data = ShowsController.loadShows(session);
-    			try {	
-    				// reply to client	
+    			try {
+					List<Show> Data = ShowsController.loadShows(session);
+
+					// reply to client
     				LinkedList<Object> messageToClient = new LinkedList<Object>();
     				messageToClient.add("ShowsLoaded");
     				messageToClient.add(Data);
@@ -101,8 +125,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("LoadComplaints")) {
 				// load data
-				List<Complaint> Data = ComplaintsController.loadComplaints(session);
 				try {
+					List<Complaint> Data = ComplaintsController.loadComplaints(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("ComplaintesLoaded");
@@ -139,8 +164,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("LoadLinks")) {
 				// load data
-				List<Link> Data = LinkController.loadLinks(session);
 				try {
+					List<Link> Data = LinkController.loadLinks(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("LinksLoaded");
@@ -170,8 +196,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("LoadMovies")) {
 				// load data
-				List<Movie> Data = MoviesController.loadMovies(session);
 				try {
+					List<Movie> Data = MoviesController.loadMovies(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("MoviesLoaded");
@@ -213,8 +240,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("LoadOrders")) {
 				// load data
-				List<Order> Data = OrderController.loadOrders(session);
 				try {
+					List<Order> Data = OrderController.loadOrders(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("OrderssLoaded");
@@ -229,8 +257,9 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadCutomersOrders")) {
 				// load data
 				int cost_id = (int)message.get(1);
-				List<Order> Data = OrderController.loadCutomersOrders(cost_id,session);
 				try {
+					List<Order> Data = OrderController.loadCutomersOrders(cost_id,session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("Costumer'sOrdersLoaded");
@@ -286,8 +315,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("LoadRefunds")) {
 				// load data
-				List<Refund> Data = RefundController.loadRefunds(session);
 				try {
+					List<Refund> Data = RefundController.loadRefunds(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("RefundssLoaded");
@@ -315,8 +345,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("LoadReagulations")) {
 				// load data
-				List<Regulations> Data = RegulationsController.loadReagulations(session);
 				try {
+					List<Regulations> Data = RegulationsController.loadReagulations(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("RegulationsLoaded");
@@ -383,8 +414,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("LoadTickets")) {
 				// load data
-				List<Ticket> Data = TicketsController.loadTickets(session);
 				try {
+					List<Ticket> Data = TicketsController.loadTickets(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("MoviesLoaded");
@@ -399,8 +431,9 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadCustomersTickets")) {
 				// load data
 				int cost_id = (int)message.get(1);
-				List<Ticket> Data = TicketsController.loadCustomersTickets(session, cost_id);
 				try {
+					List<Ticket> Data = TicketsController.loadCustomersTickets(session, cost_id);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("Costumer'sTicketsLoaded");
@@ -428,8 +461,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("LoadUpdatePriceRequest")) {
 				// load data
-				List<UpdatePriceRequest> Data = UpdatePriceRequestController.loadRequest(session);
 				try {
+					List<UpdatePriceRequest> Data = UpdatePriceRequestController.loadRequest(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("MoviesLoaded");
@@ -471,8 +505,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("loadCinemas")) {
 				// load data
-				List<Cinema> Data = CinemaController.loadCinemas(session);
 				try {
+					List<Cinema> Data = CinemaController.loadCinemas(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("CinemasLoaded");
@@ -512,8 +547,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("loadEmployees")) {
 				// load data
-				List<Employee> Data = EmployeeController.loadEmployees(session);
 				try {
+					List<Employee> Data = EmployeeController.loadEmployees(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("EmployeesLoaded");
@@ -553,10 +589,11 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("logIn")) {
 				// load data
-				String username = (String) message.get(1);
-				String password = (String)message.get(2);
-				Employee Data = EmployeeController.logIn(session,username,password);
+
 				try {
+					String username = (String) message.get(1);
+					String password = (String)message.get(2);
+					Employee Data = EmployeeController.logIn(session,username,password);
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("logInCompleted");
@@ -597,8 +634,9 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("loadLinkTime")) {
 				int link_id = (int)message.get(1);
 				// load data
-				LocalDateTime Data = LinkController.loadLinkTime(session,link_id);
 				try {
+					LocalDateTime Data = LinkController.loadLinkTime(session,link_id);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("linkTimeLoaded");
@@ -613,8 +651,9 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("loadLinkPrice")) {
 				int link_id = (int)message.get(1);
 				// load data
-				double Data = LinkController.loadLinkPrice(session,link_id);
 				try {
+					double Data = LinkController.loadLinkPrice(session,link_id);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("linkPriceLoaded");
@@ -629,8 +668,9 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("cancelLink")) {
 				int link_id = (int)message.get(1);
 				// load data
-				Refund Data = LinkController.cancelLink(session,link_id);
 				try {
+					Refund Data = LinkController.cancelLink(session,link_id);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("linkCanceled");
@@ -674,8 +714,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("LoadNewMovies")) {
 				// load data
-				List<Movie> Data = MoviesController.loadNewMovies(session);
 				try {
+					List<Movie> Data = MoviesController.loadNewMovies(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("NewMoviesLoaded");
@@ -689,8 +730,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("loadPackages")) {
 				// load data
-				List<org.example.entities.Package> Data = PackagesController.loadPackages(session);
 				try {
+					List<org.example.entities.Package> Data = PackagesController.loadPackages(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("PackagesLoaded");
@@ -705,8 +747,9 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("loadCustomersPackages")) {
 				// load data
 				int cost_id = (int)message.get(1);
-				List<org.example.entities.Package> Data = PackagesController.loadCustomersPackages(session, cost_id);
 				try {
+					List<org.example.entities.Package> Data = PackagesController.loadCustomersPackages(session, cost_id);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("Costumer'sPackagesLoaded");
@@ -749,8 +792,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("loadSeats")) {
 				// load data
-				List<Seat> Data = SeatController.loadSeats(session);
 				try {
+					List<Seat> Data = SeatController.loadSeats(session);
+
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("SeatsLoaded");
