@@ -95,4 +95,20 @@ public class Cinema {
     public void setHalls(List<Hall> halls) {
         this.halls = halls;
     }
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 }

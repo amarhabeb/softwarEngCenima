@@ -1,5 +1,7 @@
 package org.example.Boundaries;
 
+import java.time.Month;
+import java.time.Year;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -135,6 +137,30 @@ public abstract class Boundary {
 			while(!CinemaClient.TicketsDataUpdated) {
 				try {
 						CinemaClient.TicketsDataLock.wait();
+				} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+				}
+			}	
+		}	
+	}
+	
+	synchronized void UpdateTicketsReportData(int cinema_id, Month month, Year year) {
+		// add message to ClientInput so it could be sent to server
+		CinemaClient.TicketsReportDataUpdated = false;
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadTicketsReport");
+		message.add(cinema_id);
+		message.add(month);
+		message.add(year);
+		synchronized(CinemaClient.TicketsReportDataLock)
+		{	
+			CinemaClientCLI.sendMessage(message);
+										
+			// wait for Data to be updated
+			while(!CinemaClient.TicketsReportDataUpdated) {
+				try {
+						CinemaClient.TicketsReportDataLock.wait();
 				} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
