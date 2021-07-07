@@ -59,7 +59,7 @@ public class RefundController {
             CriteriaQuery<Refund> query = builder.createQuery(Refund.class);
             Root<Refund> root=query.from(Refund.class);
             Predicate[] predicates=new Predicate[3];
-            predicates[0]=builder.notEqual(root.get("order_id"),-1);
+            predicates[0]=builder.equal(root.get("complaint_id"),-1);
             predicates[1]=builder.equal(builder.function("MONTH", Integer.class, root.get("date")),month);
             predicates[2]=builder.equal(builder.function("YEAR", Integer.class, root.get("date")),year);
             query.where(predicates);
