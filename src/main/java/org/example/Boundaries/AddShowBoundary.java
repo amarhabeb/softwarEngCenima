@@ -63,7 +63,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     public static Boolean ShowAdded = true;	// holds if the show is added yet
     // add show in DataBase and brings the Shows from the DataBase and updates 
  	// the ShowsData local list
-    void AddShow(Show show) {
+    synchronized void AddShow(Show show) {
 		ShowAdded = false;	// show isn't added yet
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
@@ -126,10 +126,6 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		}
 		
 		resetChoiceBoxes();
-		// update data
-		UpdateMoviesData();
-		UpdateHallsData();
-		UpdateCinemasData();
     }
 
     @FXML
@@ -152,16 +148,15 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
    
   	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-  		
-		// update data
-		UpdateMoviesData();
-		UpdateHallsData();
-		UpdateCinemasData();
 		
-    	// initialize movie choice box
-    	for (Movie movie:CinemaClient.MoviesData) {
-        	movieChoice.getItems().add(movie);
-        }
+		synchronized(CinemaClient.MoviesDataLock) {
+			// update data
+			UpdateMoviesData();
+	    	// initialize movie choice box
+	    	for (Movie movie:CinemaClient.MoviesData) {
+	        	movieChoice.getItems().add(movie);
+	        }
+  		}
     	
     	// initialize time choice boxes
     	for (int hour = 0; hour<=23; hour++) {
@@ -171,10 +166,14 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
         	minsChoice.getItems().add(min);
         }
     	
-    	// initialize cinema choice box
-    	for (Cinema cinema:CinemaClient.CinemasData) {
-        	cinemaChoice.getItems().add(cinema);
-        }
+    	synchronized(CinemaClient.CinemasDataLock) {
+	    	// update data
+	    	UpdateCinemasData();
+	    	// initialize cinema choice box
+	    	for (Cinema cinema:CinemaClient.CinemasData) {
+	        	cinemaChoice.getItems().add(cinema);
+	        }
+    	}
     	
     	// disable button
   		CheckIfFilled();
@@ -201,14 +200,18 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	    // initialize hall choice box
     	    Cinema cinema = cinemaChoice.getValue();
     	    if(cinema!=null) {
-    	    	hallChoice.setDisable(false);
-    	    	List<Hall> cinemas_halls = new LinkedList<Hall>();
-    	    	for(Hall hall:CinemaClient.HallsData) {	// if hall is in chosen cinema then add it
-    	    		if(hall.getCinema()==cinema) {
-    	    			cinemas_halls.add(hall);
-    	    		}
+    	    	synchronized(CinemaClient.HallsDataLock) {
+	    	    	// update data
+	    			UpdateHallsData();
+	    	    	hallChoice.setDisable(false);
+	    	    	List<Hall> cinemas_halls = new LinkedList<Hall>();
+	    	    	for(Hall hall:CinemaClient.HallsData) {	// if hall is in chosen cinema then add it
+	    	    		if(hall.getCinema()==cinema) {
+	    	    			cinemas_halls.add(hall);
+	    	    		}
+	    	    	}
+		            hallChoice.setItems((ObservableList<Hall>) cinemas_halls);
     	    	}
-	            hallChoice.setItems((ObservableList<Hall>) cinemas_halls);
     	    }
     	    else {
     	    	hallChoice.setItems(null);

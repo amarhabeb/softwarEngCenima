@@ -89,12 +89,12 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	
 	@FXML
     void clickRefreshBtn(ActionEvent event) {
-		if(!CinemaClient.ShowsDataUpdated) {
+		synchronized(CinemaClient.ShowsDataLock) {
 			UpdateShowsData();
-    	}
-		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-		ShowsTable.setItems(DataList);
+			// set items in table
+			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
+			ShowsTable.setItems(DataList);
+		}
 	}
 
 	@FXML
@@ -158,12 +158,11 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 		     }
 		  });
 		
-		System.out.println("ShowDataUpdated: "+CinemaClient.ShowsDataUpdated);
-		if(!CinemaClient.ShowsDataUpdated) {
+		synchronized(CinemaClient.ShowsDataLock) {
 			UpdateShowsData();
+			// set items in table
+			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
+			ShowsTable.setItems(DataList);
 		}
-		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-		ShowsTable.setItems(DataList);
 	}
 }

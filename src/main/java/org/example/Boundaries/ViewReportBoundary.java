@@ -37,6 +37,7 @@ public class ViewReportBoundary extends EmployeeMainBoundary implements Initiali
   		
   		// set title according to chosen report type
   		title.setText(report_type);
+  		UpdateSpecificTickets();
 	}
 
 }

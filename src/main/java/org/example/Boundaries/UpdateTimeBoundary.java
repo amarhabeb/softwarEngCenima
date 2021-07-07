@@ -71,19 +71,19 @@ public class UpdateTimeBoundary extends ContentManagerDisplayBoundary implements
 					e.printStackTrace();
 				}
 			}	
+			// update ShowData
+			UpdateShowsData();
 		}	
-		// update ShowData
-		UpdateShowsData();
 	}
 	
     @FXML
     void clickRefreshBtn2(ActionEvent event) {
-    	UpdateShowsData();
-   
-		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-		ShowsTable.setItems(DataList);
-		System.out.println("refreshed");
+    	synchronized(CinemaClient.ShowsDataLock) {
+	    	UpdateShowsData();
+			// set items in table
+			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
+			ShowsTable.setItems(DataList);
+    	}
     }
     
     @FXML // fx:id="GoBackToMainBtn"
@@ -136,25 +136,27 @@ public class UpdateTimeBoundary extends ContentManagerDisplayBoundary implements
 		time.setOnEditCommit(new EventHandler <CellEditEvent<Show, String>>() {
             @Override
             public void handle(CellEditEvent<Show, String> time) {
-            	int show_id = ((Show) time.getTableView().getItems().get(
-                        time.getTablePosition().getRow()))
-                        .getID();
-            	String NewTime_Str = time.getNewValue();
-            	try {
-            		LocalTime NewTime = LocalTime.parse(NewTime_Str);
-            		try {
-            			ChangeShowTime(show_id, NewTime);
-            			MessageBoundaryEmployee.displayInfo("Show's time successfully updated.");
-            		}catch(Exception e) {
-            			MessageBoundaryEmployee.displayError("An error occured. Show's time couldn't be updated.");
-            		}
-            		
-            	} catch (DateTimeParseException e){	// invalid time input
-            		MessageBoundaryEmployee.displayError("Time must be of the form HH:MM.");
-            	}finally {
-            		// set items in table
-            		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-            		ShowsTable.setItems(DataList);
+            	synchronized(CinemaClient.ShowsDataLock) {
+	            	int show_id = ((Show) time.getTableView().getItems().get(
+	                        time.getTablePosition().getRow()))
+	                        .getID();
+	            	String NewTime_Str = time.getNewValue();
+	            	try {
+	            		LocalTime NewTime = LocalTime.parse(NewTime_Str);
+	            		try {
+	            			ChangeShowTime(show_id, NewTime);
+	            			MessageBoundaryEmployee.displayInfo("Show's time successfully updated.");
+	            		}catch(Exception e) {
+	            			MessageBoundaryEmployee.displayError("An error occured. Show's time couldn't be updated.");
+	            		}
+	            		
+	            	} catch (DateTimeParseException e){	// invalid time input
+	            		MessageBoundaryEmployee.displayError("Time must be of the form HH:MM.");
+	            	}finally {
+	            		// set items in table
+	            		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
+	            		ShowsTable.setItems(DataList);
+	            	}
             	}
             }
     	});

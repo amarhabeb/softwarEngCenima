@@ -80,26 +80,28 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
 					e.printStackTrace();
 				}
 			}	
+			// update ShowData
+			UpdateShowsData();
 		}	
-		// update ShowData
-		UpdateShowsData();
 	}
     
     @FXML
     void clickDeleteShowBtn(ActionEvent event) {
     	int show_id = selected_show.getID();
 		
-    	try {
-    		// delete show entity
-        	DeleteShow(show_id);
-    		MessageBoundaryEmployee.displayInfo("Show successfully deleted.");
-    	}catch(Exception e) {	// server threw exception while trying to delete show
-    		MessageBoundaryEmployee.displayError("An error occured. Show couldn't be deleted.");
+    	synchronized(CinemaClient.ShowsDataLock) {
+	    	try {
+	    		// delete show entity
+	        	DeleteShow(show_id);
+	    		MessageBoundaryEmployee.displayInfo("Show successfully deleted.");
+	    	}catch(Exception e) {	// server threw exception while trying to delete show
+	    		MessageBoundaryEmployee.displayError("An error occured. Show couldn't be deleted.");
+	    	}
+			
+	    	// set items in table
+	    	ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
+	    	ShowsTable.setItems(DataList);
     	}
-		
-    	// set items in table
-    	ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-    	ShowsTable.setItems(DataList);
 		
     }
 
@@ -110,16 +112,18 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
 
     @FXML
     void clickRefreshBtn2(ActionEvent event) {
-    	UpdateShowsData();
-    	DeleteShowBtn.setDisable(true);
-    	selected_show = null;
-    	selectedShowText.setText("*no show selected*");
-    	selectedDateText.setText("");
-    	selectedTimeText.setText("");
-		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-		ShowsTable.setItems(DataList);
-		System.out.println("refreshed");
+    	synchronized(CinemaClient.ShowsDataLock) {
+	    	UpdateShowsData();
+	    	DeleteShowBtn.setDisable(true);
+	    	selected_show = null;
+	    	selectedShowText.setText("*no show selected*");
+	    	selectedDateText.setText("");
+	    	selectedTimeText.setText("");
+			// set items in table
+			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
+			ShowsTable.setItems(DataList);
+			System.out.println("refreshed");
+    	}
     }
     
     @Override
@@ -170,11 +174,13 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
 		    }
 		});
 		
-		// update ShowData
-		UpdateShowsData();
-		// set items in table
-		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-		ShowsTable.setItems(DataList);
+		synchronized(CinemaClient.ShowsDataLock) {
+			// update ShowData
+			UpdateShowsData();
+			// set items in table
+			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
+			ShowsTable.setItems(DataList);
+		}
 	}
 
 }
