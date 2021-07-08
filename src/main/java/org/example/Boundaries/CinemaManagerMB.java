@@ -24,9 +24,6 @@ import javafx.scene.control.ChoiceBox;
 @SuppressWarnings("serial")
 public class CinemaManagerMB extends EmployeeMainBoundary implements Initializable, Serializable{
 
-    @FXML // fx:id="ViewPriceUpdatingRequestsBtn"
-    private Button ViewPriceUpdatingRequestsBtn; // Value injected by FXMLLoader
-
     @FXML // fx:id="report_type"
     private ChoiceBox<String> report_typeChoice; // Value injected by FXMLLoader
 
