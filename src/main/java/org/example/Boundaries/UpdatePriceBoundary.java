@@ -1,6 +1,5 @@
 package org.example.Boundaries;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
@@ -29,7 +28,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Show;
@@ -75,11 +73,6 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
     @FXML // fx:id="GoBackToMainBtn"
     private Button GoBackToMainBtn; // Value injected by FXMLLoader
 
-    @FXML
-    void clickGoBackToMainBtn(ActionEvent event)  throws IOException {
-    	App.setRoot("ContentManagerMB",null);
-    }
-    
     @FXML
     void editTime(ActionEvent event) {
     	
