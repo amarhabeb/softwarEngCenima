@@ -61,7 +61,7 @@ public class LinkController {
             return null;
         }
     }
-    public static Boolean addLink(Package newLink, Session session) throws Exception {
+    public static Boolean addLink(Link newLink, Session session) throws Exception {
         try {
             Transaction transaction = session.beginTransaction();
             session.save(newLink);

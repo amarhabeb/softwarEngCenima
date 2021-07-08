@@ -245,7 +245,7 @@ public class CinemaServer extends AbstractServer{
 
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("OrderssLoaded");
+					messageToClient.add("OrdersLoaded");
 					messageToClient.add(Data);
 					client.sendToClient(messageToClient);
 				} catch (IOException e) {
@@ -382,7 +382,7 @@ public class CinemaServer extends AbstractServer{
 				}
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("RegulationStatusUpdated");
+				messageToClient.add("RegulationStatusDeactivated");
 				client.sendToClient(messageToClient);
 			}
 
@@ -419,7 +419,7 @@ public class CinemaServer extends AbstractServer{
 
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("MoviesLoaded");
+					messageToClient.add("TicketsLoaded");
 					messageToClient.add(Data);
 					client.sendToClient(messageToClient);
 				} catch (IOException e) {
@@ -466,7 +466,7 @@ public class CinemaServer extends AbstractServer{
 
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("MoviesLoaded");
+					messageToClient.add("UpdatePriceRequestLoaded");
 					messageToClient.add(Data);
 					client.sendToClient(messageToClient);
 				} catch (IOException e) {
@@ -485,7 +485,7 @@ public class CinemaServer extends AbstractServer{
 				}
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("PriceChanged");
+				messageToClient.add("UpdatePriceChanged");
 				client.sendToClient(messageToClient);
 			}
 
@@ -619,7 +619,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("addLink")) {
-				Package newLink = (Package) message.get(1);
+				Link newLink = (Link) message.get(1);
 				// adding link into  database
 				boolean success = LinkController.addLink(newLink,session);
 				//session.refresh(Link.class);
@@ -858,19 +858,19 @@ public class CinemaServer extends AbstractServer{
 				client.sendToClient(messageToClient);
 			}
 
-			if(message.get(0).equals("sendTicketAsMessage")) {
-				TicketMessage mesage = (TicketMessage) message.get(1);
-				// adding request into  database
-				boolean success = TicketsController.sendTicketAsMessage(mesage);
-				//session.refresh(UpdatePriceRequest.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("TicketSentAsMessage");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
+//			if(message.get(0).equals("sendTicketAsMessage")) {
+//				TicketMessage mesage = (TicketMessage) message.get(1);
+//				// adding request into  database
+//				boolean success = TicketsController.sendTicketAsMessage(mesage);
+//				//session.refresh(UpdatePriceRequest.class);
+//
+//				// reply to client
+//				LinkedList<Object> messageToClient = new LinkedList<Object>();
+//				messageToClient.add("TicketSentAsMessage");
+//				messageToClient.add(success);
+//				client.sendToClient(messageToClient);
+//			}
+//
 
 
 
