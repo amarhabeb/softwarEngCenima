@@ -277,6 +277,7 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 		
 		// disable button
 		approveSelectedBtn.setDisable(true);
+		declineSelectedBtn.setDisable(true);
 				
 		// get selected request from table
 		UpdatePriceRequestsTable.setOnMouseClicked((event) -> {
@@ -286,6 +287,7 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 				selectedRequestText.setText(show.getMovie().toString() + ", change from " + 
 						Double.toString(show.getPrice()) + " to " + Double.toString(selected_request.getUpdatedPrice()));
 				approveSelectedBtn.setDisable(false);
+				declineSelectedBtn.setDisable(false);
 			} else {
 				selectedRequestText.setText("*no request selected*");
 			}
