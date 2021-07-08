@@ -28,12 +28,12 @@
                         <Cursor fx:constant="SE_RESIZE" />
                      </cursor>
                   </ImageView>
-                  <Label layoutX="161.0" layoutY="26.0" text="Price Updating Requests" textFill="WHITE">
+                  <Label layoutX="161.0" layoutY="28.0" text="Price Updating Requests" textFill="WHITE">
                      <font>
                         <Font name="System Bold Italic" size="45.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="UpdatePriceRequestsTable" layoutX="38.0" layoutY="93.0" prefHeight="318.0" prefWidth="723.0">
+                  <TableView fx:id="UpdatePriceRequestsTable" layoutX="38.0" layoutY="95.0" prefHeight="290.0" prefWidth="723.0">
                      <columns>
                         <TableColumn fx:id="movie_name" prefWidth="134.4000244140625" text="Movie Title" />
                         <TableColumn fx:id="date" prefWidth="73.60003662109375" text="Date" />
@@ -45,21 +45,31 @@
                         <TableColumn fx:id="requested_by" prefWidth="125.60003662109375" text="Requested by:" />
                      </columns>
                   </TableView>
-                  <Button fx:id="approveBtn" layoutX="38.0" layoutY="430.0" mnemonicParsing="false" onAction="#clickApproveBtn" prefHeight="31.0" prefWidth="163.0" text="APPROVE SELECTED" textAlignment="CENTER" textFill="#cf2626">
+                  <Button fx:id="approveBtn" layoutX="38.0" layoutY="401.0" mnemonicParsing="false" onAction="#clickApproveBtn" prefHeight="17.0" prefWidth="142.0" text="APPROVE SELECTED" textAlignment="CENTER" textFill="#3dcf27">
                      <font>
-                        <Font name="System Bold Italic" size="15.0" />
+                        <Font name="System Bold Italic" size="13.0" />
                      </font>
                   </Button>
-                  <Button fx:id="approveAllBtn" layoutX="637.0" layoutY="430.0" mnemonicParsing="false" onAction="#clickApproveAllBtn" prefHeight="31.0" prefWidth="123.0" text="APPROVE ALL" textAlignment="CENTER" textFill="#cf2626">
+                  <Button fx:id="approveAllBtn" layoutX="538.0" layoutY="401.0" mnemonicParsing="false" onAction="#clickApproveAllBtn" prefHeight="26.0" prefWidth="108.0" text="APPROVE ALL" textAlignment="CENTER" textFill="#34cf27">
                      <font>
-                        <Font name="System Bold Italic" size="15.0" />
+                        <Font name="System Bold Italic" size="13.0" />
                      </font>
                   </Button>
-                  <Text fx:id="selectedRequestText" fill="WHITE" layoutX="211.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*no request selected*" wrappingWidth="158.4000000000001">
+                  <Text fx:id="selectedRequestText" fill="WHITE" layoutX="38.0" layoutY="446.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*no request selected*" wrappingWidth="158.4000000000001">
                      <font>
                         <Font name="System Italic" size="13.0" />
                      </font>
                   </Text>
+                  <Button fx:id="declineAll" layoutX="653.0" layoutY="401.0" mnemonicParsing="false" onAction="#clickDeclineAllBtn" prefHeight="26.0" prefWidth="108.0" text="DECLINE ALL" textAlignment="CENTER" textFill="#cf2626">
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="declineSelectedBtn" layoutX="187.0" layoutY="401.0" mnemonicParsing="false" onAction="#clickDeclineSelectedBtn" prefHeight="17.0" prefWidth="142.0" text="DECLINE SELECTED" textAlignment="CENTER" textFill="#cf2626">
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
          </children>
