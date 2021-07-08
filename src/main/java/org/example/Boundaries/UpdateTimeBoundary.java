@@ -12,7 +12,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.Callback;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalTime;
@@ -28,7 +27,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Show;
@@ -88,11 +86,6 @@ public class UpdateTimeBoundary extends ContentManagerDisplayBoundary implements
     
     @FXML // fx:id="GoBackToMainBtn"
     private Button GoBackToMainBtn; // Value injected by FXMLLoader
-
-    @FXML
-    void clickGoBackToMainBtn(ActionEvent event)  throws IOException {
-    	App.setRoot("ContentManagerMB",null);
-    }
     
     @FXML
     void editTime(ActionEvent event) {

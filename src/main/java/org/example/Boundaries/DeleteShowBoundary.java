@@ -106,11 +106,6 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
     }
 
     @FXML
-    void clickGoBackToMainBtn(ActionEvent event)  throws IOException {
-    	App.setRoot("ContentManagerMB",null);
-    }
-
-    @FXML
     void clickRefreshBtn2(ActionEvent event) {
     	synchronized(CinemaClient.ShowsDataLock) {
 	    	UpdateShowsData();

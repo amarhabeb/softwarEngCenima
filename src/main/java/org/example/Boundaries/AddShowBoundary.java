@@ -1,6 +1,6 @@
 package org.example.Boundaries;
 
-import java.awt.event.ActionEvent;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.io.IOException;
 import java.io.Serializable;
@@ -126,11 +126,6 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		}
 		
 		resetChoiceBoxes();
-    }
-
-    @FXML
-    void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-    	App.setRoot("ContentManagerMB",null);
     }
 
   	void CheckIfFilled() {

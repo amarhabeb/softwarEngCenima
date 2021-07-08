@@ -1,12 +1,15 @@
 package org.example.Boundaries;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.entities.Cinema;
+import org.example.entities.Complaint;
 import org.example.entities.Link;
 import org.example.entities.Ticket;
 import org.example.entities.Package;
@@ -35,7 +38,10 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     private Button GoBackToMainBtn; // Value injected by FXMLLoader
     
     @FXML
-    private LineChart<Integer, Integer> reports_chart;
+    private Button viewDetailsBtn;
+    
+    @FXML
+    private LineChart<Number, Number> reports_chart;
     
     @FXML
     private Text bestSalesText;
@@ -56,14 +62,21 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     List<Link> links = null;
     // will hold the refunds of the chosen report if needed
     List<Refund> refunds = null;
+    // will hold the complaints of the chosen report if needed
+    List<Complaint> complaints = null;
     
     @FXML
-    void clickGoBackToMainBtn(ActionEvent event) {
-
+    void clickGoBackToMainBtn(ActionEvent event) throws IOException {
+    	App.setRoot("CinemaManagerMB",null);
+    }
+    
+    @FXML
+    void clickViewDetailsBtn(ActionEvent event) {
+    	
     }
     
     // given a data array, tis method will fill the chart with this data
-    void fillChart(int[] data, XYChart.Series<Integer, Integer> series){
+    void fillChart(int[] data, XYChart.Series<Number, Number> series){
     	int idx = 1;
     	for(int val:data) {
     		series.getData().add(new XYChart.Data<>(idx, val));	// add (x,y) value to series
@@ -73,8 +86,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     	reports_chart.getData().add(series);
     }
     
-    public int getIndexOfLargest( int[] array )
-    {
+    public int getIndexOfLargest( int[] array ) {
       if ( array == null || array.length == 0 ) return -1; // null or empty
 
       int largest = 0;
@@ -85,8 +97,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
       return largest; // position of the first largest found
     }
     
-    public int getIndexOfSmallest( int[] array )
-    {
+    public int getIndexOfSmallest( int[] array ) {
       if ( array == null || array.length == 0 ) return -1; // null or empty
 
       int smallest = 0;
@@ -113,7 +124,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
   		// if the report is of Tickets Sales type
   		if(report_type == "Tickets Sales") {
   			// data represented in chart
-  	  		XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
+  	  		XYChart.Series<Number, Number> series = new XYChart.Series<>();
   	  	    series.setName("Tickets sold per day, " + cinema.toString() + ", "+ month.toString() + ", " + year.toString());
 	  		// get needed tickets
 	  		synchronized(CinemaClient.TicketsReportDataLock) {
@@ -158,9 +169,9 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
   		// if the report is of Packages and Online Shows Sales type
   		if(report_type == "Packages and Online Shows Sales") {
   			// data represented in chart
-  	  		XYChart.Series<Integer, Integer> series_p = new XYChart.Series<>();
+  	  		XYChart.Series<Number, Number> series_p = new XYChart.Series<>();
   	  	    series_p.setName("Packages sold per day, "+ month.toString() + ", " + year.toString());
-  	  	    XYChart.Series<Integer, Integer> series_l = new XYChart.Series<>();
+  	  	    XYChart.Series<Number, Number> series_l = new XYChart.Series<>();
 	  	    series_l.setName("Online shows sold per day, "+ month.toString() + ", " + year.toString());
 	  		// get needed packages
 	  		synchronized(CinemaClient.PackagesReportDataLock) {
@@ -220,7 +231,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
   		// if the report is of Refunds type
   		if(report_type == "Refunds") {
   			// data represented in chart
-  	  		XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
+  	  		XYChart.Series<Number, Number> series = new XYChart.Series<>();
   	  	    series.setName("Refunded money per day, " + month.toString() + ", " + year.toString());
 	  		// get needed refunds
 	  		synchronized(CinemaClient.RefundsReportDataLock) {
@@ -250,7 +261,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		int min_refunded_day = getIndexOfSmallest(refundedInADay)+1;
 	  		worstSalesText.setText("Lowest refunded amount of the month was made on " + Integer.toString(min_refunded_day) + "/" + Integer.toString(month));
 	  		
-	  		// find the total selled
+	  		// find the total refunds
 	  		int total = refunds.size();
 	  		totalText.setText("Total refunds in this month: " + Integer.toString(total));
 	  		
@@ -258,6 +269,48 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		
 	  		// find the refunded amount
 	  		refundedText.setText("Total refunded money: " + Double.toString(amount_refunded) + "₪");
+  		}
+  		
+  		
+  		// if the report is of Refunds type
+  		if(report_type == "Complaints") {
+  			// data represented in chart
+  	  		XYChart.Series<Number, Number> series = new XYChart.Series<>();
+  	  	    series.setName("Complaints per day, " + month.toString() + ", " + year.toString());
+	  		// get needed complaints
+	  		synchronized(CinemaClient.ComplaintsReportDataLock) {
+		  		UpdateComplaintsReportData(Month.of(month), Year.of(year));
+		  		complaints = CinemaClient.ComplaintsReportData;
+	  		}
+	  		
+	  		// get number of days in the chosen month
+	  		YearMonth yearMonthObject = YearMonth.of(year, month);
+	  		int daysInMonth = yearMonthObject.lengthOfMonth();
+	  	
+	  		int[] complaintsInADay = new int[daysInMonth];	// array is initialized by default to zeros
+	  		for (Complaint complaint:complaints) {
+	  			complaintsInADay[complaint.getCreationDate().getDayOfMonth()-1]++;
+	  		}
+	  		
+	  		// fill chart
+	  		fillChart(complaintsInADay, series);
+	  		
+	  		// find the day of max complaints
+	  		int max_complaints_day = getIndexOfLargest(complaintsInADay)+1;
+	  		bestSalesText.setText("Highest complaints amount of the month was made on " + Integer.toString(max_complaints_day) + "/" + Integer.toString(month));
+	  		
+	  		// find the day of min sales
+	  		int min_complaints_day = getIndexOfSmallest(complaintsInADay)+1;
+	  		worstSalesText.setText("Lowest complaints amount of the month was made on " + Integer.toString(min_complaints_day) + "/" + Integer.toString(month));
+	  		
+	  		// find the total complaints
+	  		int total = complaints.size();
+	  		totalText.setText("Total complaints in this month: " + Integer.toString(total));
+	  		
+	  		profitsText.setText("");
+	  		
+	  		// find the refunded amount
+	  		refundedText.setText("");
   		}
 	}
 

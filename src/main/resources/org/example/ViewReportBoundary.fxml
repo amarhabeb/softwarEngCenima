@@ -40,31 +40,36 @@
                 <NumberAxis prefHeight="163.0" prefWidth="28.0" side="LEFT" />
               </yAxis>
             </LineChart>
-            <Text fx:id="bestSalesText" fill="WHITE" layoutX="97.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best sales of the month were made on">
+            <Text fx:id="bestSalesText" fill="WHITE" layoutX="97.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best sales of the month were made on">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Text>
-            <Text fx:id="worstSalesText" fill="WHITE" layoutX="97.0" layoutY="420.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Worst sales of the month were made on">
+            <Text fx:id="worstSalesText" fill="WHITE" layoutX="97.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Worst sales of the month were made on">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Text>
-            <Text fx:id="totalText" fill="WHITE" layoutX="97.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total sold in this month:">
+            <Text fx:id="totalText" fill="WHITE" layoutX="97.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total sold in this month:">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="profitsText" fill="#62ff00" layoutX="97.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Profits: ">
+            <Text fx:id="profitsText" fill="#62ff00" layoutX="97.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Profits: ">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="refundedText" fill="RED" layoutX="97.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total refunded money:">
+            <Text fx:id="refundedText" fill="RED" layoutX="97.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total refunded money:">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Text>
+            <Button fx:id="viewDetailsBtn" layoutX="97.0" layoutY="424.0" mnemonicParsing="false" onAction="#clickViewDetailsBtn" text="View details" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <Button fx:id="GoBackToMainBtn" layoutX="23.0" layoutY="21.0" mnemonicParsing="false" onAction="#clickGoBackToMainBtn" prefHeight="26.0" prefWidth="123.0" text="&lt;&lt; go back to main">
