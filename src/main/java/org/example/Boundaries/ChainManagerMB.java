@@ -1,7 +1,8 @@
 package org.example.Boundaries;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;import java.io.IOException;
+import javafx.event.EventHandler;
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
@@ -13,7 +14,6 @@ import java.util.ResourceBundle;
 import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.entities.Cinema;
-import org.example.entities.CinemaManager;
 import org.example.entities.Hall;
 
 import javafx.fxml.FXML;
@@ -22,7 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 
 @SuppressWarnings("serial")
-public class CinemaManagerMB extends EmployeeMainBoundary implements Initializable, Serializable{
+public class ChainManagerMB extends EmployeeMainBoundary implements Initializable, Serializable{
 
     @FXML // fx:id="ViewPriceUpdatingRequestsBtn"
     private Button ViewPriceUpdatingRequestsBtn; // Value injected by FXMLLoader
@@ -96,7 +96,7 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
         }
     	
     	// initialize report type choice box
-        report_typeChoice.getItems().addAll("Tickets Sales");
+        report_typeChoice.getItems().addAll("Tickets Sales", "Packages and Online Shows Sales", "Refunds", "Complaints");
         
         // disable button
   		CheckIfFilled();
@@ -114,8 +114,7 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
 	    	    	// update data
 	    			UpdateCinemasData();
 	    	    	cinemaChoice.setDisable(false);
-		            cinemaChoice.setItems(null);
-		            cinemaChoice.getItems().add(idToCinema(((CinemaManager)employee).getCinema()));
+		            cinemaChoice.setItems(CinemaClient.CinemasData);
     	    	}
     	    }
     	    else {

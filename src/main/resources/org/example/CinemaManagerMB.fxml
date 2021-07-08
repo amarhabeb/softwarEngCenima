@@ -10,62 +10,62 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CinemaManagerMB">
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="CinemaManagerMB">
    <children>
-      <AnchorPane prefHeight="488.0" prefWidth="800.0">
+      <AnchorPane>
          <children>
-            <ImageView fitHeight="488.0" fitWidth="800.0">
-               <image>
-                  <Image url="@cinema-with-white-screen-curtain-seats_259139-264.jpg" />
-               </image>
-               <cursor>
-                  <Cursor fx:constant="SE_RESIZE" />
-               </cursor>
-            </ImageView>
-            <Button fx:id="ViewPriceUpdatingRequestsBtn" layoutX="20.0" layoutY="358.0" mnemonicParsing="false" onAction="#clickViewPriceUpdatingRequestsBtn" prefHeight="50.0" prefWidth="222.0" text="View Price Updating Requests" textAlignment="CENTER" textFill="#b71b1b">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Button>
-            <Label layoutX="307.0" layoutY="28.0" text="Reports" textFill="WHITE">
-               <font>
-                  <Font name="System Bold Italic" size="45.0" />
-               </font>
-            </Label>
-            <ChoiceBox fx:id="report_typeChoice" layoutX="301.0" layoutY="150.0" prefWidth="150.0" />
-            <Text layoutX="301.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report type:" wrappingWidth="112.0">
-               <font>
-                  <Font name="System Bold Italic" size="15.0" />
-               </font>
-            </Text>
-            <ChoiceBox fx:id="monthChoice" layoutX="301.0" layoutY="217.0" prefHeight="26.0" prefWidth="81.0" />
-            <Text layoutX="301.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month:" wrappingWidth="112.0">
-               <font>
-                  <Font name="System Bold Italic" size="15.0" />
-               </font>
-            </Text>
-            <ChoiceBox fx:id="cinemaChoice" layoutX="459.0" layoutY="150.0" prefHeight="26.0" prefWidth="150.0" />
-            <Text layoutX="459.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cinema:" wrappingWidth="112.0">
-               <font>
-                  <Font name="System Bold Italic" size="15.0" />
-               </font>
-            </Text>
-            <Button fx:id="viewReportBtn" layoutX="515.0" layoutY="217.0" mnemonicParsing="false" onAction="#clickViewReportBtn" text="VIEW REPORT" textAlignment="CENTER" textFill="#cf2626">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Button>
-            <Text fill="#c51010" layoutX="118.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert report's details and click VIEW REPORT to view the report's content:" wrappingWidth="112.0">
-               <font>
-                  <Font name="System Bold Italic" size="15.0" />
-               </font>
-            </Text>
-            <ChoiceBox fx:id="yearChoice" layoutX="390.0" layoutY="217.0" prefHeight="26.0" prefWidth="81.0" />
-            <Text layoutX="390.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" wrappingWidth="112.0">
-               <font>
-                  <Font name="System Bold Italic" size="15.0" />
-               </font>
-            </Text>
+            <AnchorPane prefHeight="488.0" prefWidth="800.0">
+               <children>
+                  <ImageView fitHeight="488.0" fitWidth="800.0">
+                     <image>
+                        <Image url="@cinema-with-white-screen-curtain-seats_259139-264.jpg" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="SE_RESIZE" />
+                     </cursor>
+                  </ImageView>
+                  <Label layoutX="307.0" layoutY="28.0" text="Reports" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="45.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox fx:id="report_typeChoice" layoutX="301.0" layoutY="150.0" prefWidth="150.0" />
+                  <Text layoutX="301.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Report type:" wrappingWidth="112.0">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <ChoiceBox fx:id="monthChoice" layoutX="301.0" layoutY="217.0" prefHeight="26.0" prefWidth="81.0" />
+                  <Text layoutX="301.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Month:" wrappingWidth="112.0">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <ChoiceBox fx:id="cinemaChoice" layoutX="459.0" layoutY="150.0" prefHeight="26.0" prefWidth="150.0" />
+                  <Text layoutX="459.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cinema:" wrappingWidth="112.0">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="viewReportBtn" layoutX="515.0" layoutY="217.0" mnemonicParsing="false" onAction="#clickViewReportBtn" text="VIEW REPORT" textAlignment="CENTER" textFill="#cf2626">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Button>
+                  <Text fill="#c51010" layoutX="118.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Insert report's details and click VIEW REPORT to view the report's content:" wrappingWidth="112.0">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <ChoiceBox fx:id="yearChoice" layoutX="390.0" layoutY="217.0" prefHeight="26.0" prefWidth="81.0" />
+                  <Text layoutX="390.0" layoutY="212.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" wrappingWidth="112.0">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>
