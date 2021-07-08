@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
+import org.example.entities.Cinema;
 import org.example.entities.Show;
 
 public abstract class Boundary {
@@ -269,6 +270,16 @@ public abstract class Boundary {
    	 		}
    	 	}
    	 	return null;
+	}
+	
+	// return cinema given id
+	public Cinema idToCinema(int id) {
+	   	 for(Cinema cinema:CinemaClient.CinemasData) {
+	   	 	if(cinema.getID()==id) {
+	   	 		return cinema;
+	   	 	}
+	   	 }
+	   	 return null;
 	}
 
 	public String getTitle() {

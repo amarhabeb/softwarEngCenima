@@ -67,7 +67,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     
     @FXML
     void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-    	App.setRoot("CinemaManagerMB",null);
+    	App.setRoot("ChainManagerMB",null);
     }
     
     @FXML
