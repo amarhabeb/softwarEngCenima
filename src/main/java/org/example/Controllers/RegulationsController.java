@@ -30,6 +30,23 @@ public class RegulationsController {
             return null;
         }
     }
+    //used ONLY once for intiallization.. ONLY ONLY ONLY
+    public static boolean addRegulations(Session session, Regulations reg) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            session.save(reg);
+            session.flush();
+            transaction.commit();
+            return true;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+    }
     public static boolean activateRegulations(Session session, int Y){
         try {
 
