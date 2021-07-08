@@ -244,11 +244,11 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		
 	  		// find the day of max sales
 	  		int max_refunded_day = getIndexOfLargest(refundedInADay)+1;
-	  		bestSalesText.setText("Highest refunded amount of the month was made on " + Integer.toString(max_sales_day) + "/" + Integer.toString(month));
+	  		bestSalesText.setText("Highest refunded amount of the month was made on " + Integer.toString(max_refunded_day) + "/" + Integer.toString(month));
 	  		
 	  		// find the day of min sales
-	  		int min_sales_day = getIndexOfSmallest(refundedInADay)+1;
-	  		worstSalesText.setText("Lowest refunded amount of the month was made on " + Integer.toString(min_sales_day) + "/" + Integer.toString(month));
+	  		int min_refunded_day = getIndexOfSmallest(refundedInADay)+1;
+	  		worstSalesText.setText("Lowest refunded amount of the month was made on " + Integer.toString(min_refunded_day) + "/" + Integer.toString(month));
 	  		
 	  		// find the total selled
 	  		int total = refunds.size();
