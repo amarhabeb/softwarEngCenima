@@ -215,6 +215,29 @@ public abstract class Boundary {
 		}	
 	}
 	
+	synchronized void UpdateRefundsReportData(Month month, Year year) {
+		// add message to ClientInput so it could be sent to server
+		CinemaClient.RefundsReportDataUpdated = false;
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadRefundsReport");
+		message.add(month);
+		message.add(year);
+		synchronized(CinemaClient.RefundsReportDataLock)
+		{	
+			CinemaClientCLI.sendMessage(message);
+										
+			// wait for Data to be updated
+			while(!CinemaClient.RefundsReportDataUpdated) {
+				try {
+						CinemaClient.RefundsReportDataLock.wait();
+				} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+				}
+			}	
+		}	
+	}
+	
 	// return show given id
 	public Show idToShow(int id) {
    	 	for(Show show:CinemaClient.ShowsData) {

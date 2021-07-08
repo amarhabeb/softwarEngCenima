@@ -10,6 +10,7 @@ import org.example.entities.Cinema;
 import org.example.entities.Link;
 import org.example.entities.Ticket;
 import org.example.entities.Package;
+import org.example.entities.Refund;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,13 +45,17 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     private Text totalText;
     @FXML
     private Text profitsText;
+    @FXML
+    private Text refundedText;
     
-    // will hold the tickets of the chosen report
+    // will hold the tickets of the chosen report if needed
     List<Ticket> tickets = null;
-    // will hold the tickets of the chosen report
+    // will hold the packages of the chosen report if needed
     List<Package> packages = null;
-    // will hold the tickets of the chosen report
+    // will hold the links of the chosen report if needed
     List<Link> links = null;
+    // will hold the refunds of the chosen report if needed
+    List<Refund> refunds = null;
     
     @FXML
     void clickGoBackToMainBtn(ActionEvent event) {
@@ -109,7 +114,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
   		if(report_type == "Tickets Sales") {
   			// data represented in chart
   	  		XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
-  	  	    series.setName("Tickets Sales, " + cinema.toString() + ", "+ month.toString() + ", " + year.toString());
+  	  	    series.setName("Tickets sold per day, " + cinema.toString() + ", "+ month.toString() + ", " + year.toString());
 	  		// get needed tickets
 	  		synchronized(CinemaClient.TicketsReportDataLock) {
 		  		UpdateTicketsReportData(cinema.getID(), Month.of(month), Year.of(year));
@@ -140,10 +145,13 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		
 	  		// find the total selled
 	  		int total = tickets.size();
-	  		totalText.setText("Total selled tickets in this month: " + Integer.toString(total));
+	  		totalText.setText("Total sold tickets in this month: " + Integer.toString(total));
 	  		
 	  		// find the profits
 	  		profitsText.setText("Profits: " + Double.toString(profits) + "₪");
+
+	  		refundedText.setText("");
+	  		
   		}
   		
   		
@@ -151,9 +159,9 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
   		if(report_type == "Packages and Online Shows Sales") {
   			// data represented in chart
   	  		XYChart.Series<Integer, Integer> series_p = new XYChart.Series<>();
-  	  	    series_p.setName("Packages Sales, "+ month.toString() + ", " + year.toString());
+  	  	    series_p.setName("Packages sold per day, "+ month.toString() + ", " + year.toString());
   	  	    XYChart.Series<Integer, Integer> series_l = new XYChart.Series<>();
-	  	    series_l.setName("Online Shows, "+ month.toString() + ", " + year.toString());
+	  	    series_l.setName("Online shows sold per day, "+ month.toString() + ", " + year.toString());
 	  		// get needed packages
 	  		synchronized(CinemaClient.PackagesReportDataLock) {
 		  		UpdatePackagesReportData(Month.of(month), Year.of(year));
@@ -174,11 +182,11 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		double profits = 0;
 	  		for (Package p:packages) {
 	  			salesInADay_packages[p.getOrderDate().getDayOfMonth()-1]++;
-	  			profits+=p.getPayment().getAmount();	// calculate how much money was paid for tickets
+	  			profits+=p.getPayment().getAmount();	// calculate how much money was paid for packages
 	  		}
 	  		for (Link link:links) {
 	  			salesInADay_links[link.getOrderDate().getDayOfMonth()-1]++;
-	  			profits+=link.getPayment().getAmount();	// calculate how much money was paid for tickets
+	  			profits+=link.getPayment().getAmount();	// calculate how much money was paid for links
 	  		}
 	  		
 	  		// fill chart
@@ -201,10 +209,55 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		
 	  		// find the total selled
 	  		int total = packages.size() + links.size();
-	  		totalText.setText("Total selled packages and online shows in this month: " + Integer.toString(total));
+	  		totalText.setText("Total sold packages and online shows in this month: " + Integer.toString(total));
 	  		
 	  		// find the profits
 	  		profitsText.setText("Profits: " + Double.toString(profits) + "₪");
+	  		
+	  		refundedText.setText("");
+  		}
+  		
+  		// if the report is of Refunds type
+  		if(report_type == "Refunds") {
+  			// data represented in chart
+  	  		XYChart.Series<Integer, Integer> series = new XYChart.Series<>();
+  	  	    series.setName("Refunded money per day, " + month.toString() + ", " + year.toString());
+	  		// get needed refunds
+	  		synchronized(CinemaClient.RefundsReportDataLock) {
+		  		UpdateRefundsReportData(Month.of(month), Year.of(year));
+		  		refunds = CinemaClient.RefundsReportData;
+	  		}
+	  		
+	  		// get number of days in the chosen month
+	  		YearMonth yearMonthObject = YearMonth.of(year, month);
+	  		int daysInMonth = yearMonthObject.lengthOfMonth();
+	  	
+	  		int[] refundedInADay = new int[daysInMonth];	// array is initialized by default to zeros
+	  		double amount_refunded = 0;
+	  		for (Refund refund:refunds) {
+	  			refundedInADay[refund.getDate().getDayOfMonth()-1]+=refund.getAmount();
+	  			amount_refunded+=refund.getAmount();	// calculate how much money was paid back
+	  		}
+	  		
+	  		// fill chart
+	  		fillChart(refundedInADay, series);
+	  		
+	  		// find the day of max sales
+	  		int max_refunded_day = getIndexOfLargest(refundedInADay)+1;
+	  		bestSalesText.setText("Highest refunded amount of the month was made on " + Integer.toString(max_sales_day) + "/" + Integer.toString(month));
+	  		
+	  		// find the day of min sales
+	  		int min_sales_day = getIndexOfSmallest(refundedInADay)+1;
+	  		worstSalesText.setText("Lowest refunded amount of the month was made on " + Integer.toString(min_sales_day) + "/" + Integer.toString(month));
+	  		
+	  		// find the total selled
+	  		int total = refunds.size();
+	  		totalText.setText("Total refunds in this month: " + Integer.toString(total));
+	  		
+	  		profitsText.setText("");
+	  		
+	  		// find the refunded amount
+	  		refundedText.setText("Total refunded money: " + Double.toString(amount_refunded) + "₪");
   		}
 	}
 
