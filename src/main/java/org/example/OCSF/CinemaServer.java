@@ -70,7 +70,7 @@ public class CinemaServer extends AbstractServer{
 				client.sendToClient(messageToClient);
     		}
     		
-    		if(message.get(0).equals("ChangePriceRequest")) {
+    		if(message.get(0).equals("ChangeShowPrice")) {
     			int show_id = (int) message.get(1);
     			double newPrice = (double) message.get(2);
     			// change price of show in database
