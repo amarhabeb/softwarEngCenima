@@ -3,9 +3,12 @@ package org.example.OCSF;
 
 import org.example.App;
 import org.example.Boundaries.*;
-import org.example.entities.Complaint;
+import org.example.entities.*;
 import org.example.entities.Show;
+import org.hibernate.sql.Update;
+
 import java.io.IOException;
+import java.lang.Package;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -23,13 +26,71 @@ public class CinemaClient extends AbstractClient {
 	public static Boolean ComplaintsDataUpdated = false;
 	public static Object ComplaintsDataLock = new Object();
 
-	public static List<Show> LinksData = new LinkedList<>();
+	public static List<Link> LinksData = new LinkedList<>();
 	public static Boolean LinksDataUpdated = false;
 	public static Object LinksDataLock = new Object();
 
-	public static List<Show> MoviessData = new LinkedList<>();
+	public static List<Movie> MoviesData = new LinkedList<>();
 	public static Boolean MoviesDataUpdated = false;
 	public static Object MoviesDataLock = new Object();
+
+	public static List<Order> OrdersData = new LinkedList<>();
+	public static Boolean OrdersDataUpdated = false;
+	public static Object OrdersDataLock = new Object();
+
+	public static List<Payment> PaymentData = new LinkedList<>();
+	public static Boolean PaymentDataUpdated = false;
+	public static Object PaymentDataLock = new Object();
+
+	public static List<Refund> RefundData = new LinkedList<>();
+	public static Boolean  RefundDataUpdated = false;
+	public static Object  RefundDataLock = new Object();
+
+	public static List<Regulations> RegulationsData = new LinkedList<>();
+	public static Boolean RegulationsDataUpdated = false;
+	public static Object  RegulationsDataLock = new Object();
+
+   public static List<Cinema> CinemasData = new LinkedList<>();
+	public static Boolean CinemasDataUpdated = false;
+	public static Object CinemasDataLock = new Object();
+
+	public static List<Ticket> TicketsData = new LinkedList<>();
+	public static Boolean TicketsDataUpdated = false;
+	public static Object TicketsDataLock = new Object();
+
+	public static List<UpdatePriceRequest> UpdatePriceRequestData = new LinkedList<>();
+	public static Boolean UpdatePriceRequestDataUpdated = false;
+	public static Object UpdatePriceRequestDataLock = new Object();
+
+	public static List<Employee> EmployeeData = new LinkedList<>();
+	public static Boolean EmployeeDataUpdated = false;
+	public static Object EmployeeDataLock = new Object();
+
+	public static List<Hall> HallData = new LinkedList<>();
+	public static Boolean HallDataUpdated = false;
+	public static Object HallDataLock = new Object();
+
+	public static List<Message> MessageData = new LinkedList<>();
+	public static Boolean MessageDataUpdated = false;
+	public static Object MessageDataLock = new Object();
+
+	public static List<Package> PackageData = new LinkedList<>();
+	public static Boolean PackageDataUpdated = false;
+	public static Object PackageDataLock = new Object();
+
+	public static List<Seat>SeatData = new LinkedList<>();
+	public static Boolean SeatDataUpdated = false;
+	public static Object SeatDataLock = new Object();
+
+//	public static List<TicketMessage>SeatData = new LinkedList<>();
+//	public static Boolean SeatDataUpdated = false;
+//	public static Object SeatDataLock = new Object();
+//
+
+
+
+
+
 	
     private static final Logger LOGGER =
             Logger.getLogger(CinemaClient.class.getName());
@@ -78,105 +139,613 @@ public class CinemaClient extends AbstractClient {
 	    		ShowsDataLock.notifyAll();
     		}
 	}
-
-    	
-    	if(message.get(0).equals("ShowsPriceChanged")) {
+		if(message.get(0).equals("ShowsPriceChanged")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
 				throw new Exception("Controller failed");
 			}
-    		synchronized(ShowsDataLock) {
-	    		UpdatePriceBoundary.ShowsPriceChanged = true;	// Price is now changed
-	    		ShowsDataUpdated = false;	// client's ShowsData is now not updated
-	    		ShowsDataLock.notifyAll();
-    		}
-	}
-    	
-
-    	if(message.get(0).equals("ShowsLoaded")) {
-    		// get second argument which is the updated data and assign it to the static variable
-    		ShowsData = (List<Show>) message.get(1);
-    		synchronized(ShowsDataLock) {
-    			ShowsDataUpdated = true;	// client's ShowsData is now updated
-    			ShowsDataLock.notifyAll();
-    		}
-    	}
-
-		if(message.get(0).equals("ComplaintesLoaded")) {
-			// get second argument which is the updated data and assign it to the static variable
-			ComplaintsData = (List<Show>) message.get(1);
-			synchronized(ComplaintsDataLock) {
-				ComplaintsDataUpdated = true;	// client's ComplaintsData is now updated
-				ComplaintsDataLock.notifyAll();
-			}
-		}
-
-		if(message.get(0).equals("ComplaintMarkedAsDone")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
-				throw new Exception("Controller failed");
-			}
-			synchronized(ComplaintsDataLock) {
-				MarkComplaintAsDoneBoundary.ComplaintMarkedAsDone = true;	// Complaint is now  Marked As Done
-				ComplaintsDataUpdated = false;	// client's ComplaintsData is now not updated
-				ComplaintsDataLock.notifyAll();
-			}
-		}
-
-		if(message.get(0).equals("ComplaintAdded")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
-				throw new Exception("Controller failed");
-			}
-			synchronized(ComplaintsDataLock) {
-				AddComplaintBoundary.ComplaintAdded = true;	// Complaint is now added
-				ComplaintsDataUpdated = false;	// client's ComplaintsData is now not updated
-				ComplaintsDataLock.notifyAll();
-			}
-		}
-
-		if(message.get(0).equals("LinksLoaded")) {
-			// get second argument which is the updated data and assign it to the static variable
-			LinksData = (List<Show>) message.get(1);
-			synchronized(LinksDataLock) {
-				LinksDataUpdated = true;	// client's LinksData is now updated
-				LinksDataLock.notifyAll();
-			}
-		}
-
-		if(message.get(0).equals("Costumer'sLinksLoaded")) {
-			// get second argument which is the updated data and assign it to the static variable
-			LinksData = (List<Show>) message.get(1);
-			synchronized(LinksDataLock) {
-				LinksDataUpdated = true;	// client's LinksData is now updated
-				LinksDataLock.notifyAll();
-			}
-		}
-
-		if(message.get(0).equals("ShowsLoaded")) {
-			// get second argument which is the updated data and assign it to the static variable
-			ShowsData = (List<Show>) message.get(1);
 			synchronized(ShowsDataLock) {
-				ShowsDataUpdated = true;	// client's ShowsData is now updated
+				UpdateTimeBoundary.ShowsTimeChanged = true;	// time is now changed
+				ShowsDataUpdated = false;	// client's ShowsData is now not updated
 				ShowsDataLock.notifyAll();
 			}
 		}
-	    
+		if(message.get(0).equals("ShowsLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(ShowsDataLock) {
+
+				ShowsDataUpdated = true;	// client's ShowsData is now not updated
+				ShowsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("ComplaintesLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(ComplaintsDataLock) {
+
+				ComplaintsDataUpdated = true;	// client's ShowsData is now not updated
+				ComplaintsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("MarkComplaintAsDone")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(ComplaintsDataLock) {
+
+				ComplaintsDataUpdated = false;	// client's ShowsData is now not updated
+				ComplaintsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("AddComplaint")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(ComplaintsDataLock) {
+				AddComplaintBoundary.compalintsAdded = true;	// complaint added
+				ComplaintsDataUpdated = false;	//  Complaint added
+				ComplaintsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("LinksLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(LinksDataLock) {
+
+				LinksDataUpdated = true;	// client's ShowsData is now not updated
+				LinksDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("Costumer'sLinksLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(LinksDataLock) {
+
+				LinksDataUpdated = true;	// client's ShowsData is now not updated
+				LinksDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("MoviesLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(MoviesDataLock) {
+
+				MoviesDataUpdated = true;	// client's ShowsData is now not updated
+				MoviesDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("MovieAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(MoviesDataLock) {
+                AddMovieBoundary.movieAdded = true;
+				MoviesDataUpdated = false;	// client's ShowsData is now not updated
+				MoviesDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("MovieDeleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(MoviesDataLock) {
+				DeleteMovieBoundary.movieDeleted = true;
+				MoviesDataUpdated = false;	// client's ShowsData is now not updated
+				MoviesDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("OrdersLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(OrdersDataLock) {
+
+				OrdersDataUpdated = true;	// client's ShowsData is now not updated
+				OrdersDataLock.notifyAll();
+			}
+		}
+
+		if(message.get(0).equals("Costumer'sOrdersLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(OrdersDataLock) {
+				OrdersBoundary.loadCustomer=true;
+				OrdersDataUpdated = true;	// client's ShowsData is now not updated
+				OrdersDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("OrderAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(OrdersDataLock) {
+				OrdersBoundary.orderAdded=true;
+				OrdersDataUpdated = false;	// client's ShowsData is now not updated
+				OrdersDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("OrderDeleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(OrdersDataLock) {
+				OrdersBoundary.orderDeleted=true;
+				OrdersDataUpdated = false;	// client's ShowsData is now not updated
+				OrdersDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("OrderDeleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(OrdersDataLock) {
+				OrdersBoundary.orderDeleted=true;
+				OrdersDataUpdated = false;	// client's ShowsData is now not updated
+				OrdersDataLock.notifyAll();
+			}
+		}
+
+		if(message.get(0).equals("PaymentSuccess")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(PaymentDataLock) {
+				PaymentDataUpdated = false;	// client's ShowsData is now not updated
+				PaymentDataLock.notifyAll();
+			}
+		}
+
+		if(message.get(0).equals("RefundssLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( RefundDataLock) {
+				RefundDataUpdated = true;	// client's ShowsData is now not updated
+				RefundDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("RefundAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( RefundDataLock) {
+				RefundBoundary.RefundAdded  = true;
+				RefundDataUpdated = false;	// client's ShowsData is now not updated
+				RefundDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("RegulationsLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( RegulationsDataLock) {
+				RegulationsDataUpdated = true;	// client's ShowsData is now not updated
+				RegulationsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("RegulationStatusUpdated")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( RegulationsDataLock) {
+				RegulationsUpdateBoundary.UpdateStatus=true;
+				RegulationsDataUpdated = false;	// client's ShowsData is now not updated
+				RegulationsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("RegulationStatusDeactivated")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( RegulationsDataLock) {
+				RegulationsUpdateBoundary.UpdateStatus=true;
+				RegulationsDataUpdated = false;	// client's ShowsData is now not updated
+				RegulationsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("ShowAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( ShowsDataLock) {
+				AddShowBoundary.ShowAdded=true;
+				ShowsDataUpdated = false;	// client's ShowsData is now not updated
+				ShowsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("ShowDeleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( ShowsDataLock) {
+				DeleteShowBoundary.ShowDeleted=true;
+				ShowsDataUpdated = false;	// client's ShowsData is now not updated
+				ShowsDataLock.notifyAll();
+			}
+		}
+
+		if(message.get(0).equals("TicketsLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( TicketsDataLock) {
+
+				TicketsDataUpdated = true;	// client's ShowsData is now not updated
+				TicketsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("Costumer'sTicketsLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( TicketsDataLock) {
+                TicketsBoundary.customerLoaded=true;
+				TicketsDataUpdated = true;	// client's ShowsData is now not updated
+				TicketsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("TicketAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( TicketsDataLock) {
+				AddTicketsBoundary.ticketAdded=true;
+				TicketsDataUpdated = false;	// client's ShowsData is now not updated
+				TicketsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("UpdatePriceRequestLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( UpdatePriceRequestDataLock) {
+
+				UpdatePriceRequestDataUpdated = true;	// client's ShowsData is now not updated
+				UpdatePriceRequestDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("UpdatePriceChanged")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( UpdatePriceRequestDataLock) {
+				UpdatePriceRequestBoundary.Updated=true;
+				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
+				UpdatePriceRequestDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("UpdatePriceChanged")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( UpdatePriceRequestDataLock) {
+				UpdatePriceRequestBoundary.Approved=true;
+				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
+				UpdatePriceRequestDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("RequestDeclined")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( UpdatePriceRequestDataLock) {
+				UpdatePriceRequestBoundary.Declined=true;
+				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
+				UpdatePriceRequestDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("CinemasLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( CinemasDataLock) {
+
+				CinemasDataUpdated = true;	// client's ShowsData is now not updated
+				CinemasDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("CinemaDeleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( CinemasDataLock) {
+				deleteCinemaBoundary.deleted=true;
+				CinemasDataUpdated = false;	// client's ShowsData is now not updated
+				CinemasDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("ComplaintsDeactivated")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( ComplaintsDataLock) {
+
+				ComplaintsDataUpdated = false;	// client's ShowsData is now not updated
+				ComplaintsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("EmployeesLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( EmployeeDataLock) {
+
+				EmployeeDataUpdated = true;	// client's ShowsData is now not updated
+				EmployeeDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("EmployeeAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( EmployeeDataLock) {
+                addEmplyeeBoundary.Added=true;
+				EmployeeDataUpdated = false;	// client's ShowsData is now not updated
+				EmployeeDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("EmployeeDeleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( EmployeeDataLock) {
+				deleteEmplyeeBoundary.Deleted=true;
+				EmployeeDataUpdated = false;	// client's ShowsData is now not updated
+				EmployeeDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("logInCompleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( EmployeeDataLock) {
+				logInBoundary.logged=true;
+				EmployeeDataUpdated = true;	// client's ShowsData is now not updated
+				EmployeeDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("HallDeleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( HallDataLock) {
+				HallDataUpdated = false;	// client's ShowsData is now not updated
+				HallDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("LinkAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( LinksDataLock) {
+				AddLinkBoundary.Added=true;
+				LinksDataUpdated = false;	// client's ShowsData is now not updated
+				LinksDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("linkTimeLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( LinksDataLock) {
+				LinksDataUpdated = true;	// client's ShowsData is now not updated
+				LinksDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("linkPriceLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( LinksDataLock) {
+				LinksDataUpdated = true;	// client's ShowsData is now not updated
+				LinksDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("linkCanceled")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( LinksDataLock) {
+				LinksDataUpdated = true;	// client's ShowsData is now not updated
+				LinksDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("mailSent")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+//			synchronized( LinksDataLock) {
+//				LinksDataUpdated = true;	// client's ShowsData is now not updated
+//				LinksDataLock.notifyAll();
+//			}
+		}
+		if(message.get(0).equals("messageAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( MessageDataLock) {
+				MessageDataUpdated = false;	// client's ShowsData is now not updated
+				MessageDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("NewMoviesLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( MoviesDataLock) {
+
+				MoviesDataUpdated = true;	// client's ShowsData is now not updated
+				MoviesDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("PackagesLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( PackageDataLock) {
+
+				PackageDataUpdated = true;	// client's ShowsData is now not updated
+				PackageDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("Costumer'sPackagesLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( PackageDataLock) {
+
+				PackageDataUpdated = true;	// client's ShowsData is now not updated
+				PackageDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("PackageAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( PackageDataLock) {
+                addPackageBoundary.Added=true;
+				PackageDataUpdated = false;	// client's ShowsData is now not updated
+				PackageDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("SeatsLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( SeatDataLock) {
+
+				SeatDataUpdated = true;	// client's ShowsData is now not updated
+				SeatDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("SeatAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( SeatDataLock) {
+                addSeatsBoundary.Added=true;
+				SeatDataUpdated = false;	// client's ShowsData is now not updated
+				SeatDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("SeatDeleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( SeatDataLock) {
+				deleteSeatsBoundary.Deleted=true;
+				SeatDataUpdated = false;	// client's ShowsData is now not updated
+				SeatDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("UpdatePriceRequestAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( UpdatePriceRequestDataLock) {
+				addUpdatePriceRequestBoundary.Addedtrue;
+				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
+				UpdatePriceRequestDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("UpdatePriceRequestDeleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( UpdatePriceRequestDataLock) {
+				deleteUpdatePriceRequestBoundary.Deleted=true;
+				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
+				UpdatePriceRequestDataLock.notifyAll();
+			}
+		}
+//		if(message.get(0).equals("UpdatePriceRequestDeleted")) {
+//			boolean success = (boolean)message.get(1);
+//			if(!success){
+//				throw new Exception("Controller failed");
+//			}
+//			synchronized( UpdatePriceRequestDataLock) {
+//				deleteUpdatePriceRequestBoundary.Deleted=true;
+//				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
+//				UpdatePriceRequestDataLock.notifyAll();
+//			}
+//		}
 
 
 
 
-    	if(message.get(0).equals("ShowDeleted")) {
-    		System.out.println("Message ShowsPriceChanged replied");
-    		synchronized(ShowsDataLock) {
-    			DeleteShowBoundary.ShowDeleted = true;	// Show is now deleted
-	    		ShowsDataUpdated = false;	// client's ShowsData is now not updated
-	    		ShowsDataLock.notifyAll();
-    		}
-    	}
 
 
-    }
+
+
+
+
+
+
+
+
+
+
+
+	}
 
     public static void main(String[] args) throws IOException {
         if (args.length != 2) {

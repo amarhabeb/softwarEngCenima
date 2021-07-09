@@ -98,19 +98,19 @@ public class ComplaintsController {
             return false;
         }
     }
-    public static List<Package> makeComplaintsReportByMonth(Session session, Month month, Year year) throws Exception{
+    public static List<Complaint> makeComplaintsReportByMonth(Session session, Month month, Year year) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Package> query = builder.createQuery(Package.class);
+            CriteriaQuery<Complaint> query = builder.createQuery(Complaint.class);
             Root<Package> root=query.from(Package.class);
             Predicate[] predicates=new Predicate[2];
             //predicates[0]=builder.equal(root.get("active"),true);
-            predicates[0]=builder.equal(builder.function("MONTH", Integer.class, root.get("orderDate")),month);
-            predicates[1]=builder.equal(builder.function("YEAR", Integer.class, root.get("orderDate")),year);
+            predicates[0]=builder.equal(builder.function("MONTH", Integer.class, root.get("creationDate")),month);
+            predicates[1]=builder.equal(builder.function("YEAR", Integer.class, root.get("creationDate")),year);
             query.where(predicates);
-            query.orderBy(builder.asc(root.get("orderDate")));
-            List<Package> data = session.createQuery(query).getResultList();
+            query.orderBy(builder.asc(root.get("creationDate")));
+            List<Complaint> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;
         } catch (Exception exception) {
