@@ -426,13 +426,13 @@ public class CinemaServer extends AbstractServer{
 				client.sendToClient(messageToClient);
 			}
 
-			if(message.get(0).equals("LoadUpdatePriceRequest")) {
+			if(message.get(0).equals("LoadUpdatePriceRequests")) {
 				// load data
 				List<UpdatePriceRequest> Data = UpdatePriceRequestController.loadRequest(session);
 				try {
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("MoviesLoaded");
+					messageToClient.add("RequestsLoaded");
 					messageToClient.add(Data);
 					client.sendToClient(messageToClient);
 				} catch (IOException e) {
