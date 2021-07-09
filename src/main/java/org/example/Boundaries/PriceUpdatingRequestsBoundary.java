@@ -38,6 +38,8 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.converter.DoubleStringConverter;
 
+import static org.example.OCSF.CinemaClient.UpdatePriceRequestsDataLock;
+
 @SuppressWarnings("serial")
 public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implements Initializable, Serializable{
 	
@@ -103,14 +105,14 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     	LinkedList<Object> message = new LinkedList<Object>();
 		message.add("ApproveAndDeleteRequest");
 		message.add(request_id);
-		synchronized(CinemaClient.UpdatePriceRequestsDataLock)
+		synchronized(UpdatePriceRequestsDataLock)
 		{	
 			CinemaClientCLI.sendMessage(message);
 							
 			// wait for Data to be changed
 			while(!RequestApprovedAndDeleted) {
 				try {
-					CinemaClient.UpdatePriceRequestsDataLock.wait();
+					UpdatePriceRequestsDataLock.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -130,14 +132,14 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     	LinkedList<Object> message = new LinkedList<Object>();
 		message.add("DeclineAndDeleteRequest");
 		message.add(request_id);
-		synchronized(CinemaClient.UpdatePriceRequestsDataLock)
+		synchronized(UpdatePriceRequestsDataLock)
 		{	
 			CinemaClientCLI.sendMessage(message);
 							
 			// wait for Data to be changed
 			while(!RequestDeclinedAndDeleted) {
 				try {
-					CinemaClient.UpdatePriceRequestsDataLock.wait();
+					UpdatePriceRequestsDataLock.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

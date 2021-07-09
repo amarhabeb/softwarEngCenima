@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.Controllers.OrderController;
 import org.example.entities.Order;
 import org.example.entities.Ticket;
 import org.hibernate.Session;
@@ -10,7 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-public class TicketsController extends OrderController{
+public class TicketsController extends OrderController {
 
 
 

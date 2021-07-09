@@ -1,5 +1,6 @@
 package org.example.Boundaries;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.io.IOException;
@@ -114,7 +115,7 @@ public class ChainManagerMB extends EmployeeMainBoundary implements Initializabl
 	    	    	// update data
 	    			UpdateCinemasData();
 	    	    	cinemaChoice.setDisable(false);
-		            cinemaChoice.setItems(CinemaClient.CinemasData);
+		            cinemaChoice.setItems((ObservableList<Cinema>) CinemaClient.CinemasData);
     	    	}
     	    }
     	    else {

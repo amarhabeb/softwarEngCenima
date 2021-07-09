@@ -1,6 +1,5 @@
 package org.example.OCSF;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.example.Controllers.*;
 import org.example.entities.*;
 import org.example.init;
@@ -12,7 +11,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.lang.Package;
 import java.time.LocalDate;
@@ -21,8 +19,6 @@ import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
-
 
 
 public class CinemaServer extends AbstractServer{
