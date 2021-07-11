@@ -3,17 +3,13 @@ package org.example.Controllers;
 import java.time.LocalTime;
 import java.util.List;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.*;
 
+import org.example.entities.Cinema;
+import org.example.entities.Hall;
 import org.example.entities.Show;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.Root;
-
-
 
 
 public class ShowsController {
@@ -91,6 +87,34 @@ public class ShowsController {
             exception.printStackTrace();
             return false;
         } 
+    }
+    //get the available shows in cinema branch
+    //the implementation is still wrong in the "id" part
+    //another implementation is in CinemaController and I think that's the true one
+    public static List<Show> loadCinemaShows(Session session, int cinema_id) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Show> query = builder.createQuery(Show.class);
+            Root<Show> TicketRoot = query.from(Show.class);
+            Join<Show, Hall> hall_join = TicketRoot.join("hall");
+            Join<Hall, Cinema> cinema_join = hall_join.join("id");
+            query.from(Show.class);
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(cinema_join.get("id"),cinema_id);
+            predicates[1]=builder.equal(cinema_join.get("status"), "AVAILABLE");
+            query.select(TicketRoot).where(predicates);
+            List<Show> data = session.createQuery(query).getResultList();
+            transaction.commit();
+            return data;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
     }
 
 	// update price of a show in the data base
