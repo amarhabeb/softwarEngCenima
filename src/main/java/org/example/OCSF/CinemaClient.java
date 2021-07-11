@@ -58,17 +58,17 @@ public class CinemaClient extends AbstractClient {
 	public static Boolean TicketsDataUpdated = false;
 	public static Object TicketsDataLock = new Object();
 
-	public static List<UpdatePriceRequest> UpdatePriceRequestData = new LinkedList<>();
-	public static Boolean UpdatePriceRequestDataUpdated = false;
-	public static Object UpdatePriceRequestDataLock = new Object();
+	public static List<UpdatePriceRequest> UpdatePriceRequestsData = new LinkedList<>();
+	public static Boolean UpdatePriceRequestsDataUpdated = false;
+	public static Object UpdatePriceRequestsDataLock = new Object();
 
 	public static List<Employee> EmployeeData = new LinkedList<>();
 	public static Boolean EmployeeDataUpdated = false;
 	public static Object EmployeeDataLock = new Object();
 
-	public static List<Hall> HallData = new LinkedList<>();
-	public static Boolean HallDataUpdated = false;
-	public static Object HallDataLock = new Object();
+	public static List<Hall> HallsData = new LinkedList<>();
+	public static Boolean HallsDataUpdated = false;
+	public static Object HallsDataLock = new Object();
 
 	public static List<Message> MessageData = new LinkedList<>();
 	public static Boolean MessageDataUpdated = false;
@@ -431,10 +431,10 @@ public class CinemaClient extends AbstractClient {
 			if(!success){
 				throw new Exception("Controller failed");
 			}
-			synchronized( UpdatePriceRequestDataLock) {
+			synchronized( UpdatePriceRequestsDataLock) {
 
-				UpdatePriceRequestDataUpdated = true;	// client's ShowsData is now not updated
-				UpdatePriceRequestDataLock.notifyAll();
+				UpdatePriceRequestsDataUpdated = true;	// client's ShowsData is now not updated
+				UpdatePriceRequestsDataLock.notifyAll();
 			}
 		}
 //		if(message.get(0).equals("UpdatePriceChanged")) {
@@ -552,9 +552,9 @@ public class CinemaClient extends AbstractClient {
 			if(!success){
 				throw new Exception("Controller failed");
 			}
-			synchronized( HallDataLock) {
-				HallDataUpdated = false;	// client's ShowsData is now not updated
-				HallDataLock.notifyAll();
+			synchronized( HallsDataLock) {
+				HallsDataUpdated = false;	// client's ShowsData is now not updated
+				HallsDataLock.notifyAll();
 			}
 		}
 //		if(message.get(0).equals("LinkAdded")) {
@@ -695,39 +695,39 @@ public class CinemaClient extends AbstractClient {
 //				SeatDataLock.notifyAll();
 //			}
 //		}
-//		if(message.get(0).equals("UpdatePriceRequestAdded")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( UpdatePriceRequestDataLock) {
-//				addUpdatePriceRequestBoundary.Addedtrue;
-//				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
-//				UpdatePriceRequestDataLock.notifyAll();
-//			}
-//		}
-//		if(message.get(0).equals("UpdatePriceRequestDeleted")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( UpdatePriceRequestDataLock) {
-//				deleteUpdatePriceRequestBoundary.Deleted=true;
-//				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
-//				UpdatePriceRequestDataLock.notifyAll();
-//			}
-//		}
-//		if(message.get(0).equals("UpdatePriceRequestDeleted")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( UpdatePriceRequestDataLock) {
-//				deleteUpdatePriceRequestBoundary.Deleted=true;
-//				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
-//				UpdatePriceRequestDataLock.notifyAll();
-//			}
-//		}
+		if(message.get(0).equals("UpdatePriceRequestAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( UpdatePriceRequestsDataLock) {
+			//	addUpdatePriceRequestBoundary.Addedtrue;
+				UpdatePriceRequestsDataUpdated = false;	// client's ShowsData is now not updated
+				UpdatePriceRequestsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("UpdatePriceRequestDeleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( UpdatePriceRequestsDataLock) {
+				//deleteUpdatePriceRequestBoundary.Deleted=true;
+				UpdatePriceRequestsDataUpdated = false;	// client's ShowsData is now not updated
+				UpdatePriceRequestsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("UpdatePriceRequestDeleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( UpdatePriceRequestsDataLock) {
+			//	deleteUpdatePriceRequestBoundary.Deleted=true;
+				UpdatePriceRequestsDataUpdated = false;	// client's ShowsData is now not updated
+				UpdatePriceRequestsDataLock.notifyAll();
+			}
+		}
 
 
 
