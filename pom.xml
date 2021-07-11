@@ -70,7 +70,7 @@
         				<goal>java</goal>
         			</goals>
         			<configuration>
-        				<mainClass>org.example.OCSF.EmployeeClient</mainClass>
+        				<mainClass>org.example.OCSF.CinemaClient</mainClass>
         				<cleanupDaemonThreads>false</cleanupDaemonThreads>
         			</configuration>
         		</execution>
