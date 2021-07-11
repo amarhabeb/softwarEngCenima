@@ -1,14 +1,16 @@
 package org.example.entities;
 
-import javax.persistence.OneToOne;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 
 @Table(name ="payment")
 
 public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    protected int ID;
     private double amount;
     @OneToOne(targetEntity = Order.class)
     private Order order;

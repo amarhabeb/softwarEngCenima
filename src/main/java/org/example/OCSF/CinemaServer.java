@@ -97,7 +97,7 @@ public class CinemaServer extends AbstractServer{
     			//session.refresh(Show.class);
 
     			// reply to client	
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
+				LinkedList<Object> messageToClient = new LinkedList<>();
 				messageToClient.add("ShowsPriceChanged");
 				messageToClient.add(success);
 				client.sendToClient(messageToClient);
@@ -1148,14 +1148,21 @@ public class CinemaServer extends AbstractServer{
 
 
 	public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            System.out.println("Required argument: <port>");
-        } else {
-        	// initialize the DataBase
-			InitializeDataBase();
-            CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
-            server.listen();
-        }
-    }
+		try {
+
+
+			if (args.length != 1) {
+				System.out.println("Required argument: <port>");
+			} else {
+				// initialize the DataBase
+				InitializeDataBase();
+				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
+				server.listen();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 
 }
