@@ -52,6 +52,7 @@
         	<groupId>org.codehaus.mojo</groupId>
         	<artifactId>exec-maven-plugin</artifactId>
         	<version>1.6.0</version>
+
         	<executions>
         		<execution>
         			<id>server</id>
@@ -59,7 +60,7 @@
         				<goal>java</goal>
         			</goals>
         			<configuration>
-        				<mainClass>org.example.CinemaServer</mainClass>
+        				<mainClass>org.example.OCSF.CinemaServer</mainClass>
         				<cleanupDaemonThreads>false</cleanupDaemonThreads>
         			</configuration>
         		</execution>
@@ -69,7 +70,7 @@
         				<goal>java</goal>
         			</goals>
         			<configuration>
-        				<mainClass>org.example.EmployeeClient</mainClass>
+        				<mainClass>org.example.OCSF.EmployeeClient</mainClass>
         				<cleanupDaemonThreads>false</cleanupDaemonThreads>
         			</configuration>
         		</execution>
