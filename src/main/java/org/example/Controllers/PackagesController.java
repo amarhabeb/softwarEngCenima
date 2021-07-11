@@ -4,6 +4,7 @@ package org.example.Controllers;
 import org.example.entities.Customer;
 import org.example.entities.Package;
 import org.example.entities.Payment;
+import org.example.entities.Ticket;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -67,6 +68,36 @@ public class PackagesController {
             System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
             return false;
+        }
+    }
+    //get package_id from customer, and give them how many tickets left in their package
+    public static int getNumberOfTicketsLeft(Session session, int package_id) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Package> query = builder.createQuery(Package.class);
+            Root<Package> root=query.from(Package.class);
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("ID"),package_id);
+            predicates[1]=builder.equal(root.get("active"),true);
+            query.where(predicates);
+            List<Package> data = session.createQuery(query).getResultList();
+            List<Ticket> tickets=data.get(0).getTickets();
+            int res =0;
+            for(int i=0;i< tickets.size();i++){
+                if(tickets.get(i).isActive()){
+                    res++;
+                }
+            }
+            transaction.commit();
+            return res;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return -1;
         }
     }
     public static List<Package> makePackagesReportByMonth(Session session, Month month, Year year) throws Exception{

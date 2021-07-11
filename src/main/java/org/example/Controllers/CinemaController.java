@@ -3,13 +3,11 @@ package org.example.Controllers;
 import org.example.entities.Cinema;
 import org.example.entities.Hall;
 import org.example.entities.Regulations;
+import org.example.entities.Show;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,8 +111,6 @@ public class CinemaController {
                                //session.clear();
                                return true;
                            }
-
-
                        }
 
                    } else {
@@ -128,8 +124,6 @@ public class CinemaController {
                    }
 
                }
-
-
            } catch (Exception exception) {
                if (session != null) {
                    session.getTransaction().rollback();
@@ -139,7 +133,28 @@ public class CinemaController {
                return false;
            }
            return false;
-
        }
-
+    public static List<Show> loadCinemaShows(Session session, int cinema_id){
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Show> query = builder.createQuery(Show.class);
+            Root<Cinema>root=query.from(Cinema.class);
+            query.select(root.get("shows"));
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("id"),cinema_id);
+            predicates[1]=builder.equal(root.get("active"),true);
+            query.where(predicates);
+            List<Show> data = session.createQuery(query).getResultList();
+            transaction.commit();
+            return data;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
+    }
 }
