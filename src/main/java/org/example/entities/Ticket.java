@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name ="ticket")
 
 public class Ticket extends Order{
-    @ManyToOne(targetEntity = Cinema.class)
+    //@ManyToOne(targetEntity = Cinema.class)
     //private Cinema cinema;
     private int show_id;
     private int cinema_id;

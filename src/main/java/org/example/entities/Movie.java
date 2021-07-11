@@ -20,6 +20,7 @@ public class Movie {
     private String name_en;
     private String name_heb;
     private String director;
+    @ElementCollection
     private List<String> cast;
     private String summary;
     private LocalDate lanuch_date;

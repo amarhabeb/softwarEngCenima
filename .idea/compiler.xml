@@ -12,7 +12,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="softwarEngCenima" options="--add-exports java.xml/com.sun.org.apache.xpath.internal.operations=org.example" />
+      <module name="softwarEngCenima" options="" />
     </option>
   </component>
 </project>
