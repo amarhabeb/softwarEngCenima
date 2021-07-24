@@ -120,6 +120,9 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
 	                        .getID();
 	            	try {
 	            		double NewPrice = price.getNewValue();
+	            		if (NewPrice<0){
+	            			throw new NumberFormatException();
+	            		}
 	            		try {
 	                		ChangeShowPrice(show_id, NewPrice);
 	            			MessageBoundaryEmployee.displayInfo("Show's price successfully updated.");
