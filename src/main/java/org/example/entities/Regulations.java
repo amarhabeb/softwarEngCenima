@@ -19,11 +19,11 @@ public class Regulations {
 
     }
 
-    public boolean getRegulations() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setRegulations(boolean status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

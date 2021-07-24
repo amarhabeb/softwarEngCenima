@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="CustomerServiceMB">
+   <children>
+      <AnchorPane prefHeight="488.0" prefWidth="800.0">
+         <children>
+            <ImageView fitHeight="488.0" fitWidth="800.0">
+               <image>
+                  <Image url="@cinema-with-white-screen-curtain-seats_259139-264.jpg" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="SE_RESIZE" />
+               </cursor>
+            </ImageView>
+            <Button fx:id="ViewComplaintsBtn" layoutX="497.0" layoutY="206.0" mnemonicParsing="false" onAction="#clickViewComplaintsBtn" prefHeight="46.0" prefWidth="150.0" text="View Complaints" textAlignment="CENTER" textFill="#b71b1b">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Button>
+            <Label layoutX="112.0" layoutY="110.0" text="Update regulations:" textFill="#c12525">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Label>
+            <CheckBox fx:id="NoLimitations" layoutX="118.0" layoutY="182.0" mnemonicParsing="false" onAction="#clickNoLimitations" text="No limitations">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </CheckBox>
+            <TextField fx:id="Y_TextField" layoutX="280.0" layoutY="148.0" prefHeight="26.0" prefWidth="61.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <Label layoutX="118.0" layoutY="151.0" text="Maximum tickets per hall: ">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Button fx:id="ApplyUpdatesBtn" layoutX="112.0" layoutY="229.0" mnemonicParsing="false" onAction="#clickApplyUpdatesBtn" prefHeight="30.0" prefWidth="118.0" text="Apply Updates" textAlignment="CENTER" textFill="#b71b1b">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Label layoutX="497.0" layoutY="113.0" prefHeight="96.0" prefWidth="162.0" text="Click to view &#10;complaints and &#10;decide on refunds:&#10;&#10;">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
