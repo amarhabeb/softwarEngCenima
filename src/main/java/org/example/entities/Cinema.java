@@ -18,11 +18,11 @@ public class Cinema {
     
     String branch_name;
     
-    @OneToMany(targetEntity = Show.class)
+    @OneToMany(targetEntity = Show.class, cascade = CascadeType.ALL)
     private List<Show> shows;
-    @OneToMany(targetEntity = Movie.class)
+    @OneToMany(targetEntity = Movie.class, cascade = CascadeType.ALL)
     private List<Movie> movies;
-    @OneToMany(targetEntity = Hall.class)
+    @OneToMany(targetEntity = Hall.class, cascade = CascadeType.ALL)
     private List<Hall> halls;
 
     private boolean active=true;

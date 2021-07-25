@@ -34,14 +34,17 @@ public class HallController {
 
     public static boolean addHall(Session session, Hall hall) throws Exception {
         try {
-            Transaction transaction = session.beginTransaction();
-            session.save(hall);
-            session.flush();
-            transaction.commit();
+            if(!session.getTransaction().isActive()) {
+                Transaction transaction = session.beginTransaction();
+                session.save(hall);
+                session.flush();
+                transaction.commit();
 
-            return true;
+                return true;
+            }
+            return false;
         } catch (Exception exception) {
-            if (session != null) {
+            if (session != null || session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
             System.err.println("An error occurred, changes have been rolled back.");

@@ -9,7 +9,7 @@ public class UpdatePriceRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int ID;
-    @OneToOne(targetEntity = ContentManager.class)
+    @OneToOne(targetEntity = ContentManager.class, cascade = CascadeType.ALL)
     private ContentManager requestedBy;
     int show_id;
     private double updatedPrice;

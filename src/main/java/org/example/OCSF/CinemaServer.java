@@ -956,7 +956,7 @@ public class CinemaServer extends AbstractServer{
     		and when we create the shows list we set its in the movie
     		 */
 
-			ImageIcon im = new ImageIcon("src/main/resources/org.example/Images/1.jpg");
+			/*ImageIcon im = new ImageIcon("src/main/resources/org.example/Images/1.jpg");
 			ImageIcon im1 = new ImageIcon("src/main/resources/org.example/Images/2.jpg");
 			ImageIcon im2 = new ImageIcon("src/main/resources/org.example/Images/3.jpg");
 			ImageIcon im3 = new ImageIcon("src/main/resources/org.example/Images/4.jpg");
@@ -967,12 +967,23 @@ public class CinemaServer extends AbstractServer{
 			ImageIcon im8 = new ImageIcon("src/main/resources/org.example/Images/9.jpg");
 			ImageIcon im9 = new ImageIcon("src/main/resources/org.example/Images/10.jpg");
 			ImageIcon im10 = new ImageIcon("src/main/resources/org.example/Images/11.jpg");
-			ImageIcon im11= new ImageIcon("src/main/resources/org.example/Images/12.jpg");
+			ImageIcon im11= new ImageIcon("src/main/resources/org.example/Images/12.jpg");*/
+			String im="32";
+			String im1="32";
+			String im2="32";
+			String im3="32";
+			String im4="32";
+			String im5="32";
+			String im6="32";
+			String im7="32";
+			String im8="32";
+			String im9="32";
+			String im10="32";
+			String im11="32";
 
 
 
-
-			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),init.HarryPotterSummary(), LocalDate.parse("2019-03-18"),false,  im, emptyShowList,false);
+			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2019-03-18"),false,  im, emptyShowList,false);
 			moviesList.add(HarryPotter7);
 			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2020-03-18"),false, im1, emptyShowList,false);
 			moviesList.add(Joker);
@@ -1017,12 +1028,14 @@ public class CinemaServer extends AbstractServer{
 
 				for (int k=1; k<=2*i*10; k++){
 					Seat seat = new Seat(true, i%10, i/10 +1,h);
-					SeatController.addSeat(CinemaServer.session,seat);/*every line has 10 seats*/
+					SeatController.addSeat(CinemaServer.session,seat); //every line has 10 seats
 					tempseats.add(seat);
+
 				}
 
 
 				Hall cinemaHall = new Hall(i, 2*i*10,tempSeats, cinema1,shows);
+
 				for(int o=0;o<tempseats.size();o++){
 					tempseats.get(o).setHall(cinemaHall);
 				}
@@ -1030,6 +1043,7 @@ public class CinemaServer extends AbstractServer{
 				cinemaHalls.add(cinemaHall);
 
 				HallController.addHall(CinemaServer.session,cinemaHall);
+
 			}
 
 
@@ -1046,7 +1060,7 @@ public class CinemaServer extends AbstractServer{
 				}
 			}
 			MoviesController.addMovie(CinemaServer.session,HarryPotter7);
-
+/*
 			for (int i=0; i<2; i++){
 				for (int j=0; j<3; j++){
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 100, Joker, cinemaHalls.get((i+j)%5+1));
@@ -1172,7 +1186,7 @@ public class CinemaServer extends AbstractServer{
 			MoviesController.addMovie(CinemaServer.session,LordOfTheRings);
 			CinemaController.addCinema(CinemaServer.session,cinema1);
 
-
+*/
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -82,7 +82,7 @@ public class CinemaController {
                Root<Hall> root = update_query.from(Hall.class);
                for (int i = 0; i < halls.size(); i++) {
                    Hall hall = halls.get(i);
-                   if (reg1.getRegulations() == true) {
+                   if (reg1.getStatus() == true) {
                        int Y = reg1.getY();
                        if (1.2 * Y < hall.getCapacity()) {
                            update_query.set("maxSeats", Y);

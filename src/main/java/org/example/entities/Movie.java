@@ -15,27 +15,28 @@ import java.util.List;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "movie_id")
     private int ID;
     private String name_en;
     private String name_heb;
     private String director;
     @ElementCollection
     private List<String> cast;
+    @Column(length = 5000)
     private String summary;
     private LocalDate lanuch_date;
     private Boolean is_new;
-    private ImageIcon image;
+    private String image;
     private String status; // can be AVAILABLE / NOT_AVAILABLE
     private boolean availableOnline;
-    @OneToMany(targetEntity = Show.class)
+    @OneToMany(targetEntity = Show.class, cascade = CascadeType.ALL)
     private List<Show> shows;
 
     public Movie() {    }
 
 
     public Movie(String name_en, String name_heb, String director, List<String> cast, String summary,
-                 LocalDate lanuch_date, Boolean is_new,ImageIcon image, List<Show> shows, boolean availableOnline) {
+                 LocalDate lanuch_date, Boolean is_new,String image, List<Show> shows, boolean availableOnline) {
         this.name_en = name_en;
         this.name_heb = name_heb;
         this.director = director;
@@ -122,17 +123,26 @@ public class Movie {
         this.is_new = is_new;
     }
 
-    public ImageIcon getImage() {
+    /*public ImageIcon getImage() {
         return image;
+    }
+    public void setImage(ImageIcon image) {
+        this.image = image;
+    }*/
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getId() {
         return ID;
     }
 
-    public void setImage(ImageIcon image) {
-        this.image = image;
-    }
+
 
     public List<String> getCast() {
         return cast;

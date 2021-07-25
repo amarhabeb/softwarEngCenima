@@ -16,16 +16,16 @@ import javax.persistence.*;
 public class Show implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "shows_id")
     private int ID;
     private LocalDateTime dateTime;
     //private LocalTime time;
     //private boolean isOnline;
     private String status;  //can be AVAILABLE / NOT_AVAILABLE
     private double price;
-    @ManyToOne(targetEntity = Movie.class)
+    @ManyToOne(targetEntity = Movie.class, cascade = CascadeType.ALL)
     private Movie movie;
-    @ManyToOne(targetEntity = Hall.class)
+    @ManyToOne(targetEntity = Hall.class, cascade = CascadeType.ALL)
     private Hall hall;
 
     
