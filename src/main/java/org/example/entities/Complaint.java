@@ -12,13 +12,13 @@ public class Complaint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int ID;
-    private int text;
+    private String text;
     //private Timer timer = new Timer();
     private LocalDateTime creationDate;
     private boolean active;
     private boolean handled;
 
-    public Complaint(int text) {
+    public Complaint(String text) {
         this.text = text;
         this.creationDate= LocalDateTime.now();
         this.active = true;
@@ -27,7 +27,7 @@ public class Complaint {
 
     public Complaint(){}
 
-    public void setText(int text) {
+    public void setText(String text) {
         this.text = text;
     }
 
@@ -52,7 +52,7 @@ public class Complaint {
         return ID;
     }
 
-    public int getText() {
+    public String getText() {
         return text;
     }
     /*
