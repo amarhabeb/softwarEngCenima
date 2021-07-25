@@ -50,7 +50,7 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
 
 	@FXML
 	void clickApplyBtn(ActionEvent event) {
-
+		
 	}
 
 	@FXML
