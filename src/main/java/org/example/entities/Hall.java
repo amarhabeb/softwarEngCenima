@@ -3,6 +3,7 @@ package org.example.entities;
 import javax.persistence.*;
 import java.awt.*;
 import java.lang.Math;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -26,21 +27,22 @@ public class Hall {
 
     public Hall(){}
 
-    public Hall(int number, int capacity,  Cinema cinema,List<Show> shows) {
+    public Hall(int number, int capacity,List<Seat> seats,  Cinema cinema,List<Show> shows) {
+
         this.number = number;
         this.capacity = capacity;
-        this.type = type;
+        this.type = 1;
         this.maxSeats = capacity;
         this.cinema=cinema;
         active=true;
         this.shows=shows;
 
-        List<Seat> tempSeats = null;
-        for (int i=1; i<=capacity; i++){
-            Seat seat = new Seat(true, i%10, i/10 +1, this);/*every line has 10 seats*/
-            tempSeats.add(seat);
-        }
-        this.seats = tempSeats;
+//        List<Seat> tempSeats = new LinkedList<Seat>();
+//        for (int i=1; i<=capacity; i++){
+//            Seat seat = new Seat(true, i%10, i/10 +1, this);/*every line has 10 seats*/
+//            tempSeats.add(seat);
+//        }
+        this.seats = seats;
 
 
     }

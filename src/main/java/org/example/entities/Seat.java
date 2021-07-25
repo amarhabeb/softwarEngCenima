@@ -18,7 +18,7 @@ public class Seat {
     private Hall hall;
     private boolean active;
 
-    public Seat(boolean available, int number, int line, Hall hall) {
+    public Seat(boolean available, int number, int line,Hall hall) {
         this.available = available;
         this.number = number;
         this.line = line;

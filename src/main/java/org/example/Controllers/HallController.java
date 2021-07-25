@@ -38,6 +38,7 @@ public class HallController {
             session.save(hall);
             session.flush();
             transaction.commit();
+
             return true;
         } catch (Exception exception) {
             if (session != null) {

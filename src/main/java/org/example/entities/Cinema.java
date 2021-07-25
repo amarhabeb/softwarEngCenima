@@ -5,6 +5,7 @@ import org.example.entities.Show;
 
 import javax.persistence.*;
 import java.awt.*;
+import java.util.LinkedList;
 import java.util.List;
 @Entity
 @Table(name ="cinema")
@@ -27,6 +28,9 @@ public class Cinema {
     private boolean active=true;
 
     public Cinema() {
+        this.shows=new LinkedList<Show>();
+        this.movies=new LinkedList<Movie>();
+        this.halls=new LinkedList<Hall>();
     }
 
     public Cinema(List<Show> shows, List<Movie> movies, List<Hall> halls) {
