@@ -940,8 +940,18 @@ public class CinemaServer extends AbstractServer{
 	private static void generateMovies(Session session) throws Exception {
     	try {
     		Cinema cinema1 = new Cinema();
-    		List<Movie> moviesList = null;
-    		List<Show> emptyShowList = null;
+    		List<Movie> moviesList = new LinkedList<Movie>();
+    		List<Show> emptyShowList = new LinkedList<Show>();
+			int[] days = {1,2,3,4,5,6,7};
+			int[] months = {6,6,6,6,6,6,6,};
+			int[] years = {2021,2021,2021,2021,2021,2021,2021};
+
+			int[] hours = {18,18,19,19,20,20,21,21,22,22};
+			int[] minutes = {00,30,00,30,00,30,00,30,00,30,};
+
+
+			String[] availability = {"AVAILABLE", "NOT_AVAILABLE"};
+
     		/*when we create the movie we give its empty list of shows
     		and when we create the shows list we set its in the movie
     		 */
@@ -961,60 +971,78 @@ public class CinemaServer extends AbstractServer{
 
 
 
-			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),init.HarryPotterSummary(), LocalDate.parse("18-07-2020"),false,  im, emptyShowList,false);
+
+			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),init.HarryPotterSummary(), LocalDate.parse("2019-03-18"),false,  im, emptyShowList,false);
 			moviesList.add(HarryPotter7);
-			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("31-08-2019"),false, im1, emptyShowList,false);
+			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2020-03-18"),false, im1, emptyShowList,false);
 			moviesList.add(Joker);
-			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), LocalDate.parse("14/08/2020"),true, im3, emptyShowList,false);
+			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), LocalDate.parse("2021-05-18"),true, im3, emptyShowList,false);
 			moviesList.add(TheAvengers);
-			Movie StarWars=new Movie("Star Wars","מלחמת הכוכבים","George Lucas",init.StarWarsCast(), init.StarWarsSummary(), LocalDate.parse("14-08-2020"),true, im2, emptyShowList,false);
+			Movie StarWars=new Movie("Star Wars","מלחמת הכוכבים","George Lucas",init.StarWarsCast(), init.StarWarsSummary(), LocalDate.parse("2021-06-19"),true, im2, emptyShowList,false);
 			moviesList.add(StarWars);
-			Movie Inception=new Movie("Incepteion","התחלה","Emma Thomas",init.InceptionCast(), init.InceptionSummary(), LocalDate.parse("14-08-2020"),true, im4, emptyShowList,false);
+			Movie Inception=new Movie("Incepteion","התחלה","Emma Thomas",init.InceptionCast(), init.InceptionSummary(), LocalDate.parse("2021-02-13"),true, im4, emptyShowList,false);
 			moviesList.add(Inception);
-			Movie TheDarKnight=new Movie("The Dark Knight","האביר האפל","Emma Thomas,Charles Roven,Christopher Nolan",init.TheDarkKnightCast(), init.TheDarkKnightSummary(), LocalDate.parse("14-08-2020"),true, im5, emptyShowList,false);
+			Movie TheDarKnight=new Movie("The Dark Knight","האביר האפל","Emma Thomas,Charles Roven,Christopher Nolan",init.TheDarkKnightCast(), init.TheDarkKnightSummary(), LocalDate.parse("2021-12-18"),true, im5, emptyShowList,false);
 			moviesList.add(TheDarKnight);
-			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), LocalDate.parse("14-08-2020"),true, im6, emptyShowList,false);
+			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), LocalDate.parse("2021-08-11"),true, im6, emptyShowList,false);
 			moviesList.add(CaptainAmerica);
-			Movie Avatar=new Movie("Avatar","אווטאר","James Cameron,Jon Landau",init.AvatarCast(), init.AvatarSummary(), LocalDate.parse("14-08-2020"),true, im7, emptyShowList,false);
+			Movie Avatar=new Movie("Avatar","אווטאר","James Cameron,Jon Landau",init.AvatarCast(), init.AvatarSummary(), LocalDate.parse("2021-07-18"),true, im7, emptyShowList,false);
 			moviesList.add(Avatar);
-			Movie Jaws=new Movie("Jaws","מלתעות","Steven Spielberg",init.JawsCast(), init.JawsSummary(), LocalDate.parse("14-08-2020"),true, im8, emptyShowList,false);
+			Movie Jaws=new Movie("Jaws","מלתעות","Steven Spielberg",init.JawsCast(), init.JawsSummary(), LocalDate.parse("2019-08-14"),true, im8, emptyShowList,false);
 			moviesList.add(Jaws);
-			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), LocalDate.parse("14-08-2020"),true, im9, emptyShowList,false);
+			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), LocalDate.parse("2021-01-16"),true, im9, emptyShowList,false);
 			moviesList.add(Rocky);
-			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("14-08-2020"),true, im10, emptyShowList,false);
+			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("2021-02-18"),true, im10, emptyShowList,false);
 			moviesList.add(Titanic);
-			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("14-08-2020"),true, im11, emptyShowList,false);
+			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"),true, im11, emptyShowList,false);
 			moviesList.add(LordOfTheRings);
 			cinema1.setMovies(moviesList);
 
 
-			List<Hall> cinemaHalls = null;
-			List<Show> shows = null;
+
+			List<Hall> cinemaHalls = new LinkedList<Hall>();
+			List<Show> shows = new LinkedList<Show>();
+			List<Seat> tempSeats = new LinkedList<Seat>();
+			Hall h = new Hall();
+
+
+			Show show1= new Show( LocalDateTime.of(years[0],months[0],days[0], hours[0],minutes[0]), availability[(0)%2], 60, HarryPotter7, h);
+			emptyShowList.add(show1);
+			MoviesController.addMovie(CinemaServer.session,HarryPotter7);
+            ShowsController.addShow(CinemaServer.session,show1);
+			HallController.addHall(CinemaServer.session,h);
+
 			for (int i=1; i<=5;i++){
-				Hall cinemaHall = new Hall(i, 2*i*10, cinema1,shows);
+				List<Seat> tempseats = new LinkedList<Seat>();
+
+				for (int k=1; k<=2*i*10; k++){
+					Seat seat = new Seat(true, i%10, i/10 +1,h);
+					SeatController.addSeat(CinemaServer.session,seat);/*every line has 10 seats*/
+					tempseats.add(seat);
+				}
+
+
+				Hall cinemaHall = new Hall(i, 2*i*10,tempSeats, cinema1,shows);
+				for(int o=0;o<tempseats.size();o++){
+					tempseats.get(o).setHall(cinemaHall);
+				}
+
 				cinemaHalls.add(cinemaHall);
+
 				HallController.addHall(CinemaServer.session,cinemaHall);
 			}
-			int[] days = {1,2,3,4,5,6,7};
-			int[] months = {6,6,6,6,6,6,6,};
-			int[] years = {2021,2021,2021,2021,2021,2021,2021};
-
-			int[] hours = {18,18,19,19,20,20,21,21,22,22};
-			int[] minutes = {00,30,00,30,00,30,00,30,00,30,};
-
-
-			String[] availability = {"AVAILABLE", "NOT_AVAILABLE"};
 
 
 
 
-
+            List<Show> temp = new LinkedList<Show>();
 			for (int i=0; i<2; i++){
 				for (int j=0; j<3; j++){
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 60, HarryPotter7, cinemaHalls.get((i+j)%5));
 					cinema1.addShow(show);
 					HarryPotter7.addShow(show);
-					ShowsController.addShow(CinemaServer.session,show);
+					//ShowsController.addShow(CinemaServer.session,show);
+					temp.add(show);
 				}
 			}
 			MoviesController.addMovie(CinemaServer.session,HarryPotter7);
@@ -1024,7 +1052,8 @@ public class CinemaServer extends AbstractServer{
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 100, Joker, cinemaHalls.get((i+j)%5+1));
 					cinema1.addShow(show);
 					Joker.addShow(show);
-					ShowsController.addShow(CinemaServer.session,show);
+					//ShowsController.addShow(CinemaServer.session,show);
+					temp.add(show);
 				}
 			}
 			MoviesController.addMovie(CinemaServer.session,Joker);
@@ -1035,7 +1064,8 @@ public class CinemaServer extends AbstractServer{
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 90, TheAvengers, cinemaHalls.get((i+j)%5));
 					cinema1.addShow(show);
 					TheAvengers.addShow(show);
-					ShowsController.addShow(CinemaServer.session,show);
+					//ShowsController.addShow(CinemaServer.session,show);
+					temp.add(show);
 				}
 			}
 			MoviesController.addMovie(CinemaServer.session,TheAvengers);
@@ -1046,7 +1076,8 @@ public class CinemaServer extends AbstractServer{
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 70, StarWars, cinemaHalls.get((i+j)%5+1));
 					cinema1.addShow(show);
 					StarWars.addShow(show);
-					ShowsController.addShow(CinemaServer.session,show);
+					//ShowsController.addShow(CinemaServer.session,show);
+					temp.add(show);
 				}
 			}
 			MoviesController.addMovie(CinemaServer.session,StarWars);
@@ -1056,7 +1087,8 @@ public class CinemaServer extends AbstractServer{
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 120, Inception, cinemaHalls.get((i+j)%5));
 					cinema1.addShow(show);
 					Inception.addShow(show);
-					ShowsController.addShow(CinemaServer.session,show);
+					//ShowsController.addShow(CinemaServer.session,show);
+					temp.add(show);
 				}
 			}
 			MoviesController.addMovie(CinemaServer.session,Inception);
@@ -1066,7 +1098,8 @@ public class CinemaServer extends AbstractServer{
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 80, TheDarKnight, cinemaHalls.get((i+j)%5+1));
 					cinema1.addShow(show);
 					TheDarKnight.addShow(show);
-					ShowsController.addShow(CinemaServer.session,show);
+					//ShowsController.addShow(CinemaServer.session,show);
+					temp.add(show);
 				}
 			}
 			MoviesController.addMovie(CinemaServer.session,TheDarKnight);
@@ -1076,7 +1109,8 @@ public class CinemaServer extends AbstractServer{
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 90, CaptainAmerica, cinemaHalls.get((i+j)%5));
 					cinema1.addShow(show);
 					CaptainAmerica.addShow(show);
-					ShowsController.addShow(CinemaServer.session,show);
+					//ShowsController.addShow(CinemaServer.session,show);
+					temp.add(show);
 				}
 			}
 			MoviesController.addMovie(CinemaServer.session,CaptainAmerica);
@@ -1086,7 +1120,8 @@ public class CinemaServer extends AbstractServer{
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 95, Avatar, cinemaHalls.get((i+j)%5+1));
 					cinema1.addShow(show);
 					Avatar.addShow(show);
-					ShowsController.addShow(CinemaServer.session,show);
+					//ShowsController.addShow(CinemaServer.session,show);
+					temp.add(show);
 				}
 			}
 			MoviesController.addMovie(CinemaServer.session,Avatar);
@@ -1096,7 +1131,8 @@ public class CinemaServer extends AbstractServer{
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 45, Jaws, cinemaHalls.get((i+j)%5));
 					cinema1.addShow(show);
 					Jaws.addShow(show);
-					ShowsController.addShow(CinemaServer.session,show);
+					//ShowsController.addShow(CinemaServer.session,show);
+					temp.add(show);
 				}
 			}
 			MoviesController.addMovie(CinemaServer.session,Jaws);
@@ -1106,7 +1142,8 @@ public class CinemaServer extends AbstractServer{
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 90, Rocky, cinemaHalls.get((i+j)%5+1));
 					cinema1.addShow(show);
 					Rocky.addShow(show);
-					ShowsController.addShow(CinemaServer.session,show);
+					//ShowsController.addShow(CinemaServer.session,show);
+					temp.add(show);
 				}
 			}
 			MoviesController.addMovie(CinemaServer.session,Rocky);
@@ -1116,7 +1153,8 @@ public class CinemaServer extends AbstractServer{
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 40, Titanic, cinemaHalls.get((i+j)%5));
 					cinema1.addShow(show);
 					Titanic.addShow(show);
-					ShowsController.addShow(CinemaServer.session,show);
+					//ShowsController.addShow(CinemaServer.session,show);
+					temp.add(show);
 				}
 			}
 			MoviesController.addMovie(CinemaServer.session,Titanic);
@@ -1126,9 +1164,11 @@ public class CinemaServer extends AbstractServer{
 					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 80, LordOfTheRings, cinemaHalls.get((i+j)%5+1));
 					cinema1.addShow(show);
 					LordOfTheRings.addShow(show);
-					ShowsController.addShow(CinemaServer.session,show);
+					//ShowsController.addShow(CinemaServer.session,show);
+					temp.add(show);
 				}
 			}
+
 			MoviesController.addMovie(CinemaServer.session,LordOfTheRings);
 			CinemaController.addCinema(CinemaServer.session,cinema1);
 
