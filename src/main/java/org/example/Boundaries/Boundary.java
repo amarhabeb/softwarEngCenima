@@ -146,6 +146,27 @@ public abstract class Boundary {
 		}	
 	}
 	
+	synchronized void UpdateComplaintsData() {
+		// add message to ClientInput so it could be sent to server
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadComplaints");
+		synchronized(CinemaClient.ComplaintsDataLock)
+		{	
+			CinemaClient.ComplaintsDataUpdated = false;
+			CinemaClientCLI.sendMessage(message);
+										
+			// wait for Data to be updated
+			while(!CinemaClient.ComplaintsDataUpdated) {
+				try {
+						CinemaClient.ComplaintsDataLock.wait();
+				} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+				}
+			}	
+		}	
+	}
+	
 //	synchronized void UpdateTicketsReportData(int cinema_id, Month month, Year year) {
 //		// add message to ClientInput so it could be sent to server
 //		LinkedList<Object> message = new LinkedList<Object>();
