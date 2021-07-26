@@ -12,17 +12,19 @@ public class Complaint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int ID;
+    private int order_id;
     private String text;
     //private Timer timer = new Timer();
     private LocalDateTime creationDate;
     private boolean active;
     private boolean handled;
 
-    public Complaint(String text) {
+    public Complaint(String text, int order_id) {
         this.text = text;
         this.creationDate= LocalDateTime.now();
         this.active = true;
         this.handled = false;
+        this.order_id = order_id;
     }
 
     public Complaint(){}
@@ -70,4 +72,12 @@ public class Complaint {
     public void deactivateComplaint(){
         this.active=false;
     }
+
+	public int getOrder_id() {
+		return order_id;
+	}
+
+	public void setOrder_id(int order_id) {
+		this.order_id = order_id;
+	}
 }

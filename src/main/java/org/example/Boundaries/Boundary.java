@@ -8,6 +8,7 @@ import java.util.List;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Cinema;
+import org.example.entities.Complaint;
 import org.example.entities.Show;
 
 public abstract class Boundary {
@@ -282,6 +283,8 @@ public abstract class Boundary {
 //			}
 //		}
 //	}
+	
+
 	
 	// return show given id
 	public Show idToShow(int id) {

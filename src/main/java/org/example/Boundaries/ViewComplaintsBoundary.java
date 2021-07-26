@@ -3,12 +3,16 @@ package org.example.Boundaries;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import org.example.App;
 import org.example.OCSF.CinemaClient;
+import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Complaint;
+import org.example.entities.Refund;
+import org.example.entities.Show;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.fxml.Initializable;
 
 @SuppressWarnings("serial")
@@ -47,10 +52,104 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
 
 	@FXML
 	private Button GoBackToMainBtn;
+	
+	@FXML
+    private Text idxText;
+	
+	@FXML
+    private Button refreshBtn;
+	
+	public static Boolean RefundAdded = true;	// holds if the show is added yet
+    // add refund to DataBase
+    synchronized void AddRefund(Refund refund) {
+		RefundAdded = false;	// show isn't added yet
+		// create message and send it to the server
+    	LinkedList<Object> message = new LinkedList<Object>();
+		message.add("AddRefund");
+		message.add(refund);
+		synchronized(CinemaClient.RefundsDataLock)
+		{	
+			CinemaClientCLI.sendMessage(message);
+							
+			// wait for Data to be changed
+			while(!RefundAdded) {
+				try {
+					CinemaClient.RefundsDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+		}	
+	}
+    
+    public static Boolean ComplaintDeleted = true;	// holds if the show is deleted yet
+    // delete compalint in DataBase and brings the Complaints from the DataBase and updates 
+ 	// the CompalintsData local list
+    synchronized void DeleteComplaint(int complaint_id) {
+    	ComplaintDeleted = false;	// complaint isn't deleted yet
+		// create message and send it to the server
+    	LinkedList<Object> message = new LinkedList<Object>();
+		message.add("DeleteComplaint");
+		message.add(complaint_id);
+		synchronized(CinemaClient.ComplaintsDataLock)
+		{	
+			CinemaClientCLI.sendMessage(message);
+							
+			// wait for Data to be changed
+			while(!ComplaintDeleted) {
+				try {
+					CinemaClient.ComplaintsDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+			// update ShowData
+			UpdateComplaintsData();
+		}	
+	}
+    
+    void refresh() {
+    	// update complaint data
+    	synchronized(CinemaClient.ComplaintsDataLock) {
+    		UpdateComplaintsData();
+    		complaints = CinemaClient.ComplaintsData;
+    	}
+    			
+    	if(complaints==null) {
+    		// disable everything
+    		prevBtn.setDisable(true);
+    		nextBtn.setDisable(true);
+    		dontRefundCB.setDisable(true);
+    		refundCB.setDisable(true);
+    		refundTextField.setText(null);
+    		refundTextField.setDisable(true);
+    		applyBtn.setDisable(true);
+    		complaintContent.setText("**THERE ARE NO COMPLAINTS AT THE MOMENT**");
+    	}else {
+    		loadComplaint(0);
+    	}
+    }
 
 	@FXML
 	void clickApplyBtn(ActionEvent event) {
-		
+		// assign amount
+		double amount = 0;
+		if (refundCB.isSelected()) {
+			amount = Double.valueOf(refundTextField.getText());
+		}
+		// create a refund entity
+		Complaint complaint = complaints.get(currentComplaintIdx);
+		int complaint_id = complaint.getID();
+		LocalDateTime date = LocalDateTime.now();
+		int order_id = complaint.getOrder_id();
+		Refund refund = new Refund(amount, order_id, complaint_id, date);
+		// add refund to database and delete complaint
+		AddRefund(refund);
+		DeleteComplaint(complaint_id);
+		// refresh page
+		refresh();
 	}
 
 	@FXML
@@ -87,6 +186,11 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
 		}
 		CheckIfFilled();
 	}
+	
+	@FXML
+    void clickRefreshBtn(ActionEvent event) {
+		refresh();
+    }
 	 
 	private void loadComplaint(int i) {
 		currentComplaintIdx = i;
