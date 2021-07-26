@@ -115,18 +115,9 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
     	synchronized(CinemaClient.ComplaintsDataLock) {
     		UpdateComplaintsData();
     		complaints = CinemaClient.ComplaintsData;
-    	}
-    			
+    	}		
     	if(complaints==null) {
-    		// disable everything
-    		prevBtn.setDisable(true);
-    		nextBtn.setDisable(true);
-    		dontRefundCB.setDisable(true);
-    		refundCB.setDisable(true);
-    		refundTextField.setText(null);
-    		refundTextField.setDisable(true);
-    		applyBtn.setDisable(true);
-    		complaintContent.setText("**THERE ARE NO COMPLAINTS AT THE MOMENT**");
+    		loadEmpty();
     	}else {
     		loadComplaint(0);
     	}
@@ -191,6 +182,19 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
     void clickRefreshBtn(ActionEvent event) {
 		refresh();
     }
+	
+	private void loadEmpty() {
+		// disable everything
+		idxText.setText("0/0");
+		prevBtn.setDisable(true);
+		nextBtn.setDisable(true);
+		dontRefundCB.setDisable(true);
+		refundCB.setDisable(true);
+		refundTextField.setText(null);
+		refundTextField.setDisable(true);
+		applyBtn.setDisable(true);
+		complaintContent.setText("**THERE ARE NO COMPLAINTS AT THE MOMENT**");
+	}
 	 
 	private void loadComplaint(int i) {
 		currentComplaintIdx = i;
@@ -210,7 +214,8 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
 		String dateTime = comp.getCreationDate().toString();
 		complaintContent.setText(comp.getText() + "\ncreated at: " + dateTime);
 		
-		// initialize choice boxes and text for refunding
+		// initialize choice boxes, text, and textfield for refunding
+		idxText.setText(Integer.toString(i+1)+"/"+Integer.toString(complaints.size()));
 		dontRefundCB.setSelected(true);
 		refundCB.setSelected(false);
 		refundTextField.setText(null);
@@ -239,15 +244,7 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
 		}
 		
 		if(complaints==null) {
-			// disable everything
-			prevBtn.setDisable(true);
-			nextBtn.setDisable(true);
-			dontRefundCB.setDisable(true);
-			refundCB.setDisable(true);
-			refundTextField.setText(null);
-			refundTextField.setDisable(true);
-			applyBtn.setDisable(true);
-			complaintContent.setText("**THERE ARE NO COMPLAINTS AT THE MOMENT**");
+			loadEmpty();
 		}else {
 			loadComplaint(0);
 		}
