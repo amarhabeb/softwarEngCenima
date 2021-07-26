@@ -15,8 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16">
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane>
          <children>
@@ -75,6 +74,11 @@
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Text>
+                  <Text fx:id="idxText" layoutX="446.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0/0" wrappingWidth="39.7366943359375">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Text>
                </children>
             </AnchorPane>
          </children>
@@ -99,6 +103,11 @@
                </stops>
             </LinearGradient>
          </textFill>
+      </Button>
+      <Button fx:id="refreshBtn" layoutX="674.0" layoutY="424.0" mnemonicParsing="false" onAction="#clickRefreshBtn" text="Refresh">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
       </Button>
    </children>
 </AnchorPane>
