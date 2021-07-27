@@ -111,11 +111,12 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		Integer min = minsChoice.getValue();
   		LocalTime time = LocalTime.of(hour, min);	// create time object
   		Hall hall = hallChoice.getValue();
+  		Cinema cinema =cinemaChoice.getValue();
   		// Cinema cinema = cinemaChoice.getValue();
   		Double price = Double.valueOf(priceTextField.getText());
   		
   		// create show object
-  		Show show = new Show(LocalDateTime.of(date, time), "AVAILABLE", price, movie, hall);
+  		Show show = new Show(LocalDateTime.of(date, time), "AVAILABLE", price, movie, hall,cinema);
   		
   		try {
 	  		// add new show object to database

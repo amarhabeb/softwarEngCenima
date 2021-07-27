@@ -27,6 +27,14 @@ public class Hall {
 
     public Hall(){}
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setShows(List<Show> shows) {
+        this.shows = shows;
+    }
+
     public Hall(int number, int capacity,List<Seat> seats,  Cinema cinema,List<Show> shows) {
 
         this.number = number;
