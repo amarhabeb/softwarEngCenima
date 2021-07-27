@@ -16,6 +16,7 @@ import java.lang.Package;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -976,8 +977,8 @@ public class CinemaServer extends AbstractServer{
 			Cinema cinema1 = new Cinema();
 			List<Movie> moviesList = new LinkedList<Movie>();
 			List<Show> emptyShowList = new LinkedList<Show>();
-			int[] days = {1,2,3,4,5,6,7};
-			int[] months = {6,6,6,6,6,6,6,};
+			int[] days = {6, 15, 17, 18,22,24,30};
+			int[] months = {8,9,10,11,12};
 			int[] years = {2021,2021,2021,2021,2021,2021,2021};
 
 			int[] hours = {18,18,19,19,20,20,21,21,22,22};
@@ -1057,8 +1058,17 @@ public class CinemaServer extends AbstractServer{
 			List<Seat> tempSeats = new LinkedList<Seat>();
 			Hall cinemaHall2 =new Hall(2, 6*10,tempSeats, cinema1,shows);
 			Show show1= new Show( LocalDateTime.of(years[0],months[1],days[0], hours[0],minutes[1]), availability[(0)%2], 60,HarryPotter7,cinemaHall,cinema1);
+			Show show112= new Show( LocalDateTime.of(years[3],months[2],days[0], hours[1],minutes[1]), availability[(0)%2], 60,HarryPotter7,cinemaHall2,cinema1);
+			Show show113= new Show( LocalDateTime.of(years[1],months[3],days[0], hours[0],minutes[1]), availability[(0)%2], 60,HarryPotter7,cinemaHall1,cinema1);
+
 			Show show2= new Show( LocalDateTime.of(years[1],months[4],days[1], hours[2],minutes[2]), availability[(2)%2], 60, LordOfTheRings,cinemaHall1,cinema1);
+			Show show22= new Show( LocalDateTime.of(years[1],months[4],days[2], hours[2],minutes[2]), availability[(2)%2], 60, LordOfTheRings,cinemaHall2,cinema1);
+			Show show23= new Show( LocalDateTime.of(years[1],months[4],days[3], hours[2],minutes[2]), availability[(2)%2], 60, LordOfTheRings,cinemaHall,cinema1);
+
 			Show show3= new Show( LocalDateTime.of(years[2],months[3],days[2], hours[2],minutes[3]), availability[(2)%2], 60,Titanic,cinemaHall2,cinema1);
+			Show show32= new Show( LocalDateTime.of(years[2],months[4],days[4], hours[2],minutes[3]), availability[(2)%2], 60,Titanic,cinemaHall1,cinema1);
+			Show show33= new Show( LocalDateTime.of(years[2],months[4],days[1], hours[2],minutes[3]), availability[(2)%2], 60,Titanic,cinemaHall,cinema1);
+
 			Show show4= new Show( LocalDateTime.of(years[3],months[1],days[3], hours[0],minutes[3]), availability[(2)%2], 60,Joker,cinemaHall2,cinema1);
 			Show show5= new Show( LocalDateTime.of(years[4],months[2],days[4], hours[0],minutes[3]), availability[(2)%2], 60,TheAvengers,cinemaHall2,cinema1);
 			Show show6= new Show( LocalDateTime.of(years[0],months[1],days[0], hours[1],minutes[3]), availability[(2)%2], 60,StarWars,cinemaHall2,cinema1);
@@ -1121,11 +1131,35 @@ public class CinemaServer extends AbstractServer{
 			cinemaHalls.add(cinemaHall);
 			cinemaHalls.add(cinemaHall1);
 			cinema1.setShows(shows3);
-			HarryPotter7.setShows(shows);
-			Titanic.setShows(shows2);
-			LordOfTheRings.setShows(shows1);
+
+			List<Show> HarryPotter7_shows = new LinkedList<Show>();
+			HarryPotter7_shows.add(show1);
+			HarryPotter7_shows.add(show112);
+			HarryPotter7_shows.add(show113);
+			HarryPotter7.setShows(HarryPotter7_shows);
 
 
+			List<Show> Titanic_shows = new LinkedList<Show>();
+			Titanic_shows.add(show3);
+			Titanic_shows.add(show32);
+			Titanic_shows.add(show33);
+			Titanic.setShows(Titanic_shows);
+
+
+			List<Show> LordOfTheRings_shows = new LinkedList<Show>();
+			LordOfTheRings_shows.add(show2);
+			LordOfTheRings_shows.add(show22);
+			LordOfTheRings_shows.add(show23);
+
+			Joker.setShows(Collections.singletonList(show4));
+			TheAvengers.setShows(Collections.singletonList(show5));
+			StarWars.setShows(Collections.singletonList(show6));
+			Inception.setShows(Collections.singletonList(show7));
+			TheDarKnight.setShows(Collections.singletonList(show8));
+			CaptainAmerica.setShows(Collections.singletonList(show9));
+			Avatar.setShows(Collections.singletonList(show10));
+			Jaws.setShows(Collections.singletonList(show11));
+			Rocky.setShows(Collections.singletonList(show12));
 
 			cinemaHall.setShows(shows1);
 			cinemaHall1.setShows(shows2);
