@@ -983,6 +983,7 @@ public class CinemaServer extends AbstractServer{
 
 
 
+
 			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2019-03-18"),false,  im, emptyShowList,false);
 			moviesList.add(HarryPotter7);
 			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2020-03-18"),false, im1, emptyShowList,false);
@@ -1007,186 +1008,229 @@ public class CinemaServer extends AbstractServer{
 			moviesList.add(Titanic);
 			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"),true, im11, emptyShowList,false);
 			moviesList.add(LordOfTheRings);
-			cinema1.setMovies(moviesList);
-
-
-
 			List<Hall> cinemaHalls = new LinkedList<Hall>();
 			List<Show> shows = new LinkedList<Show>();
 			List<Seat> tempSeats = new LinkedList<Seat>();
-			Hall h = new Hall();
-
-
-			Show show1= new Show( LocalDateTime.of(years[0],months[0],days[0], hours[0],minutes[0]), availability[(0)%2], 60, HarryPotter7, h);
-			emptyShowList.add(show1);
-			MoviesController.addMovie(CinemaServer.session,HarryPotter7);
-            ShowsController.addShow(CinemaServer.session,show1);
-			HallController.addHall(CinemaServer.session,h);
-
-			for (int i=1; i<=5;i++){
-				List<Seat> tempseats = new LinkedList<Seat>();
-
-				for (int k=1; k<=2*i*10; k++){
-					Seat seat = new Seat(true, i%10, i/10 +1,h);
-					SeatController.addSeat(CinemaServer.session,seat); //every line has 10 seats
+			Hall cinemaHall2 =new Hall(2, 6*10,tempSeats, cinema1,shows);
+			Show show1= new Show( LocalDateTime.of(years[0],months[0],days[0], hours[0],minutes[0]), availability[(0)%2], 60,HarryPotter7,cinemaHall2,cinema1);
+			//shows.add(show1);
+			cinema1.setMovies(moviesList);
+			//show1.setMovie(HarryPotter7);
+			cinemaHalls.add(cinemaHall2);
+			//show1.setHall(cinemaHall2);
+			//show1.setMovie(HarryPotter7);
+			cinema1.setShows(emptyShowList);
+			List<Seat> tempseats = new LinkedList<Seat>();
+			List<Seat> tempseats1 = new LinkedList<Seat>();
+			List<Seat> tempseats2 = new LinkedList<Seat>();
+			Hall cinemaHall = new Hall(1, 2*10,tempSeats, cinema1,shows);
+			Hall cinemaHall1 = new Hall(2, 4*10,tempSeats, cinema1,shows);
+			cinemaHall.setSeats(tempSeats);
+			cinemaHall1.setSeats(tempseats1);
+			cinemaHall2.setSeats(tempseats2);
+				for (int k=1; k<=2*10; k++){
+					Seat seat = new Seat(true, 1, 1/10 +1,cinemaHall);
 					tempseats.add(seat);
-
 				}
-
-
-				Hall cinemaHall = new Hall(i, 2*i*10,tempSeats, cinema1,shows);
-
 				for(int o=0;o<tempseats.size();o++){
 					tempseats.get(o).setHall(cinemaHall);
 				}
-
 				cinemaHalls.add(cinemaHall);
 
-				HallController.addHall(CinemaServer.session,cinemaHall);
 
-			}
-
-
-
-
-            List<Show> temp = new LinkedList<Show>();
-			for (int i=0; i<2; i++){
-				for (int j=0; j<3; j++){
-					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 60, HarryPotter7, cinemaHalls.get((i+j)%5));
-					cinema1.addShow(show);
-					HarryPotter7.addShow(show);
-					//ShowsController.addShow(CinemaServer.session,show);
-					temp.add(show);
+				for (int k=1; k<=2*2*10; k++){
+					Seat seat = new Seat(true, 2%10, 2/10 +1,cinemaHall1);
+					tempseats1.add(seat);
 				}
-			}
-			MoviesController.addMovie(CinemaServer.session,HarryPotter7);
-/*
-			for (int i=0; i<2; i++){
-				for (int j=0; j<3; j++){
-					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 100, Joker, cinemaHalls.get((i+j)%5+1));
-					cinema1.addShow(show);
-					Joker.addShow(show);
-					//ShowsController.addShow(CinemaServer.session,show);
-					temp.add(show);
+				for(int o=0;o<tempseats1.size();o++){
+					tempseats1.get(o).setHall(cinemaHall1);
 				}
+				cinemaHalls.add(cinemaHall1);
+
+			for (int k=1; k<=2*2*2*10; k++){
+				Seat seat = new Seat(true, 3%10, 3/10 +1,cinemaHall2);
+				tempseats2.add(seat);
 			}
-			MoviesController.addMovie(CinemaServer.session,Joker);
-
-
-			for (int i=0; i<2; i++){
-				for (int j=3; j<6; j++){
-					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 90, TheAvengers, cinemaHalls.get((i+j)%5));
-					cinema1.addShow(show);
-					TheAvengers.addShow(show);
-					//ShowsController.addShow(CinemaServer.session,show);
-					temp.add(show);
-				}
-			}
-			MoviesController.addMovie(CinemaServer.session,TheAvengers);
-
-
-			for (int i=0; i<2; i++){
-				for (int j=3; j<6; j++){
-					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 70, StarWars, cinemaHalls.get((i+j)%5+1));
-					cinema1.addShow(show);
-					StarWars.addShow(show);
-					//ShowsController.addShow(CinemaServer.session,show);
-					temp.add(show);
-				}
-			}
-			MoviesController.addMovie(CinemaServer.session,StarWars);
-
-			for (int i=0; i<2; i++){
-				for (int j=6; j<10; j++){
-					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 120, Inception, cinemaHalls.get((i+j)%5));
-					cinema1.addShow(show);
-					Inception.addShow(show);
-					//ShowsController.addShow(CinemaServer.session,show);
-					temp.add(show);
-				}
-			}
-			MoviesController.addMovie(CinemaServer.session,Inception);
-
-			for (int i=0; i<2; i++){
-				for (int j=6; j<10; j++){
-					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 80, TheDarKnight, cinemaHalls.get((i+j)%5+1));
-					cinema1.addShow(show);
-					TheDarKnight.addShow(show);
-					//ShowsController.addShow(CinemaServer.session,show);
-					temp.add(show);
-				}
-			}
-			MoviesController.addMovie(CinemaServer.session,TheDarKnight);
-
-			for (int i=2; i<4; i++){
-				for (int j=0; j<3; j++){
-					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 90, CaptainAmerica, cinemaHalls.get((i+j)%5));
-					cinema1.addShow(show);
-					CaptainAmerica.addShow(show);
-					//ShowsController.addShow(CinemaServer.session,show);
-					temp.add(show);
-				}
-			}
-			MoviesController.addMovie(CinemaServer.session,CaptainAmerica);
-
-			for (int i=2; i<4; i++){
-				for (int j=0; j<3; j++){
-					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 95, Avatar, cinemaHalls.get((i+j)%5+1));
-					cinema1.addShow(show);
-					Avatar.addShow(show);
-					//ShowsController.addShow(CinemaServer.session,show);
-					temp.add(show);
-				}
-			}
-			MoviesController.addMovie(CinemaServer.session,Avatar);
-
-			for (int i=2; i<4; i++){
-				for (int j=3; j<6; j++){
-					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 45, Jaws, cinemaHalls.get((i+j)%5));
-					cinema1.addShow(show);
-					Jaws.addShow(show);
-					//ShowsController.addShow(CinemaServer.session,show);
-					temp.add(show);
-				}
-			}
-			MoviesController.addMovie(CinemaServer.session,Jaws);
-
-			for (int i=2; i<4; i++){
-				for (int j=3; j<6; j++){
-					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 90, Rocky, cinemaHalls.get((i+j)%5+1));
-					cinema1.addShow(show);
-					Rocky.addShow(show);
-					//ShowsController.addShow(CinemaServer.session,show);
-					temp.add(show);
-				}
-			}
-			MoviesController.addMovie(CinemaServer.session,Rocky);
-
-			for (int i=2; i<4; i++){
-				for (int j=6; j<10; j++){
-					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 40, Titanic, cinemaHalls.get((i+j)%5));
-					cinema1.addShow(show);
-					Titanic.addShow(show);
-					//ShowsController.addShow(CinemaServer.session,show);
-					temp.add(show);
-				}
-			}
-			MoviesController.addMovie(CinemaServer.session,Titanic);
-
-			for (int i=2; i<4; i++){
-				for (int j=6; j<10; j++){
-					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 80, LordOfTheRings, cinemaHalls.get((i+j)%5+1));
-					cinema1.addShow(show);
-					LordOfTheRings.addShow(show);
-					//ShowsController.addShow(CinemaServer.session,show);
-					temp.add(show);
-				}
+			for(int o=0;o<tempseats2.size();o++){
+				tempseats2.get(o).setHall(cinemaHall2);
 			}
 
-			MoviesController.addMovie(CinemaServer.session,LordOfTheRings);
+			//HarryPotter7.addShow(show1);
+			//ShowsController.addShow(CinemaServer.session,show1);
+
+
+
+			cinemaHalls.add(cinemaHall2);
+			cinemaHall1.setCinema(cinema1);
+			cinemaHall.setCinema(cinema1);
+			cinemaHall2.setCinema(cinema1);
+			cinemaHall.setShows(emptyShowList);
+			cinemaHall1.setShows(emptyShowList);
+			cinemaHall2.setShows(emptyShowList);
+			//cinemaHall2.addShow(show1);
 			CinemaController.addCinema(CinemaServer.session,cinema1);
+			HallController.addHall(CinemaServer.session,cinemaHall);
+			HallController.addHall(CinemaServer.session,cinemaHall1);
+			HallController.addHall(CinemaServer.session,cinemaHall2);
 
-*/
+			for(int i=0;i<tempseats.size();i++){
+				SeatController.addSeat(CinemaServer.session,tempseats.get(i));
+			}
+			for(int i=0;i<tempseats1.size();i++){
+				SeatController.addSeat(CinemaServer.session,tempseats1.get(i));
+			}
+			for(int i=0;i<tempseats2.size();i++){
+				SeatController.addSeat(CinemaServer.session,tempseats2.get(i));
+			}
+			for(int i=0;i<moviesList.size();i++){
+				MoviesController.addMovie(CinemaServer.session,moviesList.get(i));
+			}
+
+
+
+
+
+//
+//
+//
+//
+//            List<Show> temp = new LinkedList<Show>();
+//			for (int i=0; i<2; i++){
+//				for (int j=0; j<3; j++){
+//					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 60, HarryPotter7, cinemaHalls.get((i+j)%5));
+//					cinema1.addShow(show);
+//					HarryPotter7.addShow(show);
+//					//ShowsController.addShow(CinemaServer.session,show);
+//					temp.add(show);
+//				}
+//			}
+//			MoviesController.addMovie(CinemaServer.session,HarryPotter7);
+//
+//			for (int i=0; i<2; i++){
+//				for (int j=0; j<3; j++){
+//					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 100, Joker, cinemaHalls.get((i+j)%5+1));
+//					cinema1.addShow(show);
+//					Joker.addShow(show);
+//					//ShowsController.addShow(CinemaServer.session,show);
+//					temp.add(show);
+//				}
+//			}
+//			MoviesController.addMovie(CinemaServer.session,Joker);
+//
+//
+//			for (int i=0; i<2; i++){
+//				for (int j=3; j<6; j++){
+//					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 90, TheAvengers, cinemaHalls.get((i+j)%5));
+//					cinema1.addShow(show);
+//					TheAvengers.addShow(show);
+//					//ShowsController.addShow(CinemaServer.session,show);
+//					temp.add(show);
+//				}
+//			}
+//			MoviesController.addMovie(CinemaServer.session,TheAvengers);
+//
+//
+//			for (int i=0; i<2; i++){
+//				for (int j=3; j<6; j++){
+//					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 70, StarWars, cinemaHalls.get((i+j)%5+1));
+//					cinema1.addShow(show);
+//					StarWars.addShow(show);
+//					//ShowsController.addShow(CinemaServer.session,show);
+//					temp.add(show);
+//				}
+//			}
+//			MoviesController.addMovie(CinemaServer.session,StarWars);
+//
+//			for (int i=0; i<2; i++){
+//				for (int j=6; j<10; j++){
+//					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 120, Inception, cinemaHalls.get((i+j)%5));
+//					cinema1.addShow(show);
+//					Inception.addShow(show);
+//					//ShowsController.addShow(CinemaServer.session,show);
+//					temp.add(show);
+//				}
+//			}
+//			MoviesController.addMovie(CinemaServer.session,Inception);
+//
+//			for (int i=0; i<2; i++){
+//				for (int j=6; j<10; j++){
+//					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 80, TheDarKnight, cinemaHalls.get((i+j)%5+1));
+//					cinema1.addShow(show);
+//					TheDarKnight.addShow(show);
+//					//ShowsController.addShow(CinemaServer.session,show);
+//					temp.add(show);
+//				}
+//			}
+//			MoviesController.addMovie(CinemaServer.session,TheDarKnight);
+//
+//			for (int i=2; i<4; i++){
+//				for (int j=0; j<3; j++){
+//					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 90, CaptainAmerica, cinemaHalls.get((i+j)%5));
+//					cinema1.addShow(show);
+//					CaptainAmerica.addShow(show);
+//					//ShowsController.addShow(CinemaServer.session,show);
+//					temp.add(show);
+//				}
+//			}
+//			MoviesController.addMovie(CinemaServer.session,CaptainAmerica);
+//
+//			for (int i=2; i<4; i++){
+//				for (int j=0; j<3; j++){
+//					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 95, Avatar, cinemaHalls.get((i+j)%5+1));
+//					cinema1.addShow(show);
+//					Avatar.addShow(show);
+//					//ShowsController.addShow(CinemaServer.session,show);
+//					temp.add(show);
+//				}
+//			}
+//			MoviesController.addMovie(CinemaServer.session,Avatar);
+//
+//			for (int i=2; i<4; i++){
+//				for (int j=3; j<6; j++){
+//					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 45, Jaws, cinemaHalls.get((i+j)%5));
+//					cinema1.addShow(show);
+//					Jaws.addShow(show);
+//					//ShowsController.addShow(CinemaServer.session,show);
+//					temp.add(show);
+//				}
+//			}
+//			MoviesController.addMovie(CinemaServer.session,Jaws);
+//
+//			for (int i=2; i<4; i++){
+//				for (int j=3; j<6; j++){
+//					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]), availability[(i+j)%2], 90, Rocky, cinemaHalls.get((i+j)%5+1));
+//					cinema1.addShow(show);
+//					Rocky.addShow(show);
+//					//ShowsController.addShow(CinemaServer.session,show);
+//					temp.add(show);
+//				}
+//			}
+//			MoviesController.addMovie(CinemaServer.session,Rocky);
+//
+//			for (int i=2; i<4; i++){
+//				for (int j=6; j<10; j++){
+//					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 40, Titanic, cinemaHalls.get((i+j)%5));
+//					cinema1.addShow(show);
+//					Titanic.addShow(show);
+//					//ShowsController.addShow(CinemaServer.session,show);
+//					temp.add(show);
+//				}
+//			}
+//			MoviesController.addMovie(CinemaServer.session,Titanic);
+//
+//			for (int i=2; i<4; i++){
+//				for (int j=6; j<10; j++){
+//					Show show = new Show( LocalDateTime.of(years[i],months[i],days[i], hours[j],minutes[j]),  availability[(i+j)%2], 80, LordOfTheRings, cinemaHalls.get((i+j)%5+1));
+//					cinema1.addShow(show);
+//					LordOfTheRings.addShow(show);
+//					//ShowsController.addShow(CinemaServer.session,show);
+//					temp.add(show);
+//				}
+//			}
+
+
+
+
 
 		} catch (Exception e) {
 			e.printStackTrace();

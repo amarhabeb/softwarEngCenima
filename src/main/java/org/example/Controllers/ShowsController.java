@@ -40,19 +40,20 @@ public class ShowsController {
 	@SuppressWarnings("exports")
 	public static boolean addShow(Session session, Show show) throws Exception{
 		try {
-			Transaction transaction = session.beginTransaction();
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Show> query = builder.createQuery(Show.class);
-            query.from(Show.class);
-            List<Show> data = session.createQuery(query).getResultList();
-            for(int i=0;i< data.size();i++){
-                if(data.get(i).getHall()== show.getHall() && data.get(i).getDate() ==show.getDate()){
-                    return  false;
-                }
-            }
-			session.save(show);
+
+//            List<Show> data = ShowsController.loadShows(session);
+//            for(int i=0;i< data.size();i++){
+//                if(data.get(i).getHall()== show.getHall() && data.get(i).getDate() ==show.getDate()){
+//                    return  false;
+//                }
+//            }
+            if (!session.getTransaction().isActive()){
+                Transaction transaction = session.beginTransaction();
+            session.save(show);
             session.flush();
             transaction.commit();
+            return true;
+        }
             return true;
 		} catch (Exception exception) {
 			if (session != null) {

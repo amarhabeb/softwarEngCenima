@@ -8,6 +8,7 @@ import java.util.List;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Cinema;
+import org.example.entities.Complaint;
 import org.example.entities.Show;
 
 public abstract class Boundary {
@@ -146,6 +147,27 @@ public abstract class Boundary {
 		}	
 	}
 	
+	synchronized void UpdateComplaintsData() {
+		// add message to ClientInput so it could be sent to server
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadComplaints");
+		synchronized(CinemaClient.ComplaintsDataLock)
+		{	
+			CinemaClient.ComplaintsDataUpdated = false;
+			CinemaClientCLI.sendMessage(message);
+										
+			// wait for Data to be updated
+			while(!CinemaClient.ComplaintsDataUpdated) {
+				try {
+						CinemaClient.ComplaintsDataLock.wait();
+				} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+				}
+			}	
+		}	
+	}
+	
 //	synchronized void UpdateTicketsReportData(int cinema_id, Month month, Year year) {
 //		// add message to ClientInput so it could be sent to server
 //		LinkedList<Object> message = new LinkedList<Object>();
@@ -261,6 +283,8 @@ public abstract class Boundary {
 //			}
 //		}
 //	}
+	
+
 	
 	// return show given id
 	public Show idToShow(int id) {
