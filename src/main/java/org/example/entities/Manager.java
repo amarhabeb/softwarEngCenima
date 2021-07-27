@@ -3,7 +3,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name ="manger")
+@Table(name ="manager")
 
 public class Manager extends Employee {
     public Manager(String name, String phoneNum, String email, String userName, String password, int role) {

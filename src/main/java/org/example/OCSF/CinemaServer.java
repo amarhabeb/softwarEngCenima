@@ -34,7 +34,7 @@ public class CinemaServer extends AbstractServer{
 		configuration.addAnnotatedClass(Show.class);
 		configuration.addAnnotatedClass(ChainManager.class);
 		configuration.addAnnotatedClass(Cinema.class);
-		configuration.addAnnotatedClass(ChainManager.class);
+		configuration.addAnnotatedClass(CinemaManager.class);
 		configuration.addAnnotatedClass(Complaint.class);
 		configuration.addAnnotatedClass(ContentManager.class);
 		configuration.addAnnotatedClass(Customer.class);
@@ -932,7 +932,41 @@ public class CinemaServer extends AbstractServer{
 		session = sessionFactory.openSession();
 		generateMovies(session);
 
+		//intialize regulations
+		Regulations regulations=new Regulations();
+		RegulationsController.addRegulations(CinemaServer.session,regulations);
 
+		//intialize employees
+		ChainManager chainManager=new ChainManager("cersei lannister", "0534727563",
+				"Lannister@gmail.com", "clannister","1212");
+		EmployeeController.addEmployee(CinemaServer.session,chainManager);
+
+		ContentManager contentManager=new ContentManager("Sirina Williams", "0533264563",
+				"williams@gmail.com", "sWilliams","7yg2");
+		EmployeeController.addEmployee(CinemaServer.session,contentManager);
+
+		CustomerService customerService1=new CustomerService("Nina Dobrev", "0576514563",
+				"Dobrev@gmail.com", "nDobrev","ch3i");
+		EmployeeController.addEmployee(CinemaServer.session,customerService1);
+
+		CustomerService customerService2=new CustomerService("Phill Adams", "0573299563",
+				"Adams@gmail.com", "pAdams","hd72");
+		EmployeeController.addEmployee(CinemaServer.session,customerService2);
+
+		CustomerService customerService3=new CustomerService("Joe Jonas", "0547835611",
+				"Jonas@gmail.com", "jJonas","8h2s");
+		EmployeeController.addEmployee(CinemaServer.session,customerService3);
+
+		Customer customer=new Customer("Bob", "050000000", "a@com");
+		CustomerController.addCustomer(CinemaServer.session, customer);
+
+		CinemaManager cinemaManager1=new CinemaManager("Anna Neeson", "0576773322",
+				"Neeson@gmail.com", "aNeeson","ew92",1);
+		EmployeeController.addEmployee(CinemaServer.session,cinemaManager1);
+
+		CinemaManager cinemaManager2=new CinemaManager("Adam Levine", "0511199322",
+				"Levine@gmail.com", "aLevine","so2o",2);
+		EmployeeController.addEmployee(CinemaServer.session,cinemaManager2);
 	}
 
 
