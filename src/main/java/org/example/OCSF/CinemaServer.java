@@ -1028,6 +1028,7 @@ public class CinemaServer extends AbstractServer{
 			cinemaHall.setSeats(tempSeats);
 			cinemaHall1.setSeats(tempseats1);
 			cinemaHall2.setSeats(tempseats2);
+
 				for (int k=1; k<=2*10; k++){
 					Seat seat = new Seat(true, 1, 1/10 +1,cinemaHall);
 					tempseats.add(seat);
@@ -1060,7 +1061,6 @@ public class CinemaServer extends AbstractServer{
 
 
 
-			cinemaHalls.add(cinemaHall2);
 			cinemaHall1.setCinema(cinema1);
 			cinemaHall.setCinema(cinema1);
 			cinemaHall2.setCinema(cinema1);
@@ -1068,6 +1068,7 @@ public class CinemaServer extends AbstractServer{
 			cinemaHall1.setShows(emptyShowList);
 			cinemaHall2.setShows(emptyShowList);
 			//cinemaHall2.addShow(show1);
+			cinema1.setHalls(cinemaHalls);
 			CinemaController.addCinema(CinemaServer.session,cinema1);
 			HallController.addHall(CinemaServer.session,cinemaHall);
 			HallController.addHall(CinemaServer.session,cinemaHall1);
