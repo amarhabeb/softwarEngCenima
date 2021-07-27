@@ -82,13 +82,7 @@ public class PackagesController {
             predicates[1]=builder.equal(root.get("active"),true);
             query.where(predicates);
             List<Package> data = session.createQuery(query).getResultList();
-            List<Ticket> tickets=data.get(0).getTickets();
-            int res =0;
-            for(int i=0;i< tickets.size();i++){
-                if(tickets.get(i).isActive()){
-                    res++;
-                }
-            }
+            int res=data.get(0).getCounter();
             transaction.commit();
             return res;
         } catch (Exception exception) {

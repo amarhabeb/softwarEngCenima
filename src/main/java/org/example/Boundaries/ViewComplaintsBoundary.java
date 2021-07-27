@@ -1,4 +1,4 @@
-package org.example.Boundaries;
+/*package org.example.Boundaries;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -67,14 +67,14 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
     	LinkedList<Object> message = new LinkedList<Object>();
 		message.add("AddRefund");
 		message.add(refund);
-		synchronized(CinemaClient.RefundsDataLock)
+		synchronized(CinemaClient.RefundDataLock)
 		{	
 			CinemaClientCLI.sendMessage(message);
 							
 			// wait for Data to be changed
 			while(!RefundAdded) {
 				try {
-					CinemaClient.RefundsDataLock.wait();
+					CinemaClient.RefundDataLock.wait();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -267,3 +267,4 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
 	}
 
 }
+*/
