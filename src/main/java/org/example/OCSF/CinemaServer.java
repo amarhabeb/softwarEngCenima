@@ -973,9 +973,9 @@ public class CinemaServer extends AbstractServer{
 
 	private static void generateMovies(Session session) throws Exception {
     	try {
-    		Cinema cinema1 = new Cinema();
-    		List<Movie> moviesList = new LinkedList<Movie>();
-    		List<Show> emptyShowList = new LinkedList<Show>();
+			Cinema cinema1 = new Cinema();
+			List<Movie> moviesList = new LinkedList<Movie>();
+			List<Show> emptyShowList = new LinkedList<Show>();
 			int[] days = {1,2,3,4,5,6,7};
 			int[] months = {6,6,6,6,6,6,6,};
 			int[] years = {2021,2021,2021,2021,2021,2021,2021};
@@ -1056,20 +1056,66 @@ public class CinemaServer extends AbstractServer{
 
 			List<Seat> tempSeats = new LinkedList<Seat>();
 			Hall cinemaHall2 =new Hall(2, 6*10,tempSeats, cinema1,shows);
-			Show show1= new Show( LocalDateTime.of(years[0],months[0],days[0], hours[0],minutes[0]), availability[(0)%2], 60,HarryPotter7,cinemaHall,cinema1);
-			Show show2= new Show( LocalDateTime.of(years[0],months[0],days[0], hours[0],minutes[0]), availability[(0)%2], 60, LordOfTheRings,cinemaHall1,cinema1);
-			Show show3= new Show( LocalDateTime.of(years[0],months[0],days[0], hours[0],minutes[0]), availability[(0)%2], 60,Titanic,cinemaHall2,cinema1);
+			Show show1= new Show( LocalDateTime.of(years[0],months[1],days[0], hours[0],minutes[1]), availability[(0)%2], 60,HarryPotter7,cinemaHall,cinema1);
+			Show show2= new Show( LocalDateTime.of(years[1],months[4],days[1], hours[2],minutes[2]), availability[(2)%2], 60, LordOfTheRings,cinemaHall1,cinema1);
+			Show show3= new Show( LocalDateTime.of(years[2],months[3],days[2], hours[2],minutes[3]), availability[(2)%2], 60,Titanic,cinemaHall2,cinema1);
+			Show show4= new Show( LocalDateTime.of(years[3],months[1],days[3], hours[0],minutes[3]), availability[(2)%2], 60,Joker,cinemaHall2,cinema1);
+			Show show5= new Show( LocalDateTime.of(years[4],months[2],days[4], hours[0],minutes[3]), availability[(2)%2], 60,TheAvengers,cinemaHall2,cinema1);
+			Show show6= new Show( LocalDateTime.of(years[0],months[1],days[0], hours[1],minutes[3]), availability[(2)%2], 60,StarWars,cinemaHall2,cinema1);
+			Show show7= new Show( LocalDateTime.of(years[1],months[0],days[1], hours[2],minutes[4]), availability[(0)%2], 60,Inception,cinemaHall1,cinema1);
+			Show show8= new Show( LocalDateTime.of(years[2],months[4],days[2], hours[1],minutes[0]), availability[(1)%2], 60,TheDarKnight,cinemaHall1,cinema1);
+			Show show9= new Show( LocalDateTime.of(years[3],months[3],days[3], hours[2],minutes[1]), availability[(2)%2], 60,CaptainAmerica,cinemaHall1,cinema1);
+			Show show10= new Show( LocalDateTime.of(years[4],months[2],days[4], hours[1],minutes[0]), availability[(1)%2], 60,Avatar,cinemaHall,cinema1);
+			Show show11= new Show( LocalDateTime.of(years[2],months[1],days[0], hours[2],minutes[0]), availability[(1)%2], 60,Jaws,cinemaHall,cinema1);
+			Show show12= new Show( LocalDateTime.of(years[1],months[0],days[1], hours[0],minutes[0]), availability[(1)%2], 60,Rocky,cinemaHall,cinema1);
+
 			show1.setHall(cinemaHall);
+			show10.setHall(cinemaHall);
+			show11.setHall(cinemaHall);
+			show12.setHall(cinemaHall);
+
 			show2.setHall(cinemaHall1);
+			show7.setHall(cinemaHall);
+			show8.setHall(cinemaHall1);
+			show9.setHall(cinemaHall1);
+
+
 			show3.setHall(cinemaHall2);
+			show4.setHall(cinemaHall2);
+			show5.setHall(cinemaHall2);
+			show6.setHall(cinemaHall2);
+
 
 			shows.add(show1);
+			shows.add(show10);
+			shows.add(show11);
+			shows.add(show12);
 
 			shows1.add(show2);
+			shows1.add(show7);
+			shows1.add(show8);
+			shows1.add(show9);
+
+
 			shows2.add(show3);
+			shows2.add(show4);
+			shows2.add(show5);
+			shows2.add(show6);
+
+
 			shows3.add(show1);
 			shows3.add(show2);
 			shows3.add(show3);
+			shows3.add(show4);
+			shows3.add(show5);
+			shows3.add(show6);
+			shows3.add(show7);
+			shows3.add(show8);
+			shows3.add(show9);
+			shows3.add(show10);
+			shows3.add(show11);
+			shows3.add(show12);
+
 			cinema1.setMovies(moviesList);
 			cinemaHalls.add(cinemaHall2);
 			cinemaHalls.add(cinemaHall);
@@ -1088,23 +1134,23 @@ public class CinemaServer extends AbstractServer{
 			cinemaHall1.setSeats(tempseats1);
 			cinemaHall2.setSeats(tempseats2);
 
-				for (int k=1; k<=2*10; k++){
-					Seat seat = new Seat(true, 1, 1/10 +1,cinemaHall);
-					tempseats.add(seat);
-				}
-				for(int o=0;o<tempseats.size();o++){
-					tempseats.get(o).setHall(cinemaHall);
-				}
+			for (int k=1; k<=2*10; k++){
+				Seat seat = new Seat(true, 1, 1/10 +1,cinemaHall);
+				tempseats.add(seat);
+			}
+			for(int o=0;o<tempseats.size();o++){
+				tempseats.get(o).setHall(cinemaHall);
+			}
 
 
 
-				for (int k=1; k<=2*2*10; k++){
-					Seat seat = new Seat(true, 2%10, 2/10 +1,cinemaHall1);
-					tempseats1.add(seat);
-				}
-				for(int o=0;o<tempseats1.size();o++){
-					tempseats1.get(o).setHall(cinemaHall1);
-				}
+			for (int k=1; k<=2*2*10; k++){
+				Seat seat = new Seat(true, 2%10, 2/10 +1,cinemaHall1);
+				tempseats1.add(seat);
+			}
+			for(int o=0;o<tempseats1.size();o++){
+				tempseats1.get(o).setHall(cinemaHall1);
+			}
 
 			for (int k=1; k<=2*2*2*10; k++){
 				Seat seat = new Seat(true, 3%10, 3/10 +1,cinemaHall2);
@@ -1143,6 +1189,7 @@ public class CinemaServer extends AbstractServer{
 			for(int i=0;i<moviesList.size();i++){
 				MoviesController.addMovie(CinemaServer.session,moviesList.get(i));
 			}
+
 
 
 
