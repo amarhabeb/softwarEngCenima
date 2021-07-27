@@ -31,6 +31,7 @@ public class MoviesController {
         } 
 
     }
+
     public static List<Movie> loadOnlineMovies(Session session){
         try {
             CriteriaBuilder builder = session.getCriteriaBuilder();

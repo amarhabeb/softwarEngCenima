@@ -22,8 +22,9 @@ public class Hall {
     @ManyToOne(targetEntity = Cinema.class, cascade = CascadeType.ALL)
     private Cinema cinema;
     private boolean active;
+
     @OneToMany (targetEntity = Show.class, cascade = CascadeType.ALL)
-    List<Show> shows;
+    private List<Show> showss;
 
     public Hall(){}
 
@@ -32,7 +33,7 @@ public class Hall {
     }
 
     public void setShows(List<Show> shows) {
-        this.shows = shows;
+        this.showss = shows;
     }
 
     public Hall(int number, int capacity,List<Seat> seats,  Cinema cinema,List<Show> shows) {
@@ -43,7 +44,7 @@ public class Hall {
         this.maxSeats = capacity;
         this.cinema=cinema;
         active=true;
-        this.shows=shows;
+        this.showss=shows;
 
 //        List<Seat> tempSeats = new LinkedList<Seat>();
 //        for (int i=1; i<=capacity; i++){
@@ -55,7 +56,7 @@ public class Hall {
 
     }
     public void addShow(Show show){
-        this.shows.add(show);
+        this.showss.add(show);
 
     }
 

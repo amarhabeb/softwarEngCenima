@@ -1010,22 +1010,47 @@ public class CinemaServer extends AbstractServer{
 			moviesList.add(LordOfTheRings);
 			List<Hall> cinemaHalls = new LinkedList<Hall>();
 			List<Show> shows = new LinkedList<Show>();
-			List<Seat> tempSeats = new LinkedList<Seat>();
-			Hall cinemaHall2 =new Hall(2, 6*10,tempSeats, cinema1,shows);
-			Show show1= new Show( LocalDateTime.of(years[0],months[0],days[0], hours[0],minutes[0]), availability[(0)%2], 60,HarryPotter7,cinemaHall2,cinema1);
-			//shows.add(show1);
-			cinema1.setMovies(moviesList);
-			//show1.setMovie(HarryPotter7);
-			cinemaHalls.add(cinemaHall2);
-			//show1.setHall(cinemaHall2);
-			//show1.setMovie(HarryPotter7);
-			cinema1.setShows(emptyShowList);
+			List<Show> shows1 = new LinkedList<Show>();
+			List<Show> shows2 = new LinkedList<Show>();
+			List<Show> shows3 = new LinkedList<Show>();
+
 			List<Seat> tempseats = new LinkedList<Seat>();
 			List<Seat> tempseats1 = new LinkedList<Seat>();
 			List<Seat> tempseats2 = new LinkedList<Seat>();
-			Hall cinemaHall = new Hall(1, 2*10,tempSeats, cinema1,shows);
-			Hall cinemaHall1 = new Hall(2, 4*10,tempSeats, cinema1,shows);
-			cinemaHall.setSeats(tempSeats);
+			Hall cinemaHall = new Hall(1, 2*10,tempseats, cinema1,shows1);
+			Hall cinemaHall1 = new Hall(2, 4*10,tempseats1, cinema1,shows2);
+
+			List<Seat> tempSeats = new LinkedList<Seat>();
+			Hall cinemaHall2 =new Hall(2, 6*10,tempSeats, cinema1,shows);
+			Show show1= new Show( LocalDateTime.of(years[0],months[0],days[0], hours[0],minutes[0]), availability[(0)%2], 60,HarryPotter7,cinemaHall,cinema1);
+			Show show2= new Show( LocalDateTime.of(years[0],months[0],days[0], hours[0],minutes[0]), availability[(0)%2], 60, LordOfTheRings,cinemaHall1,cinema1);
+			Show show3= new Show( LocalDateTime.of(years[0],months[0],days[0], hours[0],minutes[0]), availability[(0)%2], 60,Titanic,cinemaHall2,cinema1);
+			show1.setHall(cinemaHall);
+			show2.setHall(cinemaHall1);
+			show3.setHall(cinemaHall2);
+
+			shows.add(show1);
+
+			shows1.add(show2);
+			shows2.add(show3);
+			shows3.add(show1);
+			shows3.add(show2);
+			shows3.add(show3);
+			cinema1.setMovies(moviesList);
+			cinemaHalls.add(cinemaHall2);
+			cinemaHalls.add(cinemaHall);
+			cinemaHalls.add(cinemaHall1);
+			cinema1.setShows(shows3);
+			HarryPotter7.setShows(shows);
+			Titanic.setShows(shows2);
+			LordOfTheRings.setShows(shows1);
+
+
+
+			cinemaHall.setShows(shows1);
+			cinemaHall1.setShows(shows2);
+			cinemaHall2.setShows(shows);
+			cinemaHall.setSeats(tempseats);
 			cinemaHall1.setSeats(tempseats1);
 			cinemaHall2.setSeats(tempseats2);
 
@@ -1036,7 +1061,7 @@ public class CinemaServer extends AbstractServer{
 				for(int o=0;o<tempseats.size();o++){
 					tempseats.get(o).setHall(cinemaHall);
 				}
-				cinemaHalls.add(cinemaHall);
+
 
 
 				for (int k=1; k<=2*2*10; k++){
@@ -1046,7 +1071,6 @@ public class CinemaServer extends AbstractServer{
 				for(int o=0;o<tempseats1.size();o++){
 					tempseats1.get(o).setHall(cinemaHall1);
 				}
-				cinemaHalls.add(cinemaHall1);
 
 			for (int k=1; k<=2*2*2*10; k++){
 				Seat seat = new Seat(true, 3%10, 3/10 +1,cinemaHall2);
@@ -1056,8 +1080,7 @@ public class CinemaServer extends AbstractServer{
 				tempseats2.get(o).setHall(cinemaHall2);
 			}
 
-			//HarryPotter7.addShow(show1);
-			//ShowsController.addShow(CinemaServer.session,show1);
+			ShowsController.addShow(CinemaServer.session,show1);
 
 
 
