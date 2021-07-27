@@ -1052,11 +1052,14 @@ public class CinemaServer extends AbstractServer{
 			List<Seat> tempseats = new LinkedList<Seat>();
 			List<Seat> tempseats1 = new LinkedList<Seat>();
 			List<Seat> tempseats2 = new LinkedList<Seat>();
-			Hall cinemaHall = new Hall(1, 2*10,tempseats, cinema1,shows1);
-			Hall cinemaHall1 = new Hall(2, 4*10,tempseats1, cinema1,shows2);
+			//Hall cinemaHall = new Hall(1, 2*10,tempseats, cinema1,shows1);
+			Hall cinemaHall = new Hall(1, 2*10,tempseats, cinema1);
+			//Hall cinemaHall1 = new Hall(2, 4*10,tempseats1, cinema1,shows2);
+			Hall cinemaHall1 = new Hall(2, 4*10,tempseats1, cinema1);
 
 			List<Seat> tempSeats = new LinkedList<Seat>();
-			Hall cinemaHall2 =new Hall(2, 6*10,tempSeats, cinema1,shows);
+			//Hall cinemaHall2 =new Hall(2, 6*10,tempSeats, cinema1,shows);
+			Hall cinemaHall2 =new Hall(2, 6*10,tempSeats, cinema1);
 			Show show1= new Show( LocalDateTime.of(years[0],months[1],days[0], hours[0],minutes[1]), availability[(0)%2], 60,HarryPotter7,cinemaHall,cinema1);
 			Show show112= new Show( LocalDateTime.of(years[3],months[2],days[0], hours[1],minutes[1]), availability[(0)%2], 60,HarryPotter7,cinemaHall2,cinema1);
 			Show show113= new Show( LocalDateTime.of(years[1],months[3],days[0], hours[0],minutes[1]), availability[(0)%2], 60,HarryPotter7,cinemaHall1,cinema1);
@@ -1161,9 +1164,9 @@ public class CinemaServer extends AbstractServer{
 			Jaws.setShows(Collections.singletonList(show11));
 			Rocky.setShows(Collections.singletonList(show12));
 
-			cinemaHall.setShows(shows1);
-			cinemaHall1.setShows(shows2);
-			cinemaHall2.setShows(shows);
+			//cinemaHall.setShows(shows1);
+			//cinemaHall1.setShows(shows2);
+			//cinemaHall2.setShows(shows);
 			cinemaHall.setSeats(tempseats);
 			cinemaHall1.setSeats(tempseats1);
 			cinemaHall2.setSeats(tempseats2);
@@ -1201,9 +1204,9 @@ public class CinemaServer extends AbstractServer{
 			cinemaHall1.setCinema(cinema1);
 			cinemaHall.setCinema(cinema1);
 			cinemaHall2.setCinema(cinema1);
-			cinemaHall.setShows(emptyShowList);
-			cinemaHall1.setShows(emptyShowList);
-			cinemaHall2.setShows(emptyShowList);
+			//cinemaHall.setShows(emptyShowList);
+			//cinemaHall1.setShows(emptyShowList);
+			//cinemaHall2.setShows(emptyShowList);
 			//cinemaHall2.addShow(show1);
 			cinema1.setHalls(cinemaHalls);
 			CinemaController.addCinema(CinemaServer.session,cinema1);
