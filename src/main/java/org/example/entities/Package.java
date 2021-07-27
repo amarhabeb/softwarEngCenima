@@ -13,30 +13,41 @@ import javax.persistence.Table;
 
 public class Package extends Order{
     @OneToMany(targetEntity = Ticket.class, cascade = CascadeType.ALL)
-    private List<Ticket> tickets;
+    private boolean[] tickets; //false if ticket is used
+    private int counter;
 
-    public Package(LocalDateTime orderDate, boolean status, double price, Payment payment, Refund refund, boolean active, List<Ticket> tickets) {
+    public Package(LocalDateTime orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
         super(orderDate, status, price, payment, refund, active);
-        this.tickets = tickets;
+        counter=20;
+        this.tickets = new boolean[20];
+        for(int i=0; i<20;i++)
+            tickets[i]=true;
     }
 
     public Package(){super();}
 
-    public List<Ticket> getTickets() {
-        return tickets;
+    public int getCounter() {
+        return counter;
     }
 
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
+    public void setCounter(int counter) {
+        this.counter = counter;
     }
-
-    /*public void addTicket(Ticket t){
-        if(tickets.size()!=10) {
-            tickets.add(t);
+    public void useTicket(){
+        if(!isEmpty()){
+            for(int i=0;i<20;i++){
+                if(tickets[i]) {
+                    tickets[i] = false;
+                    counter--;
+                }
+            }
         }
 
     }
-    public void deleteTicket(Ticket t){
-        tickets.remove(t);
-    }*/
+    public boolean isEmpty(){
+        if(counter==0)
+            return true;
+        else
+            return false;
+    }
 }
