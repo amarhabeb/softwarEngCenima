@@ -23,8 +23,8 @@ public class Hall {
     private Cinema cinema;
     private boolean active;
 
-    @OneToMany (targetEntity = Show.class, cascade = CascadeType.ALL)
-    private List<Show> showss;
+    //@OneToMany (targetEntity = Show.class, cascade = CascadeType.ALL)
+    //private List<Show> showss;
 
     public Hall(){}
 
@@ -32,11 +32,15 @@ public class Hall {
         this.active = active;
     }
 
-    public void setShows(List<Show> shows) {
+   /* public void setShows(List<Show> shows) {
         this.showss = shows;
     }
+    public void addShow(Show show){
+        this.showss.add(show);
 
-    public Hall(int number, int capacity,List<Seat> seats,  Cinema cinema,List<Show> shows) {
+    }*/
+
+    public Hall(int number, int capacity,List<Seat> seats,  Cinema cinema){//,List<Show> shows) {
 
         this.number = number;
         this.capacity = capacity;
@@ -44,7 +48,7 @@ public class Hall {
         this.maxSeats = capacity;
         this.cinema=cinema;
         active=true;
-        this.showss=shows;
+        //this.showss=shows;
 
 //        List<Seat> tempSeats = new LinkedList<Seat>();
 //        for (int i=1; i<=capacity; i++){
@@ -55,10 +59,7 @@ public class Hall {
 
 
     }
-    public void addShow(Show show){
-        this.showss.add(show);
 
-    }
 
     public int getNumber() {
         return number;
