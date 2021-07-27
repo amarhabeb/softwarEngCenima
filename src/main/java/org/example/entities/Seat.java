@@ -14,7 +14,7 @@ public class Seat {
     private int number; //I guess there's no need for this field,
                         // we can give the index of each seat in Seats[] as its number
     private int line; // no need as above reason
-    @ManyToOne(targetEntity = Hall.class)
+    @ManyToOne(targetEntity = Hall.class, cascade = CascadeType.ALL)
     private Hall hall;
     private boolean active;
 

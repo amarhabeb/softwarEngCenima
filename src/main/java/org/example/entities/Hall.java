@@ -17,15 +17,23 @@ public class Hall {
     private int capacity;	// this is X in the requirements file
     private int type;
     private int maxSeats;
-    @OneToMany(targetEntity = Seat.class)
+    @OneToMany(targetEntity = Seat.class, cascade = CascadeType.ALL)
     private List<Seat> seats;
-    @ManyToOne(targetEntity = Cinema.class)
+    @ManyToOne(targetEntity = Cinema.class, cascade = CascadeType.ALL)
     private Cinema cinema;
     private boolean active;
-    @OneToMany (targetEntity = Show.class)
+    @OneToMany (targetEntity = Show.class, cascade = CascadeType.ALL)
     List<Show> shows;
 
     public Hall(){}
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void setShows(List<Show> shows) {
+        this.shows = shows;
+    }
 
     public Hall(int number, int capacity,List<Seat> seats,  Cinema cinema,List<Show> shows) {
 

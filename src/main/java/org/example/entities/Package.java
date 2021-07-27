@@ -1,5 +1,6 @@
 package org.example.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import javax.persistence.Table;
 @Table(name ="package")
 
 public class Package extends Order{
-    @OneToMany
+    @OneToMany(targetEntity = Ticket.class, cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
     public Package(LocalDateTime orderDate, boolean status, double price, Payment payment, Refund refund, boolean active, List<Ticket> tickets) {

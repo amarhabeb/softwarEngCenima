@@ -12,9 +12,9 @@ public class Payment {
     @Column(name = "id")
     protected int ID;
     private double amount;
-    @OneToOne(targetEntity = Order.class)
+    @OneToOne(targetEntity = Order.class, cascade = CascadeType.ALL)
     private Order order;
-    @OneToOne(targetEntity = Customer.class)
+    @OneToOne(targetEntity = Customer.class, cascade = CascadeType.ALL)
     private Customer customer;
 
     public Payment(){}

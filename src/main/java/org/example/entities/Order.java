@@ -17,9 +17,9 @@ abstract public class Order implements Serializable {
 
     protected boolean status; //true if valid, false if canceled
     protected double price;
-    @OneToOne(targetEntity = Payment.class)
+    @OneToOne(targetEntity = Payment.class, cascade = CascadeType.ALL)
     protected Payment payment;
-    @OneToOne(targetEntity = Refund.class)
+    @OneToOne(targetEntity = Refund.class, cascade = CascadeType.ALL)
     protected Refund refund;
     protected boolean active;   //true if active, false if "deleted" from database
 

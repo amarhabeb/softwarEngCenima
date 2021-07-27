@@ -34,13 +34,16 @@ public class SeatController {
 
     public static boolean addSeat(Session session, Seat seat) throws Exception{
         try {
-            Transaction transaction = session.beginTransaction();
-            session.save(seat);
-            session.flush();
-            transaction.commit();
-            return true;
+            if(!session.getTransaction().isActive()) {
+                Transaction transaction = session.beginTransaction();
+                session.save(seat);
+                session.flush();
+                transaction.commit();
+                return true;
+            }
+            return false;
         } catch (Exception exception) {
-            if (session != null) {
+            if (session != null || session.getTransaction().isActive()) {
                 session.getTransaction().rollback();
             }
             System.err.println("An error occurred, changes have been rolled back.");

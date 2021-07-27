@@ -16,28 +16,32 @@ import javax.persistence.*;
 public class Show implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "shows_id")
     private int ID;
     private LocalDateTime dateTime;
     //private LocalTime time;
     //private boolean isOnline;
+    @Column(name="stu")
     private String status;  //can be AVAILABLE / NOT_AVAILABLE
     private double price;
-    @ManyToOne(targetEntity = Movie.class)
-    private Movie movie;
-    @ManyToOne(targetEntity = Hall.class)
+    @ManyToOne(targetEntity = Movie.class, cascade = CascadeType.ALL)
+    private Movie movies;
+    @ManyToOne(targetEntity = Hall.class, cascade = CascadeType.ALL)
     private Hall hall;
+    @ManyToOne(targetEntity = Cinema.class,cascade = CascadeType.ALL)
+    private Cinema cinema;
 
     
     
-    public Show(LocalDateTime date, String status, double price, Movie movie, Hall hall) {
+    public Show(LocalDateTime date, String status, double price, Movie movie, Hall hall,Cinema cinema) {
         super();
         this.dateTime = date;
         //this.isOnline = isOnline;
         this.status = status;
         this.price = price;
-        this.movie = movie;
+        this.movies = movie;
         this.hall = hall;
+        this.cinema=cinema;
 
     }
 
@@ -88,11 +92,11 @@ public class Show implements Serializable{
     }
 
 	public Movie getMovie() {
-		return movie;
+		return movies;
 	}
 
 	public void setMovie(Movie movie) {
-		this.movie = movie;
+		this.movies = movie;
 	}
 
 	public Hall getHall() {
