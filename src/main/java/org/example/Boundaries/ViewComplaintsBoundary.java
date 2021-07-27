@@ -5,6 +5,9 @@ import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
+
+import java.util.List;
+
 import java.util.ResourceBundle;
 
 import org.example.App;
@@ -26,7 +29,7 @@ import javafx.fxml.Initializable;
 @SuppressWarnings("serial")
 public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initializable, Serializable{
 	
-	LinkedList<Complaint> complaints = new LinkedList<Complaint>();
+        List<Complaint> complaints = new LinkedList<>();
 	int currentComplaintIdx = 0;
 	
 	@FXML
