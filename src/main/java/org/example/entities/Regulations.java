@@ -5,8 +5,6 @@ import javax.persistence.*;
 @Table(name ="regulations")
 
 public class Regulations {
-
-
     @Id
     private boolean status;	// will be false if there is no limitations
     private int Y;	// this is the same Y described in the requirements file
@@ -16,7 +14,7 @@ public class Regulations {
     }
 
     public Regulations() {
-
+        status=false;
     }
 
     public boolean getStatus() {
