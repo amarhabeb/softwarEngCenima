@@ -63,28 +63,6 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	@FXML private TableColumn<Show, String> cinema;
     @FXML private ImageView Background;
 	
-	
-	// brings the Shows from the DataBase and updates the ShowsData local list
-	void UpdateShowsData() {
-		// add message to ClientInput so it could be sent to server
-		LinkedList<Object> message = new LinkedList<Object>();
-		message.add("LoadShows");
-		synchronized(CinemaClient.ShowsDataLock)
-		{	
-			CinemaClientCLI.sendMessage(message);
-						
-			// wait for Data to be updated
-			while(!CinemaClient.ShowsDataUpdated) {
-				try {
-						CinemaClient.ShowsDataLock.wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			}	
-		}	
-	}
-	
 		
 	
 	@FXML
@@ -130,6 +108,7 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		
 		// set-up the columns in the table
 		movie_name.setCellValueFactory(new Callback<CellDataFeatures<Show, String>, ObservableValue<String>>() {
 		     public ObservableValue<String> call(CellDataFeatures<Show, String> show) {
@@ -164,5 +143,6 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 			ShowsTable.setItems(DataList);
 		}
+		System.out.println("initializing done");
 	}
 }

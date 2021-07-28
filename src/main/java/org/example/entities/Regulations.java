@@ -1,10 +1,11 @@
 package org.example.entities;
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name ="regulations")
 
-public class Regulations {
+public class Regulations implements Serializable {
     @Id
     private boolean status;	// will be false if there is no limitations
     private int Y;	// this is the same Y described in the requirements file

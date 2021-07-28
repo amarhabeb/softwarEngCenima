@@ -125,7 +125,7 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
 	            		}
 	            		try {
 	                		ChangeShowPrice(show_id, NewPrice);
-	            			MessageBoundaryEmployee.displayInfo("Show's price successfully updated.");
+	            			MessageBoundaryEmployee.displayInfo("Your request for changing this price has been sent to the chain manager.");
 	            		}catch (Exception e) {	// server threw exception while trying to update
 	            			MessageBoundaryEmployee.displayError("An error occured. Show's price couldn't be updated.");
 	            		}

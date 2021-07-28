@@ -71,8 +71,8 @@ public class CinemaServer extends AbstractServer{
     @SuppressWarnings("unchecked")
 	@Override
     protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-    	System.out.println("message reached server");
     	LinkedList<Object> message = (LinkedList<Object>)(msg);
+    	System.out.println("Message = " + message.get(0) + " ,reached server");
     	try {
 
 
@@ -508,6 +508,22 @@ public class CinemaServer extends AbstractServer{
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("CinemasLoaded");
+					messageToClient.add(Data);
+					client.sendToClient(messageToClient);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if(message.get(0).equals("loadHalls")) {
+				// load data
+				try {
+					List<Hall> Data = HallController.loadHalls(session);
+
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("HallsLoaded");
 					messageToClient.add(Data);
 					client.sendToClient(messageToClient);
 				} catch (IOException e) {
@@ -974,7 +990,7 @@ public class CinemaServer extends AbstractServer{
 
 	private static void generateMovies(Session session) throws Exception {
     	try {
-			Cinema cinema1 = new Cinema();
+			Cinema cinema1 = new Cinema("Downtown Cinema");
 			List<Movie> moviesList = new LinkedList<Movie>();
 			List<Show> emptyShowList = new LinkedList<Show>();
 			int[] days = {6, 15, 17, 18,22,24,30};

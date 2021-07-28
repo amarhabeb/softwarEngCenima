@@ -5,12 +5,13 @@ import org.example.entities.Show;
 
 import javax.persistence.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 @Entity
 @Table(name ="cinema")
 
-public class Cinema {
+public class Cinema implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -31,6 +32,13 @@ public class Cinema {
         this.shows=new LinkedList<Show>();
         this.movies=new LinkedList<Movie>();
         this.halls=new LinkedList<Hall>();
+    }
+    
+    public Cinema(String branch_name) {
+        this.shows=new LinkedList<Show>();
+        this.movies=new LinkedList<Movie>();
+        this.halls=new LinkedList<Hall>();
+        this.branch_name = branch_name;
     }
 
     public Cinema(List<Show> shows, List<Movie> movies, List<Hall> halls) {
