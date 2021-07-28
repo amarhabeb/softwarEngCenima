@@ -1,13 +1,14 @@
 package org.example.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Timer;
 
 @Entity
 @Table(name ="complaint")
 
-public class Complaint {
+public class Complaint implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

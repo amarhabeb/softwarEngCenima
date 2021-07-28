@@ -5,12 +5,13 @@ import org.example.entities.Show;
 
 import javax.persistence.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 @Entity
 @Table(name ="cinema")
 
-public class Cinema {
+public class Cinema implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
