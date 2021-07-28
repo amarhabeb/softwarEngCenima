@@ -4,6 +4,7 @@ package org.example.entities;
 import javax.persistence.*;
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -12,7 +13,7 @@ import java.util.List;
 @Entity
 @Table(name ="movie")
 
-public class Movie {
+public class Movie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "movie_id")

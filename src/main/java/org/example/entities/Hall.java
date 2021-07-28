@@ -2,13 +2,14 @@ package org.example.entities;
 
 import javax.persistence.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.lang.Math;
 import java.util.LinkedList;
 import java.util.List;
 
 @Entity
 @Table(name ="hall")
-public class Hall {
+public class Hall implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
