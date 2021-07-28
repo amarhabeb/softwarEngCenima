@@ -33,6 +33,13 @@ public class Cinema implements Serializable {
         this.movies=new LinkedList<Movie>();
         this.halls=new LinkedList<Hall>();
     }
+    
+    public Cinema(String branch_name) {
+        this.shows=new LinkedList<Show>();
+        this.movies=new LinkedList<Movie>();
+        this.halls=new LinkedList<Hall>();
+        this.branch_name = branch_name;
+    }
 
     public Cinema(List<Show> shows, List<Movie> movies, List<Hall> halls) {
         this.shows = shows;

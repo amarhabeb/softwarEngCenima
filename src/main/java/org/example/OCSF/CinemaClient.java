@@ -22,7 +22,7 @@ public class CinemaClient extends AbstractClient {
 	public static Boolean ShowsDataUpdated = false;	// holdS if the list ShowsData got updated yet
 	public static Object ShowsDataLock = new Object();	// lock for accessing the ShowsData List
 
-	public static List<Show> ComplaintsData = new LinkedList<>();
+	public static List<Complaint> ComplaintsData = new LinkedList<>();
 	public static Boolean ComplaintsDataUpdated = false;
 	public static Object ComplaintsDataLock = new Object();
 
@@ -127,6 +127,7 @@ public class CinemaClient extends AbstractClient {
     @SuppressWarnings("unchecked")
     protected void handleMessageFromServer(Object msg) throws Exception {
 		LinkedList<Object> message = (LinkedList<Object>)(msg);
+		System.out.println("Message reply = " + message.get(0) + " ,reached client");
 
     	if(message.get(0).equals("ShowsTimeChanged")) {
     		boolean success = (boolean)message.get(1);
@@ -138,7 +139,7 @@ public class CinemaClient extends AbstractClient {
 	    		ShowsDataUpdated = false;	// client's ShowsData is now not updated
 	    		ShowsDataLock.notifyAll();
     		}
-	}
+    	}
 		if(message.get(0).equals("ShowsPriceChanged")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
@@ -151,23 +152,16 @@ public class CinemaClient extends AbstractClient {
 			}
 		}
 		if(message.get(0).equals("ShowsLoaded")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
-				throw new Exception("Controller failed");
-			}
 			synchronized(ShowsDataLock) {
-
+				ShowsData = (List<Show>) message.get(1);
 				ShowsDataUpdated = true;	// client's ShowsData is now not updated
 				ShowsDataLock.notifyAll();
 			}
+			
 		}
 		if(message.get(0).equals("ComplaintesLoaded")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
-				throw new Exception("Controller failed");
-			}
 			synchronized(ComplaintsDataLock) {
-
+				ComplaintsData = (List<Complaint>) message.get(1);
 				ComplaintsDataUpdated = true;	// client's ShowsData is now not updated
 				ComplaintsDataLock.notifyAll();
 			}
@@ -216,17 +210,13 @@ public class CinemaClient extends AbstractClient {
 //				LinksDataLock.notifyAll();
 //			}
 //		}
-//		if(message.get(0).equals("MoviesLoaded")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized(MoviesDataLock) {
-//
-//				MoviesDataUpdated = true;	// client's ShowsData is now not updated
-//				MoviesDataLock.notifyAll();
-//			}
-//		}
+		if(message.get(0).equals("MoviesLoaded")) {
+			synchronized(MoviesDataLock) {
+				MoviesData = (List<Movie>) message.get(1);
+				MoviesDataUpdated = true;	// client's ShowsData is now not updated
+				MoviesDataLock.notifyAll();
+			}
+		}
 //		if(message.get(0).equals("MovieAdded")) {
 //			boolean success = (boolean)message.get(1);
 //			if(!success){
@@ -250,12 +240,8 @@ public class CinemaClient extends AbstractClient {
 //			}
 //		}
 //		if(message.get(0).equals("OrdersLoaded")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
 //			synchronized(OrdersDataLock) {
-//
+//				OrdersData = (List<Complaint>) message.get(1);
 //				OrdersDataUpdated = true;	// client's ShowsData is now not updated
 //				OrdersDataLock.notifyAll();
 //			}
@@ -394,12 +380,8 @@ public class CinemaClient extends AbstractClient {
 		}
 
 		if(message.get(0).equals("TicketsLoaded")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
-				throw new Exception("Controller failed");
-			}
-			synchronized( TicketsDataLock) {
-
+			synchronized(TicketsDataLock) {
+				TicketsData = (List<Ticket>) message.get(1);
 				TicketsDataUpdated = true;	// client's ShowsData is now not updated
 				TicketsDataLock.notifyAll();
 			}
@@ -471,14 +453,17 @@ public class CinemaClient extends AbstractClient {
 //			}
 //		}
 		if(message.get(0).equals("CinemasLoaded")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
-				throw new Exception("Controller failed");
-			}
-			synchronized( CinemasDataLock) {
-
-				CinemasDataUpdated = true;	// client's ShowsData is now not updated
+			synchronized(CinemasDataLock) {
+				CinemasData = (List<Cinema>) message.get(1);
+				CinemasDataUpdated = true;	// client's CinemasData is now not updated
 				CinemasDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("HallsLoaded")) {
+			synchronized(CinemasDataLock) {
+				HallsData = (List<Hall>) message.get(1);
+				HallsDataUpdated = true;	// client's HallsData is now not updated
+				HallsDataLock.notifyAll();
 			}
 		}
 //		if(message.get(0).equals("CinemaDeleted")) {

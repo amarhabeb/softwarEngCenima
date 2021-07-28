@@ -1,10 +1,12 @@
 package org.example.Controllers;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
 import javax.persistence.criteria.*;
 
+import org.example.OCSF.CinemaClient;
 import org.example.entities.Cinema;
 import org.example.entities.Hall;
 import org.example.entities.Show;
@@ -149,11 +151,12 @@ public class ShowsController {
     @SuppressWarnings("exports")
 	public static boolean updateTime(Session session, int show_id, LocalTime newTime){
         try {
-            
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaUpdate<Show> update_query=builder.createCriteriaUpdate(Show.class);
             Root<Show> root=update_query.from(Show.class);
-            update_query.set("time", newTime);
+            Show show = idToShow(show_id, session);
+            LocalDateTime newlocalDateTime = LocalDateTime.of(show.getDate(), newTime);
+            update_query.set("dateTime", newlocalDateTime);
             update_query.where(builder.equal(root.get("ID"),show_id));
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
@@ -171,5 +174,16 @@ public class ShowsController {
             return false;
         } 
     }
+    
+    // return show given id
+ 	static public Show idToShow(int id, Session session) throws Exception {
+ 		List<Show> Data = loadShows(session);
+ 		for(Show show:Data) {
+    	 	if(show.getID()==id) {
+    	 		return show;
+    	 	}
+    	 }
+    	 return null;
+ 	}
 
 }

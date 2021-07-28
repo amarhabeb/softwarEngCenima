@@ -26,6 +26,7 @@ public abstract class AbstractServer implements Runnable {
     }
 
     public final void listen() throws IOException {
+    	System.out.println("Server is now listening, port = " + Integer.toString(this.getPort()));
         if (!this.isListening()) {
             if (this.serverSocket == null) {
                 this.serverSocket = new ServerSocket(this.getPort(), this.backlog);
