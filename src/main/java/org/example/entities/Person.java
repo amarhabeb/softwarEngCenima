@@ -61,4 +61,8 @@ public abstract class Person implements Serializable {
         public String toString() {
         	return name;
         }
+
+		public void setID(int iD) {
+			ID = iD;
+		}
     }

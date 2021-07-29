@@ -45,7 +45,9 @@ public class Show implements Serializable{
 
     }
 
-    public Show(){}
+    public Show(){
+    	this.status = "AVAILABLE";
+    }
 
     public int getID() {
         return ID;
@@ -121,6 +123,26 @@ public class Show implements Serializable{
 
 	public void setDateTime(LocalDateTime dateTime) {
 		this.dateTime = dateTime;
+	}
+
+	public Movie getMovies() {
+		return movies;
+	}
+
+	public void setMovies(Movie movies) {
+		this.movies = movies;
+	}
+
+	public Cinema getCinema() {
+		return cinema;
+	}
+
+	public void setCinema(Cinema cinema) {
+		this.cinema = cinema;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
 	}
 
 }

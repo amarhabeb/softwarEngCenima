@@ -14,4 +14,10 @@ public class LinkMessage extends Message {
         this.link=link;
     }
     public LinkMessage(){super();}
+	public Link getLink() {
+		return link;
+	}
+	public void setLink(Link link) {
+		this.link = link;
+	}
 }

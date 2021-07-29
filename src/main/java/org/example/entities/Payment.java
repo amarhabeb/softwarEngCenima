@@ -49,4 +49,12 @@ public class Payment implements Serializable {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
 }

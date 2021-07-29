@@ -50,4 +50,12 @@ public class Package extends Order{
         else
             return false;
     }
+
+	public boolean[] getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(boolean[] tickets) {
+		this.tickets = tickets;
+	}
 }

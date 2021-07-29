@@ -81,4 +81,12 @@ public class Complaint implements Serializable {
 	public void setOrder_id(int order_id) {
 		this.order_id = order_id;
 	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	public void setCreationDate(LocalDateTime creationDate) {
+		this.creationDate = creationDate;
+	}
 }

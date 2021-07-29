@@ -51,12 +51,13 @@ public class ShowsController {
 //            }
             if (!session.getTransaction().isActive()){
                 Transaction transaction = session.beginTransaction();
-            session.save(show);
-            session.flush();
-            transaction.commit();
-            return true;
-        }
-            return true;
+                session.save(show);
+                session.flush();
+                transaction.commit();
+                return true;
+            }
+            return false;
+            
 		} catch (Exception exception) {
 			if (session != null) {
 				 session.getTransaction().rollback();

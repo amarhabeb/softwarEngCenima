@@ -32,6 +32,7 @@ public class Cinema implements Serializable {
         this.shows=new LinkedList<Show>();
         this.movies=new LinkedList<Movie>();
         this.halls=new LinkedList<Hall>();
+        this.active=true;
     }
     
     public Cinema(String branch_name) {
@@ -39,6 +40,7 @@ public class Cinema implements Serializable {
         this.movies=new LinkedList<Movie>();
         this.halls=new LinkedList<Hall>();
         this.branch_name = branch_name;
+        this.active=true;
     }
 
     public Cinema(List<Show> shows, List<Movie> movies, List<Hall> halls) {
@@ -117,6 +119,10 @@ public class Cinema implements Serializable {
 	}
 
 	public boolean isActive() {
+		return active;
+	}
+	
+	public boolean getActive() {
 		return active;
 	}
 

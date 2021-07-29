@@ -30,6 +30,10 @@ public class Seat implements Serializable {
     public boolean isAvailable() {
         return available;
     }
+    
+    public boolean getAvailable() {
+        return available;
+    }
 
     public void setAvailable(boolean available) {
         this.available = available;
@@ -62,4 +66,13 @@ public class Seat implements Serializable {
     public int getID() {
         return ID;
     }
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	public void setID(int iD) {
+		ID = iD;
+	}
 }

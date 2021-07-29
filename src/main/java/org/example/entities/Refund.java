@@ -61,4 +61,7 @@ public class Refund implements Serializable {
     public void setComplaint_id(int complaint_id) {
         this.complaint_id = complaint_id;
     }
+	public void setID(int iD) {
+		ID = iD;
+	}
 }

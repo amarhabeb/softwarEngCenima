@@ -92,12 +92,12 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
     
     @FXML
     void clickRemoveMoviesBtn(ActionEvent event) throws IOException {
-    	App.setRoot("DeleteShowBoundary",null);
+    	
     }
 
     @FXML
-    void clickRemoveShowsBtn(ActionEvent event) {
-
+    void clickRemoveShowsBtn(ActionEvent event) throws IOException  {
+    	App.setRoot("DeleteShowBoundary",null);
     }
 
     @FXML

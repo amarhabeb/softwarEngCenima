@@ -95,18 +95,18 @@
             <Font name="System Bold Italic" size="15.0" />
          </font>
       </Text>
-      <ChoiceBox fx:id="cinemaChoice" layoutX="348.0" layoutY="143.0" prefHeight="26.0" prefWidth="46.0" />
-      <Text layoutX="422.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hall:" wrappingWidth="112.0">
+      <ChoiceBox fx:id="cinemaChoice" layoutX="348.0" layoutY="143.0" prefHeight="26.0" prefWidth="131.0" />
+      <Text layoutX="488.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hall:" wrappingWidth="112.0">
          <font>
             <Font name="System Bold Italic" size="15.0" />
          </font>
       </Text>
-      <ChoiceBox fx:id="hallChoice" layoutX="422.0" layoutY="143.0" prefHeight="26.0" prefWidth="46.0" />
+      <ChoiceBox fx:id="hallChoice" layoutX="488.0" layoutY="142.0" prefHeight="26.0" prefWidth="46.0" />
       <Button fx:id="AddShowBtn" layoutX="575.0" layoutY="143.0" mnemonicParsing="false" onAction="#clickAddShowBtn" text="ADD SHOW" textAlignment="CENTER" textFill="#cf2626">
          <font>
             <Font name="System Bold Italic" size="12.0" />
          </font>
       </Button>
-      <DatePicker fx:id="date" layoutX="103.0" layoutY="199.0" />
+      <DatePicker fx:id="datePicker" layoutX="103.0" layoutY="199.0" />
    </children>
 </AnchorPane>

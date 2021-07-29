@@ -27,7 +27,9 @@ public class Hall implements Serializable {
     //@OneToMany (targetEntity = Show.class, cascade = CascadeType.ALL)
     //private List<Show> showss;
 
-    public Hall(){}
+    public Hall(){
+    	this.active = true;
+    }
 
     public void setActive(boolean active) {
         this.active = active;
@@ -48,7 +50,7 @@ public class Hall implements Serializable {
         this.type = 1;
         this.maxSeats = capacity;
         this.cinema=cinema;
-        active=true;
+        this.active=true;
         //this.showss=shows;
 
 //        List<Seat> tempSeats = new LinkedList<Seat>();
@@ -124,6 +126,19 @@ public class Hall implements Serializable {
     public int getID() {
         return ID;
     }
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+	
+	@Override
+	public String toString() {
+		return Integer.toString(number);
+	}
 
     ///////// WILL BE CHANGED //////////
     // a function to calculate the maxSeats of a hall considering the current regulations

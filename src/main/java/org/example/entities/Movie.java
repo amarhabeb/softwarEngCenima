@@ -33,7 +33,9 @@ public class Movie implements Serializable {
     @OneToMany(targetEntity = Show.class, cascade = CascadeType.ALL)
     private List<Show> shows;
 
-    public Movie() {    }
+    public Movie() {    
+    	this.status = "AVAILABLE";
+    }
 
 
     public Movie(String name_en, String name_heb, String director, List<String> cast, String summary,
@@ -48,6 +50,7 @@ public class Movie implements Serializable {
         this.image = image;
         this.shows = shows;
         this.availableOnline=availableOnline;
+        this.status = "AVAILABLE";
     }
 
     public String getStatus() {
@@ -178,4 +181,14 @@ public class Movie implements Serializable {
     public String toString() {
         return name_en;
     }
+
+
+	public int getID() {
+		return ID;
+	}
+
+
+	public void setID(int iD) {
+		ID = iD;
+	}
 }

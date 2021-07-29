@@ -34,6 +34,8 @@ abstract public class Order implements Serializable {
     }
     public Order() {
         super();
+        this.status = true;
+        this.active = true;
     }
 
     public LocalDateTime getOrderDate() {
@@ -83,6 +85,12 @@ abstract public class Order implements Serializable {
     public void setActive(boolean active) {
         this.active = active;
     }
+	public int getID() {
+		return ID;
+	}
+	public void setID(int iD) {
+		ID = iD;
+	}
 }
 
 

@@ -26,7 +26,10 @@ public class UpdatePriceRequest implements Serializable {
         this.approved = false;
         this.active=true;
     }
-    public UpdatePriceRequest(){}
+    public UpdatePriceRequest(){
+    	this.approved = false;
+        this.active=true;
+    }
 
     public ContentManager getRequestedBy() {
         return requestedBy;
@@ -77,5 +80,8 @@ public class UpdatePriceRequest implements Serializable {
 
 	public void setShow_id(int show_id) {
 		this.show_id = show_id;
+	}
+	public void setID(int iD) {
+		ID = iD;
 	}
 }

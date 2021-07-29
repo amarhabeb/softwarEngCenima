@@ -112,7 +112,6 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		LocalTime time = LocalTime.of(hour, min);	// create time object
   		Hall hall = hallChoice.getValue();
   		Cinema cinema =cinemaChoice.getValue();
-  		// Cinema cinema = cinemaChoice.getValue();
   		Double price = Double.valueOf(priceTextField.getText());
   		
   		// create show object
@@ -134,7 +133,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		if(movieChoice.getValue()!= null && datePicker.getValue()!= null &&
   				hoursChoice.getValue()!= null && minsChoice.getValue()!= null &&
   				hallChoice.getValue()!= null &&
-  				cinemaChoice.getValue()!= null && priceTextField.getText()!=null) {
+  				cinemaChoice.getValue()!= null && !priceTextField.getText().trim().isEmpty()) {
   			AddShowBtn.setDisable(false);
   		}
   		else {
@@ -144,16 +143,17 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
    
   	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		
+  		
 		synchronized(CinemaClient.MoviesDataLock) {
 			// update data
 			UpdateMoviesData();
 	    	// initialize movie choice box
+			System.out.println("size of movies = " + Integer.toString(CinemaClient.MoviesData.size()));
 	    	for (Movie movie:CinemaClient.MoviesData) {
+	    		System.out.println("Added movie = " + movie.toString());
 	        	movieChoice.getItems().add(movie);
 	        }
   		}
-    	
     	// initialize time choice boxes
     	for (int hour = 0; hour<=23; hour++) {
         	hoursChoice.getItems().add(hour);
@@ -161,7 +161,6 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	for (int min = 0; min<=59; min++) {
         	minsChoice.getItems().add(min);
         }
-    	
     	synchronized(CinemaClient.CinemasDataLock) {
 	    	// update data
 	    	UpdateCinemasData();
@@ -170,11 +169,9 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
 	        	cinemaChoice.getItems().add(cinema);
 	        }
     	}
-    	
     	// disable button
   		CheckIfFilled();
   		hallChoice.setDisable(true);
-    	
     	//choice box listener
     	movieChoice.setOnAction((event) -> {
     	    CheckIfFilled();
@@ -196,30 +193,33 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	    // initialize hall choice box
     	    Cinema cinema = cinemaChoice.getValue();
     	    if(cinema!=null) {
+    	    	hallChoice.getItems().clear();
     	    	synchronized(CinemaClient.HallsDataLock) {
 	    	    	// update data
 	    			UpdateHallsData();
 	    	    	hallChoice.setDisable(false);
-	    	    	List<Hall> cinemas_halls = new LinkedList<Hall>();
 	    	    	for(Hall hall:CinemaClient.HallsData) {	// if hall is in chosen cinema then add it
-	    	    		if(hall.getCinema()==cinema) {
-	    	    			cinemas_halls.add(hall);
+	    	    		if(hall.getCinema().getID()==cinema.getID()) {
+	    	    			hallChoice.getItems().add(hall);
 	    	    		}
 	    	    	}
-		            hallChoice.setItems((ObservableList<Hall>) cinemas_halls);
     	    	}
     	    }
     	    else {
-    	    	hallChoice.setItems(null);
+    	    	hallChoice.getItems().clear();
     	    	hallChoice.setDisable(true);
     	    }
     	});
     	priceTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-    		double val=0;
+    		Double val=(double) 0;
     		try {
-    			val = Double.valueOf(newValue);
+    			if(newValue!=null) {
+    				val = Double.valueOf(newValue);
+    			}else {
+    				val = null;
+    			}
     		}catch (NumberFormatException e) {
-				val = -1;	
+				val = (double) -1;	
 			}finally {
 				if(val<0) {	// invalid input
 					MessageBoundaryEmployee.displayError("Price must be a non-negative number.");

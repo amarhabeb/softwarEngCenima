@@ -460,7 +460,7 @@ public class CinemaClient extends AbstractClient {
 			}
 		}
 		if(message.get(0).equals("HallsLoaded")) {
-			synchronized(CinemasDataLock) {
+			synchronized(HallsDataLock) {
 				HallsData = (List<Hall>) message.get(1);
 				HallsDataUpdated = true;	// client's HallsData is now not updated
 				HallsDataLock.notifyAll();
@@ -521,7 +521,7 @@ public class CinemaClient extends AbstractClient {
 //				EmployeeDataLock.notifyAll();
 //			}
 //		}
-//		if(message.get(0).equals("logInCompleted")) {
+//		if(message.get(0).equals("LogInCompleted")) {
 //			boolean success = (boolean)message.get(1);
 //			if(!success){
 //				throw new Exception("Controller failed");
@@ -553,7 +553,7 @@ public class CinemaClient extends AbstractClient {
 //				LinksDataLock.notifyAll();
 //			}
 //		}
-		if(message.get(0).equals("linkTimeLoaded")) {
+		if(message.get(0).equals("LinkTimeLoaded")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
 				throw new Exception("Controller failed");
@@ -563,7 +563,7 @@ public class CinemaClient extends AbstractClient {
 				LinksDataLock.notifyAll();
 			}
 		}
-		if(message.get(0).equals("linkPriceLoaded")) {
+		if(message.get(0).equals("LinkPriceLoaded")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
 				throw new Exception("Controller failed");
@@ -573,7 +573,7 @@ public class CinemaClient extends AbstractClient {
 				LinksDataLock.notifyAll();
 			}
 		}
-		if(message.get(0).equals("linkCanceled")) {
+		if(message.get(0).equals("LinkCanceled")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
 				throw new Exception("Controller failed");
@@ -583,7 +583,7 @@ public class CinemaClient extends AbstractClient {
 				LinksDataLock.notifyAll();
 			}
 		}
-		if(message.get(0).equals("mailSent")) {
+		if(message.get(0).equals("MailSent")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
 				throw new Exception("Controller failed");
@@ -593,7 +593,7 @@ public class CinemaClient extends AbstractClient {
 //				LinksDataLock.notifyAll();
 //			}
 		}
-		if(message.get(0).equals("messageAdded")) {
+		if(message.get(0).equals("MessageAdded")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
 				throw new Exception("Controller failed");
@@ -715,21 +715,7 @@ public class CinemaClient extends AbstractClient {
 		}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		
 	}
 
     public static void main(String[] args) throws IOException {

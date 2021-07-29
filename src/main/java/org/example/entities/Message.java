@@ -34,6 +34,9 @@ public abstract class Message {
     public int getID() {
         return ID;
     }
+	public void setID(int iD) {
+		ID = iD;
+	}
     
    /* public static Root<Message> from(Class<Message> class1) {
 		// TODO Auto-generated method stub
