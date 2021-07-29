@@ -121,197 +121,197 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
   		title.setText(report_type);
   		
   	    
-//  		// if the report is of Tickets Sales type
-//  		if(report_type == "Tickets Sales") {
-//  			// data represented in chart
-//  	  		XYChart.Series<Number, Number> series = new XYChart.Series<>();
-//  	  	    series.setName("Tickets sold per day, " + cinema.toString() + ", "+ month.toString() + ", " + year.toString());
-//	  		// get needed tickets
-//	  		synchronized(CinemaClient.TicketsReportDataLock) {
-//		  		UpdateTicketsReportData(cinema.getID(), Month.of(month), Year.of(year));
-//		  		tickets = CinemaClient.TicketsReportData;
-//	  		}
-//
-//	  		// get number of days in the chosen month
-//	  		YearMonth yearMonthObject = YearMonth.of(year, month);
-//	  		int daysInMonth = yearMonthObject.lengthOfMonth();
-//
-//	  		int[] salesInADay = new int[daysInMonth];	// array is initialized by default to zeros
-//	  		double profits = 0;
-//	  		for (Ticket ticket:tickets) {
-//	  			salesInADay[ticket.getOrderDate().getDayOfMonth()-1]++;
-//	  			profits+=ticket.getPayment().getAmount();	// calculate how much money was paid for tickets
-//	  		}
-//
-//	  		// fill chart
-//	  		fillChart(salesInADay, series);
-//
-//	  		// find the day of max sales
-//	  		int max_sales_day = getIndexOfLargest(salesInADay)+1;
-//	  		bestSalesText.setText("Best tickets sales of the month were made on " + Integer.toString(max_sales_day) + "/" + Integer.toString(month));
-//
-//	  		// find the day of min sales
-//	  		int min_sales_day = getIndexOfSmallest(salesInADay)+1;
-//	  		worstSalesText.setText("Worst tickets sales of the month were made on " + Integer.toString(min_sales_day) + "/" + Integer.toString(month));
-//
-//	  		// find the total selled
-//	  		int total = tickets.size();
-//	  		totalText.setText("Total sold tickets in this month: " + Integer.toString(total));
-//
-//	  		// find the profits
-//	  		profitsText.setText("Profits: " + Double.toString(profits) + "₪");
-//
-//	  		refundedText.setText("");
-//
-//  		}
+  		// if the report is of Tickets Sales type
+  		if(report_type == "Tickets Sales") {
+  			// data represented in chart
+  	  		XYChart.Series<Number, Number> series = new XYChart.Series<>();
+  	  	    series.setName("Tickets sold per day, " + cinema.toString() + ", "+ month.toString() + ", " + year.toString());
+	  		// get needed tickets
+	  		synchronized(CinemaClient.TicketsReportDataLock) {
+		  		//UpdateTicketsReportData(cinema.getID(), Month.of(month), Year.of(year));
+    		  		tickets = CinemaClient.TicketsReportData;
+	  		}
+
+	  		// get number of days in the chosen month
+	  		YearMonth yearMonthObject = YearMonth.of(year, month);
+	  		int daysInMonth = yearMonthObject.lengthOfMonth();
+
+	  		int[] salesInADay = new int[daysInMonth];	// array is initialized by default to zeros
+	  		double profits = 0;
+	  		for (Ticket ticket:tickets) {
+	  			salesInADay[ticket.getOrderDate().getDayOfMonth()-1]++;
+	  			profits+=ticket.getPayment().getAmount();	// calculate how much money was paid for tickets
+	  		}
+
+	  		// fill chart
+	  		fillChart(salesInADay, series);
+
+	  		// find the day of max sales
+	  		int max_sales_day = getIndexOfLargest(salesInADay)+1;
+	  		bestSalesText.setText("Best tickets sales of the month were made on " + Integer.toString(max_sales_day) + "/" + Integer.toString(month));
+
+	  		// find the day of min sales
+	  		int min_sales_day = getIndexOfSmallest(salesInADay)+1;
+	  		worstSalesText.setText("Worst tickets sales of the month were made on " + Integer.toString(min_sales_day) + "/" + Integer.toString(month));
+
+	  		// find the total selled
+	  		int total = tickets.size();
+	  		totalText.setText("Total sold tickets in this month: " + Integer.toString(total));
+
+	  		// find the profits
+	  		profitsText.setText("Profits: " + Double.toString(profits) + "₪");
+
+	  		refundedText.setText("");
+
+  		}
   		
-//
-//  		// if the report is of Packages and Online Shows Sales type
-//  		if(report_type == "Packages and Online Shows Sales") {
-//  			// data represented in chart
-//  	  		XYChart.Series<Number, Number> series_p = new XYChart.Series<>();
-//  	  	    series_p.setName("Packages sold per day, "+ month.toString() + ", " + year.toString());
-//  	  	    XYChart.Series<Number, Number> series_l = new XYChart.Series<>();
-//	  	    series_l.setName("Online shows sold per day, "+ month.toString() + ", " + year.toString());
-//	  		// get needed packages
-//	  		synchronized(CinemaClient.PackagesReportDataLock) {
-//		  		UpdatePackagesReportData(Month.of(month), Year.of(year));
-//		  		packages = CinemaClient.PackagesReportData;
-//	  		}
-//	  		// get needed packages
-//	  		synchronized(CinemaClient.LinksReportDataLock) {
-//		  		UpdateLinksReportData(Month.of(month), Year.of(year));
-//		  		links = CinemaClient.LinksReportData;
-//	  		}
-//
-//	  		// get number of days in the chosen month
-//	  		YearMonth yearMonthObject = YearMonth.of(year, month);
-//	  		int daysInMonth = yearMonthObject.lengthOfMonth();
-//
-//	  		int[] salesInADay_packages = new int[daysInMonth];	// array is initialized by default to zeros
-//	  		int[] salesInADay_links = new int[daysInMonth];	// array is initialized by default to zeros
-//	  		double profits = 0;
-//	  		for (Package p:packages) {
-//	  			salesInADay_packages[p.getOrderDate().getDayOfMonth()-1]++;
-//	  			profits+=p.getPayment().getAmount();	// calculate how much money was paid for packages
-//	  		}
-//	  		for (Link link:links) {
-//	  			salesInADay_links[link.getOrderDate().getDayOfMonth()-1]++;
-//	  			profits+=link.getPayment().getAmount();	// calculate how much money was paid for links
-//	  		}
-//
-//	  		// fill chart
-//	  		fillChart(salesInADay_packages, series_p);
-//	  		fillChart(salesInADay_links, series_l);
-//
-//	  		// sum sales
-//	  		int[] salesInADay = new int[daysInMonth];
-//	  		for(int i=0; i<daysInMonth; i++) {
-//	  			salesInADay[i] = salesInADay_packages[i]+salesInADay_links[i];
-//	  		}
-//
-//	  		// find the day of max sales
-//	  		int max_sales_day = getIndexOfLargest(salesInADay)+1;
-//	  		bestSalesText.setText("Best packages and online shows sales of the month were made on " + Integer.toString(max_sales_day) + "/" + Integer.toString(month));
-//
-//	  		// find the day of min sales
-//	  		int min_sales_day = getIndexOfSmallest(salesInADay)+1;
-//	  		worstSalesText.setText("Worst packages and online shows sales of the month were made on " + Integer.toString(min_sales_day) + "/" + Integer.toString(month));
-//
-//	  		// find the total selled
-//	  		int total = packages.size() + links.size();
-//	  		totalText.setText("Total sold packages and online shows in this month: " + Integer.toString(total));
-//
-//	  		// find the profits
-//	  		profitsText.setText("Profits: " + Double.toString(profits) + "₪");
-//
-//	  		refundedText.setText("");
-//  		}
-//
-//  		// if the report is of Refunds type
-//  		if(report_type == "Refunds") {
-//  			// data represented in chart
-//  	  		XYChart.Series<Number, Number> series = new XYChart.Series<>();
-//  	  	    series.setName("Refunded money per day, " + month.toString() + ", " + year.toString());
-//	  		// get needed refunds
-//	  		synchronized(CinemaClient.RefundsReportDataLock) {
-//		  		UpdateRefundsReportData(Month.of(month), Year.of(year));
-//		  		refunds = CinemaClient.RefundsReportData;
-//	  		}
-//
-//	  		// get number of days in the chosen month
-//	  		YearMonth yearMonthObject = YearMonth.of(year, month);
-//	  		int daysInMonth = yearMonthObject.lengthOfMonth();
-//
-//	  		int[] refundedInADay = new int[daysInMonth];	// array is initialized by default to zeros
-//	  		double amount_refunded = 0;
-//	  		for (Refund refund:refunds) {
-//	  			refundedInADay[refund.getDate().getDayOfMonth()-1]+=refund.getAmount();
-//	  			amount_refunded+=refund.getAmount();	// calculate how much money was paid back
-//	  		}
-//
-//	  		// fill chart
-//	  		fillChart(refundedInADay, series);
-//
-//	  		// find the day of max sales
-//	  		int max_refunded_day = getIndexOfLargest(refundedInADay)+1;
-//	  		bestSalesText.setText("Highest refunded amount of the month was made on " + Integer.toString(max_refunded_day) + "/" + Integer.toString(month));
-//
-//	  		// find the day of min sales
-//	  		int min_refunded_day = getIndexOfSmallest(refundedInADay)+1;
-//	  		worstSalesText.setText("Lowest refunded amount of the month was made on " + Integer.toString(min_refunded_day) + "/" + Integer.toString(month));
-//
-//	  		// find the total refunds
-//	  		int total = refunds.size();
-//	  		totalText.setText("Total refunds in this month: " + Integer.toString(total));
-//
-//	  		profitsText.setText("");
-//
-//	  		// find the refunded amount
-//	  		refundedText.setText("Total refunded money: " + Double.toString(amount_refunded) + "₪");
-//  		}
-//
-//
-//  		// if the report is of Refunds type
-//  		if(report_type == "Complaints") {
-//  			// data represented in chart
-//  	  		XYChart.Series<Number, Number> series = new XYChart.Series<>();
-//  	  	    series.setName("Complaints per day, " + month.toString() + ", " + year.toString());
-//	  		// get needed complaints
-//	  		synchronized(CinemaClient.ComplaintsReportDataLock) {
-//		  		UpdateComplaintsReportData(Month.of(month), Year.of(year));
-//		  		complaints = CinemaClient.ComplaintsReportData;
-//	  		}
-//
-//	  		// get number of days in the chosen month
-//	  		YearMonth yearMonthObject = YearMonth.of(year, month);
-//	  		int daysInMonth = yearMonthObject.lengthOfMonth();
-//
-//	  		int[] complaintsInADay = new int[daysInMonth];	// array is initialized by default to zeros
-//	  		for (Complaint complaint:complaints) {
-//	  			complaintsInADay[complaint.getCreationDate().getDayOfMonth()-1]++;
-//	  		}
-//
-//	  		// fill chart
-//	  		fillChart(complaintsInADay, series);
-//
-//	  		// find the day of max complaints
-//	  		int max_complaints_day = getIndexOfLargest(complaintsInADay)+1;
-//	  		bestSalesText.setText("Highest complaints amount of the month was made on " + Integer.toString(max_complaints_day) + "/" + Integer.toString(month));
-//
-//	  		// find the day of min sales
-//	  		int min_complaints_day = getIndexOfSmallest(complaintsInADay)+1;
-//	  		worstSalesText.setText("Lowest complaints amount of the month was made on " + Integer.toString(min_complaints_day) + "/" + Integer.toString(month));
-//
-//	  		// find the total complaints
-//	  		int total = complaints.size();
-//	  		totalText.setText("Total complaints in this month: " + Integer.toString(total));
-//
-//	  		profitsText.setText("");
-//
-//	  		// find the refunded amount
-//	  		refundedText.setText("");
-//  		}
+
+  		// if the report is of Packages and Online Shows Sales type
+  		if(report_type == "Packages and Online Shows Sales") {
+  			// data represented in chart
+  	  		XYChart.Series<Number, Number> series_p = new XYChart.Series<>();
+  	  	    series_p.setName("Packages sold per day, "+ month.toString() + ", " + year.toString());
+  	  	    XYChart.Series<Number, Number> series_l = new XYChart.Series<>();
+	  	    series_l.setName("Online shows sold per day, "+ month.toString() + ", " + year.toString());
+	  		// get needed packages
+	  		synchronized(CinemaClient.PackagesReportDataLock) {
+		  		//UpdatePackagesReportData(Month.of(month), Year.of(year));
+		  		packages = CinemaClient.PackagesReportData;
+	  		}
+	  		// get needed packages
+	  		synchronized(CinemaClient.LinksReportDataLock) {
+		  		//UpdateLinksReportData(Month.of(month), Year.of(year));
+		  		links = CinemaClient.LinksReportData;
+	  		}
+
+	  		// get number of days in the chosen month
+	  		YearMonth yearMonthObject = YearMonth.of(year, month);
+	  		int daysInMonth = yearMonthObject.lengthOfMonth();
+
+	  		int[] salesInADay_packages = new int[daysInMonth];	// array is initialized by default to zeros
+	  		int[] salesInADay_links = new int[daysInMonth];	// array is initialized by default to zeros
+	  		double profits = 0;
+	  		for (Package p:packages) {
+	  			salesInADay_packages[p.getOrderDate().getDayOfMonth()-1]++;
+	  			profits+=p.getPayment().getAmount();	// calculate how much money was paid for packages
+	  		}
+	  		for (Link link:links) {
+	  			salesInADay_links[link.getOrderDate().getDayOfMonth()-1]++;
+	  			profits+=link.getPayment().getAmount();	// calculate how much money was paid for links
+	  		}
+
+	  		// fill chart
+	  		fillChart(salesInADay_packages, series_p);
+	  		fillChart(salesInADay_links, series_l);
+
+	  		// sum sales
+	  		int[] salesInADay = new int[daysInMonth];
+	  		for(int i=0; i<daysInMonth; i++) {
+	  			salesInADay[i] = salesInADay_packages[i]+salesInADay_links[i];
+	  		}
+
+	  		// find the day of max sales
+	  		int max_sales_day = getIndexOfLargest(salesInADay)+1;
+	  		bestSalesText.setText("Best packages and online shows sales of the month were made on " + Integer.toString(max_sales_day) + "/" + Integer.toString(month));
+
+	  		// find the day of min sales
+	  		int min_sales_day = getIndexOfSmallest(salesInADay)+1;
+	  		worstSalesText.setText("Worst packages and online shows sales of the month were made on " + Integer.toString(min_sales_day) + "/" + Integer.toString(month));
+
+	  		// find the total selled
+	  		int total = packages.size() + links.size();
+	  		totalText.setText("Total sold packages and online shows in this month: " + Integer.toString(total));
+
+	  		// find the profits
+	  		profitsText.setText("Profits: " + Double.toString(profits) + "₪");
+
+	  		refundedText.setText("");
+  		}
+
+  		// if the report is of Refunds type
+  		if(report_type == "Refunds") {
+  			// data represented in chart
+  	  		XYChart.Series<Number, Number> series = new XYChart.Series<>();
+  	  	    series.setName("Refunded money per day, " + month.toString() + ", " + year.toString());
+	  		// get needed refunds
+	  		synchronized(CinemaClient.RefundsReportDataLock) {
+		  		//UpdateRefundsReportData(Month.of(month), Year.of(year));
+		  		refunds = CinemaClient.RefundsReportData;
+	  		}
+
+	  		// get number of days in the chosen month
+	  		YearMonth yearMonthObject = YearMonth.of(year, month);
+	  		int daysInMonth = yearMonthObject.lengthOfMonth();
+
+	  		int[] refundedInADay = new int[daysInMonth];	// array is initialized by default to zeros
+	  		double amount_refunded = 0;
+	  		for (Refund refund:refunds) {
+	  			refundedInADay[refund.getDate().getDayOfMonth()-1]+=refund.getAmount();
+	  			amount_refunded+=refund.getAmount();	// calculate how much money was paid back
+	  		}
+
+	  		// fill chart
+	  		fillChart(refundedInADay, series);
+
+	  		// find the day of max sales
+	  		int max_refunded_day = getIndexOfLargest(refundedInADay)+1;
+	  		bestSalesText.setText("Highest refunded amount of the month was made on " + Integer.toString(max_refunded_day) + "/" + Integer.toString(month));
+
+	  		// find the day of min sales
+	  		int min_refunded_day = getIndexOfSmallest(refundedInADay)+1;
+	  		worstSalesText.setText("Lowest refunded amount of the month was made on " + Integer.toString(min_refunded_day) + "/" + Integer.toString(month));
+
+	  		// find the total refunds
+	  		int total = refunds.size();
+	  		totalText.setText("Total refunds in this month: " + Integer.toString(total));
+
+	  		profitsText.setText("");
+
+	  		// find the refunded amount
+	  		refundedText.setText("Total refunded money: " + Double.toString(amount_refunded) + "₪");
+  		}
+
+
+  		// if the report is of Refunds type
+  		if(report_type == "Complaints") {
+  			// data represented in chart
+  	  		XYChart.Series<Number, Number> series = new XYChart.Series<>();
+  	  	    series.setName("Complaints per day, " + month.toString() + ", " + year.toString());
+	  		// get needed complaints
+	  		synchronized(CinemaClient.ComplaintsReportDataLock) {
+		  		//UpdateComplaintsReportData(Month.of(month), Year.of(year));
+		  		complaints = CinemaClient.ComplaintsReportData;
+	  		}
+
+	  		// get number of days in the chosen month
+	  		YearMonth yearMonthObject = YearMonth.of(year, month);
+	  		int daysInMonth = yearMonthObject.lengthOfMonth();
+
+	  		int[] complaintsInADay = new int[daysInMonth];	// array is initialized by default to zeros
+	  		for (Complaint complaint:complaints) {
+	  			complaintsInADay[complaint.getCreationDate().getDayOfMonth()-1]++;
+	  		}
+
+	  		// fill chart
+	  		fillChart(complaintsInADay, series);
+
+	  		// find the day of max complaints
+	  		int max_complaints_day = getIndexOfLargest(complaintsInADay)+1;
+	  		bestSalesText.setText("Highest complaints amount of the month was made on " + Integer.toString(max_complaints_day) + "/" + Integer.toString(month));
+
+	  		// find the day of min sales
+	  		int min_complaints_day = getIndexOfSmallest(complaintsInADay)+1;
+	  		worstSalesText.setText("Lowest complaints amount of the month was made on " + Integer.toString(min_complaints_day) + "/" + Integer.toString(month));
+
+	  		// find the total complaints
+	  		int total = complaints.size();
+	  		totalText.setText("Total complaints in this month: " + Integer.toString(total));
+
+	  		profitsText.setText("");
+
+	  		// find the refunded amount
+	  		refundedText.setText("");
+  		}
 	}
 
 }

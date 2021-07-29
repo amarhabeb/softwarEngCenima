@@ -33,7 +33,7 @@ import javafx.scene.control.TextField;
 public class AddShowBoundary extends ContentManagerDisplayBoundary implements Initializable, Serializable{
 
     @FXML // fx:id="GoBackToMainBtn"
-    private Button GoBackToMainBtn; // Value injected by FXMLLoader
+    private Button GoBackToMainBtn; // Value injected by FXMLLoader0
 
     @FXML // fx:id="movieChoice"
     private ChoiceBox<Movie> movieChoice; // Value injected by FXMLLoader

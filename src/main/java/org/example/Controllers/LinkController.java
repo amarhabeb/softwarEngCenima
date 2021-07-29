@@ -180,6 +180,36 @@ public class LinkController {
             return false;
         }
     }
+
+
+    public static boolean activateLinksWhenTimeCome(Session session){
+        try {
+
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaUpdate<Link> update_query=builder.createCriteriaUpdate(Link.class);
+            Root<Link> root=update_query.from(Link.class);
+            update_query.set("active", true);
+            update_query.where(builder.lessThan(root.<LocalDateTime>get("fromTime"), LocalDateTime.now()));
+            Transaction transaction = session.beginTransaction();
+            session.createQuery(update_query).executeUpdate();
+            session.clear();
+            transaction.commit();
+            session.clear();
+            deactivateLinksWhenTimePassed(session);
+            return true;
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+    }
+
+
+
     public static List<Link> makeLinksReportByMonth(Session session, Month month, Year year) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();

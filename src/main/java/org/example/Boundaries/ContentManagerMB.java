@@ -26,7 +26,7 @@ import javafx.event.ActionEvent;
 import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
-import org.example.entities.Show;
+import org.example.entities.*;
 
 
 @SuppressWarnings("serial")
@@ -81,7 +81,8 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	}
 	
 	@FXML
-    void clickAddMoviesBtn(ActionEvent event) {
+    void clickAddMoviesBtn(ActionEvent event) throws IOException {
+		App.setRoot(" org.example.Boundaries.AddMovieBoundary",null);
 
     }
 

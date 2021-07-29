@@ -1,10 +1,7 @@
 package org.example.entities;
 
 import javax.persistence.*;
-import java.awt.*;
 import java.io.Serializable;
-import java.lang.Math;
-import java.util.LinkedList;
 import java.util.List;
 
 @Entity

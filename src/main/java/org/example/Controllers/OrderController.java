@@ -1,7 +1,7 @@
 package org.example.Controllers;
 
 
-import org.example.entities.*;
+import org.example.entities.Order;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -9,7 +9,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.criteria.Root;
-import javax.swing.text.StyledEditorKit;
 import java.util.List;
 
 public class OrderController {
