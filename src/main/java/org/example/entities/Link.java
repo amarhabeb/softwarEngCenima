@@ -16,6 +16,7 @@ public class Link extends Order{
 
 
 
+
     public Link(String link, LocalDateTime fromTime, LocalDateTime toTime , int movie_id, LocalDateTime orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
         super(orderDate, status, price, payment, refund, active);
         this.link = link;
