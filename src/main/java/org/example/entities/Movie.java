@@ -2,8 +2,8 @@ package org.example.entities;
 
 
 import javax.persistence.*;
-import javax.swing.*;
-import java.awt.*;
+//import javax.swing.*;
+//import java.awt.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

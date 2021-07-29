@@ -74,13 +74,38 @@ public class CinemaClient extends AbstractClient {
 	public static Boolean MessageDataUpdated = false;
 	public static Object MessageDataLock = new Object();
 
-	public static List<Package> PackageData = new LinkedList<>();
+	public static List<org.example.entities.Package> PackageData = new LinkedList<>();
 	public static Boolean PackageDataUpdated = false;
 	public static Object PackageDataLock = new Object();
 
 	public static List<Seat>SeatData = new LinkedList<>();
 	public static Boolean SeatDataUpdated = false;
 	public static Object SeatDataLock = new Object();
+
+	public static List<Ticket>TicketsReportData = new LinkedList<>();
+	public static Boolean TicketsReportDataUpdated = false;
+	public static Object TicketsReportDataLock = new Object();
+
+	public static List<org.example.entities.Package>PackagesReportData = new LinkedList<>();
+	public static Boolean PackagesReportDataUpdated = false;
+	public static Object PackagesReportDataLock = new Object();
+
+	public static List<Link>LinksReportData = new LinkedList<>();
+	public static Boolean LinksReportDataUpdated = false;
+	public static Object LinksReportDataLock = new Object();
+
+	public static List<Refund>RefundsReportData = new LinkedList<>();
+	public static Boolean RefundsReportDataUpdated = false;
+	public static Object RefundsReportDataLock = new Object();
+
+	public static List<Complaint>ComplaintsReportData = new LinkedList<>();
+	public static Boolean ComplaintsReportDataUpdated = false;
+	public static Object ComplaintsReportDataLock = new Object();
+
+
+
+
+
 
 //	public static List<TicketMessage>SeatData = new LinkedList<>();
 //	public static Boolean SeatDataUpdated = false;
@@ -146,7 +171,7 @@ public class CinemaClient extends AbstractClient {
 				throw new Exception("Controller failed");
 			}
 			synchronized(ShowsDataLock) {
-				UpdateTimeBoundary.ShowsTimeChanged = true;	// time is now changed
+				UpdatePriceBoundary.ShowsPriceChanged = true;	// time is now changed
 				ShowsDataUpdated = false;	// client's ShowsData is now not updated
 				ShowsDataLock.notifyAll();
 			}

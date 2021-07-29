@@ -7,7 +7,8 @@ module org.example {
 	requires javafx.base;
 	requires net.bytebuddy;
     requires java.mail;
-
+    requires java.logging;
+    requires java.naming;
     opens org.example to javafx.fxml;
     exports org.example;
 }

@@ -907,7 +907,8 @@ public class CinemaServer extends AbstractServer{
 
 					try {
 
-						LinkController.activateLinksWhenTimeCome(session);
+						 LinkController.activateLinksWhenTimeCome(session);
+
 
 					} catch (Exception e) {
 						e.printStackTrace();

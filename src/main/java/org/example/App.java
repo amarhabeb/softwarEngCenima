@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 
-import org.example.Boundaries.Boundary;
+import org.example.Boundaries.*;
 
 /**
  * JavaFX App

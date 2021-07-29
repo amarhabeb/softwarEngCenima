@@ -1,13 +1,10 @@
 package org.example.entities;
 
-import org.example.entities.Movie;
-import org.example.entities.Show;
-
 import javax.persistence.*;
-import java.awt.*;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+
 @Entity
 @Table(name ="cinema")
 
