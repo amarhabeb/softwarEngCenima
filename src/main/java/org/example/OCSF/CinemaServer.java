@@ -10,6 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.Package;
 import java.time.LocalDate;
@@ -1023,57 +1024,81 @@ public class CinemaServer extends AbstractServer{
     		and when we create the shows list we set its in the movie
     		 */
 
-			/*ImageIcon im = new ImageIcon("src/main/resources/org.example/Images/1.jpg");
-			ImageIcon im1 = new ImageIcon("src/main/resources/org.example/Images/2.jpg");
-			ImageIcon im2 = new ImageIcon("src/main/resources/org.example/Images/3.jpg");
-			ImageIcon im3 = new ImageIcon("src/main/resources/org.example/Images/4.jpg");
-			ImageIcon im4 = new ImageIcon("src/main/resources/org.example/Images/5.jpg");
-			ImageIcon im5 = new ImageIcon("src/main/resources/org.example/Images/6.jpg");
-			ImageIcon im6 = new ImageIcon("src/main/resources/org.example/Images/7.jpg");
-			ImageIcon im7 = new ImageIcon("src/main/resources/org.example/Images/8.jpg");
-			ImageIcon im8 = new ImageIcon("src/main/resources/org.example/Images/9.jpg");
-			ImageIcon im9 = new ImageIcon("src/main/resources/org.example/Images/10.jpg");
-			ImageIcon im10 = new ImageIcon("src/main/resources/org.example/Images/11.jpg");
-			ImageIcon im11= new ImageIcon("src/main/resources/org.example/Images/12.jpg");*/
-			String im="32";
-			String im1="32";
-			String im2="32";
-			String im3="32";
-			String im4="32";
-			String im5="32";
-			String im6="32";
-			String im7="32";
-			String im8="32";
-			String im9="32";
-			String im10="32";
-			String im11="32";
+			File im = new File("src/main/resources/org.example/Images/1.jpg");
+			byte[] imFile = new byte[(int) im.length()];
+
+			File im1 = new File("src/main/resources/org.example/Images/2.jpg");
+			byte[] im1File = new byte[(int) im1.length()];
+
+			File im2 = new File("src/main/resources/org.example/Images/3.jpg");
+			byte[] im2File = new byte[(int) im2.length()];
+
+			File im3 = new File("src/main/resources/org.example/Images/4.jpg");
+			byte[] im3File = new byte[(int) im3.length()];
+
+			File im4 = new File("src/main/resources/org.example/Images/5.jpg");
+			byte[] im4File = new byte[(int) im4.length()];
+
+			File im5 = new File("src/main/resources/org.example/Images/6.jpg");
+			byte[] im5File = new byte[(int) im5.length()];
+
+			File im6 = new File("src/main/resources/org.example/Images/7.jpg");
+			byte[] im6File = new byte[(int) im6.length()];
+
+			File im7 = new File("src/main/resources/org.example/Images/8.jpg");
+			byte[] im7File = new byte[(int) im7.length()];
+
+			File im8 = new File("src/main/resources/org.example/Images/9.jpg");
+			byte[] im8File = new byte[(int) im8.length()];
+
+			File im9 = new File("src/main/resources/org.example/Images/10.jpg");
+			byte[] im9File = new byte[(int) im9.length()];
+
+			File im10 = new File("src/main/resources/org.example/Images/11.jpg");
+			byte[] im10File = new byte[(int) im10.length()];
+
+			File im11= new File("src/main/resources/org.example/Images/12.jpg");
+			byte[] im11File = new byte[(int) im11.length()];
+
+//			String im="32";
+//			String im1="32";
+//			String im2="32";
+//			String im3="32";
+//			String im4="32";
+//			String im5="32";
+//			String im6="32";
+//			String im7="32";
+//			String im8="32";
+//			String im9="32";
+//			String im10="32";
+//			String im11="32";
 
 
 
 
-			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2019-03-18"),false,  im, emptyShowList,false);
+			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2019-03-18"),false,  imFile, emptyShowList,false);
 			moviesList.add(HarryPotter7);
-			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2020-03-18"),false, im1, emptyShowList,false);
+			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2020-03-18"),false, im1File, emptyShowList,false);
 			moviesList.add(Joker);
-			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), LocalDate.parse("2021-05-18"),true, im3, emptyShowList,false);
+			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), LocalDate.parse("2021-05-18"),true, im3File, emptyShowList,false);
 			moviesList.add(TheAvengers);
-			Movie StarWars=new Movie("Star Wars","מלחמת הכוכבים","George Lucas",init.StarWarsCast(), init.StarWarsSummary(), LocalDate.parse("2021-06-19"),true, im2, emptyShowList,false);
+			Movie StarWars=new Movie("Star Wars","מלחמת הכוכבים","George Lucas",init.StarWarsCast(), init.StarWarsSummary(), LocalDate.parse("2021-06-19"),true, im2File, emptyShowList,false);
 			moviesList.add(StarWars);
-			Movie Inception=new Movie("Incepteion","התחלה","Emma Thomas",init.InceptionCast(), init.InceptionSummary(), LocalDate.parse("2021-02-13"),true, im4, emptyShowList,false);
+			Movie Inception=new Movie("Incepteion","התחלה","Emma Thomas",init.InceptionCast(), init.InceptionSummary(), LocalDate.parse("2021-02-13"),true, im4File, emptyShowList,false);
 			moviesList.add(Inception);
-			Movie TheDarKnight=new Movie("The Dark Knight","האביר האפל","Emma Thomas,Charles Roven,Christopher Nolan",init.TheDarkKnightCast(), init.TheDarkKnightSummary(), LocalDate.parse("2021-12-18"),true, im5, emptyShowList,false);
+			Movie TheDarKnight=new Movie("The Dark Knight","האביר האפל","Emma Thomas,Charles Roven,Christopher Nolan",init.TheDarkKnightCast(), init.TheDarkKnightSummary(), LocalDate.parse("2021-12-18"),true, im5File, emptyShowList,false);
 			moviesList.add(TheDarKnight);
-			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), LocalDate.parse("2021-08-11"),true, im6, emptyShowList,false);
+			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), LocalDate.parse("2021-08-11"),true, im6File, emptyShowList,false);
 			moviesList.add(CaptainAmerica);
-			Movie Avatar=new Movie("Avatar","אווטאר","James Cameron,Jon Landau",init.AvatarCast(), init.AvatarSummary(), LocalDate.parse("2021-07-18"),true, im7, emptyShowList,false);
+			Movie Avatar=new Movie("Avatar","אווטאר","James Cameron,Jon Landau",init.AvatarCast(), init.AvatarSummary(), LocalDate.parse("2021-07-18"),true, im7File, emptyShowList,false);
 			moviesList.add(Avatar);
-			Movie Jaws=new Movie("Jaws","מלתעות","Steven Spielberg",init.JawsCast(), init.JawsSummary(), LocalDate.parse("2019-08-14"),true, im8, emptyShowList,false);
+			Movie Jaws=new Movie("Jaws","מלתעות","Steven Spielberg",init.JawsCast(), init.JawsSummary(), LocalDate.parse("2019-08-14"),true, im8File, emptyShowList,false);
 			moviesList.add(Jaws);
-			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), LocalDate.parse("2021-01-16"),true, im9, emptyShowList,false);
+			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), LocalDate.parse("2021-01-16"),true, im9File, emptyShowList,false);
 			moviesList.add(Rocky);
-			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("2021-02-18"),true, im10, emptyShowList,false);
+			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("2021-02-18"),true, im10File, emptyShowList,false);
 			moviesList.add(Titanic);
-			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"),true, im11, emptyShowList,false);
+			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"),true, im11File, emptyShowList,false);
 			moviesList.add(LordOfTheRings);
 			List<Hall> cinemaHalls = new LinkedList<Hall>();
 			List<Show> shows = new LinkedList<Show>();
