@@ -13,7 +13,7 @@ public class Link extends Order{
     private LocalDateTime fromTime;
     private LocalDateTime toTime;
     private int movie_id;
-    private boolean active;
+
 
 
 
@@ -23,7 +23,6 @@ public class Link extends Order{
         this.fromTime=fromTime;
         this.toTime=toTime;
         this.movie_id=movie_id;
-        this.active=active;
     }
 
     public Link(){
