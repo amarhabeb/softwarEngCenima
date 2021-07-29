@@ -10,7 +10,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.lang.Package;
 import java.time.LocalDate;
@@ -22,11 +21,17 @@ import java.util.List;
 import java.util.Random;
 
 
+
 public class CinemaServer extends AbstractServer{
 	
 	public static Regulations currentRegs = null;	// this is the regulations of the cinema chain
 	
 	private static Session session;
+	private static Thread loopThread;
+
+
+
+
 
 	private static SessionFactory getSessionFactory() throws HibernateException {
 		Configuration configuration = new Configuration();
@@ -71,8 +76,8 @@ public class CinemaServer extends AbstractServer{
     @SuppressWarnings("unchecked")
 	@Override
     protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
+    	System.out.println("message reached server");
     	LinkedList<Object> message = (LinkedList<Object>)(msg);
-    	System.out.println("Message = " + message.get(0) + " ,reached server");
     	try {
 
 
@@ -515,22 +520,6 @@ public class CinemaServer extends AbstractServer{
 					e.printStackTrace();
 				}
 			}
-			
-			if(message.get(0).equals("loadHalls")) {
-				// load data
-				try {
-					List<Hall> Data = HallController.loadHalls(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("HallsLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 
 			if(message.get(0).equals("deleteCinema")) {
 				int cinema_id = (int) message.get(1);
@@ -905,7 +894,33 @@ public class CinemaServer extends AbstractServer{
 
 
     }
-    
+
+	protected static void activatingLoop() throws IOException {
+		loopThread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				List<Link> links;
+
+				while (true) {
+
+
+					try {
+
+						LinkController.activateLinksWhenTimeCome(session);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
+
+		loopThread.start();
+
+
+	}
+
     @Override
     protected void serverClosed() {
     	session.close();   // close session when server closes
@@ -990,7 +1005,7 @@ public class CinemaServer extends AbstractServer{
 
 	private static void generateMovies(Session session) throws Exception {
     	try {
-			Cinema cinema1 = new Cinema("Downtown Cinema");
+			Cinema cinema1 = new Cinema();
 			List<Movie> moviesList = new LinkedList<Movie>();
 			List<Show> emptyShowList = new LinkedList<Show>();
 			int[] days = {6, 15, 17, 18,22,24,30};
@@ -1412,8 +1427,10 @@ public class CinemaServer extends AbstractServer{
 			} else {
 				// initialize the DataBase
 				InitializeDataBase();
+				activatingLoop();
 				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
 				server.listen();
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
