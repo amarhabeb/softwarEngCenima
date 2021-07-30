@@ -10,6 +10,6 @@ import javafx.fxml.FXML;
 class ContentManagerDisplayBoundary extends EmployeeBoundary{
 	@FXML
     void clickGoBackToMainBtn(ActionEvent event)  throws IOException {
-    	App.setRoot("ContentManagerMB",null);
+    	App.setRoot("ContentManagerMB",null,stage);
     }
 }

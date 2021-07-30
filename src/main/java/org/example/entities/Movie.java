@@ -2,6 +2,10 @@ package org.example.entities;
 
 
 import javax.persistence.*;
+
+import javafx.scene.image.Image;
+
+import java.io.ByteArrayInputStream;
 //import javax.swing.*;
 //import java.awt.*;
 import java.io.Serializable;
@@ -21,12 +25,13 @@ public class Movie implements Serializable {
     private String name_en;
     private String name_heb;
     private String director;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> cast;
     @Column(length = 5000)
     private String summary;
     private LocalDate lanuch_date;
     private Boolean is_new;
+    @Column(length = 5000)
     private byte[] image;
     private String status; // can be AVAILABLE / NOT_AVAILABLE
     private boolean availableOnline;
@@ -190,5 +195,10 @@ public class Movie implements Serializable {
 
 	public void setID(int iD) {
 		ID = iD;
+	}
+	
+	public Image getImageFX() {
+		Image img = new Image(new ByteArrayInputStream(image));
+		return img;
 	}
 }

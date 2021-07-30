@@ -1,18 +1,15 @@
 package org.example.Boundaries;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Cinema;
@@ -20,8 +17,6 @@ import org.example.entities.Hall;
 import org.example.entities.Movie;
 import org.example.entities.Show;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -83,14 +78,11 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
 				}
 			}	
 		}
-		System.out.println("ok");
 		// update ShowData
 		UpdateShowsData();
 	}
     
     void resetChoiceBoxes() {
-    	// disable button
-  		CheckIfFilled();
   		// reset choices
     	movieChoice.setValue(null);
     	datePicker.setValue(null);	
@@ -101,6 +93,9 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		priceTextField.setText(null);
   		
   		hallChoice.setDisable(true);
+  		
+  		// disable button
+  		AddShowBtn.setDisable(true);
     }
     
     @FXML

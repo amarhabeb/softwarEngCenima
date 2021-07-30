@@ -1,5 +1,10 @@
 package org.example.Boundaries;
 
+import java.awt.Graphics2D;
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelFormat;
+
+import java.awt.image.BufferedImage;
 import java.time.Month;
 import java.time.Year;
 import java.util.LinkedList;
@@ -11,11 +16,14 @@ import org.example.entities.Cinema;
 import org.example.entities.Complaint;
 import org.example.entities.Show;
 
+import javafx.stage.Stage;
+
 public abstract class Boundary {
 	
 	// title of boundary
 	String title = "";
 	List<Object> params;
+	Stage stage;
 	
 	// brings the Shows from the DataBase and updates the ShowsData local list
 	synchronized void UpdateShowsData() {
@@ -305,6 +313,23 @@ public abstract class Boundary {
 	   	 }
 	   	 return null;
 	}
+	
+	public static byte[] fromFXImageToBytes(Image img)
+	{
+		int w = (int)img.getWidth();
+		int h = (int)img.getHeight();
+
+		// Create a new Byte Buffer, but we'll use BGRA (1 byte for each channel) //
+
+		byte[] buf = new byte[w * h * 4];
+
+		/* Since you can get the output in whatever format with a WritablePixelFormat,
+		   we'll use an already created one for ease-of-use. */
+
+		img.getPixelReader().getPixels(0, 0, w, h, PixelFormat.getByteBgraInstance(), buf, 0, w * 4);
+		
+		return buf;
+	}
 
 	public String getTitle() {
 		return title;
@@ -320,6 +345,14 @@ public abstract class Boundary {
 
 	public void setParams(List<Object> params) {
 		this.params = params;
+	}
+
+	public Stage getStage() {
+		return stage;
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
 	}
 		  	
 }

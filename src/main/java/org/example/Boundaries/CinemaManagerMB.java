@@ -41,7 +41,7 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
 
     @FXML
     void clickViewPriceUpdatingRequestsBtn(ActionEvent event) throws IOException {
-    	App.setRoot("PriceUpdatingRequestsBoundary",null);
+    	App.setRoot("PriceUpdatingRequestsBoundary",null,stage);
     }
 
     @FXML
@@ -58,7 +58,7 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
   		params.add(cinema);
   		
   		// pass selected paramaters to view boundary
-  		App.setRoot("ViewReportBoundary",params);
+  		App.setRoot("ViewReportBoundary",params,stage);
     }
     
     void CheckIfFilled() {
