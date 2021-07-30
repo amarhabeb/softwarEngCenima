@@ -128,7 +128,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
   	  	    series.setName("Tickets sold per day, " + cinema.toString() + ", "+ month.toString() + ", " + year.toString());
 	  		// get needed tickets
 	  		synchronized(CinemaClient.TicketsReportDataLock) {
-		  		//UpdateTicketsReportData(cinema.getID(), Month.of(month), Year.of(year));
+		  		UpdateTicketsReportData(cinema.getID(), Month.of(month), Year.of(year));
     		  		tickets = CinemaClient.TicketsReportData;
 	  		}
 
@@ -175,12 +175,12 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  	    series_l.setName("Online shows sold per day, "+ month.toString() + ", " + year.toString());
 	  		// get needed packages
 	  		synchronized(CinemaClient.PackagesReportDataLock) {
-		  		//UpdatePackagesReportData(Month.of(month), Year.of(year));
+		  		UpdatePackagesReportData(Month.of(month), Year.of(year));
 		  		packages = CinemaClient.PackagesReportData;
 	  		}
 	  		// get needed packages
 	  		synchronized(CinemaClient.LinksReportDataLock) {
-		  		//UpdateLinksReportData(Month.of(month), Year.of(year));
+		  		UpdateLinksReportData(Month.of(month), Year.of(year));
 		  		links = CinemaClient.LinksReportData;
 	  		}
 
@@ -235,7 +235,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
   	  	    series.setName("Refunded money per day, " + month.toString() + ", " + year.toString());
 	  		// get needed refunds
 	  		synchronized(CinemaClient.RefundsReportDataLock) {
-		  		//UpdateRefundsReportData(Month.of(month), Year.of(year));
+		  		UpdateRefundsReportData(Month.of(month), Year.of(year));
 		  		refunds = CinemaClient.RefundsReportData;
 	  		}
 
@@ -279,7 +279,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
   	  	    series.setName("Complaints per day, " + month.toString() + ", " + year.toString());
 	  		// get needed complaints
 	  		synchronized(CinemaClient.ComplaintsReportDataLock) {
-		  		//UpdateComplaintsReportData(Month.of(month), Year.of(year));
+		  		UpdateComplaintsReportData(Month.of(month), Year.of(year));
 		  		complaints = CinemaClient.ComplaintsReportData;
 	  		}
 
