@@ -234,6 +234,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("MovieAdded");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
@@ -249,6 +250,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("MovieDeleted");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
@@ -299,6 +301,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("OrderAdded");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
@@ -314,6 +317,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("OrderDeleted");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
@@ -329,6 +333,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("PaymentSuccess");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
@@ -361,6 +366,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("RefundAdded");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
@@ -393,6 +399,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("RegulationStatusUpdated");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
@@ -407,6 +414,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("RegulationStatusDeactivated");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
@@ -487,6 +495,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("TicketAdded");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
@@ -519,6 +528,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("UpdatePriceChanged");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
@@ -534,6 +544,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("RequestDeclined");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
