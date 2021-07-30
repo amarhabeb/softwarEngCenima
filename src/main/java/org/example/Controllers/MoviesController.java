@@ -97,15 +97,15 @@ public class MoviesController {
     public static List<Movie> loadNewMovies(Session session) throws Exception {
         try {
             Transaction transaction = session.beginTransaction();
-            //CriteriaBuilder builder = session.getCriteriaBuilder();
-            //CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
-            Query q=session.createQuery("select* from movie where day(launch_date) = :d").
-                    setParameter("d", LocalDate.now().getDayOfMonth());
-            //Root<Movie> root = query.from(Movie.class);
-            //query.select(root).where(builder.equal(root.get("launch_date"), LocalDate.now().getDayOfMonth()));
-            //query.where(builder.equal(query.get("launch_date"), LocalDate.now()));
-            //List<Movie> data = session.createQuery(query).getResultList();
-            List<Movie> data=q.getResultList();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
+            Root<Movie> root=query.from(Movie.class);
+            Predicate[] predicates=new Predicate[3];
+            predicates[0]=builder.equal(root.get("status"),"AVAILABLE");
+            predicates[1]=builder.greaterThanOrEqualTo(root.get("launch_date"),LocalDate.now());
+            predicates[2]=builder.lessThan(root.get("launch_date"),LocalDate.now().plusDays(7));
+            query.where(predicates);
+            List<Movie> data=session.createQuery(query).getResultList();
             transaction.commit();
             return data;
         } catch (Exception exception) {

@@ -28,6 +28,25 @@ public class PackagesController {
             return null;
         }
     }
+    public static List<PackageOrder> loadValidPackages(Session session) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<PackageOrder> query = builder.createQuery(PackageOrder.class);
+            Root<PackageOrder> root=query.from(PackageOrder.class);
+            query.where(builder.ge(root.get("counter"),1));
+            List<PackageOrder> data = session.createQuery(query).getResultList();
+            transaction.commit();
+            return data;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
+    }
     public static List<PackageOrder> loadCustomersPackages(Session session, int cust_id) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();

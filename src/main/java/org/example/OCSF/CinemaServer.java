@@ -1005,6 +1005,10 @@ public class CinemaServer extends AbstractServer{
 		UpdatePriceRequestController.approveRequest(session, req1);
 		UpdatePriceRequestController.declineRequest(session, req2.getID());
 
+		/////// Testing NewMovies
+		List<Movie> newMovies=MoviesController.loadNewMovies(session);
+		for(Movie m:newMovies)
+			System.out.println(m.getName_en());
 
 	}
 
@@ -1066,9 +1070,9 @@ public class CinemaServer extends AbstractServer{
 			byte[] im11File = new byte[(int) im11.length()];
 
 
-			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2019-03-18"),false,  imFile, emptyShowList,false);
+			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2021-07-31"),false,  imFile, emptyShowList,false);
 			moviesList.add(HarryPotter7);
-			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2020-03-18"),false, im1File, emptyShowList,false);
+			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2021-08-03"),false, im1File, emptyShowList,false);
 			moviesList.add(Joker);
 			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), LocalDate.parse("2021-05-18"),true, im3File, emptyShowList,false);
 			moviesList.add(TheAvengers);

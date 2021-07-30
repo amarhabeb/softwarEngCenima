@@ -25,7 +25,7 @@ public class Movie implements Serializable {
     private List<String> cast;
     @Column(length = 5000)
     private String summary;
-    private LocalDate lanuch_date;
+    private LocalDate launch_date;
     private Boolean is_new;
     private byte[] image;
     private String status; // can be AVAILABLE / NOT_AVAILABLE
@@ -45,7 +45,7 @@ public class Movie implements Serializable {
         this.director = director;
         this.cast=cast;
         this.summary = summary;
-        this.lanuch_date = lanuch_date;
+        this.launch_date = lanuch_date;
         this.is_new = is_new;
         this.image = image;
         this.shows = shows;
@@ -106,11 +106,11 @@ public class Movie implements Serializable {
     }
 
     public LocalDate getLanuch_date() {
-        return lanuch_date;
+        return launch_date;
     }
 
-    public void setLanuch_date(LocalDate lanuch_date) {
-        this.lanuch_date = lanuch_date;
+    public void setLanuch_date(LocalDate launch_date) {
+        this.launch_date = launch_date;
     }
 
     public boolean isAvailableOnline() {
@@ -170,7 +170,7 @@ public class Movie implements Serializable {
 
     //calculate number of days between the movie's launch date and today, if less than 7, it's soon
     public boolean isSoon(){
-        long diff= ChronoUnit.DAYS.between(LocalDate.now(), lanuch_date);
+        long diff= ChronoUnit.DAYS.between(LocalDate.now(), launch_date);
         if(diff<=7){
             return true;
         }
