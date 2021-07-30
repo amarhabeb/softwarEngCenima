@@ -5,9 +5,9 @@ import org.example.App;
 import org.example.Boundaries.*;
 import org.example.entities.*;
 import org.hibernate.sql.Update;
+import org.example.entities.Show;
 
 import java.io.IOException;
-import java.lang.Package;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -69,11 +69,11 @@ public class CinemaClient extends AbstractClient {
 	public static Boolean HallsDataUpdated = false;
 	public static Object HallsDataLock = new Object();
 
-	public static List<Message> MessageData = new LinkedList<>();
-	public static Boolean MessageDataUpdated = false;
-	public static Object MessageDataLock = new Object();
+//	public static List<Message> MessageData = new LinkedList<>();
+//	public static Boolean MessageDataUpdated = false;
+//	public static Object MessageDataLock = new Object();
 
-	public static List<org.example.entities.Package> PackageData = new LinkedList<>();
+	public static List<PackageOrder> PackageData = new LinkedList<>();
 	public static Boolean PackageDataUpdated = false;
 	public static Object PackageDataLock = new Object();
 
@@ -85,7 +85,7 @@ public class CinemaClient extends AbstractClient {
 	public static Boolean TicketsReportDataUpdated = false;
 	public static Object TicketsReportDataLock = new Object();
 
-	public static List<org.example.entities.Package>PackagesReportData = new LinkedList<>();
+	public static List<PackageOrder>PackagesReportData = new LinkedList<>();
 	public static Boolean PackagesReportDataUpdated = false;
 	public static Object PackagesReportDataLock = new Object();
 
@@ -618,16 +618,7 @@ public class CinemaClient extends AbstractClient {
 //				LinksDataLock.notifyAll();
 //			}
 		}
-		if(message.get(0).equals("MessageAdded")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
-				throw new Exception("Controller failed");
-			}
-			synchronized( MessageDataLock) {
-				MessageDataUpdated = false;	// client's ShowsData is now not updated
-				MessageDataLock.notifyAll();
-			}
-		}
+
 		if(message.get(0).equals("NewMoviesLoaded")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){

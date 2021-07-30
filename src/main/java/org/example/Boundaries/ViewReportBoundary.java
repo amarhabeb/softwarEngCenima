@@ -12,7 +12,7 @@ import org.example.entities.Cinema;
 import org.example.entities.Complaint;
 import org.example.entities.Link;
 import org.example.entities.Ticket;
-import org.example.entities.Package;
+import org.example.entities.PackageOrder;
 import org.example.entities.Refund;
 
 import javafx.event.ActionEvent;
@@ -57,7 +57,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     // will hold the tickets of the chosen report if needed
     List<Ticket> tickets = null;
     // will hold the packages of the chosen report if needed
-    List<Package> packages = null;
+    List<PackageOrder> packages = null;
     // will hold the links of the chosen report if needed
     List<Link> links = null;
     // will hold the refunds of the chosen report if needed
@@ -191,7 +191,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		int[] salesInADay_packages = new int[daysInMonth];	// array is initialized by default to zeros
 	  		int[] salesInADay_links = new int[daysInMonth];	// array is initialized by default to zeros
 	  		double profits = 0;
-	  		for (Package p:packages) {
+	  		for (PackageOrder p:packages) {
 	  			salesInADay_packages[p.getOrderDate().getDayOfMonth()-1]++;
 	  			profits+=p.getPrice();	// calculate how much money was paid for packages
 	  		}

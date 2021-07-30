@@ -1,5 +1,6 @@
 package org.example.Controllers;
 
+import org.example.entities.Show;
 import org.example.entities.UpdatePriceRequest;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class UpdatePriceRequestController {
 
-    public static List<UpdatePriceRequest> loadRequest(Session session) throws Exception{
+    public static List<UpdatePriceRequest> loadRequests(Session session) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -72,18 +73,28 @@ public class UpdatePriceRequestController {
         }
     }
 
-    public static boolean approveRequest(Session session, int request_id){
+    public static boolean approveRequest(Session session, UpdatePriceRequest upRequest){
         try {
 
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaUpdate<UpdatePriceRequest> update_query=builder.createCriteriaUpdate(UpdatePriceRequest.class);
             Root<UpdatePriceRequest> root=update_query.from(UpdatePriceRequest.class);
+
             update_query.set("approved", true);
-            update_query.where(builder.equal(root.get("ID"),request_id));
+            update_query.where(builder.equal(root.get("ID"),upRequest.getID()));
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
             session.clear();
             transaction.commit();
+
+            CriteriaUpdate<Show> update_query2=builder.createCriteriaUpdate(Show.class);
+            Root<Show> root2=update_query2.from(Show.class);
+            update_query2.set("price",upRequest.getUpdatedPrice());
+            update_query2.where(builder.equal(root.get("ID"),upRequest.getShow_id()));
+            Transaction transaction2 = session.beginTransaction();
+            session.createQuery(update_query2).executeUpdate();
+            session.clear();
+            transaction2.commit();
             session.clear();
             return true;
             // Save everything.

@@ -1,6 +1,5 @@
 package org.example.OCSF;
 
-import net.bytebuddy.asm.Advice;
 import org.example.Controllers.*;
 import org.example.entities.*;
 import org.example.init;
@@ -17,6 +16,7 @@ import java.lang.Package;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,10 +51,9 @@ public class CinemaServer extends AbstractServer{
 		configuration.addAnnotatedClass(Hall.class);
 		configuration.addAnnotatedClass(Link.class);
 		configuration.addAnnotatedClass(Manager.class);
-		configuration.addAnnotatedClass(Message.class);
 		configuration.addAnnotatedClass(Movie.class);
 		configuration.addAnnotatedClass(Order.class);
-		configuration.addAnnotatedClass(Package.class);
+		configuration.addAnnotatedClass(PackageOrder.class);
 		configuration.addAnnotatedClass(Payment.class);
 		configuration.addAnnotatedClass(Person.class);
 		configuration.addAnnotatedClass(Refund.class);
@@ -97,21 +96,7 @@ public class CinemaServer extends AbstractServer{
 				messageToClient.add(success);
 				client.sendToClient(messageToClient);
     		}
-    		
-    		if(message.get(0).equals("ChangeShowPrice")) {
-    			int show_id = (int) message.get(1);
-    			double newPrice = (double) message.get(2);
-    			// change price of show in database
-				session.clear();
-    			boolean success = ShowsController.updatePrice(session, show_id, newPrice);
-    			//session.refresh(Show.class);
 
-    			// reply to client	
-				LinkedList<Object> messageToClient = new LinkedList<>();
-				messageToClient.add("ShowsPriceChanged");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-    		}
     		
     		if(message.get(0).equals("LoadShows")) {
     			// load data
@@ -147,6 +132,7 @@ public class CinemaServer extends AbstractServer{
 				}
 			}
 
+			////////// MUST implement the refund here
 			if(message.get(0).equals("MarkComplaintAsDone")) {
 				int complaint_id = (int) message.get(1);
 				// change complaine into done in database
@@ -302,22 +288,6 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("OrderAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("RemoveOrder")) {
-				int order_id = (int) message.get(1);
-				session.clear();
-				// delete movie from database
-				boolean success = OrderController.removeOrder(order_id,session);
-				//session.refresh(Movie.class);
-				if(!success) {
-					throw new Exception("the Order couldnt be deleted");
-				}
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("OrderDeleted");
 				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
@@ -504,7 +474,7 @@ public class CinemaServer extends AbstractServer{
 				// load data
 				try {
 					session.clear();
-					List<UpdatePriceRequest> Data = UpdatePriceRequestController.loadRequest(session);
+					List<UpdatePriceRequest> Data = UpdatePriceRequestController.loadRequests(session);
 
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
@@ -519,9 +489,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("ApproveRequest")) {
 				session.clear();
-				int request_id = (int) message.get(1);
+				UpdatePriceRequest request =(UpdatePriceRequest) message.get(1);
 				// changing price in database
-				boolean success = UpdatePriceRequestController.approveRequest(session,request_id );
+				boolean success = UpdatePriceRequestController.approveRequest(session,request );
 				//session.refresh(UpdatePriceRequest.class);
 				if(!success) {
 					throw new Exception("the price couldnt be changed");
@@ -584,20 +554,6 @@ public class CinemaServer extends AbstractServer{
 			}
 
 
-			if(message.get(0).equals("DeleteCinema")) {
-				session.clear();
-				int cinema_id = (int) message.get(1);
-				// delete movie from database
-				boolean success = CinemaController.deleteCinema(session,cinema_id );
-				//session.refresh(Cinema.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("CinemaDeleted");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
 			if(message.get(0).equals("DeactivateAllComplaints24")) {
 				session.clear();
 
@@ -629,33 +585,6 @@ public class CinemaServer extends AbstractServer{
 				}
 			}
 
-			if(message.get(0).equals("AddEmployee")) {
-				session.clear();
-				Employee emp = (Employee) message.get(1);
-				// adding employee into  database
-				boolean success = EmployeeController.addEmployee(session,emp );
-				//session.refresh(Employee.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("EmployeeAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("DeleteEmployee")) {
-				session.clear();
-				int emp_id = (int) message.get(1);
-				// delete Employee from database
-				boolean success = EmployeeController.deleteEmployee(session,emp_id );
-				//session.refresh(Employee.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("EmployeeDeleted");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
 
 			if(message.get(0).equals("LogIn")) {
 				// load data
@@ -665,10 +594,14 @@ public class CinemaServer extends AbstractServer{
 					String username = (String) message.get(1);
 					String password = (String)message.get(2);
 					Employee Data = EmployeeController.logIn(session,username,password);
-					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("LogInCompleted");
-					messageToClient.add(Data);
+					if(Data!=null){
+						messageToClient.add("LogInCompleted");
+						messageToClient.add(Data);
+					}
+					else{
+						messageToClient.add("Username or Password are wrong");
+					}
 					client.sendToClient(messageToClient);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -676,25 +609,11 @@ public class CinemaServer extends AbstractServer{
 				}
 			}
 
-			if(message.get(0).equals("DeleteHall")) {
-				session.clear();
-				int hall_id = (int) message.get(1);
-				// delete Hall from database
-				boolean success = HallController.deleteHall(session,hall_id );
-				//session.refresh(Hall.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("HallDeleted");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
 			if(message.get(0).equals("AddLink")) {
 				session.clear();
 				Link newLink = (Link) message.get(1);
 				// adding link into  database
-				boolean success = LinkController.addLink(newLink,session);
+				boolean success = LinkController.addLink(session, newLink);
 				//session.refresh(Link.class);
 
 				// reply to client
@@ -704,54 +623,53 @@ public class CinemaServer extends AbstractServer{
 				client.sendToClient(messageToClient);
 			}
 
-			if(message.get(0).equals("LoadLinkTime")) {
-				session.clear();
-				int link_id = (int)message.get(1);
-				// load data
-				try {
-					session.clear();
-					LocalDateTime Data = LinkController.loadLinkTime(session,link_id);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("LinkTimeLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("LoadLinkPrice")) {
-				int link_id = (int)message.get(1);
-				// load data
-				try {
-					session.clear();
-					double Data = LinkController.loadLinkPrice(session,link_id);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("LinkPriceLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 
 			if(message.get(0).equals("CancelLink")) {
 				int link_id = (int)message.get(1);
 				// load data
 				try {
 					session.clear();
-					Refund Data = LinkController.cancelLink(session,link_id);
+					boolean Data = LinkController.cancelLink(session,link_id);
+					LocalDateTime DT = LinkController.loadLinkTime(session, link_id);
+					//if there is refund to be done
+					if (ChronoUnit.HOURS.between(LocalDateTime.now(),DT) >1){
+						double price=LinkController.loadLinkPrice(session,link_id);
+						Refund refund=new Refund(price*0.5, link_id, 0, LocalDateTime.now());
+						RefundController.addRefund(session,refund);
+					}
 
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("linkCanceled");
 					messageToClient.add(Data);
+					client.sendToClient(messageToClient);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			if(message.get(0).equals("CancelTicket")) {
+				int ticket_id = (int)message.get(1);
+				// load data
+				try {
+					session.clear();
+					TicketsController.cancelTicket(session,ticket_id);
+					LocalDateTime dt=TicketsController.loadTicketShowTime(session, ticket_id);
+					double price=TicketsController.loadTicketPrice(session, ticket_id);
+					double r=TicketsController.calcRefund(dt);
+					//if refund is 50%
+					if (r==0.5){
+						price*=0.5;
+					}
+					//if refund is not 0
+					if(r!=0) {
+						Refund refund = new Refund(price, ticket_id, 0, LocalDateTime.now());
+						RefundController.addRefund(session, refund);
+					}
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("linkCanceled");
 					client.sendToClient(messageToClient);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -777,20 +695,6 @@ public class CinemaServer extends AbstractServer{
 				}
 			}
 
-			if(message.get(0).equals("AddMessage")) {
-				Message msg1 = (Message) message.get(1);
-				session.clear();
-				// adding message into  database
-				boolean success = MessageController.addMessage(session, msg1);
-				//session.refresh(Message.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("MessageAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
 			if(message.get(0).equals("LoadNewMovies")) {
 				session.clear();
 				// load data
@@ -812,7 +716,7 @@ public class CinemaServer extends AbstractServer{
 				// load data
 				try {
 					session.clear();
-					List<org.example.entities.Package> Data = PackagesController.loadPackages(session);
+					List<PackageOrder> Data = PackagesController.loadPackages(session);
 
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
@@ -830,7 +734,7 @@ public class CinemaServer extends AbstractServer{
 				int cost_id = (int)message.get(1);
 				try {
 					session.clear();
-					List<org.example.entities.Package> Data = PackagesController.loadCustomersPackages(session, cost_id);
+					List<PackageOrder> Data = PackagesController.loadCustomersPackages(session, cost_id);
 
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
@@ -845,9 +749,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("AddPackage")) {
 				session.clear();
-				org.example.entities.Package pcg = (org.example.entities.Package) message.get(1);
+				PackageOrder pcg = (PackageOrder) message.get(1);
 				// adding package into  database
-				boolean success = PackagesController.addPackage( pcg,session);
+				boolean success = PackagesController.addPackage(session, pcg);
 				//session.refresh(Package.class);
 
 				// reply to client
@@ -857,21 +761,21 @@ public class CinemaServer extends AbstractServer{
 				client.sendToClient(messageToClient);
 			}
 
-//			if(message.get(0).equals("LoadMovieShows")) {
-//				int movie_id = (int)message.get(1);
-//				// load data
-//				List<Show> Data = ShowsController.loadMovieShow(session,movie_id);
-//				try {
-//					// reply to client
-//					LinkedList<Object> messageToClient = new LinkedList<Object>();
-//					messageToClient.add("Movie'sShowsLoaded");
-//					messageToClient.add(Data);
-//					client.sendToClient(messageToClient);
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
+			if(message.get(0).equals("LoadMovieShows")) {
+				int movie_id = (int)message.get(1);
+				// load data
+				List<Show> Data = MoviesController.loadMovieShows(session,movie_id);
+				try {
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("Movie'sShowsLoaded");
+					messageToClient.add(Data);
+					client.sendToClient(messageToClient);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 
 			if(message.get(0).equals("LoadSeats")) {
 				// load data
@@ -890,33 +794,7 @@ public class CinemaServer extends AbstractServer{
 				}
 			}
 
-			if(message.get(0).equals("AddSeat")) {
-				session.clear();
-				Seat seat = (Seat) message.get(1);
-				// adding seat into  database
-				boolean success = SeatController.addSeat(session, seat);
-				//session.refresh(Seat.class);
 
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("SeatAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("DeleteSeat")) {
-				session.clear();
-				int seat_id = (int) message.get(1);
-				// delete seat from database
-				boolean success = SeatController.deleteSeat(session,seat_id );
-				//session.refresh(Seat.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("SeatDeleted");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
 
 			if(message.get(0).equals("AddUpdatePriceRequest")) {
 				session.clear();
@@ -931,35 +809,6 @@ public class CinemaServer extends AbstractServer{
 				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
-
-			if(message.get(0).equals("DeleteUpdatePriceRequest")) {
-				int request_id = (int) message.get(1);
-				session.clear();
-				// delete request from database
-				boolean success = UpdatePriceRequestController.deleteRequest(session,request_id );
-				//session.refresh(request_id.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("UpdatePriceRequestDeleted");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-//			if(message.get(0).equals("SendTicketAsMessage")) {
-//				TicketMessage mesage = (TicketMessage) message.get(1);
-//				// adding request into  database
-//				boolean success = TicketsController.sendTicketAsMessage(mesage);
-//				//session.refresh(UpdatePriceRequest.class);
-//
-//				// reply to client
-//				LinkedList<Object> messageToClient = new LinkedList<Object>();
-//				messageToClient.add("TicketSentAsMessage");
-//				messageToClient.add(success);
-//				client.sendToClient(messageToClient);
-//			}
-//
-
 
 
 
@@ -1095,24 +944,72 @@ public class CinemaServer extends AbstractServer{
 		Ticket ticket2=new Ticket(2,2,24,8,
 				LocalDateTime.of(2021,7,30,21,00),60,4);
 		TicketsController.addTicket(session,ticket2);
-/*
-		LocalDateTime dt=TicketsController.loadTicketShowTime(session,2);
-		double price=TicketsController.loadTicketPrice(session, 2);
-		double r=TicketsController.calcRefund(dt);
-		//if refund is 50%
-		if (r==0.5){
-			price*=0.5;
+		Ticket ticket3=new Ticket(2,2,24,8,
+				LocalDateTime.of(2021,7,30,21,00),60,2);
+		TicketsController.addTicket(session,ticket3);
+		TicketsController.cancelTicket(session,ticket2.getID());
+
+
+
+		/////// Testing PackageController
+		PackageOrder pack=new PackageOrder(150,2);
+		PackagesController.addPackage(session, pack);
+		PackageOrder pack2=new PackageOrder(150,1);
+		PackagesController.addPackage(session, pack2);
+		PackageOrder pack3=new PackageOrder(150,1);
+		PackagesController.addPackage(session, pack3);
+
+		List<PackageOrder> cust_pacs=PackagesController.loadCustomersPackages(session,1);
+		//System.out.println(cust_pacs.size());
+
+		List<PackageOrder> pacs=PackagesController.loadPackages(session);
+		//System.out.println(pacs.size());
+
+		pack2.setCounter(12);
+		int n=PackagesController.getNumberOfTicketsLeft(session,4);
+		//System.out.println(n);
+
+		/////// Testing LinkController
+		Link link1=new Link("www.cinema.com",LocalDateTime.of(2021,7,31,18,0),
+				LocalDateTime.of(2021,7,31,21,0), 11, 80,3);
+		LinkController.addLink(session,link1);
+		Link link2=new Link("www.cinema.com",LocalDateTime.of(2021,7,30,23,0),
+				LocalDateTime.of(2021,7,31,1,30), 12, 80,3);
+		LinkController.addLink(session,link2);
+		Link link3=new Link("www.cinema.com",LocalDateTime.of(2021,7,31,2,45),
+				LocalDateTime.of(2021,7,31,5,30), 11, 80,1);
+		LinkController.addLink(session,link3);
+		List<Link> links=LinkController.loadLinks(session);
+		//System.out.println(links.size());
+		List<Link> clinks=LinkController.loadCustomerLinks(session,3);
+		//System.out.println(clinks.size());
+
+		boolean Data = LinkController.cancelLink(session,link1.getID());
+		LocalDateTime DT = LinkController.loadLinkTime(session, link1.getID());
+		//if there is refund to be done
+		if (ChronoUnit.HOURS.between(LocalDateTime.now(),DT) >1){
+			double price=LinkController.loadLinkPrice(session,link1.getID());
+			Refund refund=new Refund(price*0.5, link1.getID(), 0, LocalDateTime.now());
+			RefundController.addRefund(session,refund);
 		}
-		//if refund is 0, do nothing and return
-		else if(r==0)
-			price=0;
 
-		//if refund is 100%
-		Refund refund=new Refund(price, 2, 0 ,LocalDateTime.now());
 
-		System.out.println(refund.getAmount());
+		/////// Testing MailController
+		//MailController.sendMail("Testing our project","rayah.khatib.2@gmail.com","Test");
 
-		RefundController.addRefund(session,refund);*/
+		/////// Testing UpdatePriceRequestController
+		UpdatePriceRequest req1=new UpdatePriceRequest(2,7,130);
+		UpdatePriceRequestController.addRequest(session,req1);
+		UpdatePriceRequest req2=new UpdatePriceRequest(2,5,20);
+		UpdatePriceRequestController.addRequest(session,req2);
+		UpdatePriceRequestController.approveRequest(session, req1);
+		UpdatePriceRequestController.declineRequest(session, req2.getID());
+
+		/////// Testing NewMovies
+		List<Movie> newMovies=MoviesController.loadNewMovies(session);
+		for(Movie m:newMovies)
+			System.out.println(m.getName_en());
+
 	}
 
 
@@ -1172,25 +1069,10 @@ public class CinemaServer extends AbstractServer{
 			File im11= new File("src/main/resources/org.example/Images/12.jpg");
 			byte[] im11File = new byte[(int) im11.length()];
 
-//			String im="32";
-//			String im1="32";
-//			String im2="32";
-//			String im3="32";
-//			String im4="32";
-//			String im5="32";
-//			String im6="32";
-//			String im7="32";
-//			String im8="32";
-//			String im9="32";
-//			String im10="32";
-//			String im11="32";
 
-
-
-
-			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2019-03-18"),false,  imFile, emptyShowList,false);
+			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2021-07-31"),false,  imFile, emptyShowList,false);
 			moviesList.add(HarryPotter7);
-			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2020-03-18"),false, im1File, emptyShowList,false);
+			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2021-08-03"),false, im1File, emptyShowList,false);
 			moviesList.add(Joker);
 			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), LocalDate.parse("2021-05-18"),true, im3File, emptyShowList,false);
 			moviesList.add(TheAvengers);
@@ -1208,9 +1090,9 @@ public class CinemaServer extends AbstractServer{
 			moviesList.add(Jaws);
 			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), LocalDate.parse("2021-01-16"),true, im9File, emptyShowList,false);
 			moviesList.add(Rocky);
-			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("2021-02-18"),true, im10File, emptyShowList,false);
+			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("2021-02-18"),true, im10File, emptyShowList,true);
 			moviesList.add(Titanic);
-			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"),true, im11File, emptyShowList,false);
+			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"),true, im11File, emptyShowList,true);
 			moviesList.add(LordOfTheRings);
 			List<Hall> cinemaHalls = new LinkedList<Hall>();
 			List<Show> shows = new LinkedList<Show>();

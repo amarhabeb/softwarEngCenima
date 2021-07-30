@@ -23,6 +23,7 @@ public class Link extends Order{
         this.fromTime=fromTime;
         this.toTime=toTime;
         this.movie_id=movie_id;
+        //this.active=false;    //link should be intialized as NOT active unlike Order
     }
 
     public Link(){
