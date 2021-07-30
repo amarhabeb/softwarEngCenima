@@ -387,9 +387,13 @@ public class CinemaClient extends AbstractClient {
 				throw new Exception("Controller failed");
 			}
 			synchronized(ShowsDataLock) {
+				System.out.println("1");
 				AddShowBoundary.ShowAdded=true;
+				System.out.println("2");
 				ShowsDataUpdated = false;	// client's ShowsData is now not updated
+				System.out.println("3");
 				ShowsDataLock.notifyAll();
+				System.out.println("4");
 			}
 		}
 		if(message.get(0).equals("ShowDeleted")) {

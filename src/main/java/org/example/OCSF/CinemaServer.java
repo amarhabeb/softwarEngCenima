@@ -423,6 +423,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("ShowAdded");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
@@ -436,6 +437,7 @@ public class CinemaServer extends AbstractServer{
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
 				messageToClient.add("ShowDeleted");
+				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
 
