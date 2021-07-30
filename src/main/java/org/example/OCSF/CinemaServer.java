@@ -50,7 +50,6 @@ public class CinemaServer extends AbstractServer{
 		configuration.addAnnotatedClass(Hall.class);
 		configuration.addAnnotatedClass(Link.class);
 		configuration.addAnnotatedClass(Manager.class);
-		configuration.addAnnotatedClass(Message.class);
 		configuration.addAnnotatedClass(Movie.class);
 		configuration.addAnnotatedClass(Order.class);
 		configuration.addAnnotatedClass(PackageOrder.class);
@@ -774,20 +773,6 @@ public class CinemaServer extends AbstractServer{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
-
-			if(message.get(0).equals("AddMessage")) {
-				Message msg1 = (Message) message.get(1);
-				session.clear();
-				// adding message into  database
-				boolean success = MessageController.addMessage(session, msg1);
-				//session.refresh(Message.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("MessageAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
 			}
 
 			if(message.get(0).equals("LoadNewMovies")) {
