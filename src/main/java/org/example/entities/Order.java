@@ -14,13 +14,8 @@ abstract public class Order implements Serializable {
     @Column(name = "id")
     protected int ID;
     protected LocalDateTime orderDate;
-
-    protected boolean status; //true if valid, false if canceled
+    protected boolean status; //true if available, false if canceled
     protected double price;
-    //@OneToOne(targetEntity = Payment.class, cascade = CascadeType.ALL)
-    //protected Payment payment;
-    //@OneToOne(targetEntity = Refund.class, cascade = CascadeType.ALL)
-    //protected Refund refund;
     protected int customer_id;
     protected boolean active;   //true if active, false if "deleted" from database
 
@@ -61,23 +56,6 @@ abstract public class Order implements Serializable {
     public void setPrice(double price) {
         this.price = price;
     }
-
-   /* public  Payment getPayment() {
-        return payment;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
-
-    public Refund getRefund() {
-        return refund;
-    }
-
-    public void setRefund(Refund refund) {
-        this.refund = refund;
-    }
-*/
 
     public int getCusomer_id() {
         return customer_id;
