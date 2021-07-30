@@ -21,7 +21,7 @@ abstract public class Order implements Serializable {
     //protected Payment payment;
     //@OneToOne(targetEntity = Refund.class, cascade = CascadeType.ALL)
     //protected Refund refund;
-    protected int cusomer_id;
+    protected int customer_id;
     protected boolean active;   //true if active, false if "deleted" from database
 
     public Order( double price, int cusomer_id) {
@@ -29,7 +29,7 @@ abstract public class Order implements Serializable {
         this.orderDate = LocalDateTime.now();
         this.status = true;
         this.price = price;
-        this.cusomer_id=cusomer_id;
+        this.customer_id=cusomer_id;
         this.active = true;
     }
     public Order() {
@@ -80,11 +80,11 @@ abstract public class Order implements Serializable {
 */
 
     public int getCusomer_id() {
-        return cusomer_id;
+        return customer_id;
     }
 
     public void setCusomer_id(int cusomer_id) {
-        this.cusomer_id = cusomer_id;
+        this.customer_id = cusomer_id;
     }
 
     public boolean isActive() {

@@ -1,22 +1,20 @@
 package org.example.entities;
 
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
 @Table(name ="package")
 
-public class Package extends Order{
-    @OneToMany(targetEntity = Ticket.class, cascade = CascadeType.ALL)
+public class PackageOrder extends Order{
+    //@OneToMany(cascade = CascadeType.ALL)
+    @OrderColumn(name = "tickets")
     private boolean[] tickets; //false if ticket is used
     private int counter;
 
-    public Package(double price, int customer_id) {
+    public PackageOrder(double price, int customer_id) {
         super(price, customer_id);
         counter=20;
         this.tickets = new boolean[20];
@@ -24,7 +22,7 @@ public class Package extends Order{
             tickets[i]=true;
     }
 
-    public Package(){super();}
+    public PackageOrder(){super();}
 
     public int getCounter() {
         return counter;

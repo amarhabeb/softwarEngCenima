@@ -1,6 +1,5 @@
 package org.example.OCSF;
 
-import net.bytebuddy.asm.Advice;
 import org.example.Controllers.*;
 import org.example.entities.*;
 import org.example.init;
@@ -54,7 +53,7 @@ public class CinemaServer extends AbstractServer{
 		configuration.addAnnotatedClass(Message.class);
 		configuration.addAnnotatedClass(Movie.class);
 		configuration.addAnnotatedClass(Order.class);
-		configuration.addAnnotatedClass(Package.class);
+		configuration.addAnnotatedClass(PackageOrder.class);
 		configuration.addAnnotatedClass(Payment.class);
 		configuration.addAnnotatedClass(Person.class);
 		configuration.addAnnotatedClass(Refund.class);
@@ -799,7 +798,7 @@ public class CinemaServer extends AbstractServer{
 				// load data
 				try {
 					session.clear();
-					List<org.example.entities.Package> Data = PackagesController.loadPackages(session);
+					List<PackageOrder> Data = PackagesController.loadPackages(session);
 
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
@@ -817,7 +816,7 @@ public class CinemaServer extends AbstractServer{
 				int cost_id = (int)message.get(1);
 				try {
 					session.clear();
-					List<org.example.entities.Package> Data = PackagesController.loadCustomersPackages(session, cost_id);
+					List<PackageOrder> Data = PackagesController.loadCustomersPackages(session, cost_id);
 
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
@@ -832,9 +831,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("AddPackage")) {
 				session.clear();
-				org.example.entities.Package pcg = (org.example.entities.Package) message.get(1);
+				PackageOrder pcg = (PackageOrder) message.get(1);
 				// adding package into  database
-				boolean success = PackagesController.addPackage( pcg,session);
+				boolean success = PackagesController.addPackage(session, pcg);
 				//session.refresh(Package.class);
 
 				// reply to client
@@ -1083,24 +1082,32 @@ public class CinemaServer extends AbstractServer{
 		Ticket ticket2=new Ticket(2,2,24,8,
 				LocalDateTime.of(2021,7,30,21,00),60,4);
 		TicketsController.addTicket(session,ticket2);
-/*
-		LocalDateTime dt=TicketsController.loadTicketShowTime(session,2);
-		double price=TicketsController.loadTicketPrice(session, 2);
-		double r=TicketsController.calcRefund(dt);
-		//if refund is 50%
-		if (r==0.5){
-			price*=0.5;
-		}
-		//if refund is 0, do nothing and return
-		else if(r==0)
-			price=0;
+		Ticket ticket3=new Ticket(2,2,24,8,
+				LocalDateTime.of(2021,7,30,21,00),60,2);
+		TicketsController.addTicket(session,ticket3);
 
-		//if refund is 100%
-		Refund refund=new Refund(price, 2, 0 ,LocalDateTime.now());
 
-		System.out.println(refund.getAmount());
+		/////// Testing PackageController
+		PackageOrder pack=new PackageOrder(150,2);
+		PackagesController.addPackage(session, pack);
+		PackageOrder pack2=new PackageOrder(150,1);
+		PackagesController.addPackage(session, pack2);
+		PackageOrder pack3=new PackageOrder(150,1);
+		PackagesController.addPackage(session, pack3);
 
-		RefundController.addRefund(session,refund);*/
+		List<PackageOrder> cust_pacs=PackagesController.loadCustomersPackages(session,1);
+		//System.out.println(cust_pacs.size());
+
+		List<PackageOrder> pacs=PackagesController.loadPackages(session);
+		//System.out.println(pacs.size());
+
+		pack2.setCounter(12);
+		int n=PackagesController.getNumberOfTicketsLeft(session,4);
+		//System.out.println(n);
+
+		/////// Testing MailController
+		//MailController.sendMail("Testing our project","rayah.khatib.2@gmail.com","Test");
+
 	}
 
 
