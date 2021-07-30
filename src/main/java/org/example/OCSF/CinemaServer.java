@@ -1037,7 +1037,6 @@ public class CinemaServer extends AbstractServer{
         return (double) tmp / factor;
     }
 
-    /********************************************/
     
     private static void InitializeDataBase() throws Exception {
     	SessionFactory sessionFactory = getSessionFactory();
