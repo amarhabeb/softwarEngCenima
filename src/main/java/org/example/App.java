@@ -22,7 +22,7 @@ public class App extends Application {
 	@Override
     public void start(Stage stage) throws IOException {
     	stage.setTitle("Cinema");
-        scene = new Scene(loadFXML("ContentManagerMB"), 800, 488);
+        scene = new Scene(loadFXML("CustomerMain"), 800, 488);
         stage.setScene(scene);
         stage.show();
         System.out.println("Client's boundary displayed");

@@ -18,7 +18,7 @@ public abstract class Boundary {
 	List<Object> params;
 	
 	// brings the Shows from the DataBase and updates the ShowsData local list
-	synchronized void UpdateShowsData() {
+	static synchronized void UpdateShowsData() {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadShows");
