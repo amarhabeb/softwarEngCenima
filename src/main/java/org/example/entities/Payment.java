@@ -13,17 +13,18 @@ public class Payment implements Serializable {
     @Column(name = "id")
     protected int ID;
     private double amount;
-    @OneToOne(targetEntity = Order.class, cascade = CascadeType.ALL)
-    private Order order;
-    @OneToOne(targetEntity = Customer.class, cascade = CascadeType.ALL)
-    private Customer customer;
+    //@OneToOne(targetEntity = Order.class, cascade = CascadeType.ALL)
+    //private Order order;
+   // @OneToOne(targetEntity = Customer.class, cascade = CascadeType.ALL)
+    //private Customer customer;
+    private int customer_id;
 
     public Payment(){}
 
-    public Payment(double amount, Order order, Customer customer) {
+    public Payment(double amount, Order order, int customer_id) {
         this.amount = amount;
-        this.order = order;
-        this.customer = customer;
+       // this.order = order;
+        this.customer_id = customer_id;
     }
 
     public double getAmount() {
@@ -34,27 +35,15 @@ public class Payment implements Serializable {
         this.amount = amount;
     }
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
 	public int getID() {
 		return ID;
 	}
 
-	public void setID(int iD) {
-		ID = iD;
-	}
+    public int getCustomer_id() {
+        return customer_id;
+    }
+
+    public void setCustomer_id(int customer_id) {
+        this.customer_id = customer_id;
+    }
 }

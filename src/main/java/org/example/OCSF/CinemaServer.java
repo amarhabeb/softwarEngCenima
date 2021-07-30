@@ -1,5 +1,6 @@
 package org.example.OCSF;
 
+import net.bytebuddy.asm.Advice;
 import org.example.Controllers.*;
 import org.example.entities.*;
 import org.example.init;
@@ -479,7 +480,7 @@ public class CinemaServer extends AbstractServer{
 				Ticket newticket = (Ticket) message.get(1);
 				// adding tickit into  database
 				session.clear();
-				boolean success = TicketsController.addTicket(newticket,session );
+				boolean success = TicketsController.addTicket(session,newticket);
 				//session.refresh(Ticket.class);
 				if(!success) {
 					throw new Exception("Ticket  couldnt be added");
@@ -1068,6 +1069,40 @@ public class CinemaServer extends AbstractServer{
 		CinemaManager cinemaManager2=new CinemaManager("Adam Levine", "0511199322",
 				"Levine@gmail.com", "aLevine","so2o",2);
 		EmployeeController.addEmployee(CinemaServer.session,cinemaManager2);
+
+		/////// Testing ComplaintController
+
+		Complaint complaint2=new Complaint("I paid but didn't receive confirmation!!",2);
+		ComplaintsController.addComplaint(session,complaint2);
+		Complaint complaint3=new Complaint("All hals are full there's no place for me",3);
+		ComplaintsController.addComplaint(session,complaint3);
+		ComplaintsController.markComplaintAsDone(session,1);
+
+		/////// Testing TicketController
+		Ticket ticket=new Ticket(2,2,23,8,
+				LocalDateTime.of(2021,7,30,22,30),35,1);
+		TicketsController.addTicket(session,ticket);
+		Ticket ticket2=new Ticket(2,2,24,8,
+				LocalDateTime.of(2021,7,30,21,00),60,4);
+		TicketsController.addTicket(session,ticket2);
+/*
+		LocalDateTime dt=TicketsController.loadTicketShowTime(session,2);
+		double price=TicketsController.loadTicketPrice(session, 2);
+		double r=TicketsController.calcRefund(dt);
+		//if refund is 50%
+		if (r==0.5){
+			price*=0.5;
+		}
+		//if refund is 0, do nothing and return
+		else if(r==0)
+			price=0;
+
+		//if refund is 100%
+		Refund refund=new Refund(price, 2, 0 ,LocalDateTime.now());
+
+		System.out.println(refund.getAmount());
+
+		RefundController.addRefund(session,refund);*/
 	}
 
 
