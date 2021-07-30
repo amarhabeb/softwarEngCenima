@@ -86,6 +86,7 @@ public class CinemaServer extends AbstractServer{
     			int show_id = (int) message.get(1);
     			LocalTime newTime = (LocalTime) message.get(2);
     			// change time of show in database
+				session.clear();
     			boolean success = ShowsController.updateTime(session, show_id, newTime);
     			//session.refresh(Show.class);
 
@@ -100,6 +101,7 @@ public class CinemaServer extends AbstractServer{
     			int show_id = (int) message.get(1);
     			double newPrice = (double) message.get(2);
     			// change price of show in database
+				session.clear();
     			boolean success = ShowsController.updatePrice(session, show_id, newPrice);
     			//session.refresh(Show.class);
 
@@ -113,6 +115,7 @@ public class CinemaServer extends AbstractServer{
     		if(message.get(0).equals("LoadShows")) {
     			// load data
     			try {
+    				session.clear();
 					List<Show> Data = ShowsController.loadShows(session);
 
 					// reply to client
@@ -129,6 +132,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadComplaints")) {
 				// load data
 				try {
+					session.clear();
 					List<Complaint> Data = ComplaintsController.loadComplaints(session);
 
 					// reply to client
@@ -145,6 +149,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("MarkComplaintAsDone")) {
 				int complaint_id = (int) message.get(1);
 				// change complaine into done in database
+				session.clear();
 				boolean success = ComplaintsController.markComplaintAsDone(session,complaint_id );
 
 				// reply to client
@@ -157,6 +162,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("AddComplaint")) {
 				Complaint comp = (Complaint) message.get(1);
 				// adding complaine into  database
+				session.clear();
 				boolean success = ComplaintsController.addComplaint(session,comp );
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
@@ -168,6 +174,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadLinks")) {
 				// load data
 				try {
+					session.clear();
 					List<Link> Data = LinkController.loadLinks(session);
 
 					// reply to client
@@ -183,6 +190,7 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("LoadCostumersLinks")) {
 				// load data
+				session.clear();
 				int cost_id = (int)message.get(1);
 				List<Link> Data = LinkController.loadCustomerLinks(session,cost_id);
 				try {
@@ -200,6 +208,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadMovies")) {
 				// load data
 				try {
+					session.clear();
 					List<Movie> Data = MoviesController.loadMovies(session);
 
 					// reply to client
@@ -216,6 +225,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("AddMovie")) {
 				Movie newMovie = (Movie) message.get(1);
 				// adding a movie into  database
+				session.clear();
 				boolean success = MoviesController.addMovie(session,newMovie );
 				//session.refresh(Movie.class);
 				if(!success) {
@@ -230,6 +240,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("DeleteMovie")) {
 				int movie_id = (int) message.get(1);
 				// delete movie from database
+				session.clear();
 				boolean success = MoviesController.deleteMovie(session,movie_id );
 				//session.refresh(Movie.class);
 				if(!success) {
@@ -244,6 +255,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadOrders")) {
 				// load data
 				try {
+					session.clear();
 					List<Order> Data = OrderController.loadOrders(session);
 
 					// reply to client
@@ -261,6 +273,7 @@ public class CinemaServer extends AbstractServer{
 				// load data
 				int cost_id = (int)message.get(1);
 				try {
+					session.clear();
 					List<Order> Data = OrderController.loadCutomersOrders(cost_id,session);
 
 					// reply to client
@@ -277,6 +290,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("AddOrder")) {
 				Order order = (Order) message.get(1);
 				// adding a order into  database
+				session.clear();
 				boolean success = OrderController.addOrder(order,session );
 				//session.refresh(Order.class);
 				if(!success) {
@@ -290,6 +304,7 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("RemoveOrder")) {
 				int order_id = (int) message.get(1);
+				session.clear();
 				// delete movie from database
 				boolean success = OrderController.removeOrder(order_id,session);
 				//session.refresh(Movie.class);
@@ -304,6 +319,7 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("MakePayment")) {
 				Payment payment = (Payment) message.get(1);
+				session.clear();
 				// putting payment details in database
 				boolean success = PaymentController.makePayment(session, payment );
 				//session.refresh(Payment.class);
@@ -319,6 +335,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadRefunds")) {
 				// load data
 				try {
+					session.clear();
 					List<Refund> Data = RefundController.loadRefunds(session);
 
 					// reply to client
@@ -335,6 +352,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("AddRefund")) {
 				Refund refund = (Refund) message.get(1);
 				// adding a refund into done in database
+				session.clear();
 				boolean success = RefundController.addRefund(session, refund );
 				//session.refresh(Refund.class);
 				if(!success) {
@@ -349,6 +367,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadReagulations")) {
 				// load data
 				try {
+					session.clear();
 					List<Regulations> Data = RegulationsController.loadReagulations(session);
 
 					// reply to client
@@ -365,6 +384,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("ActivateRegulations")) {
 				int Y = (int) message.get(1);
 				// change status into true in database
+				session.clear();
 				boolean success = RegulationsController.activateRegulations(session,Y );
 				//session.refresh(Regulation.class);
 				if(!success) {
@@ -378,6 +398,7 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("DeActivateRegulations")) {
 				// change status into false in database
+				session.clear();
 				boolean success = RegulationsController.deactivateRegulations(session );
 				//session.refresh(Regulation.class);
 				if(!success) {
@@ -391,6 +412,7 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("AddShow")) {
 				Show show = (Show) message.get(1);
+				session.clear();
 				// adding show into  database
 				boolean success = ShowsController.addShow(session,show );
 				//session.refresh(Show.class);
@@ -406,6 +428,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("DeleteShow")) {
 				int show_id = (int) message.get(1);
 				// delete Show from database
+				session.clear();
 				boolean success = ShowsController.deleteShow(session,show_id );
 				//session.refresh(Show.class);
 
@@ -418,6 +441,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadTickets")) {
 				// load data
 				try {
+					session.clear();
 					List<Ticket> Data = TicketsController.loadTickets(session);
 
 					// reply to client
@@ -435,6 +459,7 @@ public class CinemaServer extends AbstractServer{
 				// load data
 				int cost_id = (int)message.get(1);
 				try {
+					session.clear();
 					List<Ticket> Data = TicketsController.loadCustomersTickets(session, cost_id);
 
 					// reply to client
@@ -451,6 +476,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("AddTicket")) {
 				Ticket newticket = (Ticket) message.get(1);
 				// adding tickit into  database
+				session.clear();
 				boolean success = TicketsController.addTicket(newticket,session );
 				//session.refresh(Ticket.class);
 				if(!success) {
@@ -465,6 +491,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadUpdatePriceRequests")) {
 				// load data
 				try {
+					session.clear();
 					List<UpdatePriceRequest> Data = UpdatePriceRequestController.loadRequest(session);
 
 					// reply to client
@@ -479,6 +506,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("ApproveRequest")) {
+				session.clear();
 				int request_id = (int) message.get(1);
 				// changing price in database
 				boolean success = UpdatePriceRequestController.approveRequest(session,request_id );
@@ -493,6 +521,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("DeclineRequest")) {
+				session.clear();
 				int request_id = (int) message.get(1);
 				// not changing price in database
 				boolean success = UpdatePriceRequestController.declineRequest(session,request_id );
@@ -509,6 +538,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadCinemas")) {
 				// load data
 				try {
+					session.clear();
 					List<Cinema> Data = CinemaController.loadCinemas(session);
 
 					// reply to client
@@ -525,6 +555,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadHalls")) {
 				// load data
 				try {
+					session.clear();
 					List<Hall> Data = HallController.loadHalls(session);
 
 					// reply to client
@@ -540,6 +571,7 @@ public class CinemaServer extends AbstractServer{
 
 
 			if(message.get(0).equals("DeleteCinema")) {
+				session.clear();
 				int cinema_id = (int) message.get(1);
 				// delete movie from database
 				boolean success = CinemaController.deleteCinema(session,cinema_id );
@@ -553,6 +585,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("DeactivateAllComplaints24")) {
+				session.clear();
 
 				// deactivate All Complaints in database that had been more than 24 hours
 				boolean success = ComplaintsController.deactivateAllComplaintsAfter24Hours(session );
@@ -566,6 +599,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("LoadEmployees")) {
+				session.clear();
 				// load data
 				try {
 					List<Employee> Data = EmployeeController.loadEmployees(session);
@@ -582,6 +616,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("AddEmployee")) {
+				session.clear();
 				Employee emp = (Employee) message.get(1);
 				// adding employee into  database
 				boolean success = EmployeeController.addEmployee(session,emp );
@@ -595,6 +630,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("DeleteEmployee")) {
+				session.clear();
 				int emp_id = (int) message.get(1);
 				// delete Employee from database
 				boolean success = EmployeeController.deleteEmployee(session,emp_id );
@@ -611,6 +647,7 @@ public class CinemaServer extends AbstractServer{
 				// load data
 
 				try {
+					session.clear();
 					String username = (String) message.get(1);
 					String password = (String)message.get(2);
 					Employee Data = EmployeeController.logIn(session,username,password);
@@ -626,6 +663,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("DeleteHall")) {
+				session.clear();
 				int hall_id = (int) message.get(1);
 				// delete Hall from database
 				boolean success = HallController.deleteHall(session,hall_id );
@@ -639,6 +677,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("AddLink")) {
+				session.clear();
 				Link newLink = (Link) message.get(1);
 				// adding link into  database
 				boolean success = LinkController.addLink(newLink,session);
@@ -652,9 +691,11 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("LoadLinkTime")) {
+				session.clear();
 				int link_id = (int)message.get(1);
 				// load data
 				try {
+					session.clear();
 					LocalDateTime Data = LinkController.loadLinkTime(session,link_id);
 
 					// reply to client
@@ -672,6 +713,7 @@ public class CinemaServer extends AbstractServer{
 				int link_id = (int)message.get(1);
 				// load data
 				try {
+					session.clear();
 					double Data = LinkController.loadLinkPrice(session,link_id);
 
 					// reply to client
@@ -689,6 +731,7 @@ public class CinemaServer extends AbstractServer{
 				int link_id = (int)message.get(1);
 				// load data
 				try {
+					session.clear();
 					Refund Data = LinkController.cancelLink(session,link_id);
 
 					// reply to client
@@ -703,6 +746,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("SendMail")) {
+				session.clear();
 				String mesasge1 = (String)message.get(1);
 				String mail = (String)message.get(2);
 				String topic = (String)message.get(3);
@@ -721,6 +765,7 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("AddMessage")) {
 				Message msg1 = (Message) message.get(1);
+				session.clear();
 				// adding message into  database
 				boolean success = MessageController.addMessage(session, msg1);
 				//session.refresh(Message.class);
@@ -733,6 +778,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("LoadNewMovies")) {
+				session.clear();
 				// load data
 				try {
 					List<Movie> Data = MoviesController.loadNewMovies(session);
@@ -751,6 +797,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadPackages")) {
 				// load data
 				try {
+					session.clear();
 					List<org.example.entities.Package> Data = PackagesController.loadPackages(session);
 
 					// reply to client
@@ -768,6 +815,7 @@ public class CinemaServer extends AbstractServer{
 				// load data
 				int cost_id = (int)message.get(1);
 				try {
+					session.clear();
 					List<org.example.entities.Package> Data = PackagesController.loadCustomersPackages(session, cost_id);
 
 					// reply to client
@@ -782,6 +830,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("AddPackage")) {
+				session.clear();
 				org.example.entities.Package pcg = (org.example.entities.Package) message.get(1);
 				// adding package into  database
 				boolean success = PackagesController.addPackage( pcg,session);
@@ -813,6 +862,7 @@ public class CinemaServer extends AbstractServer{
 			if(message.get(0).equals("LoadSeats")) {
 				// load data
 				try {
+					session.clear();
 					List<Seat> Data = SeatController.loadSeats(session);
 
 					// reply to client
@@ -827,6 +877,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("AddSeat")) {
+				session.clear();
 				Seat seat = (Seat) message.get(1);
 				// adding seat into  database
 				boolean success = SeatController.addSeat(session, seat);
@@ -840,6 +891,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("DeleteSeat")) {
+				session.clear();
 				int seat_id = (int) message.get(1);
 				// delete seat from database
 				boolean success = SeatController.deleteSeat(session,seat_id );
@@ -853,6 +905,7 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("AddUpdatePriceRequest")) {
+				session.clear();
 				UpdatePriceRequest request = (UpdatePriceRequest) message.get(1);
 				// adding request into  database
 				boolean success = UpdatePriceRequestController.addRequest(session, request);
@@ -867,6 +920,7 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("DeleteUpdatePriceRequest")) {
 				int request_id = (int) message.get(1);
+				session.clear();
 				// delete request from database
 				boolean success = UpdatePriceRequestController.deleteRequest(session,request_id );
 				//session.refresh(request_id.class);
