@@ -17,8 +17,8 @@ public class Link extends Order{
 
 
 
-    public Link(String link, LocalDateTime fromTime, LocalDateTime toTime , int movie_id, double price, Payment payment) {
-        super(price, payment);
+    public Link(String link, LocalDateTime fromTime, LocalDateTime toTime , int movie_id, double price, int customer_id) {
+        super(price, customer_id);
         this.link = link;
         this.fromTime=fromTime;
         this.toTime=toTime;
