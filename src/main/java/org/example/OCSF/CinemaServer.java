@@ -28,7 +28,7 @@ public class CinemaServer extends AbstractServer{
 	public static Regulations currentRegs = null;	// this is the regulations of the cinema chain
 	
 	private static Session session;
-	private static Thread loopThread;
+	//private static Thread loopThread;
 
 
 
@@ -907,32 +907,32 @@ public class CinemaServer extends AbstractServer{
 
     }
 
-	protected static void activatingLoop() throws IOException {
-		loopThread = new Thread(new Runnable() {
+//	protected static void activatingLoop() throws IOException {
+//		loopThread = new Thread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				List<Link> links;
+//
+//				while (true) {
+//
+//
+//					try {
+//
+//						 LinkController.activateLinksWhenTimeCome(session);
+//
+//
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				}
+//			}
+//		});
+//
+//		loopThread.start();
 
-			@Override
-			public void run() {
-				List<Link> links;
 
-				while (true) {
-
-
-					try {
-
-						 LinkController.activateLinksWhenTimeCome(session);
-
-
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-
-		loopThread.start();
-
-
-	}
+	//}
 
     @Override
     protected void serverClosed() {
@@ -1323,7 +1323,7 @@ public class CinemaServer extends AbstractServer{
 			} else {
 				// initialize the DataBase
 				InitializeDataBase();
-				activatingLoop();
+				//activatingLoop();
 				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
 				server.listen();
 

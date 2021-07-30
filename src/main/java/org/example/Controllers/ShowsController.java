@@ -27,6 +27,7 @@ public class ShowsController {
 			query.where(builder.equal(root.get("status"),"AVAILABLE"));
 			List<Show> data = session.createQuery(query).getResultList();
 			transaction.commit();
+			session.clear();
 			return data;
 		} catch (Exception exception) {
 			if (session != null) {
@@ -53,7 +54,10 @@ public class ShowsController {
                 Transaction transaction = session.beginTransaction();
                 session.save(show);
                 session.flush();
+
+
                 transaction.commit();
+                session.clear();
                 return true;
             }
             return false;
@@ -80,7 +84,7 @@ public class ShowsController {
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
             transaction.commit();
-            //session.clear();
+            session.clear();
             return true;
             // Save everything.
         } catch (Exception exception) {
@@ -110,6 +114,7 @@ public class ShowsController {
             query.select(TicketRoot).where(predicates);
             List<Show> data = session.createQuery(query).getResultList();
             transaction.commit();
+            session.clear();
             return data;
         } catch (Exception exception) {
             if (session != null) {

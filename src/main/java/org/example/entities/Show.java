@@ -24,11 +24,11 @@ public class Show implements Serializable{
     @Column(name="stu")
     private String status;  //can be AVAILABLE / NOT_AVAILABLE
     private double price;
-    @ManyToOne(targetEntity = Movie.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Movie.class)
     private Movie movies;
     @ManyToOne(targetEntity = Hall.class, cascade = CascadeType.ALL)
     private Hall hall;
-    @ManyToOne(targetEntity = Cinema.class,cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Cinema.class)
     private Cinema cinema;
 
     

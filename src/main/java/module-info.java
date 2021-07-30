@@ -1,7 +1,8 @@
 module org.example {
     requires javafx.controls;
     requires javafx.fxml;
-	requires javafx.graphics;
+    requires javafx.graphics;
+
     requires org.hibernate.orm.core;
     requires java.persistence;
 	requires javafx.base;
@@ -9,6 +10,7 @@ module org.example {
     requires java.mail;
     requires java.logging;
     requires java.naming;
+
     opens org.example to javafx.fxml;
-    exports org.example;
+    exports org.example to javafx.graphics;
 }
