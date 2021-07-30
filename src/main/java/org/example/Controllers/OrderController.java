@@ -5,10 +5,7 @@ import org.example.entities.Order;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.CriteriaUpdate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 public class OrderController {
@@ -35,20 +32,20 @@ public class OrderController {
         }
 
     }
-    public static List<Order> loadCutomersOrders(int cost_id,Session session) throws  Exception{
+    public static List<Order> loadCutomersOrders(int cust_id,Session session) throws  Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
-
-
             CriteriaQuery<Order> query = builder.createQuery(Order.class);
             Root<Order> root=query.from(Order.class);
-            query.from(Order.class);
-            query.where(builder.equal(root.get("price"),cost_id));
+            Predicate[] predicates=new Predicate[3];
+            predicates[0]=builder.equal(root.get("customer_id"),cust_id);
+            predicates[1]=builder.equal(root.get("status"),true);
+            predicates[2]=builder.equal(root.get("active"),true);
+            query.where(predicates);
             List<Order> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;
-
         }
         catch (Exception exception) {
             if (session != null) {
@@ -66,6 +63,8 @@ public class OrderController {
             Transaction transaction = session.beginTransaction();
             session.save(order);
             session.flush();
+            transaction.commit();
+            session.clear();
             return true;
         }catch (Exception exception){
             if (session != null) {
