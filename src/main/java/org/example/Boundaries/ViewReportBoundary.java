@@ -140,7 +140,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		double profits = 0;
 	  		for (Ticket ticket:tickets) {
 	  			salesInADay[ticket.getOrderDate().getDayOfMonth()-1]++;
-	  			profits+=ticket.getPayment().getAmount();	// calculate how much money was paid for tickets
+	  			profits+=ticket.getPrice();	// calculate how much money was paid for tickets
 	  		}
 
 	  		// fill chart
@@ -193,11 +193,11 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		double profits = 0;
 	  		for (Package p:packages) {
 	  			salesInADay_packages[p.getOrderDate().getDayOfMonth()-1]++;
-	  			profits+=p.getPayment().getAmount();	// calculate how much money was paid for packages
+	  			profits+=p.getPrice();	// calculate how much money was paid for packages
 	  		}
 	  		for (Link link:links) {
 	  			salesInADay_links[link.getOrderDate().getDayOfMonth()-1]++;
-	  			profits+=link.getPayment().getAmount();	// calculate how much money was paid for links
+	  			profits+=link.getPrice();	// calculate how much money was paid for links
 	  		}
 
 	  		// fill chart

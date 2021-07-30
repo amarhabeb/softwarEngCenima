@@ -17,19 +17,19 @@ abstract public class Order implements Serializable {
 
     protected boolean status; //true if valid, false if canceled
     protected double price;
-    @OneToOne(targetEntity = Payment.class, cascade = CascadeType.ALL)
-    protected Payment payment;
+    //@OneToOne(targetEntity = Payment.class, cascade = CascadeType.ALL)
+    //protected Payment payment;
     //@OneToOne(targetEntity = Refund.class, cascade = CascadeType.ALL)
     //protected Refund refund;
+    protected int cusomer_id;
     protected boolean active;   //true if active, false if "deleted" from database
 
-    public Order( double price, Payment payment) {
+    public Order( double price, int cusomer_id) {
         super();
         this.orderDate = LocalDateTime.now();
         this.status = true;
         this.price = price;
-        this.payment = payment;
-        //this.refund = refund;
+        this.cusomer_id=cusomer_id;
         this.active = true;
     }
     public Order() {
@@ -62,7 +62,7 @@ abstract public class Order implements Serializable {
         this.price = price;
     }
 
-    public  Payment getPayment() {
+   /* public  Payment getPayment() {
         return payment;
     }
 
@@ -70,7 +70,7 @@ abstract public class Order implements Serializable {
         this.payment = payment;
     }
 
-    /*public Refund getRefund() {
+    public Refund getRefund() {
         return refund;
     }
 
@@ -78,6 +78,15 @@ abstract public class Order implements Serializable {
         this.refund = refund;
     }
 */
+
+    public int getCusomer_id() {
+        return cusomer_id;
+    }
+
+    public void setCusomer_id(int cusomer_id) {
+        this.cusomer_id = cusomer_id;
+    }
+
     public boolean isActive() {
         return active;
     }

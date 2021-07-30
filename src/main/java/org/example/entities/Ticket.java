@@ -18,8 +18,8 @@ public class Ticket extends Order{
     private  int seat_id;
     private LocalDateTime show_time;
     public Ticket(int cinema_id, int hall_id,int seat_id, int show_id,LocalDateTime show_time,
-                  double price, Payment payment) {
-        super(price, payment);
+                  double price, int customer_id) {
+        super(price, customer_id);
         this.cinema_id=cinema_id;
         this.seat_id=seat_id;
         this.show_id=show_id;

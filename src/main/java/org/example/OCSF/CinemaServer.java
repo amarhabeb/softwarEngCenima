@@ -1078,12 +1078,12 @@ public class CinemaServer extends AbstractServer{
 
 		/////// Testing TicketController
 		Ticket ticket=new Ticket(2,2,23,8,
-				LocalDateTime.of(2021,7,30,22,30),35,null);
+				LocalDateTime.of(2021,7,30,22,30),35,1);
 		TicketsController.addTicket(session,ticket);
 		Ticket ticket2=new Ticket(2,2,24,8,
-				LocalDateTime.of(2021,7,30,21,00),60,null);
+				LocalDateTime.of(2021,7,30,21,00),60,4);
 		TicketsController.addTicket(session,ticket2);
-
+/*
 		LocalDateTime dt=TicketsController.loadTicketShowTime(session,2);
 		double price=TicketsController.loadTicketPrice(session, 2);
 		double r=TicketsController.calcRefund(dt);
@@ -1100,7 +1100,7 @@ public class CinemaServer extends AbstractServer{
 
 		System.out.println(refund.getAmount());
 
-		RefundController.addRefund(session,refund);
+		RefundController.addRefund(session,refund);*/
 	}
 
 
