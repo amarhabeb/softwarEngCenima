@@ -15,7 +15,7 @@ public class MailController{
         String to = mail;
 
         // Sender's email ID needs to be mentioned
-        String from = "aliabulielun@gmail.com";
+        String from = "softwareengp@gmail.com";
 
         // Assuming you are sending email from through gmails smtp
         String host = "smtp.gmail.com";
@@ -34,7 +34,7 @@ public class MailController{
 
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication("fromaddress@gmail.com", "*******");
+                return new PasswordAuthentication("softwareengp@gmail.com", "Se123123");
 
             }
 
