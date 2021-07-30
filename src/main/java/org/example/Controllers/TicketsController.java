@@ -76,10 +76,6 @@ public class TicketsController {
             return false;
         }
     }
-    public static boolean sendTicketAsMessage( TicketMessage mesage) throws Exception {
-        return true;
-        // we have to change it
-    }
     //cancel ticket in data base, calculate refund, add it to data base, then return it
     public static Refund cancelTicket(Session session, int ticket_id){
         try {

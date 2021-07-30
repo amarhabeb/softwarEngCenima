@@ -1,16 +1,13 @@
 package org.example.Controllers;
 
 import org.example.entities.Link;
+
+
 import org.example.entities.Refund;
-import org.example.entities.Customer;
-import org.example.entities.Payment;
-
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.criteria.*;
-import java.lang.Package;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
@@ -41,14 +38,12 @@ public class LinkController {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Link> query = builder.createQuery(Link.class);
-            Root<Link> LinkRoot = query.from(Link.class);
-            Join<Link, Payment> payment = LinkRoot.join("payment");
-            Join<Payment, Customer> customerid = LinkRoot.join("id");
-            query.from(Link.class);
-            Predicate[] predicates=new Predicate[2];
-            predicates[0]=builder.equal(LinkRoot.get("active"),true);
-            predicates[1]=builder.equal(customerid.get("id"),customer_id);
-            query.select(LinkRoot).where(predicates);
+            Root<Link> root=query.from(Link.class);
+            Predicate[] predicates=new Predicate[3];
+            predicates[0]=builder.equal(root.get("customer_id"),customer_id);
+            predicates[1]=builder.equal(root.get("status"),true);
+            predicates[2]=builder.equal(root.get("active"),true);
+            query.where(predicates);
             List<Link> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;
