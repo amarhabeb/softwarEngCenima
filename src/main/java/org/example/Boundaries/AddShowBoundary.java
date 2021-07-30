@@ -82,7 +82,8 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
 					e.printStackTrace();
 				}
 			}	
-		}	
+		}
+		System.out.println("ok");
 		// update ShowData
 		UpdateShowsData();
 	}
