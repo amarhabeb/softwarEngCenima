@@ -12,34 +12,24 @@ import javax.persistence.Table;
 
 public class Ticket extends Order{
     //@ManyToOne(targetEntity = Cinema.class)
-    //private Cinema cinema;
     private int show_id;
     private int cinema_id;
-    //private Seat seat;
+    private int hall_id;
     private  int seat_id;
-    public Ticket(int cinema_id, int seat_id, int show_id, LocalDateTime orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
-        super( orderDate, status, price, payment, refund, active);
+    private LocalDateTime show_time;
+    public Ticket(int cinema_id, int hall_id,int seat_id, int show_id,LocalDateTime show_time,
+                  double price, Payment payment) {
+        super(price, payment);
         this.cinema_id=cinema_id;
         this.seat_id=seat_id;
         this.show_id=show_id;
+        this.hall_id=hall_id;
+        this.show_time=show_time;
     }
-   /* public Ticket(Cinema cinema, int seat_id, int show_id, int ID, LocalDate orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
-        super( orderDate, status, price, payment, refund, active);
-        this.cinema=cinema;
-        this.seat_id=seat_id;
-        this.show_id=show_id;
-    }*/
+
     public Ticket(){
         super();
     }
-/*
-    public Cinema getCinema() {
-        return cinema;
-    }
- public void setCinema(Cinema cinema) {
-        this.cinema = cinema;
-    }
-*/
 
     public int getSeat_id() {
         return seat_id;
@@ -63,5 +53,21 @@ public class Ticket extends Order{
 
     public void setCinema_id(int cinema_id) {
         this.cinema_id = cinema_id;
+    }
+
+    public int getHall_id() {
+        return hall_id;
+    }
+
+    public void setHall_id(int hall_id) {
+        this.hall_id = hall_id;
+    }
+
+    public LocalDateTime getShow_time() {
+        return show_time;
+    }
+
+    public void setShow_time(LocalDateTime show_time) {
+        this.show_time = show_time;
     }
 }
