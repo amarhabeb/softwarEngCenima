@@ -77,48 +77,20 @@ public class TicketsController {
         }
     }
     //cancel ticket in data base, calculate refund, add it to data base, then return it
-    public static Refund cancelTicket(Session session, int ticket_id){
+    public static boolean cancelTicket(Session session, int ticket_id){
         try {
 
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaUpdate<Ticket> update_query=builder.createCriteriaUpdate(Ticket.class);
             Root<Ticket> root=update_query.from(Ticket.class);
             update_query.set("status", false);
+            update_query.set("active", false);
             update_query.where(builder.equal(root.get("ID"),ticket_id));
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
-            session.clear();
-            LocalDateTime dt=loadTicketShowTime(session, ticket_id);
-
-            double price=loadTicketPrice(session, ticket_id);
-
-            double r=calcRefund(dt);
-            //if refund is 50%
-            if (r==0.5){
-                price*=0.5;
-            }
-            //if refund is 0, do nothing and return
-            else if(r==0){
-                transaction.commit();
-                session.clear();
-                return null;
-            }
-            //if refund is 100%
-            Refund refund=new Refund(price, ticket_id, 0 ,LocalDateTime.now());
-            /*
-
-            boolean answer= RefundController.addRefund(session,refund);
-*/
             transaction.commit();
             session.clear();
-            return refund;
-/*
-            if(answer){
-                return refund;
-            }
-            else{
-                return null;
-            }*/
+            return true;
             // Save everything.
         } catch (Exception exception) {
             if (session != null) {
@@ -126,7 +98,7 @@ public class TicketsController {
             }
             System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
-            return null;
+            return false;
         }
     }
     public static LocalDateTime loadTicketShowTime(Session session, int ticket_id){

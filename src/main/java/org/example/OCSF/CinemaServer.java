@@ -16,6 +16,7 @@ import java.lang.Package;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -131,6 +132,7 @@ public class CinemaServer extends AbstractServer{
 				}
 			}
 
+			////////// MUST implement the refund here
 			if(message.get(0).equals("MarkComplaintAsDone")) {
 				int complaint_id = (int) message.get(1);
 				// change complaine into done in database
@@ -611,7 +613,7 @@ public class CinemaServer extends AbstractServer{
 				session.clear();
 				Link newLink = (Link) message.get(1);
 				// adding link into  database
-				boolean success = LinkController.addLink(newLink,session);
+				boolean success = LinkController.addLink(session, newLink);
 				//session.refresh(Link.class);
 
 				// reply to client
@@ -627,12 +629,47 @@ public class CinemaServer extends AbstractServer{
 				// load data
 				try {
 					session.clear();
-					Refund Data = LinkController.cancelLink(session,link_id);
+					boolean Data = LinkController.cancelLink(session,link_id);
+					LocalDateTime DT = LinkController.loadLinkTime(session, link_id);
+					//if there is refund to be done
+					if (ChronoUnit.HOURS.between(LocalDateTime.now(),DT) >1){
+						double price=LinkController.loadLinkPrice(session,link_id);
+						Refund refund=new Refund(price*0.5, link_id, 0, LocalDateTime.now());
+						RefundController.addRefund(session,refund);
+					}
 
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
 					messageToClient.add("linkCanceled");
 					messageToClient.add(Data);
+					client.sendToClient(messageToClient);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			if(message.get(0).equals("CancelTicket")) {
+				int ticket_id = (int)message.get(1);
+				// load data
+				try {
+					session.clear();
+					TicketsController.cancelTicket(session,ticket_id);
+					LocalDateTime dt=TicketsController.loadTicketShowTime(session, ticket_id);
+					double price=TicketsController.loadTicketPrice(session, ticket_id);
+					double r=TicketsController.calcRefund(dt);
+					//if refund is 50%
+					if (r==0.5){
+						price*=0.5;
+					}
+					//if refund is not 0
+					if(r!=0) {
+						Refund refund = new Refund(price, ticket_id, 0, LocalDateTime.now());
+						RefundController.addRefund(session, refund);
+					}
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("linkCanceled");
 					client.sendToClient(messageToClient);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -910,6 +947,8 @@ public class CinemaServer extends AbstractServer{
 		Ticket ticket3=new Ticket(2,2,24,8,
 				LocalDateTime.of(2021,7,30,21,00),60,2);
 		TicketsController.addTicket(session,ticket3);
+		TicketsController.cancelTicket(session,ticket2.getID());
+
 
 
 		/////// Testing PackageController
@@ -929,6 +968,31 @@ public class CinemaServer extends AbstractServer{
 		pack2.setCounter(12);
 		int n=PackagesController.getNumberOfTicketsLeft(session,4);
 		//System.out.println(n);
+
+		/////// Testing LinkController
+		Link link1=new Link("www.cinema.com",LocalDateTime.of(2021,7,31,18,0),
+				LocalDateTime.of(2021,7,31,21,0), 11, 80,3);
+		LinkController.addLink(session,link1);
+		Link link2=new Link("www.cinema.com",LocalDateTime.of(2021,7,30,23,0),
+				LocalDateTime.of(2021,7,31,1,30), 12, 80,3);
+		LinkController.addLink(session,link2);
+		Link link3=new Link("www.cinema.com",LocalDateTime.of(2021,7,31,2,45),
+				LocalDateTime.of(2021,7,31,5,30), 11, 80,1);
+		LinkController.addLink(session,link3);
+		List<Link> links=LinkController.loadLinks(session);
+		//System.out.println(links.size());
+		List<Link> clinks=LinkController.loadCustomerLinks(session,3);
+		//System.out.println(clinks.size());
+
+		boolean Data = LinkController.cancelLink(session,link1.getID());
+		LocalDateTime DT = LinkController.loadLinkTime(session, link1.getID());
+		//if there is refund to be done
+		if (ChronoUnit.HOURS.between(LocalDateTime.now(),DT) >1){
+			double price=LinkController.loadLinkPrice(session,link1.getID());
+			Refund refund=new Refund(price*0.5, link1.getID(), 0, LocalDateTime.now());
+			RefundController.addRefund(session,refund);
+		}
+
 
 		/////// Testing MailController
 		//MailController.sendMail("Testing our project","rayah.khatib.2@gmail.com","Test");
@@ -1001,21 +1065,6 @@ public class CinemaServer extends AbstractServer{
 			File im11= new File("src/main/resources/org.example/Images/12.jpg");
 			byte[] im11File = new byte[(int) im11.length()];
 
-//			String im="32";
-//			String im1="32";
-//			String im2="32";
-//			String im3="32";
-//			String im4="32";
-//			String im5="32";
-//			String im6="32";
-//			String im7="32";
-//			String im8="32";
-//			String im9="32";
-//			String im10="32";
-//			String im11="32";
-
-
-
 
 			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2019-03-18"),false,  imFile, emptyShowList,false);
 			moviesList.add(HarryPotter7);
@@ -1037,9 +1086,9 @@ public class CinemaServer extends AbstractServer{
 			moviesList.add(Jaws);
 			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), LocalDate.parse("2021-01-16"),true, im9File, emptyShowList,false);
 			moviesList.add(Rocky);
-			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("2021-02-18"),true, im10File, emptyShowList,false);
+			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("2021-02-18"),true, im10File, emptyShowList,true);
 			moviesList.add(Titanic);
-			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"),true, im11File, emptyShowList,false);
+			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"),true, im11File, emptyShowList,true);
 			moviesList.add(LordOfTheRings);
 			List<Hall> cinemaHalls = new LinkedList<Hall>();
 			List<Show> shows = new LinkedList<Show>();
