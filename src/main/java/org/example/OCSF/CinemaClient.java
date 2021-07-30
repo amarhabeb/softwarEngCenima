@@ -4,6 +4,7 @@ package org.example.OCSF;
 import org.example.App;
 import org.example.Boundaries.*;
 import org.example.entities.*;
+import org.hibernate.sql.Update;
 import org.example.entities.Show;
 
 import java.io.IOException;
@@ -240,36 +241,36 @@ public class CinemaClient extends AbstractClient {
 				MoviesDataLock.notifyAll();
 			}
 		}
-//		if(message.get(0).equals("MovieAdded")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized(MoviesDataLock) {
-//                AddMovieBoundary.movieAdded = true;
-//				MoviesDataUpdated = false;	// client's ShowsData is now not updated
-//				MoviesDataLock.notifyAll();
-//			}
-//		}
-//		if(message.get(0).equals("MovieDeleted")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized(MoviesDataLock) {
-//				DeleteMovieBoundary.movieDeleted = true;
-//				MoviesDataUpdated = false;	// client's ShowsData is now not updated
-//				MoviesDataLock.notifyAll();
-//			}
-//		}
-//		if(message.get(0).equals("OrdersLoaded")) {
-//			synchronized(OrdersDataLock) {
-//				OrdersData = (List<Complaint>) message.get(1);
-//				OrdersDataUpdated = true;	// client's ShowsData is now not updated
-//				OrdersDataLock.notifyAll();
-//			}
-//		}
-//
+		if(message.get(0).equals("MovieAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(MoviesDataLock) {
+                AddMovieBoundary.MovieAdded = true;
+				MoviesDataUpdated = false;	// client's ShowsData is now not updated
+				MoviesDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("MovieDeleted")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(MoviesDataLock) {
+				DeleteMovieBoundary.MovieDeleted = true;
+				MoviesDataUpdated = false;	// client's ShowsData is now not updated
+				MoviesDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("OrdersLoaded")) {
+			synchronized(OrdersDataLock) {
+				OrdersData = (List<Order>) message.get(1);
+				OrdersDataUpdated = true;	// client's ShowsData is now not updated
+				OrdersDataLock.notifyAll();
+			}
+		}
+
 //		if(message.get(0).equals("Costumer'sOrdersLoaded")) {
 //			boolean success = (boolean)message.get(1);
 //			if(!success){
@@ -314,28 +315,28 @@ public class CinemaClient extends AbstractClient {
 //				OrdersDataLock.notifyAll();
 //			}
 //		}
-//
-//		if(message.get(0).equals("PaymentSuccess")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized(PaymentDataLock) {
-//				PaymentDataUpdated = false;	// client's ShowsData is now not updated
-//				PaymentDataLock.notifyAll();
-//			}
-//		}
-//
-//		if(message.get(0).equals("RefundssLoaded")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( RefundDataLock) {
-//				RefundDataUpdated = true;	// client's ShowsData is now not updated
-//				RefundDataLock.notifyAll();
-//			}
-//		}
+
+		if(message.get(0).equals("PaymentSuccess")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(PaymentDataLock) {
+				PaymentDataUpdated = false;	// client's ShowsData is now not updated
+				PaymentDataLock.notifyAll();
+			}
+		}
+
+		if(message.get(0).equals("RefundssLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( RefundDataLock) {
+				RefundDataUpdated = true;	// client's ShowsData is now not updated
+				RefundDataLock.notifyAll();
+			}
+		}
 //		if(message.get(0).equals("RefundAdded")) {
 //			boolean success = (boolean)message.get(1);
 //			if(!success){
@@ -347,16 +348,16 @@ public class CinemaClient extends AbstractClient {
 //				RefundDataLock.notifyAll();
 //			}
 //		}
-//		if(message.get(0).equals("RegulationsLoaded")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( RegulationsDataLock) {
-//				RegulationsDataUpdated = true;	// client's ShowsData is now not updated
-//				RegulationsDataLock.notifyAll();
-//			}
-//		}
+		if(message.get(0).equals("RegulationsLoaded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( RegulationsDataLock) {
+				RegulationsDataUpdated = true;	// client's ShowsData is now not updated
+				RegulationsDataLock.notifyAll();
+			}
+		}
 //		if(message.get(0).equals("RegulationStatusUpdated")) {
 //			boolean success = (boolean)message.get(1);
 //			if(!success){
@@ -379,19 +380,16 @@ public class CinemaClient extends AbstractClient {
 //				RegulationsDataLock.notifyAll();
 //			}
 //		}
+		
 		if(message.get(0).equals("ShowAdded")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
 				throw new Exception("Controller failed");
 			}
 			synchronized(ShowsDataLock) {
-				System.out.println("1");
 				AddShowBoundary.ShowAdded=true;
-				System.out.println("2");
 				ShowsDataUpdated = false;	// client's ShowsData is now not updated
-				System.out.println("3");
 				ShowsDataLock.notifyAll();
-				System.out.println("4");
 			}
 		}
 		if(message.get(0).equals("ShowDeleted")) {

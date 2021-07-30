@@ -152,7 +152,7 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     
     @FXML
     void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-    	App.setRoot("CinemaManagerMB",null);
+    	App.setRoot("CinemaManagerMB",null,stage);
     }
     
     @FXML

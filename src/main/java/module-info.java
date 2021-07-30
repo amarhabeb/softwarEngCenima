@@ -10,6 +10,7 @@ module org.example {
     requires java.mail;
     requires java.logging;
     requires java.naming;
+	requires java.desktop;
 
     opens org.example to javafx.fxml;
     exports org.example to javafx.graphics;

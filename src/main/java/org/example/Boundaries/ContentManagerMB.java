@@ -77,33 +77,33 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 
 	@FXML
 	void clickUpdateShowsTimesBtn(ActionEvent event) throws IOException {
-		 App.setRoot("UpdateTimeBoundary",null);
+		 App.setRoot("UpdateTimeBoundary",null,stage);
 	}
 	
 	@FXML
     void clickAddMoviesBtn(ActionEvent event) throws IOException {
-		App.setRoot(" org.example.Boundaries.AddMovieBoundary",null);
+		App.setRoot("AddMovieBoundary",null,stage);
 
     }
 
     @FXML
     void clickAddShowsBtn(ActionEvent event) throws IOException{
-    	App.setRoot("AddShowBoundary",null);
+    	App.setRoot("AddShowBoundary",null,stage);
     }
     
     @FXML
     void clickRemoveMoviesBtn(ActionEvent event) throws IOException {
-    	
+    	App.setRoot("DeleteMovieBoundary",null,stage);
     }
 
     @FXML
     void clickRemoveShowsBtn(ActionEvent event) throws IOException  {
-    	App.setRoot("DeleteShowBoundary",null);
+    	App.setRoot("DeleteShowBoundary",null,stage);
     }
 
     @FXML
     void clickUpdateShowsPricesBtn(ActionEvent event) throws IOException{
-    	App.setRoot("UpdatePriceBoundary",null);
+    	App.setRoot("UpdatePriceBoundary",null,stage);
     }
 	
 	

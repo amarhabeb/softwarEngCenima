@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Boundaries.DeleteMovieBoundary">
+   <children>
+      <AnchorPane>
+         <children>
+            <AnchorPane prefHeight="488.0" prefWidth="800.0">
+               <children>
+                  <ImageView fitHeight="488.0" fitWidth="800.0">
+                     <image>
+                        <Image url="@cinema-with-white-screen-curtain-seats_259139-264.jpg" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="SE_RESIZE" />
+                     </cursor>
+                  </ImageView>
+                  <TableView fx:id="MoviesTable" layoutX="246.0" layoutY="94.0" prefHeight="318.0" prefWidth="519.0">
+                     <columns>
+                        <TableColumn fx:id="name" prefWidth="132.79998779296875" text="Name (en/heb)" />
+                        <TableColumn fx:id="cast" prefWidth="128.0" text="Cast" />
+                        <TableColumn fx:id="director" prefWidth="95.20001220703125" text="Director" />
+                        <TableColumn fx:id="launch_date" prefWidth="86.4000244140625" text="Launch Date" />
+                        <TableColumn fx:id="online" minWidth="2.39990234375" prefWidth="77.5999755859375" text="Online" />
+                     </columns>
+                  </TableView>
+                  <Button fx:id="refreshBtn2" layoutX="711.0" layoutY="424.0" mnemonicParsing="false" onAction="#clickRefreshBtn2" text="Refresh">
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="GoBackToMainBtn" layoutX="23.0" layoutY="21.0" mnemonicParsing="false" onAction="#clickGoBackToMainBtn" prefHeight="26.0" prefWidth="123.0" text="&lt;&lt; go back to main">
+                     <font>
+                        <Font name="System Bold Italic" size="11.0" />
+                     </font>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="0.35478729009628296" green="0.6100000143051147" blue="0.32330000400543213" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="0.6736842393875122" green="0.00499025359749794" blue="0.5510903000831604" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                  </Button>
+                  <Text fill="#c51010" layoutX="105.0" layoutY="125.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select a movie and press the button to delete it." wrappingWidth="132.79999999999995">
+                     <font>
+                        <Font name="System Bold Italic" size="15.0" />
+                     </font>
+                  </Text>
+                  <Label layoutX="288.0" layoutY="29.0" text="Movies" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold Italic" size="45.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="277.0" layoutY="419.0" text="Delete Movies" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="25.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="DeleteMovieBtn" layoutX="105.0" layoutY="185.0" mnemonicParsing="false" onAction="#clickDeleteMovieBtn" text="DELETE MOVIE" textAlignment="CENTER" textFill="#cf2626">
+                     <font>
+                        <Font name="System Bold Italic" size="12.0" />
+                     </font>
+                  </Button>
+                  <Text fx:id="selectedMovieEngText" layoutX="105.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*no movie selected*" wrappingWidth="158.4000000000001">
+                     <font>
+                        <Font name="System Italic" size="13.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="selectedMovieHebText" layoutX="105.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="158.4000000000001">
+                     <font>
+                        <Font name="System Italic" size="13.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

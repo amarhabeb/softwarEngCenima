@@ -157,7 +157,7 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
 
 	@FXML
 	void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-		App.setRoot("CustomeServiceMB",null);
+		App.setRoot("CustomeServiceMB",null,stage);
 	}
 
 	@FXML
