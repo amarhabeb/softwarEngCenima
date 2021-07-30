@@ -386,7 +386,7 @@ public class CinemaClient extends AbstractClient {
 			if(!success){
 				throw new Exception("Controller failed");
 			}
-			synchronized( ShowsDataLock) {
+			synchronized(ShowsDataLock) {
 				AddShowBoundary.ShowAdded=true;
 				ShowsDataUpdated = false;	// client's ShowsData is now not updated
 				ShowsDataLock.notifyAll();

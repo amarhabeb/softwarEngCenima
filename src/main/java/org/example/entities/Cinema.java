@@ -83,16 +83,11 @@ public class Cinema implements Serializable {
     }
     
     public String getBranch_name() {
-	return branch_name;
+    	return branch_name;
     }
 
     public void setBranch_name(String branch_name) {
-	this.branch_name = branch_name;
-    }
-    
-    @Override
-    public String toString() {
-        return branch_name;
+    	this.branch_name = branch_name;
     }
 
     public void setShows(List<Show> shows) {
@@ -126,4 +121,9 @@ public class Cinema implements Serializable {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
+	
+	@Override
+    public String toString() {
+        return branch_name;
+    }
 }
