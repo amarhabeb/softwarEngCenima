@@ -68,9 +68,9 @@ public class CinemaClient extends AbstractClient {
 	public static Boolean HallsDataUpdated = false;
 	public static Object HallsDataLock = new Object();
 
-	public static List<Message> MessageData = new LinkedList<>();
-	public static Boolean MessageDataUpdated = false;
-	public static Object MessageDataLock = new Object();
+//	public static List<Message> MessageData = new LinkedList<>();
+//	public static Boolean MessageDataUpdated = false;
+//	public static Object MessageDataLock = new Object();
 
 	public static List<PackageOrder> PackageData = new LinkedList<>();
 	public static Boolean PackageDataUpdated = false;
@@ -620,16 +620,7 @@ public class CinemaClient extends AbstractClient {
 //				LinksDataLock.notifyAll();
 //			}
 		}
-		if(message.get(0).equals("MessageAdded")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
-				throw new Exception("Controller failed");
-			}
-			synchronized( MessageDataLock) {
-				MessageDataUpdated = false;	// client's ShowsData is now not updated
-				MessageDataLock.notifyAll();
-			}
-		}
+
 		if(message.get(0).equals("NewMoviesLoaded")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
