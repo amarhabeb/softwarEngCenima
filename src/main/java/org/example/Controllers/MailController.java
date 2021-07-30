@@ -1,4 +1,9 @@
 package org.example.Controllers;
+import org.example.entities.Customer;
+import org.example.entities.Movie;
+import org.example.entities.PackageOrder;
+
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -67,6 +72,38 @@ public class MailController{
             mex.printStackTrace();
         }
 
+    }
+
+    public static boolean sendNewMoviesMail(org.hibernate.Session session){
+        try{
+            List<Movie> newMovies=MoviesController.loadNewMovies(session);
+            String newMoviesText="";
+            for(Movie m: newMovies){
+                newMoviesText+="Name: "+ m.getName_en() +"\n"+
+                               "Summary: " +m.getSummary()+"\n"+
+                                "Director: " +m.getDirector()+"\n"+
+                                "Launch Date: " +m.getLanuch_date().toString()+
+                                "*********************"+"\n\n\n";
+            }
+            if(newMovies!=null){
+                List<PackageOrder> packageOrderList=PackagesController.loadValidPackages(session);
+                for(PackageOrder pac: packageOrderList){
+                    String email=CustomerController.loadCustomerMail(session,pac.getCusomer_id());
+                    sendMail(newMoviesText, email, "Don't Miss! New Movies Coming Soon");
+                }
+                return true;
+            }
+            return false;
+
+        }
+        catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
 
     }
 
