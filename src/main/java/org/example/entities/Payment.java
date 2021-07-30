@@ -13,8 +13,8 @@ public class Payment implements Serializable {
     @Column(name = "id")
     protected int ID;
     private double amount;
-    @OneToOne(targetEntity = Order.class, cascade = CascadeType.ALL)
-    private Order order;
+    //@OneToOne(targetEntity = Order.class, cascade = CascadeType.ALL)
+    //private Order order;
     @OneToOne(targetEntity = Customer.class, cascade = CascadeType.ALL)
     private Customer customer;
 
@@ -22,7 +22,7 @@ public class Payment implements Serializable {
 
     public Payment(double amount, Order order, Customer customer) {
         this.amount = amount;
-        this.order = order;
+       // this.order = order;
         this.customer = customer;
     }
 
@@ -34,13 +34,13 @@ public class Payment implements Serializable {
         this.amount = amount;
     }
 
-    public Order getOrder() {
+    /*public Order getOrder() {
         return order;
     }
 
     public void setOrder(Order order) {
         this.order = order;
-    }
+    }*/
 
     public Customer getCustomer() {
         return customer;

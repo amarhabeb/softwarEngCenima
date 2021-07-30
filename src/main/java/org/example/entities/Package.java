@@ -16,8 +16,8 @@ public class Package extends Order{
     private boolean[] tickets; //false if ticket is used
     private int counter;
 
-    public Package(LocalDateTime orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
-        super(orderDate, status, price, payment, refund, active);
+    public Package(double price, Payment payment) {
+        super(price, payment);
         counter=20;
         this.tickets = new boolean[20];
         for(int i=0; i<20;i++)
