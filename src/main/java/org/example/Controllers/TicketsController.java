@@ -19,7 +19,11 @@ public class TicketsController {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
-            query.from(Ticket.class);
+            Root<Ticket> root=query.from(Ticket.class);
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("status"),true);
+            predicates[1]=builder.equal(root.get("active"),true);
+            query.where(predicates);
             List<Ticket> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;
@@ -37,11 +41,12 @@ public class TicketsController {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
-            Root<Ticket> TicketRoot = query.from(Ticket.class);
-            Join<Ticket, Payment> payment = TicketRoot.join("payment");
-            Join<Payment, Customer> customerid = TicketRoot.join("id");
-            query.from(Ticket.class);
-            query.select(TicketRoot).where(builder.equal(customerid.get("id"),cust_id));
+            Root<Ticket> root=query.from(Ticket.class);
+            Predicate[] predicates=new Predicate[3];
+            predicates[0]=builder.equal(root.get("customer_id"),cust_id);
+            predicates[1]=builder.equal(root.get("status"),true);
+            predicates[2]=builder.equal(root.get("active"),true);
+            query.where(predicates);
             List<Ticket> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;
@@ -54,7 +59,7 @@ public class TicketsController {
             return null;
         }
     }
-    public static Boolean addTicket(Ticket newticket,Session session) throws Exception {
+    public static Boolean addTicket(Session session, Ticket newticket) throws Exception {
         try {
 
             Transaction transaction = session.beginTransaction();
@@ -88,7 +93,9 @@ public class TicketsController {
             session.createQuery(update_query).executeUpdate();
             session.clear();
             LocalDateTime dt=loadTicketShowTime(session, ticket_id);
+
             double price=loadTicketPrice(session, ticket_id);
+
             double r=calcRefund(dt);
             //if refund is 50%
             if (r==0.5){
@@ -102,16 +109,20 @@ public class TicketsController {
             }
             //if refund is 100%
             Refund refund=new Refund(price, ticket_id, 0 ,LocalDateTime.now());
-            boolean answer= RefundController.addRefund(session,refund);
+            /*
 
+            boolean answer= RefundController.addRefund(session,refund);
+*/
             transaction.commit();
             session.clear();
+            return refund;
+/*
             if(answer){
                 return refund;
             }
             else{
                 return null;
-            }
+            }*/
             // Save everything.
         } catch (Exception exception) {
             if (session != null) {
@@ -126,14 +137,11 @@ public class TicketsController {
         try{
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Show> query = builder.createQuery(Show.class);
-            Root<Ticket> TicketRoot=query.from(Ticket.class);
-            Join<Ticket, Show> ticketShow = TicketRoot.join("show_id");
-            //query.from(Show.class);
-            query.select(ticketShow).where(builder.equal(ticketShow.get("id"),ticket_id));
-            List<Show> data = session.createQuery(query).getResultList();
-            //Show data = session.createQuery(query).uniqueResult();
-            LocalDateTime res=data.get(0).getDateTime();
+            CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
+            Root<Ticket> root=query.from(Ticket.class);
+            query.where(builder.equal(root.get("ID"),ticket_id));
+            List<Ticket> data = session.createQuery(query).getResultList();
+            LocalDateTime res=data.get(0).getShow_time();
             transaction.commit();
             return res;
         }
@@ -151,13 +159,10 @@ public class TicketsController {
         try{
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Show> query = builder.createQuery(Show.class);
-            Root<Ticket> TicketRoot=query.from(Ticket.class);
-            Join<Ticket, Show> ticketShow = TicketRoot.join("show_id");
-            //query.from(Show.class);
-            query.select(ticketShow).where(builder.equal(ticketShow.get("id"),ticket_id));
-            List<Show> data = session.createQuery(query).getResultList();
-            //Show data = session.createQuery(query).uniqueResult();
+            CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
+            Root<Ticket> root=query.from(Ticket.class);
+            query.where(builder.equal(root.get("ID"),ticket_id));
+            List<Ticket> data = session.createQuery(query).getResultList();
             double res=data.get(0).getPrice();
             transaction.commit();
             return res;

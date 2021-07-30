@@ -17,20 +17,20 @@ abstract public class Order implements Serializable {
 
     protected boolean status; //true if valid, false if canceled
     protected double price;
-    @OneToOne(targetEntity = Payment.class, cascade = CascadeType.ALL)
-    protected Payment payment;
-    @OneToOne(targetEntity = Refund.class, cascade = CascadeType.ALL)
-    protected Refund refund;
+    //@OneToOne(targetEntity = Payment.class, cascade = CascadeType.ALL)
+    //protected Payment payment;
+    //@OneToOne(targetEntity = Refund.class, cascade = CascadeType.ALL)
+    //protected Refund refund;
+    protected int cusomer_id;
     protected boolean active;   //true if active, false if "deleted" from database
 
-    public Order( LocalDateTime orderDate, boolean status, double price, Payment payment, Refund refund, boolean active) {
+    public Order( double price, int cusomer_id) {
         super();
-        this.orderDate = orderDate;
-        this.status = status;
+        this.orderDate = LocalDateTime.now();
+        this.status = true;
         this.price = price;
-        this.payment = payment;
-        this.refund = refund;
-        this.active = active;
+        this.cusomer_id=cusomer_id;
+        this.active = true;
     }
     public Order() {
         super();
@@ -62,7 +62,7 @@ abstract public class Order implements Serializable {
         this.price = price;
     }
 
-    public  Payment getPayment() {
+   /* public  Payment getPayment() {
         return payment;
     }
 
@@ -76,6 +76,15 @@ abstract public class Order implements Serializable {
 
     public void setRefund(Refund refund) {
         this.refund = refund;
+    }
+*/
+
+    public int getCusomer_id() {
+        return cusomer_id;
+    }
+
+    public void setCusomer_id(int cusomer_id) {
+        this.cusomer_id = cusomer_id;
     }
 
     public boolean isActive() {
