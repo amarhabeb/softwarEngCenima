@@ -10,19 +10,19 @@ public class UpdatePriceRequest implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int ID;
-    @OneToOne(targetEntity = ContentManager.class, cascade = CascadeType.ALL)
-    private ContentManager requestedBy;
-    int show_id;
+    //@OneToOne(targetEntity = ContentManager.class, cascade = CascadeType.ALL)
+    //private ContentManager requestedBy;
+    private Integer requestedBy;
+    private int show_id;
     private double updatedPrice;
     //private boolean checked;
     private boolean approved;
     private boolean active;
 
-    public UpdatePriceRequest(ContentManager requestedBy, int show_id, double updatedPrice) {
+    public UpdatePriceRequest(int requestedBy, int show_id, double updatedPrice) {
         this.requestedBy = requestedBy;
         this.show_id = show_id;
         this.updatedPrice = updatedPrice;
-        //this.checked = false;
         this.approved = false;
         this.active=true;
     }
@@ -31,11 +31,11 @@ public class UpdatePriceRequest implements Serializable {
         this.active=true;
     }
 
-    public ContentManager getRequestedBy() {
+    public Integer getRequestedBy() {
         return requestedBy;
     }
 
-    public void setRequestedBy(ContentManager requestedBy) {
+    public void setRequestedBy(int requestedBy) {
         this.requestedBy = requestedBy;
     }
 

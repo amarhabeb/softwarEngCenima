@@ -503,7 +503,7 @@ public class CinemaServer extends AbstractServer{
 				// load data
 				try {
 					session.clear();
-					List<UpdatePriceRequest> Data = UpdatePriceRequestController.loadRequest(session);
+					List<UpdatePriceRequest> Data = UpdatePriceRequestController.loadRequests(session);
 
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
@@ -518,9 +518,9 @@ public class CinemaServer extends AbstractServer{
 
 			if(message.get(0).equals("ApproveRequest")) {
 				session.clear();
-				int request_id = (int) message.get(1);
+				UpdatePriceRequest request =(UpdatePriceRequest) message.get(1);
 				// changing price in database
-				boolean success = UpdatePriceRequestController.approveRequest(session,request_id );
+				boolean success = UpdatePriceRequestController.approveRequest(session,request );
 				//session.refresh(UpdatePriceRequest.class);
 				if(!success) {
 					throw new Exception("the price couldnt be changed");
@@ -1119,6 +1119,15 @@ public class CinemaServer extends AbstractServer{
 
 		/////// Testing MailController
 		//MailController.sendMail("Testing our project","rayah.khatib.2@gmail.com","Test");
+
+		/////// Testing UpdatePriceRequestController
+		UpdatePriceRequest req1=new UpdatePriceRequest(2,7,130);
+		UpdatePriceRequestController.addRequest(session,req1);
+		UpdatePriceRequest req2=new UpdatePriceRequest(2,5,20);
+		UpdatePriceRequestController.addRequest(session,req2);
+		UpdatePriceRequestController.approveRequest(session, req1);
+		UpdatePriceRequestController.declineRequest(session, req2.getID());
+
 
 	}
 
