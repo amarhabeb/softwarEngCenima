@@ -31,6 +31,7 @@ public class CinemaServer extends AbstractServer{
 	
 	private static Session session;
 	private static Thread activateThread;
+
 	public static Object threadLock = new Object();
 
 
@@ -958,6 +959,7 @@ public class CinemaServer extends AbstractServer{
 						try {
 
 							LinkController.activateLinksWhenTimeCome(session);
+							ComplaintsController.deactivateAllComplaintsAfter24Hours(session);
 
 
 						} catch (Exception e) {
@@ -968,6 +970,7 @@ public class CinemaServer extends AbstractServer{
 				}
 			}
 		});
+		activateThread.setPriority(1);
 
 		activateThread.start();
 
@@ -1451,6 +1454,7 @@ public class CinemaServer extends AbstractServer{
 			} else {
 				// initialize the DataBase
 				InitializeDataBase();
+
 				activatingLoop();
 				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
 				server.listen();

@@ -89,6 +89,7 @@ public class ComplaintsController {
             session.clear();
             transaction.commit();
             session.clear();
+
             return true;
             // Save everything.
         } catch (Exception exception) {
