@@ -968,7 +968,7 @@ public class CinemaServer extends AbstractServer{
 				}
 			}
 		});
-		activateThread.setPriority(1);
+		activateThread.setPriority(Thread.MIN_PRIORITY);
 
 		activateThread.start();
 
