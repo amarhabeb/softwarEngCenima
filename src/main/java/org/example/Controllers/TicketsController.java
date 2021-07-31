@@ -162,7 +162,7 @@ public class TicketsController {
         return refund;
     }
 
-    public static List<Ticket> makeTicketsReportByMonth(Session session, int cinema_id, Month month, Year year) throws Exception{
+    public static List<Ticket> makeTicketsReportByMonth(Session session, int cinema_id, Integer month, Integer year) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
