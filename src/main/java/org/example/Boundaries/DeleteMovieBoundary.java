@@ -21,12 +21,14 @@ import javafx.util.Callback;
 
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Movie;
+import org.example.entities.Show;
 
 import javafx.fxml.Initializable;
 
@@ -67,6 +69,7 @@ public class DeleteMovieBoundary extends ContentManagerDisplayBoundary implement
     private Text selectedMovieHebText;
         
     Movie selected_movie = null;
+    List<Integer> shows_of_selected_movie = new LinkedList<Integer>();
     
     
     public static Boolean MovieDeleted = true;	// holds if the show is deleted yet
@@ -95,12 +98,39 @@ public class DeleteMovieBoundary extends ContentManagerDisplayBoundary implement
 			UpdateMoviesData();
 		}	
 	}
+    
+    public static Boolean ShowDeleted = true;	// holds if the show is deleted yet
+    // delete show in DataBase and brings the Shows from the DataBase and updates 
+ 	// the ShowsData local list
+    synchronized void DeleteShow(int show_id) {
+		// create message and send it to the server
+    	LinkedList<Object> message = new LinkedList<Object>();
+		message.add("DeleteShow");
+		message.add(show_id);
+		synchronized(CinemaClient.ShowsDataLock)
+		{	
+			ShowDeleted = false;	// show isn't deleted yet
+			CinemaClientCLI.sendMessage(message);
+							
+			// wait for Data to be changed
+			while(!ShowDeleted) {
+				try {
+					CinemaClient.ShowsDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			// update ShowData
+			org.example.Boundaries.Boundary.UpdateShowsData();
+		}	
+	}
 
 
     @FXML
     void clickDeleteMovieBtn(ActionEvent event) {
     	int movie_id = selected_movie.getID();
-		
+    	
     	synchronized(CinemaClient.MoviesDataLock) {
 	    	try {
 	    		// delete movie entity
@@ -113,6 +143,27 @@ public class DeleteMovieBoundary extends ContentManagerDisplayBoundary implement
 	    	// set items in table
 	    	ObservableList<Movie> DataList = FXCollections.observableArrayList(CinemaClient.MoviesData);
 	    	MoviesTable.setItems(DataList);
+    	}
+    	
+    	synchronized(CinemaClient.ShowsDataLock) {
+    		UpdateShowsData();
+    		for(Show show:CinemaClient.ShowsData) {
+    			if(show.getMovie().getID()==movie_id) {
+    				shows_of_selected_movie.add(show.getID());
+    			}
+    		}
+    	
+    		try {
+    			for(Integer show_id:shows_of_selected_movie) {
+    				// delete show entity
+    				DeleteShow(show_id);
+    				System.out.println("deleted");
+    			}
+    			MessageBoundaryEmployee.displayInfo("Shows of selected movie successfully deleted.");
+	    	}catch(Exception e) {	// server threw exception while trying to delete show
+	    		MessageBoundaryEmployee.displayError("An error occured. Shows of selected movie couldn't be deleted.");
+	    	}
+	    	
     	}
     }
 

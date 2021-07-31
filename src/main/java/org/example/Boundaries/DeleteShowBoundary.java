@@ -62,13 +62,13 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
     // delete show in DataBase and brings the Shows from the DataBase and updates 
  	// the ShowsData local list
     synchronized void DeleteShow(int show_id) {
-		ShowDeleted = false;	// show isn't deleted yet
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
 		message.add("DeleteShow");
 		message.add(show_id);
 		synchronized(CinemaClient.ShowsDataLock)
 		{	
+			ShowDeleted = false;	// show isn't deleted yet
 			CinemaClientCLI.sendMessage(message);
 							
 			// wait for Data to be changed
