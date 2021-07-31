@@ -12,7 +12,6 @@ import org.hibernate.service.ServiceRegistry;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.Package;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -29,7 +28,8 @@ public class CinemaServer extends AbstractServer{
 	public static Regulations currentRegs = null;	// this is the regulations of the cinema chain
 	
 	private static Session session;
-	//private static Thread loopThread;
+	private static Thread activateLinkThread;
+	public static Object activateLinkLock = new Object();
 
 
 
@@ -77,779 +77,785 @@ public class CinemaServer extends AbstractServer{
     @SuppressWarnings("unchecked")
 	@Override
     protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-    	LinkedList<Object> message = (LinkedList<Object>)(msg);
-    	System.out.println("Message = " + message.get(0) + ", reached server");
-    	try {
+		synchronized(activateLinkLock) {
+			LinkedList<Object> message = (LinkedList<Object>) (msg);
+			System.out.println("Message = " + message.get(0) + ", reached server");
+			try {
 
 
-    		if(message.get(0).equals("ChangeShowTime")) {
-    			int show_id = (int) message.get(1);
-    			LocalTime newTime = (LocalTime) message.get(2);
-    			// change time of show in database
-				session.clear();
-    			boolean success = ShowsController.updateTime(session, show_id, newTime);
-    			//session.refresh(Show.class);
-
-    			// reply to client	
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("ShowsTimeChanged");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-    		}
-
-    		
-    		if(message.get(0).equals("LoadShows")) {
-    			// load data
-    			try {
-    				session.clear();
-					List<Show> Data = ShowsController.loadShows(session);
+				if (message.get(0).equals("ChangeShowTime")) {
+					int show_id = (int) message.get(1);
+					LocalTime newTime = (LocalTime) message.get(2);
+					// change time of show in database
+					session.clear();
+					boolean success = ShowsController.updateTime(session, show_id, newTime);
+					//session.refresh(Show.class);
 
 					// reply to client
-    				LinkedList<Object> messageToClient = new LinkedList<Object>();
-    				messageToClient.add("ShowsLoaded");
-    				messageToClient.add(Data);
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("ShowsTimeChanged");
+					messageToClient.add(success);
 					client.sendToClient(messageToClient);
-    			} catch (IOException e) {
+				}
+
+
+				if (message.get(0).equals("LoadShows")) {
+					// load data
+					try {
+						session.clear();
+						List<Show> Data = ShowsController.loadShows(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("ShowsLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-    			}
-    		}
-
-			if(message.get(0).equals("LoadComplaints")) {
-				// load data
-				try {
-					session.clear();
-					List<Complaint> Data = ComplaintsController.loadComplaints(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("ComplaintesLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					}
 				}
-			}
 
-			////////// MUST implement the refund here
-			if(message.get(0).equals("MarkComplaintAsDone")) {
-				int complaint_id = (int) message.get(1);
-				// change complaine into done in database
-				session.clear();
-				boolean success = ComplaintsController.markComplaintAsDone(session,complaint_id );
+				if (message.get(0).equals("LoadComplaints")) {
+					// load data
+					try {
+						session.clear();
+						List<Complaint> Data = ComplaintsController.loadComplaints(session);
 
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("ComplaintMarkedAsDone");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("AddComplaint")) {
-				Complaint comp = (Complaint) message.get(1);
-				// adding complaine into  database
-				session.clear();
-				boolean success = ComplaintsController.addComplaint(session,comp );
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("ComplaintAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("LoadLinks")) {
-				// load data
-				try {
-					session.clear();
-					List<Link> Data = LinkController.loadLinks(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("LinksLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("LoadCostumersLinks")) {
-				// load data
-				session.clear();
-				int cost_id = (int)message.get(1);
-				List<Link> Data = LinkController.loadCustomerLinks(session,cost_id);
-				try {
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("Costumer'sLinksLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("LoadMovies")) {
-				// load data
-				try {
-					session.clear();
-					List<Movie> Data = MoviesController.loadMovies(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("MoviesLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("AddMovie")) {
-				Movie newMovie = (Movie) message.get(1);
-				// adding a movie into  database
-				session.clear();
-				boolean success = MoviesController.addMovie(session,newMovie );
-				//session.refresh(Movie.class);
-				if(!success) {
-					throw new Exception("Movie  couldnt be added");
-				}
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("MovieAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("DeleteMovie")) {
-				int movie_id = (int) message.get(1);
-				// delete movie from database
-				session.clear();
-				boolean success = MoviesController.deleteMovie(session,movie_id );
-				//session.refresh(Movie.class);
-				if(!success) {
-					throw new Exception("the Movie couldnt be deleted");
-				}
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("MovieDeleted");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("LoadOrders")) {
-				// load data
-				try {
-					session.clear();
-					List<Order> Data = OrderController.loadOrders(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("OrdersLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("LoadCutomersOrders")) {
-				// load data
-				int cost_id = (int)message.get(1);
-				try {
-					session.clear();
-					List<Order> Data = OrderController.loadCutomersOrders(cost_id,session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("Costumer'sOrdersLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("AddOrder")) {
-				Order order = (Order) message.get(1);
-				// adding a order into  database
-				session.clear();
-				boolean success = OrderController.addOrder(order,session );
-				//session.refresh(Order.class);
-				if(!success) {
-					throw new Exception("Order  couldnt be added");
-				}
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("OrderAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("MakePayment")) {
-				Payment payment = (Payment) message.get(1);
-				session.clear();
-				// putting payment details in database
-				boolean success = PaymentController.makePayment(session, payment );
-				//session.refresh(Payment.class);
-				if(!success) {
-					throw new Exception("Payment Not Success");
-				}
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("PaymentSuccess");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("LoadRefunds")) {
-				// load data
-				try {
-					session.clear();
-					List<Refund> Data = RefundController.loadRefunds(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("RefundssLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("AddRefund")) {
-				Refund refund = (Refund) message.get(1);
-				// adding a refund into done in database
-				session.clear();
-				boolean success = RefundController.addRefund(session, refund );
-				//session.refresh(Refund.class);
-				if(!success) {
-					throw new Exception("Refund  couldnt be added");
-				}
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("RefundAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("LoadReagulations")) {
-				// load data
-				try {
-					session.clear();
-					List<Regulations> Data = RegulationsController.loadReagulations(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("RegulationsLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("ActivateRegulations")) {
-				int Y = (int) message.get(1);
-				// change status into true in database
-				session.clear();
-				boolean success = RegulationsController.activateRegulations(session,Y );
-				//session.refresh(Regulation.class);
-				if(!success) {
-					throw new Exception("Regulation status couldnt be changed");
-				}
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("RegulationStatusUpdated");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("DeActivateRegulations")) {
-				// change status into false in database
-				session.clear();
-				boolean success = RegulationsController.deactivateRegulations(session );
-				//session.refresh(Regulation.class);
-				if(!success) {
-					throw new Exception("Regulation status couldnt be changed");
-				}
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("RegulationStatusDeactivated");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("AddShow")) {
-				Show show = (Show) message.get(1);
-				session.clear();
-				// adding show into  database
-				boolean success = ShowsController.addShow(session,show );
-				//session.refresh(Show.class);
-				if(!success) {
-					throw new Exception("Show couldnt be added");
-				}
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("ShowAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("DeleteShow")) {
-				int show_id = (int) message.get(1);
-				// delete Show from database
-				session.clear();
-				boolean success = ShowsController.deleteShow(session,show_id );
-				//session.refresh(Show.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("ShowDeleted");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("LoadTickets")) {
-				// load data
-				try {
-					session.clear();
-					List<Ticket> Data = TicketsController.loadTickets(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("TicketsLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("LoadCustomersTickets")) {
-				// load data
-				int cost_id = (int)message.get(1);
-				try {
-					session.clear();
-					List<Ticket> Data = TicketsController.loadCustomersTickets(session, cost_id);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("Costumer'sTicketsLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("AddTicket")) {
-				Ticket newticket = (Ticket) message.get(1);
-				// adding tickit into  database
-				session.clear();
-				boolean success = TicketsController.addTicket(session,newticket);
-				//session.refresh(Ticket.class);
-				if(!success) {
-					throw new Exception("Ticket  couldnt be added");
-				}
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("TicketAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("LoadUpdatePriceRequests")) {
-				// load data
-				try {
-					session.clear();
-					List<UpdatePriceRequest> Data = UpdatePriceRequestController.loadRequests(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("UpdatePriceRequestLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("ApproveRequest")) {
-				session.clear();
-				UpdatePriceRequest request =(UpdatePriceRequest) message.get(1);
-				// changing price in database
-				boolean success = UpdatePriceRequestController.approveRequest(session,request );
-				//session.refresh(UpdatePriceRequest.class);
-				if(!success) {
-					throw new Exception("the price couldnt be changed");
-				}
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("UpdatePriceChanged");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("DeclineRequest")) {
-				session.clear();
-				int request_id = (int) message.get(1);
-				// not changing price in database
-				boolean success = UpdatePriceRequestController.declineRequest(session,request_id );
-				//session.refresh(UpdatePriceRequest.class);
-				if(!success) {
-					throw new Exception("the request couldnt be declined");
-				}
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("RequestDeclined");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("LoadCinemas")) {
-				// load data
-				try {
-					session.clear();
-					List<Cinema> Data = CinemaController.loadCinemas(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("CinemasLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			
-			if(message.get(0).equals("LoadHalls")) {
-				// load data
-				try {
-					session.clear();
-					List<Hall> Data = HallController.loadHalls(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("HallsLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-
-			if(message.get(0).equals("DeactivateAllComplaints24")) {
-				session.clear();
-
-				// deactivate All Complaints in database that had been more than 24 hours
-				boolean success = ComplaintsController.deactivateAllComplaintsAfter24Hours(session );
-				//session.refresh(Complaint.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("ComplaintsDeactivated");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("LoadEmployees")) {
-				session.clear();
-				// load data
-				try {
-					List<Employee> Data = EmployeeController.loadEmployees(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("EmployeesLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-
-			if(message.get(0).equals("LogIn")) {
-				// load data
-
-				try {
-					session.clear();
-					String username = (String) message.get(1);
-					String password = (String)message.get(2);
-					Employee Data = EmployeeController.logIn(session,username,password);
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					if(Data!=null){
-						messageToClient.add("LogInCompleted");
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("ComplaintesLoaded");
 						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					else{
-						messageToClient.add("Username or Password are wrong");
+				}
+
+				////////// MUST implement the refund here
+				if (message.get(0).equals("MarkComplaintAsDone")) {
+					int complaint_id = (int) message.get(1);
+					// change complaine into done in database
+					session.clear();
+					boolean success = ComplaintsController.markComplaintAsDone(session, complaint_id);
+
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("ComplaintMarkedAsDone");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+				if (message.get(0).equals("AddComplaint")) {
+					Complaint comp = (Complaint) message.get(1);
+					// adding complaine into  database
+					session.clear();
+					boolean success = ComplaintsController.addComplaint(session, comp);
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("ComplaintAdded");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+				if (message.get(0).equals("LoadLinks")) {
+					// load data
+					try {
+						session.clear();
+						List<Link> Data = LinkController.loadLinks(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("LinksLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-			}
 
-			if(message.get(0).equals("AddLink")) {
-				session.clear();
-				Link newLink = (Link) message.get(1);
-				// adding link into  database
-				boolean success = LinkController.addLink(session, newLink);
-				//session.refresh(Link.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("LinkAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-
-			if(message.get(0).equals("CancelLink")) {
-				int link_id = (int)message.get(1);
-				// load data
-				try {
+				if (message.get(0).equals("LoadCostumersLinks")) {
+					// load data
 					session.clear();
-					boolean Data = LinkController.cancelLink(session,link_id);
-					LocalDateTime DT = LinkController.loadLinkTime(session, link_id);
-					//if there is refund to be done
-					if (ChronoUnit.HOURS.between(LocalDateTime.now(),DT) >1){
-						double price=LinkController.loadLinkPrice(session,link_id);
-						Refund refund=new Refund(price*0.5, link_id, 0, LocalDateTime.now());
-						RefundController.addRefund(session,refund);
+					int cost_id = (int) message.get(1);
+					List<Link> Data = LinkController.loadCustomerLinks(session, cost_id);
+					try {
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("Costumer'sLinksLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("linkCanceled");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-			}
 
-			if(message.get(0).equals("CancelTicket")) {
-				int ticket_id = (int)message.get(1);
-				// load data
-				try {
-					session.clear();
-					TicketsController.cancelTicket(session,ticket_id);
-					LocalDateTime dt=TicketsController.loadTicketShowTime(session, ticket_id);
-					double price=TicketsController.loadTicketPrice(session, ticket_id);
-					double r=TicketsController.calcRefund(dt);
-					//if refund is 50%
-					if (r==0.5){
-						price*=0.5;
+				if (message.get(0).equals("LoadMovies")) {
+					// load data
+					try {
+						session.clear();
+						List<Movie> Data = MoviesController.loadMovies(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("MoviesLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					//if refund is not 0
-					if(r!=0) {
-						Refund refund = new Refund(price, ticket_id, 0, LocalDateTime.now());
-						RefundController.addRefund(session, refund);
+				}
+
+				if (message.get(0).equals("AddMovie")) {
+					Movie newMovie = (Movie) message.get(1);
+					// adding a movie into  database
+					session.clear();
+					boolean success = MoviesController.addMovie(session, newMovie);
+					//session.refresh(Movie.class);
+					if (!success) {
+						throw new Exception("Movie  couldnt be added");
 					}
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("linkCanceled");
+					messageToClient.add("MovieAdded");
+					messageToClient.add(success);
 					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-			}
 
-			if(message.get(0).equals("SendMail")) {
-				session.clear();
-				String mesasge1 = (String)message.get(1);
-				String mail = (String)message.get(2);
-				String topic = (String)message.get(3);
-				// load data
-				MailController.sendMail(mesasge1, mail, topic);
-				try {
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("mailSent");
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("LoadNewMovies")) {
-				session.clear();
-				// load data
-				try {
-					List<Movie> Data = MoviesController.loadNewMovies(session);
-
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("NewMoviesLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("LoadPackages")) {
-				// load data
-				try {
+				if (message.get(0).equals("DeleteMovie")) {
+					int movie_id = (int) message.get(1);
+					// delete movie from database
 					session.clear();
-					List<PackageOrder> Data = PackagesController.loadPackages(session);
-
+					boolean success = MoviesController.deleteMovie(session, movie_id);
+					//session.refresh(Movie.class);
+					if (!success) {
+						throw new Exception("the Movie couldnt be deleted");
+					}
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("PackagesLoaded");
-					messageToClient.add(Data);
+					messageToClient.add("MovieDeleted");
+					messageToClient.add(success);
 					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-			}
 
-			if(message.get(0).equals("LoadCustomersPackages")) {
-				// load data
-				int cost_id = (int)message.get(1);
-				try {
+				if (message.get(0).equals("LoadOrders")) {
+					// load data
+					try {
+						session.clear();
+						List<Order> Data = OrderController.loadOrders(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("OrdersLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("LoadCutomersOrders")) {
+					// load data
+					int cost_id = (int) message.get(1);
+					try {
+						session.clear();
+						List<Order> Data = OrderController.loadCutomersOrders(cost_id, session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("Costumer'sOrdersLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("AddOrder")) {
+					Order order = (Order) message.get(1);
+					// adding a order into  database
 					session.clear();
-					List<PackageOrder> Data = PackagesController.loadCustomersPackages(session, cost_id);
-
+					boolean success = OrderController.addOrder(order, session);
+					//session.refresh(Order.class);
+					if (!success) {
+						throw new Exception("Order  couldnt be added");
+					}
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("Costumer'sPackagesLoaded");
-					messageToClient.add(Data);
+					messageToClient.add("OrderAdded");
+					messageToClient.add(success);
 					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-			}
 
-			if(message.get(0).equals("AddPackage")) {
-				session.clear();
-				PackageOrder pcg = (PackageOrder) message.get(1);
-				// adding package into  database
-				boolean success = PackagesController.addPackage(session, pcg);
-				//session.refresh(Package.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("PackageAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-			if(message.get(0).equals("LoadMovieShows")) {
-				int movie_id = (int)message.get(1);
-				// load data
-				List<Show> Data = MoviesController.loadMovieShows(session,movie_id);
-				try {
-					// reply to client
-					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("Movie'sShowsLoaded");
-					messageToClient.add(Data);
-					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			if(message.get(0).equals("LoadSeats")) {
-				// load data
-				try {
+				if (message.get(0).equals("MakePayment")) {
+					Payment payment = (Payment) message.get(1);
 					session.clear();
-					List<Seat> Data = SeatController.loadSeats(session);
+					// putting payment details in database
+					boolean success = PaymentController.makePayment(session, payment);
+					//session.refresh(Payment.class);
+					if (!success) {
+						throw new Exception("Payment Not Success");
+					}
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("PaymentSuccess");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+				if (message.get(0).equals("LoadRefunds")) {
+					// load data
+					try {
+						session.clear();
+						List<Refund> Data = RefundController.loadRefunds(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("RefundssLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("AddRefund")) {
+					Refund refund = (Refund) message.get(1);
+					// adding a refund into done in database
+					session.clear();
+					boolean success = RefundController.addRefund(session, refund);
+					//session.refresh(Refund.class);
+					if (!success) {
+						throw new Exception("Refund  couldnt be added");
+					}
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("RefundAdded");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+				if (message.get(0).equals("LoadReagulations")) {
+					// load data
+					try {
+						session.clear();
+						List<Regulations> Data = RegulationsController.loadReagulations(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("RegulationsLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("ActivateRegulations")) {
+					int Y = (int) message.get(1);
+					// change status into true in database
+					session.clear();
+					boolean success = RegulationsController.activateRegulations(session, Y);
+					//session.refresh(Regulation.class);
+					if (!success) {
+						throw new Exception("Regulation status couldnt be changed");
+					}
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("RegulationStatusUpdated");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+				if (message.get(0).equals("DeActivateRegulations")) {
+					// change status into false in database
+					session.clear();
+					boolean success = RegulationsController.deactivateRegulations(session);
+					//session.refresh(Regulation.class);
+					if (!success) {
+						throw new Exception("Regulation status couldnt be changed");
+					}
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("RegulationStatusDeactivated");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+				if (message.get(0).equals("AddShow")) {
+					Show show = (Show) message.get(1);
+					session.clear();
+					// adding show into  database
+					boolean success = ShowsController.addShow(session, show);
+					//session.refresh(Show.class);
+					if (!success) {
+						throw new Exception("Show couldnt be added");
+					}
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("ShowAdded");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+				if (message.get(0).equals("DeleteShow")) {
+					int show_id = (int) message.get(1);
+					// delete Show from database
+					session.clear();
+					boolean success = ShowsController.deleteShow(session, show_id);
+					//session.refresh(Show.class);
 
 					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("SeatsLoaded");
-					messageToClient.add(Data);
+					messageToClient.add("ShowDeleted");
+					messageToClient.add(success);
 					client.sendToClient(messageToClient);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
+
+				if (message.get(0).equals("LoadTickets")) {
+					// load data
+					try {
+						session.clear();
+						List<Ticket> Data = TicketsController.loadTickets(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("TicketsLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("LoadCustomersTickets")) {
+					// load data
+					int cost_id = (int) message.get(1);
+					try {
+						session.clear();
+						List<Ticket> Data = TicketsController.loadCustomersTickets(session, cost_id);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("Costumer'sTicketsLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("AddTicket")) {
+					Ticket newticket = (Ticket) message.get(1);
+					// adding tickit into  database
+					session.clear();
+					boolean success = TicketsController.addTicket(session, newticket);
+					//session.refresh(Ticket.class);
+					if (!success) {
+						throw new Exception("Ticket  couldnt be added");
+					}
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("TicketAdded");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+				if (message.get(0).equals("LoadUpdatePriceRequests")) {
+					// load data
+					try {
+						session.clear();
+						List<UpdatePriceRequest> Data = UpdatePriceRequestController.loadRequests(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("UpdatePriceRequestLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("ApproveRequest")) {
+					session.clear();
+					UpdatePriceRequest request = (UpdatePriceRequest) message.get(1);
+					// changing price in database
+					boolean success = UpdatePriceRequestController.approveRequest(session, request);
+					//session.refresh(UpdatePriceRequest.class);
+					if (!success) {
+						throw new Exception("the price couldnt be changed");
+					}
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("UpdatePriceChanged");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+				if (message.get(0).equals("DeclineRequest")) {
+					session.clear();
+					int request_id = (int) message.get(1);
+					// not changing price in database
+					boolean success = UpdatePriceRequestController.declineRequest(session, request_id);
+					//session.refresh(UpdatePriceRequest.class);
+					if (!success) {
+						throw new Exception("the request couldnt be declined");
+					}
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("RequestDeclined");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+				if (message.get(0).equals("LoadCinemas")) {
+					// load data
+					try {
+						session.clear();
+						List<Cinema> Data = CinemaController.loadCinemas(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("CinemasLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("LoadHalls")) {
+					// load data
+					try {
+						session.clear();
+						List<Hall> Data = HallController.loadHalls(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("HallsLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+
+				if (message.get(0).equals("DeactivateAllComplaints24")) {
+					session.clear();
+
+					// deactivate All Complaints in database that had been more than 24 hours
+					boolean success = ComplaintsController.deactivateAllComplaintsAfter24Hours(session);
+					//session.refresh(Complaint.class);
+
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("ComplaintsDeactivated");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+				if (message.get(0).equals("LoadEmployees")) {
+					session.clear();
+					// load data
+					try {
+						List<Employee> Data = EmployeeController.loadEmployees(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("EmployeesLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+
+				if (message.get(0).equals("LogIn")) {
+					// load data
+
+					try {
+						session.clear();
+						String username = (String) message.get(1);
+						String password = (String) message.get(2);
+						Employee Data = EmployeeController.logIn(session, username, password);
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						if (Data != null) {
+							messageToClient.add("LogInCompleted");
+							messageToClient.add(Data);
+						} else {
+							messageToClient.add("Username or Password are wrong");
+						}
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("AddLink")) {
+					session.clear();
+					Link newLink = (Link) message.get(1);
+					// adding link into  database
+					boolean success = LinkController.addLink(session, newLink);
+					//session.refresh(Link.class);
+
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("LinkAdded");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+
+				if (message.get(0).equals("CancelLink")) {
+					int link_id = (int) message.get(1);
+					// load data
+					try {
+						session.clear();
+						boolean Data = LinkController.cancelLink(session, link_id);
+						LocalDateTime DT = LinkController.loadLinkTime(session, link_id);
+						//if there is refund to be done
+						if (ChronoUnit.HOURS.between(LocalDateTime.now(), DT) > 1) {
+							double price = LinkController.loadLinkPrice(session, link_id);
+							Refund refund = new Refund(price * 0.5, link_id, 0, LocalDateTime.now());
+							RefundController.addRefund(session, refund);
+						}
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("linkCanceled");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("CancelTicket")) {
+					int ticket_id = (int) message.get(1);
+					// load data
+					try {
+						session.clear();
+						TicketsController.cancelTicket(session, ticket_id);
+						LocalDateTime dt = TicketsController.loadTicketShowTime(session, ticket_id);
+						double price = TicketsController.loadTicketPrice(session, ticket_id);
+						double r = TicketsController.calcRefund(dt);
+						//if refund is 50%
+						if (r == 0.5) {
+							price *= 0.5;
+						}
+						//if refund is not 0
+						if (r != 0) {
+							Refund refund = new Refund(price, ticket_id, 0, LocalDateTime.now());
+							RefundController.addRefund(session, refund);
+						}
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("linkCanceled");
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("SendMail")) {
+					session.clear();
+					String mesasge1 = (String) message.get(1);
+					String mail = (String) message.get(2);
+					String topic = (String) message.get(3);
+					// load data
+					MailController.sendMail(mesasge1, mail, topic);
+					try {
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("mailSent");
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("LoadNewMovies")) {
+					session.clear();
+					// load data
+					try {
+						List<Movie> Data = MoviesController.loadNewMovies(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("NewMoviesLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("LoadPackages")) {
+					// load data
+					try {
+						session.clear();
+						List<PackageOrder> Data = PackagesController.loadPackages(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("PackagesLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("LoadCustomersPackages")) {
+					// load data
+					int cost_id = (int) message.get(1);
+					try {
+						session.clear();
+						List<PackageOrder> Data = PackagesController.loadCustomersPackages(session, cost_id);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("Costumer'sPackagesLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("AddPackage")) {
+					session.clear();
+					PackageOrder pcg = (PackageOrder) message.get(1);
+					// adding package into  database
+					boolean success = PackagesController.addPackage(session, pcg);
+					//session.refresh(Package.class);
+
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("PackageAdded");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+				if (message.get(0).equals("LoadMovieShows")) {
+					int movie_id = (int) message.get(1);
+					// load data
+					List<Show> Data = MoviesController.loadMovieShows(session, movie_id);
+					try {
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("Movie'sShowsLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+				if (message.get(0).equals("LoadSeats")) {
+					// load data
+					try {
+						session.clear();
+						List<Seat> Data = SeatController.loadSeats(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("SeatsLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+
+
+				if (message.get(0).equals("AddUpdatePriceRequest")) {
+					session.clear();
+					UpdatePriceRequest request = (UpdatePriceRequest) message.get(1);
+					// adding request into  database
+					boolean success = UpdatePriceRequestController.addRequest(session, request);
+					//session.refresh(UpdatePriceRequest.class);
+
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("UpdatePriceRequestAdded");
+					messageToClient.add(success);
+					client.sendToClient(messageToClient);
+				}
+
+
+			} catch (Exception exception) {
+				if (session != null) {
+					session.getTransaction().rollback();
+				}
+				System.err.println("An error occured, changes have been rolled back.");
+				exception.printStackTrace();
 			}
 
+			activateLinkLock.notifyAll();
+		}
 
-
-			if(message.get(0).equals("AddUpdatePriceRequest")) {
-				session.clear();
-				UpdatePriceRequest request = (UpdatePriceRequest) message.get(1);
-				// adding request into  database
-				boolean success = UpdatePriceRequestController.addRequest(session, request);
-				//session.refresh(UpdatePriceRequest.class);
-
-				// reply to client
-				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("UpdatePriceRequestAdded");
-				messageToClient.add(success);
-				client.sendToClient(messageToClient);
-			}
-
-
-
-
-    	} catch (Exception exception) {
-    		if (session != null) {
-    			session.getTransaction().rollback();
-    		}
-    		System.err.println("An error occured, changes have been rolled back.");
-    		exception.printStackTrace();
-    	}
-    
 
     }
 
-//	protected static void activatingLoop() throws IOException {
-//		loopThread = new Thread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				List<Link> links;
-//
-//				while (true) {
-//
-//
-//					try {
-//
-//						 LinkController.activateLinksWhenTimeCome(session);
-//
-//
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			}
-//		});
-//
-//		loopThread.start();
+	protected static void activatingLoop() throws IOException {
 
 
-	//}
+		activateLinkThread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				List<Link> links;
+
+				while (true) {
+					synchronized(activateLinkLock) {
+
+
+					try {
+
+						LinkController.activateLinksWhenTimeCome(session);
+
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+						activateLinkLock.notifyAll();
+					}
+				}
+			}
+		});
+
+		activateLinkThread.start();
+
+
+
+	}
 
     @Override
     protected void serverClosed() {
@@ -1314,7 +1320,7 @@ public class CinemaServer extends AbstractServer{
 			} else {
 				// initialize the DataBase
 				InitializeDataBase();
-				//activatingLoop();
+				activatingLoop();
 				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
 				server.listen();
 
