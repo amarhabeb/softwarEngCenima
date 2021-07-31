@@ -60,12 +60,12 @@ public class BuyTicketBoundary extends EmployeeMainBoundary implements Initializ
 
     @FXML
     void clickChooseShowBtn(ActionEvent event) throws IOException {
-        App.setRoot("UpdateTimeBoundary",null);
+        App.setRoot("UpdateTimeBoundary",null, stage);
     }
 
     @FXML
     void clickBackBtn(ActionEvent event) throws IOException {
-        App.setRoot("CustomerMain",null);
+        App.setRoot("CustomerMain",null, stage);
 
     }
 
