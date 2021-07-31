@@ -8,11 +8,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.App;
 import org.example.OCSF.CinemaClient;
@@ -22,6 +24,7 @@ import org.example.entities.Show;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -41,50 +44,61 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
 
 
     @FXML private TableView<Seat> SeatTable;
-    @FXML private TableColumn<Seat, String> HallNumber;
-    @FXML private TableColumn<Seat, String> SeatNumber;
+    @FXML private TableColumn<Seat, Integer> HallNumber;
+    @FXML private TableColumn<Seat, Integer> SeatNumber;
     @FXML private ImageView Background;
 
 
 
     @FXML
     void clickRefreshBtn(ActionEvent event) {
-//        synchronized(CinemaClient.ShowsDataLock) {
-//            org.example.Boundaries.Boundary.UpdateShowsData();
-//            // set items in table
-//            ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-//            ShowsTable.setItems(DataList);
-//        }
+        synchronized(CinemaClient.SeatDataLock) {
+            org.example.Boundaries.Boundary.UpdateSeatsData();
+            // set items in table
+            ObservableList<Seat> DataList = FXCollections.observableArrayList(CinemaClient.SeatData);
+            SeatTable.setItems(DataList);
+        }
     }
-//    public Show load_shows(int show_id){
-//        synchronized(CinemaClient.ShowsDataLock) {
-//            org.example.Boundaries.Boundary.UpdateShowsData();
-//            // set items in table
-//            shows = CinemaClient.ShowsData;
-//            // System.out.println(DataList.get(0).getMovie().getName_en());
-//        }
-//        for(int i=0;i<shows.size();i++){
-//            if(shows.get(i).getID()==show_id){
-//                show=shows.get(i);
-//            }
-//        }
-//        System.out.println(show);
-//        return show ;
-//
-//    }
+    public Show load_shows(int show_id){
+        List<Show> shows;
+        Show show = null;
+        synchronized(CinemaClient.ShowsDataLock) {
+
+            org.example.Boundaries.Boundary.UpdateShowsData();
+            // set items in table
+             shows = CinemaClient.ShowsData;
+            // System.out.println(DataList.get(0).getMovie().getName_en());
+        }
+        for(int i=0;i<shows.size();i++){
+            if(shows.get(i).getID()==show_id){
+                //System.out.println(shows.get(i));
+                show=shows.get(i);
+            }
+        }
+        System.out.println(show);
+        return show ;
+
+    }
 
 
     @FXML
     void clickChooseSeatBtn(ActionEvent event) throws IOException {
-//         int show_id =ShowsTable.getSelectionModel().getSelectedItem().getID();
-//        List<Object> l = new LinkedList<>();
-//        l.add(show_id);
-        App.setRoot("CustomerMain", null, stage);
+        Show show =load_shows((int)App.getParams().get(0));
+        List<Object> p = new LinkedList<>();
+        p.add(show);
+        int id = SeatTable.getSelectionModel().getSelectedItem().getNumber();
+        p.add(id);
+        App.setParams(p);
+
+        App.setRoot("Payment", null, stage);
     }
 
     @FXML
     void clickBackBtn(ActionEvent event) throws IOException {
-        App.setRoot("CustomerMain",null, stage);
+        List<Object> p = new LinkedList<>();
+        App.setParams(p);
+
+        App.setRoot("BuyTicket",null, stage);
 
     }
 
@@ -92,53 +106,29 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        params=getParams();
-//        load_shows(show_id);
-        //System.out.println(params.size());
-        for(int i=0;i<params.size();i++){
-            System.out.println(params.get(i));
-        }
 
-       // int show_id =(int) l.get(0);
-        List<Show> shows;
-        Show show;
-        //System.out.print(param.size());
-//        // set-up the columns in the table
-//        movie_name.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Show, String>, ObservableValue<String>>() {
-//            public ObservableValue<String> call(TableColumn.CellDataFeatures<Show, String> show) {
-//                //System.out.print(new SimpleStringProperty(show.getValue().getMovie().getName_en()));
-//                return (new SimpleStringProperty(show.getValue().getMovie().getName_en()));
-//            }
-//        });
-//        date.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Show, String>, ObservableValue<String>>() {
-//            public ObservableValue<String> call(TableColumn.CellDataFeatures<Show, String> show) {
-//                return (new SimpleStringProperty(show.getValue().getDate().toString()));
-//            }
-//        });
-//        time.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Show, String>, ObservableValue<String>>() {
-//            public ObservableValue<String> call(TableColumn.CellDataFeatures<Show, String> show) {
-//                return (new SimpleStringProperty(show.getValue().getTime().toString()));
-//            }
-//        });
-//        hall_number.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Show, Integer>, ObservableValue<Integer>>() {
-//            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Show, Integer> show) {
-//                return (new SimpleIntegerProperty(show.getValue().getHall().getNumber()).asObject());
-//            }
-//        });
-//        price.setCellValueFactory(new PropertyValueFactory<Show, Double>("price"));
-//        cinema.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Show, String>, ObservableValue<String>>() {
-//            public ObservableValue<String> call(TableColumn.CellDataFeatures<Show, String> show) {
-//                return (new SimpleStringProperty(show.getValue().getHall().getCinema().getBranch_name()));
-//            }
-//        });
+
+
+
+        // set-up the columns in the table
+        HallNumber.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Seat, Integer>, ObservableValue<Integer>>() {
+            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Seat, Integer> seat) {
+                return (new SimpleIntegerProperty(seat.getValue().getHall().getNumber()).asObject());
+            }
+        });
+        SeatNumber.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Seat, Integer>, ObservableValue<Integer>>() {
+            public ObservableValue<Integer> call(TableColumn.CellDataFeatures<Seat, Integer> seat) {
+                return (new SimpleIntegerProperty(seat.getValue().getNumber()).asObject());
+            }
+        });
 //
-//        synchronized(CinemaClient.ShowsDataLock) {
-//            org.example.Boundaries.Boundary.UpdateShowsData();
-//            // set items in table
-//            ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-//            ShowsTable.setItems(DataList);
-//            // System.out.println(DataList.get(0).getMovie().getName_en());
-//        }
+        synchronized(CinemaClient.SeatDataLock) {
+            org.example.Boundaries.Boundary.UpdateSeatsData();
+            // set items in table
+            ObservableList<Seat>DataList = FXCollections.observableArrayList(CinemaClient.SeatData);
+            SeatTable.setItems(DataList);
+             System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
+        }
         System.out.println("initializing done");
     }
 }
