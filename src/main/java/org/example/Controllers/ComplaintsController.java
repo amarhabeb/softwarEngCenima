@@ -79,9 +79,11 @@ public class ComplaintsController {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaUpdate<Complaint> update_query=builder.createCriteriaUpdate(Complaint.class);
             Root<Complaint> root=update_query.from(Complaint.class);
-            update_query.set("handled", false);
             update_query.set("active", false);
-            update_query.where(builder.equal(root.get("creationDate"), LocalDateTime.now().minusHours(24)));
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("creationDate"), LocalDateTime.now().minusHours(24));
+            predicates[1]=builder.equal(root.get("handled"),false);
+            update_query.where();
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
             session.clear();
@@ -98,7 +100,7 @@ public class ComplaintsController {
             return false;
         }
     }
-    public static List<Complaint> makeComplaintsReportByMonth(Session session, Month month, Year year) throws Exception{
+    public static List<Complaint> makeComplaintsReportByMonth(Session session, Integer month, Integer year) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();

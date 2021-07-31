@@ -100,6 +100,10 @@ public class CinemaClient extends AbstractClient {
 	public static List<Complaint>ComplaintsReportData = new LinkedList<>();
 	public static Boolean ComplaintsReportDataUpdated = false;
 	public static Object ComplaintsReportDataLock = new Object();
+	
+	public static List<Person>PeopleData = new LinkedList<>();
+	public static Boolean PeopleDataUpdated = false;
+	public static Object PeopleDataLock = new Object();
 
 
 
@@ -406,8 +410,9 @@ public class CinemaClient extends AbstractClient {
 			if(!success){
 				throw new Exception("Controller failed");
 			}
-			synchronized( ShowsDataLock) {
+			synchronized(ShowsDataLock) {
 				DeleteShowBoundary.ShowDeleted=true;
+				DeleteMovieBoundary.ShowDeleted=true;
 				ShowsDataUpdated = false;	// client's ShowsData is now not updated
 				ShowsDataLock.notifyAll();
 			}
@@ -443,27 +448,23 @@ public class CinemaClient extends AbstractClient {
 			}
 		}
 		if(message.get(0).equals("UpdatePriceRequestLoaded")) {
+			synchronized(UpdatePriceRequestsDataLock) {
+				UpdatePriceRequestsData = (List<UpdatePriceRequest>) message.get(1);
+				UpdatePriceRequestsDataUpdated = true;	// client's ShowsData is now not updated
+				UpdatePriceRequestsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("RequestsApproved")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
 				throw new Exception("Controller failed");
 			}
 			synchronized( UpdatePriceRequestsDataLock) {
-
-				UpdatePriceRequestsDataUpdated = true;	// client's ShowsData is now not updated
+				PriceUpdatingRequestsBoundary.RequestApproved=true;
+				UpdatePriceRequestsDataUpdated = false;	// client's ShowsData is now not updated
 				UpdatePriceRequestsDataLock.notifyAll();
 			}
 		}
-//		if(message.get(0).equals("UpdatePriceChanged")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( UpdatePriceRequestDataLock) {
-//				UpdatePriceRequestBoundary.Updated=true;
-//				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
-//				UpdatePriceRequestDataLock.notifyAll();
-//			}
-//		}
 //		if(message.get(0).equals("UpdatePriceChanged")) {
 //			boolean success = (boolean)message.get(1);
 //			if(!success){
@@ -475,17 +476,17 @@ public class CinemaClient extends AbstractClient {
 //				UpdatePriceRequestDataLock.notifyAll();
 //			}
 //		}
-//		if(message.get(0).equals("RequestDeclined")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( UpdatePriceRequestDataLock) {
-//				UpdatePriceRequestBoundary.Declined=true;
-//				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
-//				UpdatePriceRequestDataLock.notifyAll();
-//			}
-//		}
+		if(message.get(0).equals("RequestDeclined")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( UpdatePriceRequestsDataLock) {
+				PriceUpdatingRequestsBoundary.RequestDeclined=true;
+				UpdatePriceRequestsDataUpdated = false;	// client's ShowsData is now not updated
+				UpdatePriceRequestsDataLock.notifyAll();
+			}
+		}
 		if(message.get(0).equals("CinemasLoaded")) {
 			synchronized(CinemasDataLock) {
 				CinemasData = (List<Cinema>) message.get(1);
@@ -731,9 +732,56 @@ public class CinemaClient extends AbstractClient {
 				UpdatePriceRequestsDataLock.notifyAll();
 			}
 		}
-
-
 		
+//		if(message.get(0).equals("PeopleLoaded")) {
+//			synchronized(PeopleDataLock) {
+//				PeopleData = (List<Person>) message.get(1);
+//				PeopleDataUpdated = true;	// client's ShowsData is now not updated
+//				PeopleDataLock.notifyAll();
+//			}
+//			
+//		}
+		
+		if(message.get(0).equals("TicketsReportLoaded")) {
+			synchronized(TicketsReportDataLock) {
+				TicketsReportData = (List<Ticket>) message.get(1);
+				TicketsReportDataUpdated = true;	// client's ShowsData is now not updated
+				TicketsReportDataLock.notifyAll();
+			}
+		}
+		
+		if(message.get(0).equals("PackagesReportLoaded")) {
+			synchronized(PackagesReportDataLock) {
+				PackagesReportData = (List<PackageOrder>) message.get(1);
+				PackagesReportDataUpdated = true;	// client's ShowsData is now not updated
+				PackagesReportDataLock.notifyAll();
+			}
+		}
+		
+		if(message.get(0).equals("LinksReportLoaded")) {
+			synchronized(LinksReportDataLock) {
+				LinksReportData = (List<Link>) message.get(1);
+				LinksReportDataUpdated = true;	// client's ShowsData is now not updated
+				LinksReportDataLock.notifyAll();
+			}
+		}
+		
+		if(message.get(0).equals("RefundsReportLoaded")) {
+			synchronized(RefundsReportDataLock) {
+				RefundsReportData = (List<Refund>) message.get(1);
+				RefundsReportDataUpdated = true;	// client's ShowsData is now not updated
+				RefundsReportDataLock.notifyAll();
+			}
+		}
+		
+		if(message.get(0).equals("ComplaintsReportLoaded")) {
+			synchronized(ComplaintsReportDataLock) {
+				ComplaintsReportData = (List<Complaint>) message.get(1);
+				ComplaintsReportDataUpdated = true;	// client's ShowsData is now not updated
+				ComplaintsReportDataLock.notifyAll();
+			}
+		}
+
 	}
 
     public static void main(String[] args) throws IOException {

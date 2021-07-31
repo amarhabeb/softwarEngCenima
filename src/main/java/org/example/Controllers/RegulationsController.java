@@ -54,7 +54,8 @@ public class RegulationsController {
             CriteriaUpdate<Regulations> update_query=builder.createCriteriaUpdate(Regulations.class);
             Root<Regulations> root=update_query.from(Regulations.class);
             update_query.set("status", true);
-            update_query.where(builder.equal(root.get("Y"),Y));
+            update_query.set("Y", Y);
+            update_query.where(builder.equal(root.get("status"),false));
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
             session.clear();
@@ -78,6 +79,7 @@ public class RegulationsController {
             CriteriaUpdate<Regulations> update_query=builder.createCriteriaUpdate(Regulations.class);
             Root<Regulations> root=update_query.from(Regulations.class);
             update_query.set("status", false);
+            update_query.where(builder.equal(root.get("status"),true));
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
             session.clear();

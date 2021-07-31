@@ -151,6 +151,7 @@ public class LinkController {
             session.clear();
             transaction.commit();
             session.clear();
+            System.out.println("deactievate");
             return true;
             // Save everything.
         } catch (Exception exception) {
@@ -177,6 +178,7 @@ public class LinkController {
             session.clear();
             transaction.commit();
             session.clear();
+            System.out.println("actiavate");
             deactivateLinksWhenTimePassed(session);
             return true;
             // Save everything.
@@ -192,7 +194,7 @@ public class LinkController {
 
 
 
-    public static List<Link> makeLinksReportByMonth(Session session, Month month, Year year) throws Exception{
+    public static List<Link> makeLinksReportByMonth(Session session, Integer month, Integer year) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
