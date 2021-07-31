@@ -61,6 +61,7 @@ import java.util.ResourceBundle;
             }
         }
 
+
         @FXML
         void clickChooseShowBtn(ActionEvent event) throws IOException {
              int show_id =  ShowsTable.getSelectionModel().getSelectedItem().getID();
@@ -68,6 +69,7 @@ import java.util.ResourceBundle;
             List<Object> params = new LinkedList<Object>();
             params.add(show_id);
             params.add(ShowsTable.getSelectionModel().getSelectedItem().getMovie());
+
 
 
             App.setRoot("ChooseSeat", params);
