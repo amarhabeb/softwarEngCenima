@@ -94,7 +94,7 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
     public void initialize(URL url, ResourceBundle rb) {
         params=getParams();
 //        load_shows(show_id);
-        System.out.println(params.size());
+        //System.out.println(params.size());
         for(int i=0;i<params.size();i++){
             System.out.println(params.get(i));
         }
