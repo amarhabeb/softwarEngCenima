@@ -79,12 +79,12 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
 //         int show_id =ShowsTable.getSelectionModel().getSelectedItem().getID();
 //        List<Object> l = new LinkedList<>();
 //        l.add(show_id);
-        App.setRoot("CustomerMain", null);
+        App.setRoot("CustomerMain", null, stage);
     }
 
     @FXML
     void clickBackBtn(ActionEvent event) throws IOException {
-        App.setRoot("CustomerMain",null);
+        App.setRoot("CustomerMain",null, stage);
 
     }
 

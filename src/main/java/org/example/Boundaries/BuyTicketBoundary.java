@@ -72,12 +72,12 @@ import java.util.ResourceBundle;
 
 
 
-            App.setRoot("ChooseSeat", params);
+            App.setRoot("ChooseSeat", params, stage);
         }
 
         @FXML
         void clickBackBtn(ActionEvent event) throws IOException {
-            App.setRoot("CustomerMain",null);
+            App.setRoot("CustomerMain",null, stage);
 
         }
 
