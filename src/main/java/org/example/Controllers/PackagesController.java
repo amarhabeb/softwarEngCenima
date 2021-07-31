@@ -110,7 +110,7 @@ public class PackagesController {
             return -1;
         }
     }
-    public static List<PackageOrder> makePackagesReportByMonth(Session session, Month month, Year year) throws Exception{
+    public static List<PackageOrder> makePackagesReportByMonth(Session session, Integer month, Integer year) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();

@@ -1067,6 +1067,9 @@ public class CinemaServer extends AbstractServer{
 		TicketsController.addTicket(session,ticket3);
 		TicketsController.cancelTicket(session,ticket2.getID());
 
+		List<Ticket> reportTicket=TicketsController.makeTicketsReportByMonth(session,2,7,2021);
+		System.out.println("success"+reportTicket.size());
+
 
 
 		/////// Testing PackageController
@@ -1135,6 +1138,11 @@ public class CinemaServer extends AbstractServer{
 		/////// Testing Cinema
 		List<Show> cinema_shows=CinemaController.loadCinemaShows(session,2);
 		System.out.println(cinema_shows.size());
+
+//		RegulationsController.activateRegulations(session,15);
+
+
+
 	}
 
 
@@ -1391,6 +1399,13 @@ public class CinemaServer extends AbstractServer{
 			HallController.addHall(CinemaServer.session,cinemaHall1);
 			HallController.addHall(CinemaServer.session,cinemaHall2);
 
+			Regulations reg=new Regulations();
+			RegulationsController.addRegulations(session,reg);
+			RegulationsController.activateRegulations(session,15);
+			//CinemaController.calcMaxSeats(session,cinema1);
+
+
+
 			for(int i=0;i<tempseats.size();i++){
 				SeatController.addSeat(CinemaServer.session,tempseats.get(i));
 			}
@@ -1413,7 +1428,6 @@ public class CinemaServer extends AbstractServer{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 

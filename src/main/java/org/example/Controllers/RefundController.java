@@ -52,7 +52,7 @@ public class RefundController {
         }
     }
     /// NOTE: can make report for cinema.. Requirements file is NOT clear..
-    public static List<Refund> makeRefundsReportByMonth(Session session, Month month, Year year) throws Exception{
+    public static List<Refund> makeRefundsReportByMonth(Session session, Integer month, Integer year) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();

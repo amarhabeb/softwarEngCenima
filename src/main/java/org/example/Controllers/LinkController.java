@@ -194,7 +194,7 @@ public class LinkController {
 
 
 
-    public static List<Link> makeLinksReportByMonth(Session session, Month month, Year year) throws Exception{
+    public static List<Link> makeLinksReportByMonth(Session session, Integer month, Integer year) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
