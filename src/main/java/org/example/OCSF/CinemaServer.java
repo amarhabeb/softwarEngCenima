@@ -478,6 +478,7 @@ public class CinemaServer extends AbstractServer{
 					// adding tickit into  database
 					session.clear();
 					boolean success = TicketsController.addTicket(session, newticket);
+
 					//session.refresh(Ticket.class);
 					if (!success) {
 						throw new Exception("Ticket  couldnt be added");
