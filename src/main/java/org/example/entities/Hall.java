@@ -17,7 +17,7 @@ public class Hall implements Serializable {
     private int maxSeats;
     @OneToMany(targetEntity = Seat.class, cascade = CascadeType.ALL)
     private List<Seat> seats;
-    @ManyToOne(targetEntity = Cinema.class, cascade = CascadeType.ALL)
+        @ManyToOne(targetEntity = Cinema.class, cascade = CascadeType.ALL)
     private Cinema cinema;
     private boolean active;
 

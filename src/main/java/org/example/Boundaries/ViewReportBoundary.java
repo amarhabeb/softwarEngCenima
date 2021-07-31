@@ -67,7 +67,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     
     @FXML
     void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-    	App.setRoot("ChainManagerMB",null,stage);
+    	App.setRoot("ChainManagerMB",null);
     }
     
     @FXML
@@ -111,7 +111,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+		params=getParams();
 		// get passsed parameters
 		Integer month = (Integer) params.get(1);
   		Integer year = (Integer) params.get(2);
@@ -180,7 +180,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		}
 	  		// get needed packages
 	  		synchronized(CinemaClient.LinksReportDataLock) {
-		  		UpdateLinksReportData(Month.of(month), Year.of(year));
+		  		org.example.Boundaries.Boundary.UpdateLinksReportData(Month.of(month), Year.of(year));
 		  		links = CinemaClient.LinksReportData;
 	  		}
 
@@ -235,7 +235,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
   	  	    series.setName("Refunded money per day, " + month.toString() + ", " + year.toString());
 	  		// get needed refunds
 	  		synchronized(CinemaClient.RefundsReportDataLock) {
-		  		UpdateRefundsReportData(Month.of(month), Year.of(year));
+		  		org.example.Boundaries.Boundary.UpdateRefundsReportData(Month.of(month), Year.of(year));
 		  		refunds = CinemaClient.RefundsReportData;
 	  		}
 
@@ -279,7 +279,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
   	  	    series.setName("Complaints per day, " + month.toString() + ", " + year.toString());
 	  		// get needed complaints
 	  		synchronized(CinemaClient.ComplaintsReportDataLock) {
-		  		UpdateComplaintsReportData(Month.of(month), Year.of(year));
+		  		org.example.Boundaries.Boundary.UpdateComplaintsReportData(Month.of(month), Year.of(year));
 		  		complaints = CinemaClient.ComplaintsReportData;
 	  		}
 

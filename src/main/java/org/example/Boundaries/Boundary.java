@@ -24,7 +24,12 @@ public abstract class Boundary {
 	String title = "";
 	List<Object> params;
 	Stage stage;
-	
+
+	public Boundary() {
+
+		this.params = new LinkedList<>();
+	}
+
 	// brings the Shows from the DataBase and updates the ShowsData local list
 	static synchronized void UpdateShowsData() {
 		// add message to ClientInput so it could be sent to server
@@ -46,9 +51,29 @@ public abstract class Boundary {
 			}	
 		}	
 	}
+	static synchronized void UpdateSeatsData() {
+		// add message to ClientInput so it could be sent to server
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadSeats");
+		synchronized(CinemaClient.SeatDataLock)
+		{
+			CinemaClient.SeatDataUpdated = false;
+			CinemaClientCLI.sendMessage(message);
+
+			// wait for Data to be updated
+			while(!CinemaClient.SeatDataUpdated) {
+				try {
+					CinemaClient.SeatDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 			
 	// brings the Movies from the DataBase and updates the MoviesData local list
-	synchronized void UpdateMoviesData() {
+	static synchronized void UpdateMoviesData() {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadMovies");
@@ -70,7 +95,7 @@ public abstract class Boundary {
 	}
 		 	
 	// brings the Halls from the DataBase and updates the MoviesData local list
-	synchronized void UpdateHallsData() {
+	static synchronized void UpdateHallsData() {
 		 // add message to ClientInput so it could be sent to server
 		 LinkedList<Object> message = new LinkedList<Object>();
 		 message.add("LoadHalls");
@@ -92,7 +117,7 @@ public abstract class Boundary {
 	}
 		  	
 	// brings the Cinemas from the DataBase and updates the CinemasData local list
-	synchronized void UpdateCinemasData() {
+	static synchronized void UpdateCinemasData() {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadCinemas");
@@ -113,7 +138,7 @@ public abstract class Boundary {
 		}	
 	}	 
 
-	synchronized void UpdateUpdatePriceRequestsData() {
+	static synchronized void UpdateUpdatePriceRequestsData() {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadUpdatePriceRequests");
@@ -223,7 +248,7 @@ public abstract class Boundary {
 		}
 	}
 	
-	synchronized void UpdateLinksReportData(Month month, Year year) {
+	static synchronized void UpdateLinksReportData(Month month, Year year) {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadLinksReport");
@@ -246,7 +271,7 @@ public abstract class Boundary {
 		}
 	}
 	
-	synchronized void UpdateRefundsReportData(Month month, Year year) {
+	static synchronized void UpdateRefundsReportData(Month month, Year year) {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadRefundsReport");
@@ -269,7 +294,7 @@ public abstract class Boundary {
 		}
 	}
 
-	synchronized void UpdateComplaintsReportData(Month month, Year year) {
+	static synchronized void UpdateComplaintsReportData(Month month, Year year) {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadComplaintsReport");
@@ -291,11 +316,12 @@ public abstract class Boundary {
 			}
 		}
 	}
+
 	
 
 	
 	// return show given id
-	public Show idToShow(int id) {
+	public static Show idToShow(int id) {
    	 	for(Show show:CinemaClient.ShowsData) {
    	 		if(show.getID()==id) {
    	 			return show;
@@ -305,7 +331,7 @@ public abstract class Boundary {
 	}
 	
 	// return cinema given id
-	public Cinema idToCinema(int id) {
+	public static Cinema idToCinema(int id) {
 	   	 for(Cinema cinema:CinemaClient.CinemasData) {
 	   	 	if(cinema.getID()==id) {
 	   	 		return cinema;

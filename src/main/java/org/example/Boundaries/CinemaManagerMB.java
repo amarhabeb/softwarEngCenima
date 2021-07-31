@@ -41,7 +41,7 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
 
     @FXML
     void clickViewPriceUpdatingRequestsBtn(ActionEvent event) throws IOException {
-    	App.setRoot("PriceUpdatingRequestsBoundary",null,stage);
+    	App.setRoot("PriceUpdatingRequestsBoundary",null);
     }
 
     @FXML
@@ -58,7 +58,7 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
   		params.add(cinema);
   		
   		// pass selected paramaters to view boundary
-  		App.setRoot("ViewReportBoundary",params,stage);
+  		App.setRoot("ViewReportBoundary",params);
     }
     
     void CheckIfFilled() {
@@ -109,10 +109,10 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
     	    if(type=="Tickets Sales") {
     	    	synchronized(CinemaClient.CinemasDataLock) {
 	    	    	// update data
-	    			UpdateCinemasData();
+	    			org.example.Boundaries.Boundary.UpdateCinemasData();
 	    	    	cinemaChoice.setDisable(false);
 		            cinemaChoice.setItems(null);
-		            cinemaChoice.getItems().add(idToCinema(((CinemaManager)employee).getCinema()));
+		            cinemaChoice.getItems().add(org.example.Boundaries.Boundary.idToCinema(((CinemaManager)employee).getCinema()));
     	    	}
     	    }
     	    else {

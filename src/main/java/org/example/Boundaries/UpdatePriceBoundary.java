@@ -62,7 +62,7 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
     @FXML
     void clickRefreshBtn2(ActionEvent event) {
     	synchronized(CinemaClient.ShowsDataLock) {
-	    	UpdateShowsData();
+	    	org.example.Boundaries.Boundary.UpdateShowsData();
 			// set items in table
 			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 			ShowsTable.setItems(DataList);
@@ -142,7 +142,7 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
 		
 		synchronized(CinemaClient.ShowsDataLock) {
 			// update ShowData
-			UpdateShowsData();
+			org.example.Boundaries.Boundary.UpdateShowsData();
 			// set items in table
 			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 			ShowsTable.setItems(DataList);

@@ -92,7 +92,7 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 				}
 			}	
 			// update ShowData
-			UpdateShowsData();
+			org.example.Boundaries.Boundary.UpdateShowsData();
 		}	
 	}
 	
@@ -119,7 +119,7 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 				}
 			}	
 			// update Data
-			UpdateUpdatePriceRequestsData();
+			org.example.Boundaries.Boundary.UpdateUpdatePriceRequestsData();
 		}	
 	}
     
@@ -146,13 +146,13 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 				}
 			}	
 			// update Data
-			UpdateUpdatePriceRequestsData();
+			org.example.Boundaries.Boundary.UpdateUpdatePriceRequestsData();
 		}	
 	}
     
     @FXML
     void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-    	App.setRoot("CinemaManagerMB",null,stage);
+    	App.setRoot("CinemaManagerMB",null);
     }
     
     @FXML
@@ -232,37 +232,37 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 		// set-up the columns in the table
 		movie_name.setCellValueFactory(new Callback<CellDataFeatures<UpdatePriceRequest, String>, ObservableValue<String>>() {
 		     public ObservableValue<String> call(CellDataFeatures<UpdatePriceRequest, String> upr) {
-		    	 Show show = idToShow(upr.getValue().getShow_id());
+		    	 Show show = org.example.Boundaries.Boundary.idToShow(upr.getValue().getShow_id());
 		         return (new SimpleStringProperty(show.getMovie().getName_en()));
 		     }
 		  });
 		date.setCellValueFactory(new Callback<CellDataFeatures<UpdatePriceRequest, String>, ObservableValue<String>>() {
 		     public ObservableValue<String> call(CellDataFeatures<UpdatePriceRequest, String> upr) {
-		    	 Show show = idToShow(upr.getValue().getShow_id());
+		    	 Show show = org.example.Boundaries.Boundary.idToShow(upr.getValue().getShow_id());
 		         return (new SimpleStringProperty(show.getDate().toString()));
 		     }
 		  });
 		time.setCellValueFactory(new Callback<CellDataFeatures<UpdatePriceRequest, String>, ObservableValue<String>>() {
 		     public ObservableValue<String> call(CellDataFeatures<UpdatePriceRequest, String> upr) {
-		    	 Show show = idToShow(upr.getValue().getShow_id());
+		    	 Show show = org.example.Boundaries.Boundary.idToShow(upr.getValue().getShow_id());
 		         return (new SimpleStringProperty(show.getTime().toString()));
 		     }
 		  });
 		hall_number.setCellValueFactory(new Callback<CellDataFeatures<UpdatePriceRequest, Integer>, ObservableValue<Integer>>() {
 		     public ObservableValue<Integer> call(CellDataFeatures<UpdatePriceRequest, Integer> upr) {
-		    	 Show show = idToShow(upr.getValue().getShow_id());
+		    	 Show show = org.example.Boundaries.Boundary.idToShow(upr.getValue().getShow_id());
 		         return (new SimpleIntegerProperty(show.getHall().getNumber()).asObject());
 		     }
 		  });
 		cinema.setCellValueFactory(new Callback<CellDataFeatures<UpdatePriceRequest, String>, ObservableValue<String>>() {
 		     public ObservableValue<String> call(CellDataFeatures<UpdatePriceRequest, String> upr) {
-		    	 Show show = idToShow(upr.getValue().getShow_id());
+		    	 Show show = org.example.Boundaries.Boundary.idToShow(upr.getValue().getShow_id());
 		         return (new SimpleStringProperty(show.getHall().getCinema().getBranch_name()));
 		     }
 		  });
 		old_price.setCellValueFactory(new Callback<CellDataFeatures<UpdatePriceRequest, Double>, ObservableValue<Double>>() {
 		     public ObservableValue<Double> call(CellDataFeatures<UpdatePriceRequest, Double> upr) {
-		    	 Show show = idToShow(upr.getValue().getShow_id());
+		    	 Show show = org.example.Boundaries.Boundary.idToShow(upr.getValue().getShow_id());
 		         return (new SimpleDoubleProperty(show.getPrice()).asObject());
 		     }
 		  });
@@ -285,7 +285,7 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 		UpdatePriceRequestsTable.setOnMouseClicked((event) -> {
 			selected_request = UpdatePriceRequestsTable.getSelectionModel().getSelectedItem();
 			if (selected_request != null) {
-				Show show = idToShow(selected_request.getID());
+				Show show = org.example.Boundaries.Boundary.idToShow(selected_request.getID());
 				selectedRequestText.setText(show.getMovie().toString() + ", change from " + 
 						Double.toString(show.getPrice()) + " to " + Double.toString(selected_request.getUpdatedPrice()));
 				approveSelectedBtn.setDisable(false);
@@ -297,7 +297,7 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 		
 		synchronized(UpdatePriceRequestsDataLock) {
 			// update Data
-			UpdateUpdatePriceRequestsData();
+			org.example.Boundaries.Boundary.UpdateUpdatePriceRequestsData();
 			// set items in table
 			ObservableList<UpdatePriceRequest> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
 			UpdatePriceRequestsTable.setItems(DataList);

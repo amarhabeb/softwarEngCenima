@@ -45,7 +45,7 @@ public class ChainManagerMB extends EmployeeMainBoundary implements Initializabl
 
     @FXML
     void clickViewPriceUpdatingRequestsBtn(ActionEvent event) throws IOException {
-    	App.setRoot("PriceUpdatingRequestsBoundary",null, stage);
+    	App.setRoot("PriceUpdatingRequestsBoundary",null);
     }
 
     @FXML
@@ -62,7 +62,7 @@ public class ChainManagerMB extends EmployeeMainBoundary implements Initializabl
   		params.add(cinema);
   		
   		// pass selected paramaters to view boundary
-  		App.setRoot("ViewReportBoundary",params,stage);
+  		App.setRoot("ViewReportBoundary",params);
     }
     
     void CheckIfFilled() {
@@ -113,7 +113,7 @@ public class ChainManagerMB extends EmployeeMainBoundary implements Initializabl
     	    if(type=="Tickets Sales") {
     	    	synchronized(CinemaClient.CinemasDataLock) {
 	    	    	// update data
-	    			UpdateCinemasData();
+	    			org.example.Boundaries.Boundary.UpdateCinemasData();
 	    	    	cinemaChoice.setDisable(false);
 		            cinemaChoice.setItems((ObservableList<Cinema>) CinemaClient.CinemasData);
     	    	}
