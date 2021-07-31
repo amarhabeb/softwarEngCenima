@@ -120,8 +120,12 @@ public class CustomerServiceMB extends EmployeeMainBoundary implements Initializ
     		Y_TextField.setDisable(true);	// disable textfield
 		}
 		else {
-			Y_TextField.setDisable(false);	// enable textfield
-			Y_TextField.setText(Double.toString(CinemaServer.currentRegs.getY()));	// initialize the textfiled
+			synchronized(CinemaClient.RegulationsDataLock) {
+				Y_TextField.setDisable(false);	// enable textfield
+	    		UpdateRegulationsData();
+	    		Regulations regs = CinemaClient.RegulationsData.get(0);
+	    		Y_TextField.setText(Double.toString(regs.getY()));	// initialize the textfiled
+			}
 		}
     	CheckIfFilled();
 		
