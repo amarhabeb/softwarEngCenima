@@ -7,12 +7,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.App;
 import org.example.OCSF.CinemaClient;
@@ -38,6 +44,7 @@ import java.util.ResourceBundle;
 
         @FXML
         private Button BackBtn;
+        @FXML Label label;
 
 
         @FXML private TableView<Show> ShowsTable;
@@ -64,22 +71,39 @@ import java.util.ResourceBundle;
 
         @FXML
         void clickChooseShowBtn(ActionEvent event) throws IOException {
-             int show_id =  ShowsTable.getSelectionModel().getSelectedItem().getID();
-             //System.out.println(show_id);
-            List<Object> params = new LinkedList<Object>();
-            params.add(show_id);
-            params.add(ShowsTable.getSelectionModel().getSelectedItem().getMovie());
+            if (ShowsTable.getSelectionModel().getSelectedItem() == null) {
+                label.setText("Please Choose Show");
+
+            } else {
+                label.setText("");
+                int show_id = ShowsTable.getSelectionModel().getSelectedItem().getID();
+                //System.out.println(show_id);
+                List<Object> params = new LinkedList<Object>();
+                params.add(show_id);
+                params.add(ShowsTable.getSelectionModel().getSelectedItem().getMovie());
+
+                // Step 5
+                List<Object> l = App.getParams();
+                l.add(show_id);
+                App.setParams(l);
+                // Step 6
 
 
-
-            App.setRoot("ChooseSeat", params, stage);
+                App.setRoot("ChooseSeat", params, stage);
+            }
         }
 
-        @FXML
-        void clickBackBtn(ActionEvent event) throws IOException {
-            App.setRoot("CustomerMain",null, stage);
+            @FXML
+            void clickBackBtn(ActionEvent event) throws IOException {
+                List<Object> l = new LinkedList<>();
+                App.setParams(l);
+                App.setRoot("CustomerMain",null, stage);
 
-        }
+
+            }
+
+
+
 
 
 

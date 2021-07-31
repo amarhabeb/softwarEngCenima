@@ -606,6 +606,7 @@ public class CinemaServer extends AbstractServer{
 				}
 
 
+
 				if (message.get(0).equals("LogIn")) {
 					// load data
 
@@ -867,6 +868,8 @@ public class CinemaServer extends AbstractServer{
 					}
 				}
 
+
+
 				if (message.get(0).equals("LoadLinksReport")) {
 					// load data
 					try {
@@ -885,6 +888,7 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
 
 				if (message.get(0).equals("LoadRefundsReport")) {
 					// load data
@@ -931,6 +935,7 @@ public class CinemaServer extends AbstractServer{
 				}
 				System.err.println("An error occured, changes have been rolled back.");
 				exception.printStackTrace();
+
 			}
 			threadLock.notifyAll();
 		}

@@ -63,7 +63,8 @@ public class CustomerMainBoundary extends EmployeeMainBoundary implements Initia
 
 
     @FXML
-    void clickshowMoviesBtn(ActionEvent event) {
+    void clickshowMoviesBtn(ActionEvent event) throws IOException {
+        App.setRoot("ShowMovies",params,stage);
 
     }
 
@@ -81,7 +82,7 @@ public class CustomerMainBoundary extends EmployeeMainBoundary implements Initia
 
     @FXML
     void clickcardBtn(ActionEvent event) throws IOException{
-        App.setRoot("AddShowBoundary",null, stage);
+        App.setRoot("BuyLink",null, stage);
     }
 
     @FXML

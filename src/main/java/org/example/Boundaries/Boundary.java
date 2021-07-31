@@ -68,9 +68,14 @@ public abstract class Boundary {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+
+
+
 			}
+
 		}
 	}
+
 			
 	// brings the Movies from the DataBase and updates the MoviesData local list
 	static synchronized void UpdateMoviesData() {
@@ -91,7 +96,7 @@ public abstract class Boundary {
 		 				e.printStackTrace();
 		 		}
 		 	}	
-		 }	
+		 }
 	}
 		 	
 	// brings the Halls from the DataBase and updates the MoviesData local list
