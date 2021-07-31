@@ -16,6 +16,8 @@ import java.lang.Package;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
+import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -825,6 +827,102 @@ public class CinemaServer extends AbstractServer{
 				messageToClient.add("UpdatePriceRequestAdded");
 				messageToClient.add(success);
 				client.sendToClient(messageToClient);
+			}
+			
+			if(message.get(0).equals("LoadTicketsReport")) {
+				// load data
+				try {
+					session.clear();
+					int cinema_id = (int) message.get(1);
+					Month month = (Month) message.get(2);
+					Year year = (Year) message.get(3);
+					List<Ticket> Data = TicketsController.makeTicketsReportByMonth(session, cinema_id, month, year);
+
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("TicketsReportLoaded");
+					messageToClient.add(Data);
+					client.sendToClient(messageToClient);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if(message.get(0).equals("LoadPackagesReport")) {
+				// load data
+				try {
+					session.clear();
+					Month month = (Month) message.get(1);
+					Year year = (Year) message.get(2);
+					List<PackageOrder> Data = PackagesController.makePackagesReportByMonth(session, month, year);
+
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("PackagesReportLoaded");
+					messageToClient.add(Data);
+					client.sendToClient(messageToClient);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if(message.get(0).equals("LoadLinksReport")) {
+				// load data
+				try {
+					session.clear();
+					Month month = (Month) message.get(1);
+					Year year = (Year) message.get(2);
+					List<Link> Data = LinkController.makeLinksReportByMonth(session, month, year);
+
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("LinksReportLoaded");
+					messageToClient.add(Data);
+					client.sendToClient(messageToClient);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if(message.get(0).equals("LoadRefundsReport")) {
+				// load data
+				try {
+					session.clear();
+					Month month = (Month) message.get(1);
+					Year year = (Year) message.get(2);
+					List<Refund> Data = RefundController.makeRefundsReportByMonth(session, month, year);
+
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("RefundsReportLoaded");
+					messageToClient.add(Data);
+					client.sendToClient(messageToClient);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			if(message.get(0).equals("LoadComplaintsReport")) {
+				// load data
+				try {
+					session.clear();
+					Month month = (Month) message.get(1);
+					Year year = (Year) message.get(2);
+					List<Complaint> Data = ComplaintsController.makeComplaintsReportByMonth(session, month, year);
+
+					// reply to client
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					messageToClient.add("ComplaintsReportLoaded");
+					messageToClient.add(Data);
+					client.sendToClient(messageToClient);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 
