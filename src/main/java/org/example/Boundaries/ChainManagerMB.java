@@ -89,12 +89,16 @@ public class ChainManagerMB extends EmployeeMainBoundary implements Initializabl
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		// initialize month and year choice boxes
+		// all months available (1-12)
 		for (int month = 1; month<=12; month++) {
         	monthChoice.getItems().add(month);
         }
+		// avaialble years are the past 10 years
     	for (int year = 0; year<=10; year++) {
-        	yearChoice.getItems().add(2021+year);
+        	yearChoice.getItems().add(LocalDate.now().getYear()-year);
         }
+    	
+    	cinemaChoice.setDisable(true);
     	
     	// initialize report type choice box
         report_typeChoice.getItems().addAll("Tickets Sales", "Packages and Online Shows Sales", "Refunds", "Complaints");
@@ -115,11 +119,15 @@ public class ChainManagerMB extends EmployeeMainBoundary implements Initializabl
 	    	    	// update data
 	    			org.example.Boundaries.Boundary.UpdateCinemasData();
 	    	    	cinemaChoice.setDisable(false);
-		            cinemaChoice.setItems((ObservableList<Cinema>) CinemaClient.CinemasData);
+	    	    	cinemaChoice.getItems().clear();
+	    	    	// initialize cinema choice box
+	    	    	for (Cinema cinema:CinemaClient.CinemasData) {
+	    	        	cinemaChoice.getItems().add(cinema);
+	    	        }
     	    	}
     	    }
     	    else {
-    	    	cinemaChoice.setItems(null);
+    	    	cinemaChoice.getItems().clear();
     	    	cinemaChoice.setDisable(true);
     	    }
     	});

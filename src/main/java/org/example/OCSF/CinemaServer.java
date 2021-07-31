@@ -131,6 +131,23 @@ public class CinemaServer extends AbstractServer{
 					e.printStackTrace();
 				}
 			}
+			
+//			if(message.get(0).equals("LoadPeople")) {
+//				// load data
+//				try {
+//					session.clear();
+//					List<Person> Data = PeopleController.loadPeople(session);
+//
+//					// reply to client
+//					LinkedList<Object> messageToClient = new LinkedList<Object>();
+//					messageToClient.add("PeopleLoaded");
+//					messageToClient.add(Data);
+//					client.sendToClient(messageToClient);
+//				} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
 
 			////////// MUST implement the refund here
 			if(message.get(0).equals("MarkComplaintAsDone")) {
@@ -498,7 +515,7 @@ public class CinemaServer extends AbstractServer{
 				}
 				// reply to client
 				LinkedList<Object> messageToClient = new LinkedList<Object>();
-				messageToClient.add("UpdatePriceChanged");
+				messageToClient.add("RequestsApproved");
 				messageToClient.add(success);
 				client.sendToClient(messageToClient);
 			}
@@ -998,12 +1015,12 @@ public class CinemaServer extends AbstractServer{
 		//MailController.sendMail("Testing our project","rayah.khatib.2@gmail.com","Test");
 
 		/////// Testing UpdatePriceRequestController
-		UpdatePriceRequest req1=new UpdatePriceRequest(2,7,130);
-		UpdatePriceRequestController.addRequest(session,req1);
-		UpdatePriceRequest req2=new UpdatePriceRequest(2,5,20);
-		UpdatePriceRequestController.addRequest(session,req2);
-		UpdatePriceRequestController.approveRequest(session, req1);
-		UpdatePriceRequestController.declineRequest(session, req2.getID());
+//		UpdatePriceRequest req1=new UpdatePriceRequest(2,7,130);
+//		UpdatePriceRequestController.addRequest(session,req1);
+//		UpdatePriceRequest req2=new UpdatePriceRequest(2,5,20);
+//		UpdatePriceRequestController.addRequest(session,req2);
+//		UpdatePriceRequestController.approveRequest(session, req1);
+//		UpdatePriceRequestController.declineRequest(session, req2.getID());
 
 		/////// Testing NewMovies
 		List<Movie> newMovies=MoviesController.loadNewMovies(session);

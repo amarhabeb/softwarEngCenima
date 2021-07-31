@@ -100,6 +100,10 @@ public class CinemaClient extends AbstractClient {
 	public static List<Complaint>ComplaintsReportData = new LinkedList<>();
 	public static Boolean ComplaintsReportDataUpdated = false;
 	public static Object ComplaintsReportDataLock = new Object();
+	
+	public static List<Person>PeopleData = new LinkedList<>();
+	public static Boolean PeopleDataUpdated = false;
+	public static Object PeopleDataLock = new Object();
 
 
 
@@ -435,27 +439,23 @@ public class CinemaClient extends AbstractClient {
 //			}
 //		}
 		if(message.get(0).equals("UpdatePriceRequestLoaded")) {
+			synchronized(UpdatePriceRequestsDataLock) {
+				UpdatePriceRequestsData = (List<UpdatePriceRequest>) message.get(1);
+				UpdatePriceRequestsDataUpdated = true;	// client's ShowsData is now not updated
+				UpdatePriceRequestsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("RequestsApproved")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
 				throw new Exception("Controller failed");
 			}
 			synchronized( UpdatePriceRequestsDataLock) {
-
-				UpdatePriceRequestsDataUpdated = true;	// client's ShowsData is now not updated
+				PriceUpdatingRequestsBoundary.RequestApproved=true;
+				UpdatePriceRequestsDataUpdated = false;	// client's ShowsData is now not updated
 				UpdatePriceRequestsDataLock.notifyAll();
 			}
 		}
-//		if(message.get(0).equals("UpdatePriceChanged")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( UpdatePriceRequestDataLock) {
-//				UpdatePriceRequestBoundary.Updated=true;
-//				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
-//				UpdatePriceRequestDataLock.notifyAll();
-//			}
-//		}
 //		if(message.get(0).equals("UpdatePriceChanged")) {
 //			boolean success = (boolean)message.get(1);
 //			if(!success){
@@ -467,17 +467,17 @@ public class CinemaClient extends AbstractClient {
 //				UpdatePriceRequestDataLock.notifyAll();
 //			}
 //		}
-//		if(message.get(0).equals("RequestDeclined")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( UpdatePriceRequestDataLock) {
-//				UpdatePriceRequestBoundary.Declined=true;
-//				UpdatePriceRequestDataUpdated = false;	// client's ShowsData is now not updated
-//				UpdatePriceRequestDataLock.notifyAll();
-//			}
-//		}
+		if(message.get(0).equals("RequestDeclined")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( UpdatePriceRequestsDataLock) {
+				PriceUpdatingRequestsBoundary.RequestDeclined=true;
+				UpdatePriceRequestsDataUpdated = false;	// client's ShowsData is now not updated
+				UpdatePriceRequestsDataLock.notifyAll();
+			}
+		}
 		if(message.get(0).equals("CinemasLoaded")) {
 			synchronized(CinemasDataLock) {
 				CinemasData = (List<Cinema>) message.get(1);
@@ -730,6 +730,15 @@ public class CinemaClient extends AbstractClient {
 				UpdatePriceRequestsDataLock.notifyAll();
 			}
 		}
+		
+//		if(message.get(0).equals("PeopleLoaded")) {
+//			synchronized(PeopleDataLock) {
+//				PeopleData = (List<Person>) message.get(1);
+//				PeopleDataUpdated = true;	// client's ShowsData is now not updated
+//				PeopleDataLock.notifyAll();
+//			}
+//			
+//		}
 
 
 		
