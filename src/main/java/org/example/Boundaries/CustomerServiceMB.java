@@ -6,9 +6,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
+import org.example.OCSF.CinemaClient;
+import org.example.OCSF.CinemaClientCLI;
 import org.example.OCSF.CinemaServer;
+import org.example.entities.Regulations;
+import org.example.entities.Show;
 
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -29,26 +34,84 @@ public class CustomerServiceMB extends EmployeeMainBoundary implements Initializ
 
     @FXML // fx:id="ApplyUpdatesBtn"
     private Button ApplyUpdatesBtn; // Value injected by FXMLLoader
+    
+    
+    public static Boolean RegsActivated = true;	// holds if the show is added yet
+    // add show in DataBase and brings the Shows from the DataBase and updates 
+ 	// the ShowsData local list
+    synchronized void Activate(Integer Y) {
+    	RegsActivated = false;	// show isn't added yet
+		// create message and send it to the server
+    	LinkedList<Object> message = new LinkedList<Object>();
+		message.add("ActivateRegulations");
+		message.add(Y);
+		synchronized(CinemaClient.RegulationsDataLock)
+		{	
+			CinemaClientCLI.sendMessage(message);
+							
+			// wait for Data to be changed
+			while(!RegsActivated) {
+				try {
+					CinemaClient.RegulationsDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+		}
+		// update ShowData
+		org.example.Boundaries.Boundary.UpdateRegulationsData();
+	}
+    
+    
+    public static Boolean RegsDeactivated = true;	// holds if the show is added yet
+    // add show in DataBase and brings the Shows from the DataBase and updates 
+ 	// the ShowsData local list
+    synchronized void Deactivate() {
+		RegsDeactivated = false;	// show isn't added yet
+		// create message and send it to the server
+    	LinkedList<Object> message = new LinkedList<Object>();
+		message.add("DeActivateRegulations");
+		synchronized(CinemaClient.RegulationsDataLock)
+		{	
+			CinemaClientCLI.sendMessage(message);
+							
+			// wait for Data to be changed
+			while(!RegsDeactivated) {
+				try {
+					CinemaClient.RegulationsDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+		}
+		// update ShowData
+		org.example.Boundaries.Boundary.UpdateRegulationsData();
+	}
 
     @FXML
     void clickApplyUpdatesBtn(ActionEvent event) {
     	// update current regs according to input
     	if(NoLimitations.isSelected()) {
-    		CinemaServer.currentRegs.setStatus(false);
+    		Deactivate();
     	}else {
-    		CinemaServer.currentRegs.setStatus(true);
-    		CinemaServer.currentRegs.setY(Integer.valueOf(Y_TextField.getText()));
+    		Activate(Integer.valueOf(Y_TextField.getText()));
     	}
     	MessageBoundaryEmployee.displayInfo("Regulations updated.");
     	
     	// reset textfield and checkbox
-    	if(CinemaServer.currentRegs.getStatus()) {
-			Y_TextField.setText(Double.toString(CinemaServer.currentRegs.getY()));	// initialize the textfiled
-		}
-		else {
-			NoLimitations.setSelected(true);	// check the checkbox
-			Y_TextField.setDisable(true);	// disable textfield
-		}
+    	synchronized(CinemaClient.RegulationsDataLock) {
+    		UpdateRegulationsData();
+    		Regulations regs = CinemaClient.RegulationsData.get(0);
+    		if(regs.getStatus()) {
+    			Y_TextField.setText(Double.toString(regs.getY()));	// initialize the textfiled
+    		}
+    		else {
+    			NoLimitations.setSelected(true);	// check the checkbox
+    			Y_TextField.setDisable(true);	// disable textfield
+    		}
+    	}
     }
 
     @FXML
@@ -81,15 +144,19 @@ public class CustomerServiceMB extends EmployeeMainBoundary implements Initializ
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
 		
-		if(CinemaServer.currentRegs.getStatus()) {
-			Y_TextField.setText(Double.toString(CinemaServer.currentRegs.getY()));	// initialize the textfiled
-		}
-		else {
-			NoLimitations.setSelected(true);	// check the checkbox
-			Y_TextField.setDisable(true);	// disable textfield
-		}
+		// reset textfield and checkbox
+    	synchronized(CinemaClient.RegulationsDataLock) {
+    		UpdateRegulationsData();
+    		Regulations regs = CinemaClient.RegulationsData.get(0);
+    		if(regs.getStatus()) {
+    			Y_TextField.setText(Double.toString(regs.getY()));	// initialize the textfiled
+    		}
+    		else {
+    			NoLimitations.setSelected(true);	// check the checkbox
+    			Y_TextField.setDisable(true);	// disable textfield
+    		}
+    	}
 		
 		Y_TextField.textProperty().addListener((observable, oldValue, newValue) -> {
     		double val=0;

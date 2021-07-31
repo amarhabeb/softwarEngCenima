@@ -27,8 +27,6 @@ import java.util.Random;
 
 public class CinemaServer extends AbstractServer{
 	
-	public static Regulations currentRegs = null;	// this is the regulations of the cinema chain
-	
 	private static Session session;
 	private static Thread activateThread;
 	public static Object threadLock = new Object();
@@ -183,17 +181,17 @@ public class CinemaServer extends AbstractServer{
 					try {
 						session.clear();
 						List<Link> Data = LinkController.loadLinks(session);
-
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("LinksLoaded");
 						messageToClient.add(Data);
 						client.sendToClient(messageToClient);
-					} catch (IOException e) {
+					}catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
+
 
 				if (message.get(0).equals("LoadCostumersLinks")) {
 					// load data
