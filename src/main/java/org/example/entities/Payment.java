@@ -21,7 +21,7 @@ public class Payment implements Serializable {
 
     public Payment(){}
 
-    public Payment(double amount, Order order, int customer_id) {
+    public Payment(double amount, int customer_id) {
         this.amount = amount;
        // this.order = order;
         this.customer_id = customer_id;

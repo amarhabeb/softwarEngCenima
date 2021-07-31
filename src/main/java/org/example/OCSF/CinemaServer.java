@@ -1010,6 +1010,13 @@ public class CinemaServer extends AbstractServer{
 		for(Movie m:newMovies)
 			System.out.println(m.getName_en());
 
+		/////// Testing Payment
+		Payment payment=new Payment(40,2);
+		PaymentController.makePayment(session,payment);
+
+		/////// Testing Cinema
+		List<Show> cinema_shows=CinemaController.loadCinemaShows(session,2);
+		System.out.println(cinema_shows.size());
 	}
 
 
@@ -1017,6 +1024,7 @@ public class CinemaServer extends AbstractServer{
 	private static void generateMovies(Session session) throws Exception {
     	try {
 			Cinema cinema1 = new Cinema("Downtown Cinema");
+			//Cinema cinema2 = new Cinema("Mall Cinema");
 			List<Movie> moviesList = new LinkedList<Movie>();
 			List<Show> emptyShowList = new LinkedList<Show>();
 			int[] days = {6, 15, 17, 18,22,24,30};

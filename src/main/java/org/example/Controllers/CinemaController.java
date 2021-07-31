@@ -138,14 +138,17 @@ public class CinemaController {
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Show> query = builder.createQuery(Show.class);
+            CriteriaQuery<Cinema> query = builder.createQuery(Cinema.class);
             Root<Cinema>root=query.from(Cinema.class);
-            query.select(root.get("shows"));
             Predicate[] predicates=new Predicate[2];
-            predicates[0]=builder.equal(root.get("id"),cinema_id);
+            predicates[0]=builder.equal(root.get("ID"),cinema_id);
             predicates[1]=builder.equal(root.get("active"),true);
             query.where(predicates);
-            List<Show> data = session.createQuery(query).getResultList();
+            List<Show> data = session.createQuery(query).getResultList().get(0).getShows();
+            for(Show sh: data){
+                if(sh.getStatus()=="NOT_AVAILABLE")
+                    data.remove(sh);
+            }
             transaction.commit();
             return data;
         } catch (Exception exception) {
