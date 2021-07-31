@@ -207,12 +207,12 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	    }
     	});
     	priceTextField.textProperty().addListener((observable, oldValue, newValue) -> {
-    		Double val=(double) 0;
+    		double val=(double) 0;
     		try {
     			if(newValue!=null) {
     				val = Double.valueOf(newValue);
     			}else {
-    				val = null;
+    				val =(double) 0;
     			}
     		}catch (NumberFormatException e) {
 				val = (double) -1;	
