@@ -27,7 +27,7 @@
                   <Cursor fx:constant="SE_RESIZE" />
                </cursor>
             </ImageView>
-            <Label fx:id="title" layoutX="272.0" layoutY="28.0" text="View Report" textFill="WHITE">
+            <Label fx:id="title" alignment="CENTER" layoutX="27.0" layoutY="28.0" prefHeight="66.0" prefWidth="761.0" text="View Report" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="System Bold Italic" size="45.0" />
                </font>
@@ -40,53 +40,53 @@
                 <NumberAxis prefHeight="163.0" prefWidth="28.0" side="LEFT" />
               </yAxis>
             </LineChart>
-            <Text fx:id="bestSalesText" fill="WHITE" layoutX="97.0" layoutY="386.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best sales of the month were made on">
+            <Text fx:id="bestSalesText" fill="WHITE" layoutX="244.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best sales of the month were made on">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Text>
-            <Text fx:id="worstSalesText" fill="WHITE" layoutX="97.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Worst sales of the month were made on">
+            <Text fx:id="worstSalesText" fill="WHITE" layoutX="242.0" layoutY="404.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Worst sales of the month were made on">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Text>
-            <Text fx:id="totalText" fill="WHITE" layoutX="97.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total sold in this month:">
+            <Text fx:id="totalText" fill="WHITE" layoutX="244.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total sold in this month:">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="profitsText" fill="#62ff00" layoutX="97.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Profits: ">
+            <Text fx:id="profitsText" fill="#62ff00" layoutX="244.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Profits: ">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="refundedText" fill="RED" layoutX="97.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total refunded money:">
+            <Text fx:id="refundedText" fill="RED" layoutX="244.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total refunded money:">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Text>
+            <Button fx:id="GoBackToMainBtn" layoutX="27.0" layoutY="436.0" mnemonicParsing="false" onAction="#clickGoBackToMainBtn" prefHeight="26.0" prefWidth="123.0" text="&lt;&lt; go back to main">
+               <font>
+                  <Font name="System Bold Italic" size="11.0" />
+               </font>
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.35478729009628296" green="0.6100000143051147" blue="0.32330000400543213" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.6736842393875122" green="0.00499025359749794" blue="0.5510903000831604" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+            </Button>
          </children>
       </AnchorPane>
-      <Button fx:id="GoBackToMainBtn" layoutX="23.0" layoutY="21.0" mnemonicParsing="false" onAction="#clickGoBackToMainBtn" prefHeight="26.0" prefWidth="123.0" text="&lt;&lt; go back to main">
-         <font>
-            <Font name="System Bold Italic" size="11.0" />
-         </font>
-         <textFill>
-            <LinearGradient endX="1.0" endY="1.0">
-               <stops>
-                  <Stop>
-                     <color>
-                        <Color red="0.35478729009628296" green="0.6100000143051147" blue="0.32330000400543213" />
-                     </color>
-                  </Stop>
-                  <Stop offset="1.0">
-                     <color>
-                        <Color red="0.6736842393875122" green="0.00499025359749794" blue="0.5510903000831604" />
-                     </color>
-                  </Stop>
-               </stops>
-            </LinearGradient>
-         </textFill>
-      </Button>
    </children>
 </AnchorPane>

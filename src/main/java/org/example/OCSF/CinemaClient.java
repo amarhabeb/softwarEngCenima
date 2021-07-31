@@ -332,11 +332,8 @@ public class CinemaClient extends AbstractClient {
 		}
 
 		if(message.get(0).equals("RefundssLoaded")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
-				throw new Exception("Controller failed");
-			}
-			synchronized( RefundDataLock) {
+			synchronized(RefundDataLock) {
+				RefundData = (List<Refund>) message.get(1);
 				RefundDataUpdated = true;	// client's ShowsData is now not updated
 				RefundDataLock.notifyAll();
 			}
@@ -353,37 +350,34 @@ public class CinemaClient extends AbstractClient {
 //			}
 //		}
 		if(message.get(0).equals("RegulationsLoaded")) {
+			synchronized(RegulationsDataLock) {
+				RegulationsData = (List<Regulations>) message.get(1);
+				RegulationsDataUpdated = true;	// client's ShowsData is now not updated
+				RegulationsDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("RegulationStatusUpdated")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
 				throw new Exception("Controller failed");
 			}
 			synchronized( RegulationsDataLock) {
-				RegulationsDataUpdated = true;	// client's ShowsData is now not updated
+				CustomerServiceMB.RegsActivated=true;
+				RegulationsDataUpdated = false;	// client's ShowsData is now not updated
 				RegulationsDataLock.notifyAll();
 			}
 		}
-//		if(message.get(0).equals("RegulationStatusUpdated")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( RegulationsDataLock) {
-//				RegulationsUpdateBoundary.UpdateStatus=true;
-//				RegulationsDataUpdated = false;	// client's ShowsData is now not updated
-//				RegulationsDataLock.notifyAll();
-//			}
-//		}
-//		if(message.get(0).equals("RegulationStatusDeactivated")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( RegulationsDataLock) {
-//				RegulationsUpdateBoundary.UpdateStatus=true;
-//				RegulationsDataUpdated = false;	// client's ShowsData is now not updated
-//				RegulationsDataLock.notifyAll();
-//			}
-//		}
+		if(message.get(0).equals("RegulationStatusDeactivated")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( RegulationsDataLock) {
+				CustomerServiceMB.RegsDeactivated=true;
+				RegulationsDataUpdated = false;	// client's ShowsData is now not updated
+				RegulationsDataLock.notifyAll();
+			}
+		}
 		
 		if(message.get(0).equals("ShowAdded")) {
 			boolean success = (boolean)message.get(1);

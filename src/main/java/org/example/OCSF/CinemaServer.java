@@ -28,8 +28,6 @@ import java.util.Random;
 
 public class CinemaServer extends AbstractServer{
 	
-	public static Regulations currentRegs = null;	// this is the regulations of the cinema chain
-	
 	private static Session session;
 	//private static Thread loopThread;
 
@@ -360,7 +358,7 @@ public class CinemaServer extends AbstractServer{
 				client.sendToClient(messageToClient);
 			}
 
-			if(message.get(0).equals("LoadReagulations")) {
+			if(message.get(0).equals("LoadRegulations")) {
 				// load data
 				try {
 					session.clear();
