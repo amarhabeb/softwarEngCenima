@@ -1107,8 +1107,6 @@ public class CinemaServer extends AbstractServer{
 		TicketsController.addTicket(session,ticket3);
 		TicketsController.cancelTicket(session,ticket2.getID());
 
-		List<Ticket> reportTicket=TicketsController.makeTicketsReportByMonth(session,2,7,2021);
-		System.out.println("success"+reportTicket.size());
 
 
 
@@ -1197,7 +1195,7 @@ public class CinemaServer extends AbstractServer{
 
 	private static void generateMovies(Session session) throws Exception {
     	try {
-			Cinema cinema1 = new Cinema("Downtown Cinema");
+			Cinema cinema1 = new Cinema("הסרטייה");
 			//Cinema cinema2 = new Cinema("Mall Cinema");
 			List<Movie> moviesList = new LinkedList<Movie>();
 			List<Show> emptyShowList = new LinkedList<Show>();
