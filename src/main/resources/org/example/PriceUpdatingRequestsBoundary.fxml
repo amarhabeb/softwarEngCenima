@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PriceUpdatingRequestsBoundary">
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Boundaries.PriceUpdatingRequestsBoundary">
    <children>
       <AnchorPane>
          <children>
@@ -33,19 +33,18 @@
                         <Font name="System Bold Italic" size="45.0" />
                      </font>
                   </Label>
-                  <TableView fx:id="UpdatePriceRequestsTable" layoutX="38.0" layoutY="95.0" prefHeight="290.0" prefWidth="723.0">
+                  <TableView fx:id="UpdatePriceRequestsTable" layoutX="75.0" layoutY="94.0" prefHeight="290.0" prefWidth="649.0">
                      <columns>
-                        <TableColumn fx:id="movie_name" prefWidth="134.4000244140625" text="Movie Title" />
-                        <TableColumn fx:id="date" prefWidth="73.60003662109375" text="Date" />
-                        <TableColumn fx:id="time" onEditCommit="#editTime" prefWidth="57.5999755859375" text="Time" />
-                        <TableColumn fx:id="hall_number" prefWidth="40.0" text="Hall" />
-                        <TableColumn fx:id="cinema" prefWidth="120.79998779296875" text="Cinema" />
-                        <TableColumn fx:id="old_price" prefWidth="60.0" text="Old Price" />
-                        <TableColumn fx:id="new_requested_price" prefWidth="96.7999267578125" text="New Requested &#10;Price" />
-                        <TableColumn fx:id="requested_by" prefWidth="125.60003662109375" text="Requested by:" />
+                        <TableColumn fx:id="movie_name" prefWidth="149.60004043579102" text="Movie Title" />
+                        <TableColumn fx:id="date" prefWidth="83.99992370605469" text="Date" />
+                        <TableColumn fx:id="time" prefWidth="71.20001220703125" text="Time" />
+                        <TableColumn fx:id="hall_number" prefWidth="46.4000244140625" text="Hall" />
+                        <TableColumn fx:id="cinema" prefWidth="130.39996337890625" text="Cinema" />
+                        <TableColumn fx:id="old_price" prefWidth="68.00006103515625" text="Current &#10;Price" />
+                        <TableColumn fx:id="new_requested_price" prefWidth="100.00006103515625" text="New Requested &#10;Price" />
                      </columns>
                   </TableView>
-                  <Button fx:id="approveBtn" layoutX="38.0" layoutY="401.0" mnemonicParsing="false" onAction="#clickApproveBtn" prefHeight="17.0" prefWidth="142.0" text="APPROVE SELECTED" textAlignment="CENTER" textFill="#3dcf27">
+                  <Button fx:id="approveSelectedBtn" layoutX="38.0" layoutY="401.0" mnemonicParsing="false" onAction="#clickApproveSelectedBtn" prefHeight="17.0" prefWidth="142.0" text="APPROVE SELECTED" textAlignment="CENTER" textFill="#3dcf27">
                      <font>
                         <Font name="System Bold Italic" size="13.0" />
                      </font>

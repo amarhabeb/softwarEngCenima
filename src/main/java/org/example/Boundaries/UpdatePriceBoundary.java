@@ -53,8 +53,14 @@ public class UpdatePriceBoundary extends ContentManagerDisplayBoundary implement
 	synchronized void ChangeShowPrice(int show_id, Double NewPrice) {
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
-		message.add("addUpdatePriceRequest");
-		UpdatePriceRequest updatePriceReq = new UpdatePriceRequest(2, show_id, NewPrice);
+		message.add("AddUpdatePriceRequest");
+		Integer requestedBy_id;
+		if(employee!=null) {
+			requestedBy_id = employee.getID();
+		}else {
+			requestedBy_id = -1;
+		}
+		UpdatePriceRequest updatePriceReq = new UpdatePriceRequest(requestedBy_id, show_id, NewPrice);
 		message.add(updatePriceReq);
 		CinemaClientCLI.sendMessage(message);
 	}
