@@ -151,7 +151,7 @@ public class LinkController {
             session.clear();
             transaction.commit();
             session.clear();
-            System.out.println("deactivate");
+
             return true;
             // Save everything.
         } catch (Exception exception) {
@@ -178,7 +178,7 @@ public class LinkController {
             session.clear();
             transaction.commit();
             session.clear();
-            System.out.println("activate");
+
             deactivateLinksWhenTimePassed(session);
             return true;
             // Save everything.
