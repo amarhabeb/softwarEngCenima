@@ -50,7 +50,7 @@ public class TempBoundary extends Boundary{
 
     @FXML
     void clickEmployee(ActionEvent event) throws IOException {
-    	App.setRoot("CustomerMainBoundary", null, stage);
+    	App.setRoot("CustomerMain", null, stage);
 
     }
 
