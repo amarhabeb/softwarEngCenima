@@ -22,29 +22,23 @@ public class App extends Application {
 	@Override
     public void start(Stage stage) throws IOException {
     	stage.setTitle("Cinema");
-        scene = new Scene(loadFXML("ContentManagerMB", null, stage), 800, 488);
+        scene = new Scene(loadFXML("BuyTicket"), 800, 488);
         stage.setScene(scene);
         stage.show();
         System.out.println("Client's boundary displayed");
     }
 
-    @SuppressWarnings("exports")
-	public static void setRoot(String fxml, List<Object> params, Stage stage) throws IOException {
+    public static void setRoot(String fxml, List<Object> params) throws IOException {
     	FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
     	Parent root = fxmlLoader.load();
     	Boundary boundary = fxmlLoader.<Boundary>getController();
     	boundary.setParams(params);
-    	boundary.setStage(stage);
         scene.setRoot(root);
     }
 
-    private static Parent loadFXML(String fxml, List<Object> params, Stage stage) throws IOException {
+    private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        Parent root = fxmlLoader.load();
-    	Boundary boundary = fxmlLoader.<Boundary>getController();
-    	boundary.setParams(params);
-    	boundary.setStage(stage);
-        return root;
+        return fxmlLoader.load();
     }
 
     public static void main(String[] args) {

@@ -79,7 +79,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
 			}	
 		}
 		// update ShowData
-		UpdateShowsData();
+		org.example.Boundaries.Boundary.UpdateShowsData();
 	}
     
     void resetChoiceBoxes() {
@@ -142,7 +142,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		
 		synchronized(CinemaClient.MoviesDataLock) {
 			// update data
-			UpdateMoviesData();
+			org.example.Boundaries.Boundary.UpdateMoviesData();
 	    	// initialize movie choice box
 			System.out.println("size of movies = " + Integer.toString(CinemaClient.MoviesData.size()));
 	    	for (Movie movie:CinemaClient.MoviesData) {
@@ -159,7 +159,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
         }
     	synchronized(CinemaClient.CinemasDataLock) {
 	    	// update data
-	    	UpdateCinemasData();
+	    	org.example.Boundaries.Boundary.UpdateCinemasData();
 	    	// initialize cinema choice box
 	    	for (Cinema cinema:CinemaClient.CinemasData) {
 	        	cinemaChoice.getItems().add(cinema);
@@ -192,7 +192,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
     	    	hallChoice.getItems().clear();
     	    	synchronized(CinemaClient.HallsDataLock) {
 	    	    	// update data
-	    			UpdateHallsData();
+	    			org.example.Boundaries.Boundary.UpdateHallsData();
 	    	    	hallChoice.setDisable(false);
 	    	    	for(Hall hall:CinemaClient.HallsData) {	// if hall is in chosen cinema then add it
 	    	    		if(hall.getCinema().getID()==cinema.getID()) {

@@ -81,7 +81,7 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
 				}
 			}	
 			// update ShowData
-			UpdateShowsData();
+			org.example.Boundaries.Boundary.UpdateShowsData();
 		}	
 	}
     
@@ -108,7 +108,7 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
     @FXML
     void clickRefreshBtn2(ActionEvent event) {
     	synchronized(CinemaClient.ShowsDataLock) {
-	    	UpdateShowsData();
+	    	org.example.Boundaries.Boundary.UpdateShowsData();
 	    	DeleteShowBtn.setDisable(true);
 	    	selected_show = null;
 	    	selectedShowText.setText("*no show selected*");
@@ -171,7 +171,7 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
 		
 		synchronized(CinemaClient.ShowsDataLock) {
 			// update ShowData
-			UpdateShowsData();
+			org.example.Boundaries.Boundary.UpdateShowsData();
 			// set items in table
 			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 			ShowsTable.setItems(DataList);

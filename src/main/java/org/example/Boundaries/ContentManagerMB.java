@@ -68,7 +68,7 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	@FXML
     void clickRefreshBtn(ActionEvent event) {
 		synchronized(CinemaClient.ShowsDataLock) {
-			UpdateShowsData();
+			org.example.Boundaries.Boundary.UpdateShowsData();
 			// set items in table
 			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 			ShowsTable.setItems(DataList);
@@ -77,33 +77,33 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 
 	@FXML
 	void clickUpdateShowsTimesBtn(ActionEvent event) throws IOException {
-		 App.setRoot("UpdateTimeBoundary",null,stage);
+		 App.setRoot("UpdateTimeBoundary",null);
 	}
 	
 	@FXML
     void clickAddMoviesBtn(ActionEvent event) throws IOException {
-		App.setRoot("AddMovieBoundary",null,stage);
+		App.setRoot("AddMovieBoundary",null);
 
     }
 
     @FXML
     void clickAddShowsBtn(ActionEvent event) throws IOException{
-    	App.setRoot("AddShowBoundary",null,stage);
+    	App.setRoot("AddShowBoundary",null);
     }
     
     @FXML
     void clickRemoveMoviesBtn(ActionEvent event) throws IOException {
-    	App.setRoot("DeleteMovieBoundary",null,stage);
+    	App.setRoot("DeleteMovieBoundary",null);
     }
 
     @FXML
     void clickRemoveShowsBtn(ActionEvent event) throws IOException  {
-    	App.setRoot("DeleteShowBoundary",null,stage);
+    	App.setRoot("DeleteShowBoundary",null);
     }
 
     @FXML
     void clickUpdateShowsPricesBtn(ActionEvent event) throws IOException{
-    	App.setRoot("UpdatePriceBoundary",null,stage);
+    	App.setRoot("UpdatePriceBoundary",null);
     }
 	
 	
@@ -139,7 +139,7 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 		  });
 		
 		synchronized(CinemaClient.ShowsDataLock) {
-			UpdateShowsData();
+			org.example.Boundaries.Boundary.UpdateShowsData();
 			// set items in table
 			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 			ShowsTable.setItems(DataList);

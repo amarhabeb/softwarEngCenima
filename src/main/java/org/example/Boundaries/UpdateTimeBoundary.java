@@ -70,14 +70,14 @@ public class UpdateTimeBoundary extends ContentManagerDisplayBoundary implements
 				}
 			}	
 			// update ShowData
-			UpdateShowsData();
+			org.example.Boundaries.Boundary.UpdateShowsData();
 		}	
 	}
 	
     @FXML
     void clickRefreshBtn2(ActionEvent event) {
     	synchronized(CinemaClient.ShowsDataLock) {
-	    	UpdateShowsData();
+	    	org.example.Boundaries.Boundary.UpdateShowsData();
 			// set items in table
 			ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
 			ShowsTable.setItems(DataList);
@@ -155,7 +155,7 @@ public class UpdateTimeBoundary extends ContentManagerDisplayBoundary implements
     	});
 		
 		// update ShowData
-		UpdateShowsData();
+		org.example.Boundaries.Boundary.UpdateShowsData();
 		
 		// set items in table
 		ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
