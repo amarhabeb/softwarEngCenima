@@ -613,7 +613,8 @@ public class CinemaServer extends AbstractServer{
 				session.clear();
 				Link newLink = (Link) message.get(1);
 				// adding link into  database
-				boolean success = LinkController.addLink(session, newLink);
+				 LinkController.addLink(session, newLink);
+				boolean success =true;
 				//session.refresh(Link.class);
 
 				// reply to client
@@ -778,8 +779,11 @@ public class CinemaServer extends AbstractServer{
 			}
 
 			if(message.get(0).equals("LoadSeats")) {
+
 				// load data
 				try {
+					System.out.println("kksksksk");
+
 					session.clear();
 					List<Seat> Data = SeatController.loadSeats(session);
 
@@ -792,6 +796,8 @@ public class CinemaServer extends AbstractServer{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				System.out.println("kksksksk");
+
 			}
 
 

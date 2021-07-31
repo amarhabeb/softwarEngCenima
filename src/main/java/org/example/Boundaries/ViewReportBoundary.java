@@ -111,7 +111,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		params=getParams();
+		params=App.getParams();
 		// get passsed parameters
 		Integer month = (Integer) params.get(1);
   		Integer year = (Integer) params.get(2);

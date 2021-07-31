@@ -31,6 +31,7 @@ public class Movie implements Serializable {
     private String summary;
     private LocalDate launch_date;
     private Boolean is_new;
+    private int price;
     @Column(length = 5000)
     private byte[] image;
     private String status; // can be AVAILABLE / NOT_AVAILABLE
@@ -54,8 +55,9 @@ public class Movie implements Serializable {
         this.is_new = is_new;
         this.image = image;
         this.shows = shows;
-        this.availableOnline=availableOnline;
+        this.availableOnline=true;
         this.status = "AVAILABLE";
+        this.price= (int)Math.floor(Math.random()*(100-50+1)+50);
     }
 
     public String getStatus() {
@@ -151,7 +153,13 @@ public class Movie implements Serializable {
         return ID;
     }
 
+    public int getPrice() {
+        return price;
+    }
 
+    public void setPrice(int price) {
+        this.price = price;
+    }
 
     public List<String> getCast() {
         return cast;

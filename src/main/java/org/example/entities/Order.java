@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "orders")
+@Table(name = "ordrs")
 abstract public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +16,7 @@ abstract public class Order implements Serializable {
     protected LocalDateTime orderDate;
     protected boolean status; //true if available, false if canceled
     protected double price;
+    @Column(length = 500)
     protected int customer_id;
     protected boolean active;   //true if active, false if "deleted" from database
 
