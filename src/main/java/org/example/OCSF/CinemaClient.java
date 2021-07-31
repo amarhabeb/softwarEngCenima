@@ -187,6 +187,13 @@ public class CinemaClient extends AbstractClient {
 			}
 			
 		}
+		if(message.get(0).equals("SeatsLoaded")) {
+			synchronized(SeatDataLock) {
+				SeatData = (List<Seat>) message.get(1);
+				SeatDataUpdated = true;	// client's ShowsData is now not updated
+				SeatDataLock.notifyAll();
+			}
+		}
 		if(message.get(0).equals("ComplaintesLoaded")) {
 			synchronized(ComplaintsDataLock) {
 				ComplaintsData = (List<Complaint>) message.get(1);
@@ -326,6 +333,8 @@ public class CinemaClient extends AbstractClient {
 				throw new Exception("Controller failed");
 			}
 			synchronized(PaymentDataLock) {
+				PaymenyTicket.PaymentAdded = true;
+				PaymentLink.PaymentAdded=true;
 				PaymentDataUpdated = false;	// client's ShowsData is now not updated
 				PaymentDataLock.notifyAll();
 			}
@@ -421,17 +430,17 @@ public class CinemaClient extends AbstractClient {
 //				TicketsDataLock.notifyAll();
 //			}
 //		}
-//		if(message.get(0).equals("TicketAdded")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( TicketsDataLock) {
-//				AddTicketsBoundary.ticketAdded=true;
-//				TicketsDataUpdated = false;	// client's ShowsData is now not updated
-//				TicketsDataLock.notifyAll();
-//			}
-//		}
+		if(message.get(0).equals("TicketAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( TicketsDataLock) {
+				PaymenyTicket.ticketAdded=true;
+				TicketsDataUpdated = false;	// client's ShowsData is now not updated
+				TicketsDataLock.notifyAll();
+			}
+		}
 		if(message.get(0).equals("UpdatePriceRequestLoaded")) {
 			synchronized(UpdatePriceRequestsDataLock) {
 				UpdatePriceRequestsData = (List<UpdatePriceRequest>) message.get(1);
@@ -562,17 +571,20 @@ public class CinemaClient extends AbstractClient {
 				HallsDataLock.notifyAll();
 			}
 		}
-//		if(message.get(0).equals("LinkAdded")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( LinksDataLock) {
-//				AddLinkBoundary.Added=true;
-//				LinksDataUpdated = false;	// client's ShowsData is now not updated
-//				LinksDataLock.notifyAll();
-//			}
-//		}
+		if(message.get(0).equals("LinkAdded")) {
+			System.out.println("000");
+			boolean success = (boolean)message.get(1);
+			System.out.println(success);
+			if(success==false){
+				throw new Exception("Controller failed");
+			}
+			synchronized( LinksDataLock) {
+				System.out.print("2222");
+				PaymentLink.LinkAdded=true;
+				LinksDataUpdated = true;	// client's ShowsData is now not updated
+				LinksDataLock.notifyAll();
+			}
+		}
 		if(message.get(0).equals("LinkTimeLoaded")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
@@ -658,17 +670,7 @@ public class CinemaClient extends AbstractClient {
 //				PackageDataLock.notifyAll();
 //			}
 //		}
-		if(message.get(0).equals("SeatsLoaded")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
-				throw new Exception("Controller failed");
-			}
-			synchronized( SeatDataLock) {
 
-				SeatDataUpdated = true;	// client's ShowsData is now not updated
-				SeatDataLock.notifyAll();
-			}
-		}
 //		if(message.get(0).equals("SeatAdded")) {
 //			boolean success = (boolean)message.get(1);
 //			if(!success){

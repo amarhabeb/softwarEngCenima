@@ -604,6 +604,7 @@ public class CinemaServer extends AbstractServer{
 				}
 
 
+
 				if (message.get(0).equals("LogIn")) {
 					// load data
 
@@ -831,8 +832,8 @@ public class CinemaServer extends AbstractServer{
 					try {
 						session.clear();
 						int cinema_id = (int) message.get(1);
-						Month month = (Month) message.get(2);
-						Year year = (Year) message.get(3);
+						Integer month = (Integer) message.get(2);
+						Integer year = (Integer) message.get(3);
 						List<Ticket> Data = TicketsController.makeTicketsReportByMonth(session, cinema_id, month, year);
 
 						// reply to client
@@ -850,8 +851,8 @@ public class CinemaServer extends AbstractServer{
 					// load data
 					try {
 						session.clear();
-						Month month = (Month) message.get(1);
-						Year year = (Year) message.get(2);
+						Integer month = (Integer) message.get(1);
+						Integer year = (Integer) message.get(2);
 						List<PackageOrder> Data = PackagesController.makePackagesReportByMonth(session, month, year);
 
 						// reply to client
@@ -865,12 +866,14 @@ public class CinemaServer extends AbstractServer{
 					}
 				}
 
+
+
 				if (message.get(0).equals("LoadLinksReport")) {
 					// load data
 					try {
 						session.clear();
-						Month month = (Month) message.get(1);
-						Year year = (Year) message.get(2);
+						Integer month = (Integer) message.get(1);
+						Integer year = (Integer) message.get(2);
 						List<Link> Data = LinkController.makeLinksReportByMonth(session, month, year);
 
 						// reply to client
@@ -884,12 +887,13 @@ public class CinemaServer extends AbstractServer{
 					}
 				}
 
+
 				if (message.get(0).equals("LoadRefundsReport")) {
 					// load data
 					try {
 						session.clear();
-						Month month = (Month) message.get(1);
-						Year year = (Year) message.get(2);
+						Integer month = (Integer) message.get(1);
+						Integer year = (Integer) message.get(2);
 						List<Refund> Data = RefundController.makeRefundsReportByMonth(session, month, year);
 
 						// reply to client
@@ -907,8 +911,8 @@ public class CinemaServer extends AbstractServer{
 					// load data
 					try {
 						session.clear();
-						Month month = (Month) message.get(1);
-						Year year = (Year) message.get(2);
+						Integer month = (Integer) message.get(1);
+						Integer year = (Integer) message.get(2);
 						List<Complaint> Data = ComplaintsController.makeComplaintsReportByMonth(session, month, year);
 
 						// reply to client
@@ -929,6 +933,7 @@ public class CinemaServer extends AbstractServer{
 				}
 				System.err.println("An error occured, changes have been rolled back.");
 				exception.printStackTrace();
+
 			}
 			threadLock.notifyAll();
 		}
