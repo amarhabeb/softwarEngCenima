@@ -40,11 +40,6 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
     private ChoiceBox<Integer> yearChoice; // Value injected by FXMLLoader
 
     @FXML
-    void clickViewPriceUpdatingRequestsBtn(ActionEvent event) throws IOException {
-    	App.setRoot("PriceUpdatingRequestsBoundary",null, stage);
-    }
-
-    @FXML
     void clickViewReportBtn(ActionEvent event) throws IOException {
     	Integer month = monthChoice.getValue();
   		Integer year = yearChoice.getValue();
@@ -85,12 +80,16 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		// initialize month and year choice boxes
+		// all months available (1-12)
 		for (int month = 1; month<=12; month++) {
-        	monthChoice.getItems().add(month);
-        }
-    	for (int year = 0; year<=10; year++) {
-        	yearChoice.getItems().add(2021+year);
-        }
+			monthChoice.getItems().add(month);
+		}
+		// avaialble years are the past 10 years
+		for (int year = 0; year<=10; year++) {
+		    yearChoice.getItems().add(LocalDate.now().getYear()-year);
+		}
+		    	
+		cinemaChoice.setDisable(true);
     	
     	// initialize report type choice box
         report_typeChoice.getItems().addAll("Tickets Sales");
@@ -111,12 +110,12 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
 	    	    	// update data
 	    			org.example.Boundaries.Boundary.UpdateCinemasData();
 	    	    	cinemaChoice.setDisable(false);
-		            cinemaChoice.setItems(null);
+	    	    	cinemaChoice.getItems().clear();
 		            cinemaChoice.getItems().add(org.example.Boundaries.Boundary.idToCinema(((CinemaManager)employee).getCinema()));
     	    	}
     	    }
     	    else {
-    	    	cinemaChoice.setItems(null);
+    	    	cinemaChoice.getItems().clear();
     	    	cinemaChoice.setDisable(true);
     	    }
     	});

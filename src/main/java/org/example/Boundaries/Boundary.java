@@ -159,7 +159,7 @@ public abstract class Boundary {
 		}	
 	}
 	
-	synchronized void UpdateTicketsData() {
+	static synchronized void UpdateTicketsData() {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadTickets");
@@ -180,7 +180,7 @@ public abstract class Boundary {
 		}	
 	}
 	
-	synchronized void UpdateComplaintsData() {
+	static synchronized void UpdateComplaintsData() {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadComplaints");
@@ -201,7 +201,28 @@ public abstract class Boundary {
 		}	
 	}
 	
-	synchronized void UpdateTicketsReportData(int cinema_id, Month month, Year year) {
+	static synchronized void UpdateRegulationsData() {
+		// add message to ClientInput so it could be sent to server
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadRegulations");
+		synchronized(CinemaClient.RegulationsDataLock)
+		{	
+			CinemaClient.RegulationsDataUpdated = false;
+			CinemaClientCLI.sendMessage(message);
+										
+			// wait for Data to be updated
+			while(!CinemaClient.RegulationsDataUpdated) {
+				try {
+						CinemaClient.RegulationsDataLock.wait();
+				} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+				}
+			}	
+		}	
+	}
+	
+	static synchronized void UpdateTicketsReportData(int cinema_id, Month month, Year year) {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadTicketsReport");
@@ -225,7 +246,7 @@ public abstract class Boundary {
 		}
 	}
 	
-	synchronized void UpdatePackagesReportData(Month month, Year year) {
+	static synchronized void UpdatePackagesReportData(Month month, Year year) {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadPackagesReport");
