@@ -98,7 +98,7 @@ public class ComplaintsController {
             return false;
         }
     }
-    public static List<Complaint> makeComplaintsReportByMonth(Session session, Month month, Year year) throws Exception{
+    public static List<Complaint> makeComplaintsReportByMonth(Session session, Integer month, Integer year) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
