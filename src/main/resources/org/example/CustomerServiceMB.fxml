@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16" fx:controller="CustomerServiceMB">
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Boundaries.CustomerServiceMB">
    <children>
       <AnchorPane prefHeight="488.0" prefWidth="800.0">
          <children>
@@ -60,5 +59,10 @@
             </Label>
          </children>
       </AnchorPane>
+      <Button fx:id="backBtn" layoutX="14.0" layoutY="431.0" mnemonicParsing="false" onAction="#clickBackBtn" prefHeight="34.0" prefWidth="69.0" text="&lt; Back" textAlignment="CENTER">
+         <font>
+            <Font name="System Italic" size="13.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

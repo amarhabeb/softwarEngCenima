@@ -49,7 +49,6 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 	@FXML private TableColumn<UpdatePriceRequest, String> time;
 	@FXML private TableColumn<UpdatePriceRequest, Integer> hall_number;
 	@FXML private TableColumn<UpdatePriceRequest, String> cinema;
-	private TableColumn<UpdatePriceRequest, String> requested_by; // Value injected by FXMLLoader
     @FXML // fx:id="old_price"
     private TableColumn<UpdatePriceRequest, Double> old_price; // Value injected by FXMLLoader
     @FXML // fx:id="new_requested_price"
@@ -67,50 +66,22 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     private Text selectedRequestText; // Value injected by FXMLLoader
     
     UpdatePriceRequest selected_request = null;
-    
-    public static Boolean ShowsPriceChanged = true;	// holds if the shows time is changed yet
-	// change price of show in DataBase and brings the Shows from the DataBase and updates 
-	// the ShowsData local list
-	synchronized void ChangeShowPrice(int show_id, Double NewPrice) {
-		ShowsPriceChanged = false;	// show time isn't changed yet
-		// create message and send it to the server
-    	LinkedList<Object> message = new LinkedList<Object>();
-		message.add("ChangeShowPrice");
-		message.add(show_id);
-		message.add(NewPrice);
-		synchronized(CinemaClient.ShowsDataLock)
-		{	
-			CinemaClientCLI.sendMessage(message);
-							
-			// wait for Data to be changed
-			while(!ShowsPriceChanged) {
-				try {
-					CinemaClient.ShowsDataLock.wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}	
-			// update ShowData
-			org.example.Boundaries.Boundary.UpdateShowsData();
-		}	
-	}
 	
-	public static Boolean RequestApprovedAndDeleted = true;	// holds if the show is deleted yet
+	public static Boolean RequestApproved = true;	// holds if the show is deleted yet
     // delete request in DataBase and brings the Shows from the DataBase and updates 
  	// the RequestsData local list
-    synchronized void ApproveAndDeleteRequest(int request_id) {
-    	RequestApprovedAndDeleted = false;
+    synchronized void ApproveRequest(UpdatePriceRequest upr) {
+    	RequestApproved = false;
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
-		message.add("ApproveAndDeleteRequest");
-		message.add(request_id);
+		message.add("ApproveRequest");
+		message.add(upr);
 		synchronized(UpdatePriceRequestsDataLock)
 		{	
 			CinemaClientCLI.sendMessage(message);
 							
 			// wait for Data to be changed
-			while(!RequestApprovedAndDeleted) {
+			while(!RequestApproved) {
 				try {
 					UpdatePriceRequestsDataLock.wait();
 				} catch (InterruptedException e) {
@@ -123,21 +94,21 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 		}	
 	}
     
-    public static Boolean RequestDeclinedAndDeleted = true;	// holds if the show is deleted yet
+    public static Boolean RequestDeclined = true;	// holds if the show is deleted yet
     // delete request in DataBase and brings the Shows from the DataBase and updates 
  	// the RequestsData local list
-    synchronized void DeclineAndDeleteRequest(int request_id) {
-    	RequestDeclinedAndDeleted = false;	
+    synchronized void DeclineRequest(int request_id) {
+    	RequestDeclined = false;	
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
-		message.add("DeclineAndDeleteRequest");
+		message.add("DeclineRequest");
 		message.add(request_id);
 		synchronized(UpdatePriceRequestsDataLock)
 		{	
 			CinemaClientCLI.sendMessage(message);
 							
 			// wait for Data to be changed
-			while(!RequestDeclinedAndDeleted) {
+			while(!RequestDeclined) {
 				try {
 					UpdatePriceRequestsDataLock.wait();
 				} catch (InterruptedException e) {
@@ -152,25 +123,20 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     
     @FXML
     void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-    	App.setRoot("CinemaManagerMB",null, stage);
+    	App.setRoot("ChainManagerMB",null, stage);
     }
     
     @FXML
     void clickApproveSelectedBtn(ActionEvent event) {
-    	int show_id = selected_request.getShow_id();
-		Double new_price = selected_request.getUpdatedPrice();
 		synchronized(UpdatePriceRequestsDataLock) {
 	    	try {
-	    		// change show entity
-	        	ChangeShowPrice(show_id, new_price);
+	    		// approve and delete request
+		    	ApproveRequest(selected_request);
 	    		MessageBoundaryEmployee.displayInfo("Show's price successfully changed.");
 	    	}catch(Exception e) {	// server threw exception while trying to delete show
 	    		MessageBoundaryEmployee.displayError("An error occured. Show couldn't be updated.");
 	    	}
-			
-	    	// approve and delete request
-	    	ApproveAndDeleteRequest(selected_request.getID());
-	    	
+
 	    	// set items in table
 	    	ObservableList<UpdatePriceRequest> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
 	    	UpdatePriceRequestsTable.setItems(DataList);
@@ -182,11 +148,9 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     	synchronized(UpdatePriceRequestsDataLock) {
 	    	try {
 		    	for (UpdatePriceRequest upr:CinemaClient.UpdatePriceRequestsData) {
-		        	// change show entity
-		            ChangeShowPrice(upr.getShow_id(), upr.getUpdatedPrice());
-		    		
+		        	
 		        	// approve and delete request
-		        	ApproveAndDeleteRequest(upr.getID());
+		        	ApproveRequest(upr);
 		    	}
 		    	MessageBoundaryEmployee.displayInfo("Shows' prices successfully changed.");
 	    	}catch(Exception e) {	// server threw exception while trying to delete show
@@ -201,10 +165,9 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 
     @FXML
     void clickDeclineSelectedBtn(ActionEvent event) {
-    	int show_id = selected_request.getShow_id();
 		synchronized(UpdatePriceRequestsDataLock) {
 	    	// decline and delete request
-	    	DeclineAndDeleteRequest(selected_request.getID());
+	    	DeclineRequest(selected_request.getID());
 	    	
 	    	// set items in table
 	    	ObservableList<UpdatePriceRequest> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
@@ -217,7 +180,7 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     	synchronized(UpdatePriceRequestsDataLock) {
 		    for (UpdatePriceRequest upr:CinemaClient.UpdatePriceRequestsData) {
 		        	// approve and delete request
-		        	DeclineAndDeleteRequest(upr.getID());
+		        	DeclineRequest(upr.getID());
 		    }
 	  
 	    	// set items in table
@@ -271,11 +234,13 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 		         return (new SimpleDoubleProperty(upr.getValue().getUpdatedPrice()).asObject());
 		     }
 		  });
-		requested_by.setCellValueFactory(new Callback<CellDataFeatures<UpdatePriceRequest, String>, ObservableValue<String>>() {
-		     public ObservableValue<String> call(CellDataFeatures<UpdatePriceRequest, String> upr) {
-		         return (new SimpleStringProperty(upr.getValue().getRequestedBy().toString()));
-		     }
-		  });
+//		requested_by.setCellValueFactory(new Callback<CellDataFeatures<UpdatePriceRequest, String>, ObservableValue<String>>() {
+//		     public ObservableValue<String> call(CellDataFeatures<UpdatePriceRequest, String> upr) {
+//		    	 int upr_id = upr.getValue().getRequestedBy_id();
+//		    	 
+//		         return (new SimpleStringProperty(upr.getValue().getRequestedBy_id().toString()));
+//		     }
+//		  });
 		
 		// disable button
 		approveSelectedBtn.setDisable(true);
