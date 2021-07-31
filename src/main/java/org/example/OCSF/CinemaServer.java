@@ -12,7 +12,6 @@ import org.hibernate.service.ServiceRegistry;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.Package;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -31,7 +30,7 @@ public class CinemaServer extends AbstractServer{
 	public static Regulations currentRegs = null;	// this is the regulations of the cinema chain
 	
 	private static Session session;
-	private static Thread loopThread;
+	private static Thread activateThread;
 	public static Object threadLock = new Object();
 
 
@@ -940,7 +939,7 @@ public class CinemaServer extends AbstractServer{
     }
 
 	protected static void activatingLoop() throws IOException {
-		loopThread = new Thread(new Runnable() {
+		activateThread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
@@ -965,7 +964,7 @@ public class CinemaServer extends AbstractServer{
 			}
 		});
 
-		loopThread.start();
+		activateThread.start();
 
 
 	}
