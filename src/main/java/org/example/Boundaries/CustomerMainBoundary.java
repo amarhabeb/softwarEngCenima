@@ -69,19 +69,19 @@ public class CustomerMainBoundary extends EmployeeMainBoundary implements Initia
 
     @FXML
     void clickFillacomplaintBtn(ActionEvent event) throws IOException {
-        App.setRoot("UpdateTimeBoundary",null);
+        App.setRoot("UpdateTimeBoundary",null, stage);
     }
 
     @FXML
     void clickBuyTicketBtn(ActionEvent event) throws IOException {
 
-        App.setRoot("BuyTicket",null);
+        App.setRoot("BuyTicket",null, stage);
 
     }
 
     @FXML
     void clickcardBtn(ActionEvent event) throws IOException{
-        App.setRoot("AddShowBoundary",null);
+        App.setRoot("AddShowBoundary",null, stage);
     }
 
     @FXML
