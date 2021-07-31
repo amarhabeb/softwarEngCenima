@@ -322,40 +322,47 @@ public abstract class Boundary {
 	
 	// return show given id
 	public static Show idToShow(int id) {
-   	 	for(Show show:CinemaClient.ShowsData) {
-   	 		if(show.getID()==id) {
-   	 			return show;
+		synchronized(CinemaClient.ShowsDataLock) {
+			UpdateShowsData();
+   	 		for(Show show:CinemaClient.ShowsData) {
+   	 			if(show.getID()==id) {
+   	 				return show;
+   	 			}
    	 		}
-   	 	}
-   	 	return null;
+   	 		return null;
+		}
 	}
 	
 	// return cinema given id
 	public static Cinema idToCinema(int id) {
-	   	 for(Cinema cinema:CinemaClient.CinemasData) {
-	   	 	if(cinema.getID()==id) {
-	   	 		return cinema;
-	   	 	}
-	   	 }
-	   	 return null;
+		synchronized(CinemaClient.CinemasDataLock) {
+			UpdateCinemasData();
+   	 		for(Cinema cinema:CinemaClient.CinemasData) {
+   	 			if(cinema.getID()==id) {
+   	 				return cinema;
+   	 			}
+   	 		}
+   	 		return null;
+		}
 	}
 	
-	public static byte[] fromFXImageToBytes(Image img)
-	{
-		int w = (int)img.getWidth();
-		int h = (int)img.getHeight();
-
-		// Create a new Byte Buffer, but we'll use BGRA (1 byte for each channel) //
-
-		byte[] buf = new byte[w * h * 4];
-
-		/* Since you can get the output in whatever format with a WritablePixelFormat,
-		   we'll use an already created one for ease-of-use. */
-
-		img.getPixelReader().getPixels(0, 0, w, h, PixelFormat.getByteBgraInstance(), buf, 0, w * 4);
-		
-		return buf;
-	}
+	
+//	public static byte[] fromFXImageToBytes(Image img)
+//	{
+//		int w = (int)img.getWidth();
+//		int h = (int)img.getHeight();
+//
+//		// Create a new Byte Buffer, but we'll use BGRA (1 byte for each channel) //
+//
+//		byte[] buf = new byte[w * h * 4];
+//
+//		/* Since you can get the output in whatever format with a WritablePixelFormat,
+//		   we'll use an already created one for ease-of-use. */
+//
+//		img.getPixelReader().getPixels(0, 0, w, h, PixelFormat.getByteBgraInstance(), buf, 0, w * 4);
+//		
+//		return buf;
+//	}
 
 	public String getTitle() {
 		return title;

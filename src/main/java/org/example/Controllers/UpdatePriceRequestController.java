@@ -96,6 +96,8 @@ public class UpdatePriceRequestController {
             session.clear();
             transaction2.commit();
             session.clear();
+            
+            deleteRequest(session, upRequest.getID());
             return true;
             // Save everything.
         } catch (Exception exception) {
@@ -120,6 +122,8 @@ public class UpdatePriceRequestController {
             session.clear();
             transaction.commit();
             session.clear();
+            
+            deleteRequest(session, request_id);
             return true;
             // Save everything.
         } catch (Exception exception) {
