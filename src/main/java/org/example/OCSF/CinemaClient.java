@@ -739,9 +739,47 @@ public class CinemaClient extends AbstractClient {
 //			}
 //			
 //		}
-
-
 		
+		if(message.get(0).equals("TicketsReportLoaded")) {
+			synchronized(TicketsReportDataLock) {
+				TicketsReportData = (List<Ticket>) message.get(1);
+				TicketsReportDataUpdated = true;	// client's ShowsData is now not updated
+				TicketsReportDataLock.notifyAll();
+			}
+		}
+		
+		if(message.get(0).equals("PackagesReportLoaded")) {
+			synchronized(PackagesReportDataLock) {
+				PackagesReportData = (List<PackageOrder>) message.get(1);
+				PackagesReportDataUpdated = true;	// client's ShowsData is now not updated
+				PackagesReportDataLock.notifyAll();
+			}
+		}
+		
+		if(message.get(0).equals("LinksReportLoaded")) {
+			synchronized(LinksReportDataLock) {
+				LinksReportData = (List<Link>) message.get(1);
+				LinksReportDataUpdated = true;	// client's ShowsData is now not updated
+				LinksReportDataLock.notifyAll();
+			}
+		}
+		
+		if(message.get(0).equals("RefundsReportLoaded")) {
+			synchronized(RefundsReportDataLock) {
+				RefundsReportData = (List<Refund>) message.get(1);
+				RefundsReportDataUpdated = true;	// client's ShowsData is now not updated
+				RefundsReportDataLock.notifyAll();
+			}
+		}
+		
+		if(message.get(0).equals("ComplaintsReportLoaded")) {
+			synchronized(ComplaintsReportDataLock) {
+				ComplaintsReportData = (List<Complaint>) message.get(1);
+				ComplaintsReportDataUpdated = true;	// client's ShowsData is now not updated
+				ComplaintsReportDataLock.notifyAll();
+			}
+		}
+
 	}
 
     public static void main(String[] args) throws IOException {
