@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
@@ -32,35 +32,38 @@
                   <Font name="System Bold Italic" size="45.0" />
                </font>
             </Label>
-            <LineChart fx:id="reports_chart" layoutX="81.0" layoutY="81.0" prefHeight="226.0" prefWidth="590.0">
+            <LineChart fx:id="reports_chart" layoutX="80.0" layoutY="81.0" prefHeight="226.0" prefWidth="599.0">
               <xAxis>
-                <CategoryAxis side="BOTTOM" />
+                <NumberAxis fx:id="Xaxis" lowerBound="1.0" prefHeight="13.0" prefWidth="533.0" tickLabelGap="5.0" upperBound="31.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets></NumberAxis>
               </xAxis>
               <yAxis>
-                <NumberAxis prefHeight="163.0" prefWidth="28.0" side="LEFT" />
+                <NumberAxis fx:id="Yaxis" prefHeight="163.0" prefWidth="28.0" side="LEFT" />
               </yAxis>
             </LineChart>
-            <Text fx:id="bestSalesText" fill="WHITE" layoutX="244.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best sales of the month were made on">
+            <Text fx:id="bestSalesText" fill="WHITE" layoutX="185.0" layoutY="384.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best sales of the month were made on">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Text>
-            <Text fx:id="worstSalesText" fill="WHITE" layoutX="242.0" layoutY="404.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Worst sales of the month were made on">
+            <Text fx:id="worstSalesText" fill="WHITE" layoutX="183.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Worst sales of the month were made on">
                <font>
                   <Font name="System Bold Italic" size="15.0" />
                </font>
             </Text>
-            <Text fx:id="totalText" fill="WHITE" layoutX="244.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total sold in this month:">
+            <Text fx:id="totalText" fill="WHITE" layoutX="185.0" layoutY="340.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total sold in this month:">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="profitsText" fill="#62ff00" layoutX="244.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Profits: ">
+            <Text fx:id="profitsText" fill="#62ff00" layoutX="185.0" layoutY="364.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Profits: ">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
             </Text>
-            <Text fx:id="refundedText" fill="RED" layoutX="244.0" layoutY="362.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total refunded money:">
+            <Text fx:id="refundedText" fill="RED" layoutX="183.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total refunded money:">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>

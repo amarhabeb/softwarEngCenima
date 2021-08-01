@@ -201,13 +201,13 @@ public class CinemaClient extends AbstractClient {
 				ComplaintsDataLock.notifyAll();
 			}
 		}
-		if(message.get(0).equals("MarkComplaintAsDone")) {
+		if(message.get(0).equals("ComplaintMarkedAsDone")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){
 				throw new Exception("Controller failed");
 			}
 			synchronized(ComplaintsDataLock) {
-
+				ViewComplaintsBoundary.ComplaintDeleted = true;	// time is now changed
 				ComplaintsDataUpdated = false;	// client's ShowsData is now not updated
 				ComplaintsDataLock.notifyAll();
 			}
@@ -347,17 +347,17 @@ public class CinemaClient extends AbstractClient {
 				RefundDataLock.notifyAll();
 			}
 		}
-//		if(message.get(0).equals("RefundAdded")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( RefundDataLock) {
-//				RefundBoundary.RefundAdded  = true;
-//				RefundDataUpdated = false;	// client's ShowsData is now not updated
-//				RefundDataLock.notifyAll();
-//			}
-//		}
+		if(message.get(0).equals("RefundAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( RefundDataLock) {
+				ViewComplaintsBoundary.RefundAdded  = true;
+				RefundDataUpdated = false;	// client's ShowsData is now not updated
+				RefundDataLock.notifyAll();
+			}
+		}
 		if(message.get(0).equals("RegulationsLoaded")) {
 			synchronized(RegulationsDataLock) {
 				RegulationsData = (List<Regulations>) message.get(1);
