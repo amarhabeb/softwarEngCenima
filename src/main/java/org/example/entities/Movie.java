@@ -30,7 +30,7 @@ public class Movie implements Serializable {
     @Column(length = 5000)
     private String summary;
     private LocalDate launch_date;
-    private Boolean is_new;
+    //private Boolean is_new;
     private int price;
     @Column(length = 5000)
     private byte[] image;
@@ -45,14 +45,14 @@ public class Movie implements Serializable {
 
 
     public Movie(String name_en, String name_heb, String director, List<String> cast, String summary,
-                 LocalDate lanuch_date, Boolean is_new,  byte[] image, List<Show> shows, boolean availableOnline) {
+                 LocalDate lanuch_date,  byte[] image, List<Show> shows, boolean availableOnline) {
         this.name_en = name_en;
         this.name_heb = name_heb;
         this.director = director;
         this.cast=cast;
         this.summary = summary;
         this.launch_date = lanuch_date;
-        this.is_new = is_new;
+        //this.is_new = is_new;
         this.image = image;
         this.shows = shows;
         this.availableOnline=true;
@@ -68,9 +68,9 @@ public class Movie implements Serializable {
         this.status = status;
     }
 
-    public Boolean getIs_new() {
-        return is_new;
-    }
+//    public Boolean getIs_new() {
+//        return is_new;
+//    }
 
     public List<Show> getShows() {
         return shows;
@@ -130,9 +130,9 @@ public class Movie implements Serializable {
 
 
 
-    public void setIs_new(Boolean is_new) {
-        this.is_new = is_new;
-    }
+//    public void setIs_new(Boolean is_new) {
+//        this.is_new = is_new;
+//    }
 
     /*public ImageIcon getImage() {
         return image;
@@ -182,13 +182,13 @@ public class Movie implements Serializable {
     }
 
     //calculate number of days between the movie's launch date and today, if less than 7, it's soon
-    public boolean isSoon(){
-        long diff= ChronoUnit.DAYS.between(LocalDate.now(), launch_date);
-        if(diff<=7){
-            return true;
-        }
-        return false;
-    }
+//    public boolean isSoon(){
+//        long diff= ChronoUnit.DAYS.between(LocalDate.now(), launch_date);
+//        if(diff<=7){
+//            return true;
+//        }
+//        return false;
+//    }
     
     @Override
     public String toString() {

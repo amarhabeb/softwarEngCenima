@@ -76,6 +76,50 @@ public class HallController {
         }
     }
 
+    public static boolean limitMaxSeats(Session session, int hall_id, int maxSeats) {
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaUpdate<Hall> update_query = builder.createCriteriaUpdate(Hall.class);
+            Root<Hall> root = update_query.from(Hall.class);
+            update_query.set("maxSeats", maxSeats);
+            update_query.where(builder.equal(root.get("ID"), hall_id));
+            Transaction transaction = session.beginTransaction();
+            session.createQuery(update_query).executeUpdate();
+            transaction.commit();
+            //session.clear();
+            return true;
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+    }
 
+    public static boolean resetMaxSeats(Session session, int hall_id, int capacity) {
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaUpdate<Hall> update_query = builder.createCriteriaUpdate(Hall.class);
+            Root<Hall> root = update_query.from(Hall.class);
+            update_query.set("maxSeats", capacity);
+            update_query.where(builder.equal(root.get("ID"), hall_id));
+            Transaction transaction = session.beginTransaction();
+            session.createQuery(update_query).executeUpdate();
+            transaction.commit();
+            //session.clear();
+            return true;
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+    }
 }
 

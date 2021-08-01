@@ -382,6 +382,21 @@ public class CinemaServer extends AbstractServer{
 					// change status into true in database
 					session.clear();
 					boolean success = RegulationsController.activateRegulations(session, Y);
+					List<Hall> hallsList=HallController.loadHalls(session);
+					for(Hall h : hallsList){
+						int capacity=h.getCapacity();
+						if(1.2*Y< capacity){
+							HallController.limitMaxSeats(session,h.getID(),Y);
+						}
+						else{
+							if(0.8*Y<capacity){
+								HallController.limitMaxSeats(session,h.getID(),(int) Math.round(0.8 * Y));
+							}
+							else{
+								HallController.limitMaxSeats(session,h.getID(),(int) Math.round(0.5 * capacity));
+							}
+						}
+					}
 					//session.refresh(Regulation.class);
 					if (!success) {
 						throw new Exception("Regulation status couldnt be changed");
@@ -397,6 +412,10 @@ public class CinemaServer extends AbstractServer{
 					// change status into false in database
 					session.clear();
 					boolean success = RegulationsController.deactivateRegulations(session);
+					List<Hall> hallsList=HallController.loadHalls(session);
+					for(Hall h : hallsList){
+						HallController.resetMaxSeats(session,h.getID(),h.getCapacity());
+					}
 					//session.refresh(Regulation.class);
 					if (!success) {
 						throw new Exception("Regulation status couldnt be changed");
@@ -478,6 +497,7 @@ public class CinemaServer extends AbstractServer{
 					// adding tickit into  database
 					session.clear();
 					boolean success = TicketsController.addTicket(session, newticket);
+
 					//session.refresh(Ticket.class);
 					if (!success) {
 						throw new Exception("Ticket  couldnt be added");
@@ -1143,10 +1163,33 @@ public class CinemaServer extends AbstractServer{
 		PaymentController.makePayment(session,payment);
 
 		/////// Testing Cinema
-		List<Show> cinema_shows=CinemaController.loadCinemaShows(session,2);
-		System.out.println(cinema_shows.size());
+//		List<Show> cinema_shows=CinemaController.loadCinemaShows(session,2);
+//		System.out.println(cinema_shows.size());
 
-//		RegulationsController.activateRegulations(session,15);
+		/////// Testing Regulations
+		int Y=49;
+		RegulationsController.activateRegulations(session, Y);
+		List<Hall> hallsList=HallController.loadHalls(session);
+		for(Hall h : hallsList){
+			int capacity=h.getCapacity();
+			if(1.2*Y< capacity){
+				HallController.limitMaxSeats(session,h.getID(),Y);
+			}
+			else{
+				if(0.8*Y<capacity){
+					HallController.limitMaxSeats(session,h.getID(),(int) Math.round(0.8 * Y));
+				}
+				else{
+					HallController.limitMaxSeats(session,h.getID(),(int) Math.round(0.5 * capacity));
+				}
+			}
+		}
+
+		RegulationsController.deactivateRegulations(session);
+		List<Hall> hallsList2=HallController.loadHalls(session);
+		for(Hall h : hallsList2){
+			HallController.resetMaxSeats(session,h.getID(),h.getCapacity());
+		}
 
 
 
@@ -1211,29 +1254,29 @@ public class CinemaServer extends AbstractServer{
 			byte[] im11File = new byte[(int) im11.length()];
 
 
-			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2021-07-31"),false,  imFile, emptyShowList,false);
+			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2021-07-31"),  imFile, emptyShowList,false);
 			moviesList.add(HarryPotter7);
-			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2021-08-03"),false, im1File, emptyShowList,false);
+			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2021-08-03"), im1File, emptyShowList,false);
 			moviesList.add(Joker);
-			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), LocalDate.parse("2021-05-18"),true, im3File, emptyShowList,false);
+			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), LocalDate.parse("2021-05-18"), im3File, emptyShowList,false);
 			moviesList.add(TheAvengers);
-			Movie StarWars=new Movie("Star Wars","מלחמת הכוכבים","George Lucas",init.StarWarsCast(), init.StarWarsSummary(), LocalDate.parse("2021-06-19"),true, im2File, emptyShowList,false);
+			Movie StarWars=new Movie("Star Wars","מלחמת הכוכבים","George Lucas",init.StarWarsCast(), init.StarWarsSummary(), LocalDate.parse("2021-06-19"), im2File, emptyShowList,false);
 			moviesList.add(StarWars);
-			Movie Inception=new Movie("Incepteion","התחלה","Emma Thomas",init.InceptionCast(), init.InceptionSummary(), LocalDate.parse("2021-02-13"),true, im4File, emptyShowList,false);
+			Movie Inception=new Movie("Incepteion","התחלה","Emma Thomas",init.InceptionCast(), init.InceptionSummary(), LocalDate.parse("2021-02-13"), im4File, emptyShowList,false);
 			moviesList.add(Inception);
-			Movie TheDarKnight=new Movie("The Dark Knight","האביר האפל","Emma Thomas,Charles Roven,Christopher Nolan",init.TheDarkKnightCast(), init.TheDarkKnightSummary(), LocalDate.parse("2021-12-18"),true, im5File, emptyShowList,false);
+			Movie TheDarKnight=new Movie("The Dark Knight","האביר האפל","Emma Thomas,Charles Roven,Christopher Nolan",init.TheDarkKnightCast(), init.TheDarkKnightSummary(), LocalDate.parse("2021-12-18"), im5File, emptyShowList,false);
 			moviesList.add(TheDarKnight);
-			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), LocalDate.parse("2021-08-11"),true, im6File, emptyShowList,false);
+			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), LocalDate.parse("2021-08-11"), im6File, emptyShowList,false);
 			moviesList.add(CaptainAmerica);
-			Movie Avatar=new Movie("Avatar","אווטאר","James Cameron,Jon Landau",init.AvatarCast(), init.AvatarSummary(), LocalDate.parse("2021-07-18"),true, im7File, emptyShowList,false);
+			Movie Avatar=new Movie("Avatar","אווטאר","James Cameron,Jon Landau",init.AvatarCast(), init.AvatarSummary(), LocalDate.parse("2021-07-18"), im7File, emptyShowList,false);
 			moviesList.add(Avatar);
-			Movie Jaws=new Movie("Jaws","מלתעות","Steven Spielberg",init.JawsCast(), init.JawsSummary(), LocalDate.parse("2019-08-14"),true, im8File, emptyShowList,false);
+			Movie Jaws=new Movie("Jaws","מלתעות","Steven Spielberg",init.JawsCast(), init.JawsSummary(), LocalDate.parse("2019-08-14"), im8File, emptyShowList,false);
 			moviesList.add(Jaws);
-			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), LocalDate.parse("2021-01-16"),true, im9File, emptyShowList,false);
+			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), LocalDate.parse("2021-01-16"), im9File, emptyShowList,false);
 			moviesList.add(Rocky);
-			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("2021-02-18"),true, im10File, emptyShowList,true);
+			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("2021-02-18"), im10File, emptyShowList,true);
 			moviesList.add(Titanic);
-			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"),true, im11File, emptyShowList,true);
+			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"), im11File, emptyShowList,true);
 			moviesList.add(LordOfTheRings);
 			List<Hall> cinemaHalls = new LinkedList<Hall>();
 			List<Show> shows = new LinkedList<Show>();
@@ -1401,14 +1444,15 @@ public class CinemaServer extends AbstractServer{
 			//cinemaHall2.setShows(emptyShowList);
 			//cinemaHall2.addShow(show1);
 			cinema1.setHalls(cinemaHalls);
-			CinemaController.addCinema(CinemaServer.session,cinema1);
-			HallController.addHall(CinemaServer.session,cinemaHall);
-			HallController.addHall(CinemaServer.session,cinemaHall1);
-			HallController.addHall(CinemaServer.session,cinemaHall2);
+			Cinema cinema2=new Cinema();
+			CinemaController.addCinema(CinemaServer.session,cinema2);
+//			HallController.addHall(CinemaServer.session,cinemaHall);
+//			HallController.addHall(CinemaServer.session,cinemaHall1);
+//			HallController.addHall(CinemaServer.session,cinemaHall2);
 
-			Regulations reg=new Regulations();
-			RegulationsController.addRegulations(session,reg);
-			RegulationsController.activateRegulations(session,15);
+//			Regulations reg=new Regulations();
+//			RegulationsController.addRegulations(session,reg);
+//			RegulationsController.activateRegulations(session,15);
 			//CinemaController.calcMaxSeats(session,cinema1);
 
 
