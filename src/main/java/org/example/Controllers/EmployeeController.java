@@ -69,15 +69,16 @@ public class EmployeeController {
         }
     }
     //return NULL if details is incorrect
-    public static Employee logIn(Session session, String username, String password) throws Exception{
+    public static Employee verifyLogIn(Session session, String username, String password) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Employee> query = builder.createQuery(Employee.class);
             Root<Employee> root=query.from(Employee.class);
             Predicate[] predicates = new Predicate[2];
-            predicates[0]=builder.equal(root.get("username"),username);
+            predicates[0]=builder.equal(root.get("userName"),username);
             predicates[1]=builder.equal(root.get("password"),password);
+            //predicates[2]=builder.equal(root.get("isOnline"),false);
             query.where(predicates);
             Employee data = session.createQuery(query).uniqueResult();
             transaction.commit();
@@ -89,6 +90,56 @@ public class EmployeeController {
             System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
             return null;
+        }
+    }
+    public static boolean checkIfNotLoggedIn(Session session, int emp_id) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Employee> query = builder.createQuery(Employee.class);
+            Root<Employee> root=query.from(Employee.class);
+            Predicate[] predicates = new Predicate[2];
+            predicates[0]=builder.equal(root.get("ID"),emp_id);
+            predicates[1]=builder.equal(root.get("isOnline"),false);
+            query.where(predicates);
+            Employee data = session.createQuery(query).uniqueResult();
+            transaction.commit();
+            if(data!=null)
+                return true;
+            else
+                return false;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+    }
+    public static boolean logIn(Session session, int emp_id){
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaUpdate<Employee> update_query = builder.createCriteriaUpdate(Employee.class);
+            Root<Employee> root=update_query.from(Employee.class);
+            update_query.set("isOnline", true);
+            Predicate[] predicates = new Predicate[2];
+            predicates[0]=builder.equal(root.get("ID"),emp_id);
+            predicates[1]=builder.equal(root.get("isOnline"),false);
+            update_query.where(predicates);
+            Transaction transaction = session.beginTransaction();
+            session.createQuery(update_query).executeUpdate();
+            transaction.commit();
+            //session.clear();
+            return true;
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
         }
     }
 }
