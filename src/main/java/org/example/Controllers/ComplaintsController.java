@@ -1,6 +1,7 @@
 package org.example.Controllers;
 
 import org.example.entities.Complaint;
+import org.example.entities.PackageOrder;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -104,7 +105,7 @@ public class ComplaintsController {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Complaint> query = builder.createQuery(Complaint.class);
-            Root<Package> root=query.from(Package.class);
+            Root<Complaint> root=query.from(Complaint.class);
             Predicate[] predicates=new Predicate[2];
             //predicates[0]=builder.equal(root.get("active"),true);
             predicates[0]=builder.equal(builder.function("MONTH", Integer.class, root.get("creationDate")),month);

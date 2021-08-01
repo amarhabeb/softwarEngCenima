@@ -227,7 +227,7 @@ public abstract class Boundary {
 		}	
 	}
 	
-	static synchronized void UpdateTicketsReportData(int cinema_id, Month month, Year year) {
+	static synchronized void UpdateTicketsReportData(int cinema_id, int month, int year) {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadTicketsReport");
@@ -251,7 +251,7 @@ public abstract class Boundary {
 		}
 	}
 	
-	static synchronized void UpdatePackagesReportData(Month month, Year year) {
+	static synchronized void UpdatePackagesReportData(int month, int year) {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadPackagesReport");
@@ -274,7 +274,7 @@ public abstract class Boundary {
 		}
 	}
 	
-	static synchronized void UpdateLinksReportData(Month month, Year year) {
+	static synchronized void UpdateLinksReportData(int month, int year) {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadLinksReport");
@@ -297,7 +297,7 @@ public abstract class Boundary {
 		}
 	}
 	
-	static synchronized void UpdateRefundsReportData(Month month, Year year) {
+	static synchronized void UpdateRefundsReportData(int month, int year) {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadRefundsReport");
@@ -320,7 +320,7 @@ public abstract class Boundary {
 		}
 	}
 
-	static synchronized void UpdateComplaintsReportData(Month month, Year year) {
+	static synchronized void UpdateComplaintsReportData(int month, int year) {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadComplaintsReport");

@@ -360,7 +360,7 @@ public class CinemaServer extends AbstractServer{
 					client.sendToClient(messageToClient);
 				}
 
-				if (message.get(0).equals("LoadReagulations")) {
+				if (message.get(0).equals("LoadRegulations")) {
 					// load data
 					try {
 						session.clear();
@@ -456,7 +456,7 @@ public class CinemaServer extends AbstractServer{
 					messageToClient.add(success);
 					client.sendToClient(messageToClient);
 				}
-
+				
 				if (message.get(0).equals("LoadTickets")) {
 					// load data
 					try {
@@ -856,7 +856,6 @@ public class CinemaServer extends AbstractServer{
 						Integer month = (Integer) message.get(2);
 						Integer year = (Integer) message.get(3);
 						List<Ticket> Data = TicketsController.makeTicketsReportByMonth(session, cinema_id, month, year);
-
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("TicketsReportLoaded");
@@ -1077,8 +1076,10 @@ public class CinemaServer extends AbstractServer{
 
 		Complaint complaint2=new Complaint("I paid but didn't receive confirmation!!",2);
 		ComplaintsController.addComplaint(session,complaint2);
-		Complaint complaint3=new Complaint("All hals are full there's no place for me",3);
+		Complaint complaint3=new Complaint("All halls are full there's no place for me",3);
 		ComplaintsController.addComplaint(session,complaint3);
+		Complaint complaint4=new Complaint("Movie sound was awful",2);
+		ComplaintsController.addComplaint(session,complaint4);
 		ComplaintsController.markComplaintAsDone(session,1);
 
 		/////// Testing TicketController
@@ -1093,6 +1094,8 @@ public class CinemaServer extends AbstractServer{
 		TicketsController.addTicket(session,ticket3);
 		TicketsController.cancelTicket(session,ticket2.getID());
 
+		List<Ticket> reportTicket=TicketsController.makeTicketsReportByMonth(session,2,8,2021);
+		System.out.println("success"+reportTicket.size());
 
 
 
@@ -1708,7 +1711,7 @@ public class CinemaServer extends AbstractServer{
 				// initialize the DataBase
 				InitializeDataBase();
 
-				activatingLoop();
+				//activatingLoop();
 				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
 				server.listen();
 
