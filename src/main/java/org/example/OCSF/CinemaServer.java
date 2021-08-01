@@ -1196,19 +1196,8 @@ public class CinemaServer extends AbstractServer{
 
 	private static void generateMovies(Session session) throws Exception {
     	try {
-			Cinema cinema1 = new Cinema("הסרטייה");
-			//Cinema cinema2 = new Cinema("Mall Cinema");
 			List<Movie> moviesList = new LinkedList<Movie>();
 			List<Show> emptyShowList = new LinkedList<Show>();
-			int[] days = {6, 15, 17, 18,22,24,30};
-			int[] months = {8,9,10,11,12};
-			int[] years = {2021,2021,2021,2021,2021,2021,2021};
-
-			int[] hours = {18,18,19,19,20,20,21,21,22,22};
-			int[] minutes = {00,30,00,30,00,30,00,30,00,30,};
-
-
-			String[] availability = {"AVAILABLE", "NOT_AVAILABLE"};
 
     		/*when we create the movie we give its empty list of shows
     		and when we create the shows list we set its in the movie
@@ -1253,7 +1242,7 @@ public class CinemaServer extends AbstractServer{
 
 			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2021-07-31"),  imFile, emptyShowList,false);
 			moviesList.add(HarryPotter7);
-			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2021-08-03"), im1File, emptyShowList,false);
+			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2021-08-07"), im1File, emptyShowList,false);
 			moviesList.add(Joker);
 			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), LocalDate.parse("2021-05-18"), im3File, emptyShowList,false);
 			moviesList.add(TheAvengers);
@@ -1263,7 +1252,7 @@ public class CinemaServer extends AbstractServer{
 			moviesList.add(Inception);
 			Movie TheDarKnight=new Movie("The Dark Knight","האביר האפל","Emma Thomas,Charles Roven,Christopher Nolan",init.TheDarkKnightCast(), init.TheDarkKnightSummary(), LocalDate.parse("2021-12-18"), im5File, emptyShowList,false);
 			moviesList.add(TheDarKnight);
-			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), LocalDate.parse("2021-08-11"), im6File, emptyShowList,false);
+			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), LocalDate.parse("2021-07-11"), im6File, emptyShowList,false);
 			moviesList.add(CaptainAmerica);
 			Movie Avatar=new Movie("Avatar","אווטאר","James Cameron,Jon Landau",init.AvatarCast(), init.AvatarSummary(), LocalDate.parse("2021-07-18"), im7File, emptyShowList,false);
 			moviesList.add(Avatar);
@@ -1275,200 +1264,424 @@ public class CinemaServer extends AbstractServer{
 			moviesList.add(Titanic);
 			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"), im11File, emptyShowList,true);
 			moviesList.add(LordOfTheRings);
-			List<Hall> cinemaHalls = new LinkedList<Hall>();
-			List<Show> shows = new LinkedList<Show>();
-			List<Show> shows1 = new LinkedList<Show>();
-			List<Show> shows2 = new LinkedList<Show>();
-			List<Show> shows3 = new LinkedList<Show>();
 
+			Cinema cinema1 = new Cinema("לב המפרץ");
+			List<Hall> cinemaHalls = new LinkedList<Hall>();
 			List<Seat> tempseats = new LinkedList<Seat>();
 			List<Seat> tempseats1 = new LinkedList<Seat>();
 			List<Seat> tempseats2 = new LinkedList<Seat>();
-			//Hall cinemaHall = new Hall(1, 2*10,tempseats, cinema1,shows1);
 			Hall cinemaHall = new Hall(1, 2*10,tempseats, cinema1);
-			//Hall cinemaHall1 = new Hall(2, 4*10,tempseats1, cinema1,shows2);
 			Hall cinemaHall1 = new Hall(2, 4*10,tempseats1, cinema1);
+			Hall cinemaHall2 =new Hall(3, 6*10,tempseats2, cinema1);
 
-			List<Seat> tempSeats = new LinkedList<Seat>();
-			//Hall cinemaHall2 =new Hall(2, 6*10,tempSeats, cinema1,shows);
-			Hall cinemaHall2 =new Hall(3, 6*10,tempSeats, cinema1);
-			Show show1= new Show( LocalDateTime.of(years[0],months[1],days[0], hours[0],minutes[1]), availability[(0)%2], 60,HarryPotter7,cinemaHall,cinema1);
-			Show show112= new Show( LocalDateTime.of(years[3],months[2],days[0], hours[1],minutes[1]), availability[(0)%2], 60,HarryPotter7,cinemaHall2,cinema1);
-			Show show113= new Show( LocalDateTime.of(years[1],months[3],days[0], hours[0],minutes[1]), availability[(0)%2], 60,HarryPotter7,cinemaHall1,cinema1);
 
-			Show show2= new Show( LocalDateTime.of(years[1],months[4],days[1], hours[2],minutes[2]), availability[(2)%2], 60, LordOfTheRings,cinemaHall1,cinema1);
-			Show show22= new Show( LocalDateTime.of(years[1],months[4],days[2], hours[2],minutes[2]), availability[(2)%2], 60, LordOfTheRings,cinemaHall2,cinema1);
-			Show show23= new Show( LocalDateTime.of(years[1],months[4],days[3], hours[2],minutes[2]), availability[(2)%2], 60, LordOfTheRings,cinemaHall,cinema1);
+			Show show1= new Show( LocalDateTime.of(2021,9,1, 21,0), 60,HarryPotter7,cinemaHall,cinema1);
+			Show show112= new Show( LocalDateTime.of(2021,10,2, 21,0), 60,HarryPotter7,cinemaHall2,cinema1);
+			Show show113= new Show( LocalDateTime.of(2021,11,2, 23,15), 60,HarryPotter7,cinemaHall1,cinema1);
 
-			Show show3= new Show( LocalDateTime.of(years[2],months[3],days[2], hours[2],minutes[3]), availability[(2)%2], 60,Titanic,cinemaHall2,cinema1);
-			Show show32= new Show( LocalDateTime.of(years[2],months[4],days[4], hours[2],minutes[3]), availability[(2)%2], 60,Titanic,cinemaHall1,cinema1);
-			Show show33= new Show( LocalDateTime.of(years[2],months[4],days[1], hours[2],minutes[3]), availability[(2)%2], 60,Titanic,cinemaHall,cinema1);
+			Show show2= new Show( LocalDateTime.of(2021,12,8, 22,30), 60, LordOfTheRings,cinemaHall1,cinema1);
+			Show show22= new Show( LocalDateTime.of(2021,12,9, 20,30), 60, LordOfTheRings,cinemaHall2,cinema1);
+			Show show23= new Show( LocalDateTime.of(2021,12,9, 22,45), 60, LordOfTheRings,cinemaHall,cinema1);
 
-			Show show4= new Show( LocalDateTime.of(years[3],months[1],days[3], hours[0],minutes[3]), availability[(2)%2], 60,Joker,cinemaHall2,cinema1);
-			Show show5= new Show( LocalDateTime.of(years[4],months[2],days[4], hours[0],minutes[3]), availability[(2)%2], 60,TheAvengers,cinemaHall2,cinema1);
-			Show show6= new Show( LocalDateTime.of(years[0],months[1],days[0], hours[1],minutes[3]), availability[(2)%2], 60,StarWars,cinemaHall2,cinema1);
-			Show show7= new Show( LocalDateTime.of(years[1],months[0],days[1], hours[2],minutes[4]), availability[(0)%2], 60,Inception,cinemaHall1,cinema1);
-			Show show8= new Show( LocalDateTime.of(years[2],months[4],days[2], hours[1],minutes[0]), availability[(1)%2], 60,TheDarKnight,cinemaHall1,cinema1);
-			Show show9= new Show( LocalDateTime.of(years[3],months[3],days[3], hours[2],minutes[1]), availability[(2)%2], 60,CaptainAmerica,cinemaHall1,cinema1);
-			Show show10= new Show( LocalDateTime.of(years[4],months[2],days[4], hours[1],minutes[0]), availability[(1)%2], 60,Avatar,cinemaHall,cinema1);
-			Show show11= new Show( LocalDateTime.of(years[2],months[1],days[0], hours[2],minutes[0]), availability[(1)%2], 60,Jaws,cinemaHall,cinema1);
-			Show show12= new Show( LocalDateTime.of(years[1],months[0],days[1], hours[0],minutes[0]), availability[(1)%2], 60,Rocky,cinemaHall,cinema1);
+			Show show3= new Show( LocalDateTime.of(2021,11,4, 19,50), 60,Titanic,cinemaHall2,cinema1);
+			Show show32= new Show( LocalDateTime.of(2021,12,1, 21,30), 60,Titanic,cinemaHall1,cinema1);
+			Show show33= new Show( LocalDateTime.of(2021,12,2, 21,30), 60,Titanic,cinemaHall,cinema1);
+
+			Show show4= new Show( LocalDateTime.of(2021,9,15, 18,30), 60,Joker,cinemaHall2,cinema1);
+			Show show42= new Show( LocalDateTime.of(2021,9,14, 18,30), 60,Joker,cinemaHall1,cinema1);
+			Show show43= new Show( LocalDateTime.of(2021,9,13, 18,30), 60,Joker,cinemaHall,cinema1);
+
+			Show show5= new Show( LocalDateTime.of(2021,10,11, 20,45), 60,TheAvengers,cinemaHall2,cinema1);
+			Show show52= new Show( LocalDateTime.of(2021,10,14, 20,45), 60,TheAvengers,cinemaHall1,cinema1);
+			Show show53= new Show( LocalDateTime.of(2021,10,13, 20,45), 60,TheAvengers,cinemaHall,cinema1);
+
+			Show show6= new Show( LocalDateTime.of(2021,9,15, 21,30), 60,StarWars,cinemaHall2,cinema1);
+			Show show62= new Show( LocalDateTime.of(2021,9,16, 21,30), 60,StarWars,cinemaHall1,cinema1);
+			Show show63= new Show( LocalDateTime.of(2021,9,18, 21,30), 60,StarWars,cinemaHall,cinema1);
+
+			Show show7= new Show( LocalDateTime.of(2021,8,24, 19,0), 60,Inception,cinemaHall1,cinema1);
+			Show show72= new Show( LocalDateTime.of(2021,8,25, 19,0), 60,Inception,cinemaHall1,cinema1);
+			Show show73= new Show( LocalDateTime.of(2021,8,26, 19,0), 60,Inception,cinemaHall,cinema1);
+
+			Show show8= new Show( LocalDateTime.of(2021,8,23, 19,0), 60,TheDarKnight,cinemaHall2,cinema1);
+			Show show82= new Show( LocalDateTime.of(2021,8,24, 23,0), 60,TheDarKnight,cinemaHall1,cinema1);
+			Show show83= new Show( LocalDateTime.of(2021,8,25, 19,0), 60,TheDarKnight,cinemaHall,cinema1);
+
+			Show show9= new Show( LocalDateTime.of(2021,11,7, 18,45), 60,CaptainAmerica,cinemaHall2,cinema1);
+			Show show92= new Show( LocalDateTime.of(2021,11,8, 18,45), 60,CaptainAmerica,cinemaHall1,cinema1);
+			Show show93= new Show( LocalDateTime.of(2021,11,9, 18,45), 60,CaptainAmerica,cinemaHall,cinema1);
+
+			Show show10= new Show( LocalDateTime.of(2021,10,5, 0,0), 60,Avatar,cinemaHall2,cinema1);
+			Show show102= new Show( LocalDateTime.of(2021,10,6, 0,0), 60,Avatar,cinemaHall1,cinema1);
+			Show show103= new Show( LocalDateTime.of(2021,10,7, 0,0), 60,Avatar,cinemaHall,cinema1);
+
+			Show show11= new Show( LocalDateTime.of(2021,9,7, 21,30), 60,Jaws,cinemaHall2,cinema1);
+			Show show11_2= new Show( LocalDateTime.of(2021,9,9, 21,30), 60,Jaws,cinemaHall1,cinema1);
+			Show show11_3= new Show( LocalDateTime.of(2021,9,10, 21,30), 60,Jaws,cinemaHall,cinema1);
+
+			Show show12= new Show( LocalDateTime.of(2021,8,5, 22,20), 60,Rocky,cinemaHall2,cinema1);
+			Show show12_2= new Show( LocalDateTime.of(2021,8,6, 22,20), 60,Rocky,cinemaHall1,cinema1);
+			Show show12_3= new Show( LocalDateTime.of(2021,8,7, 22,20), 60,Rocky,cinemaHall,cinema1);
+
 
 			show1.setHall(cinemaHall);
-			show10.setHall(cinemaHall);
-			show11.setHall(cinemaHall);
-			show12.setHall(cinemaHall);
+			show43.setHall(cinemaHall);
+			show53.setHall(cinemaHall);
+			show63.setHall(cinemaHall);
+			show73.setHall(cinemaHall);
+			show83.setHall(cinemaHall);
+			show93.setHall(cinemaHall);
+			show103.setHall(cinemaHall);
+			show11_3.setHall(cinemaHall);
+			show12_3.setHall(cinemaHall);
 
 			show2.setHall(cinemaHall1);
 			show7.setHall(cinemaHall);
-			show8.setHall(cinemaHall1);
-			show9.setHall(cinemaHall1);
-
+			show42.setHall(cinemaHall1);
+			show52.setHall(cinemaHall1);
+			show62.setHall(cinemaHall1);
+			show72.setHall(cinemaHall1);
+			show82.setHall(cinemaHall1);
+			show92.setHall(cinemaHall1);
+			show102.setHall(cinemaHall1);
+			show11_2.setHall(cinemaHall1);
+			show12_2.setHall(cinemaHall1);
 
 			show3.setHall(cinemaHall2);
 			show4.setHall(cinemaHall2);
 			show5.setHall(cinemaHall2);
 			show6.setHall(cinemaHall2);
+			show8.setHall(cinemaHall2);
+			show9.setHall(cinemaHall2);
+			show10.setHall(cinemaHall2);
+			show11.setHall(cinemaHall2);
+			show12.setHall(cinemaHall2);
 
-
+			List<Show> shows = new LinkedList<Show>();
 			shows.add(show1);
+			shows.add(show112);
+			shows.add(show113);
+			shows.add(show2);
+			shows.add(show22);
+			shows.add(show23);
+			shows.add(show3);
+			shows.add(show32);
+			shows.add(show33);
+			shows.add(show4);
+			shows.add(show42);
+			shows.add(show43);
+			shows.add(show5);
+			shows.add(show52);
+			shows.add(show53);
+			shows.add(show6);
+			shows.add(show62);
+			shows.add(show63);
+			shows.add(show7);
+			shows.add(show72);
+			shows.add(show73);
+			shows.add(show8);
+			shows.add(show82);
+			shows.add(show83);
+			shows.add(show9);
+			shows.add(show92);
+			shows.add(show93);
 			shows.add(show10);
+			shows.add(show102);
+			shows.add(show103);
 			shows.add(show11);
+			shows.add(show11_2);
+			shows.add(show11_3);
 			shows.add(show12);
+			shows.add(show12_2);
+			shows.add(show12_3);
 
-			shows1.add(show2);
-			shows1.add(show7);
-			shows1.add(show8);
-			shows1.add(show9);
-
-
-			shows2.add(show3);
-			shows2.add(show4);
-			shows2.add(show5);
-			shows2.add(show6);
-
-
-			shows3.add(show1);
-			shows3.add(show2);
-			shows3.add(show3);
-			shows3.add(show4);
-			shows3.add(show5);
-			shows3.add(show6);
-			shows3.add(show7);
-			shows3.add(show8);
-			shows3.add(show9);
-			shows3.add(show10);
-			shows3.add(show11);
-			shows3.add(show12);
-
-			cinema1.setMovies(moviesList);
 			cinemaHalls.add(cinemaHall2);
 			cinemaHalls.add(cinemaHall);
 			cinemaHalls.add(cinemaHall1);
-			cinema1.setShows(shows3);
+			cinema1.setMovies(moviesList);
+			cinema1.setShows(shows);
+			cinema1.setHalls(cinemaHalls);
+
+
+
+
+			for (int k=1; k<=2*10; k++){
+				Seat seat = new Seat(true, k, k/11+1,cinemaHall);
+				tempseats.add(seat);
+			}
+
+			for (int k=1; k<=4*10; k++){
+				Seat seat = new Seat(true, k, k/11 +1,cinemaHall1);
+				tempseats1.add(seat);
+			}
+
+			for (int k=1; k<=6*10; k++){
+				Seat seat = new Seat(true, k, k/11 +1,cinemaHall2);
+				tempseats2.add(seat);
+			}
+
+			/*
+			Cinema cinema2 = new Cinema("רמת גן");
+			List<Hall> cinemaHalls2 = new LinkedList<Hall>();
+			List<Seat> tempseats_2 = new LinkedList<Seat>();
+			List<Seat> tempseats1_2 = new LinkedList<Seat>();
+			List<Seat> tempseats2_2 = new LinkedList<Seat>();
+			Hall cinemaHall_2 = new Hall(1, 2*10,tempseats_2, cinema2);
+			Hall cinemaHall1_2 = new Hall(2, 4*10,tempseats1_2, cinema2);
+			Hall cinemaHall2_2 = new Hall(3, 6*10,tempseats2_2, cinema2);
+
+			Show chow1= new Show( LocalDateTime.of(2021,9,1, 21,0), 60,HarryPotter7,cinemaHall,cinema1);
+			Show chow112= new Show( LocalDateTime.of(2021,10,2, 21,0), 60,HarryPotter7,cinemaHall2,cinema1);
+			Show chow113= new Show( LocalDateTime.of(2021,11,2, 23,15), 60,HarryPotter7,cinemaHall1,cinema1);
+
+			Show chow2= new Show( LocalDateTime.of(2021,12,8, 22,30), 60, LordOfTheRings,cinemaHall1,cinema1);
+			Show chow22= new Show( LocalDateTime.of(2021,12,9, 20,30), 60, LordOfTheRings,cinemaHall2,cinema1);
+			Show chow23= new Show( LocalDateTime.of(2021,12,9, 22,45), 60, LordOfTheRings,cinemaHall,cinema1);
+
+			Show chow3= new Show( LocalDateTime.of(2021,11,4, 19,50), 60,Titanic,cinemaHall2,cinema1);
+			Show chow32= new Show( LocalDateTime.of(2021,12,1, 21,30), 60,Titanic,cinemaHall1,cinema1);
+			Show chow33= new Show( LocalDateTime.of(2021,12,2, 21,30), 60,Titanic,cinemaHall,cinema1);
+
+			Show chow4= new Show( LocalDateTime.of(2021,9,15, 18,30), 60,Joker,cinemaHall2,cinema1);
+			Show chow42= new Show( LocalDateTime.of(2021,9,14, 18,30), 60,Joker,cinemaHall1,cinema1);
+			Show chow43= new Show( LocalDateTime.of(2021,9,13, 18,30), 60,Joker,cinemaHall,cinema1);
+
+			Show chow5= new Show( LocalDateTime.of(2021,10,11, 20,45), 60,TheAvengers,cinemaHall2,cinema1);
+			Show chow52= new Show( LocalDateTime.of(2021,10,14, 20,45), 60,TheAvengers,cinemaHall1,cinema1);
+			Show chow53= new Show( LocalDateTime.of(2021,10,13, 20,45), 60,TheAvengers,cinemaHall,cinema1);
+
+			Show chow6= new Show( LocalDateTime.of(2021,9,15, 21,30), 60,StarWars,cinemaHall2,cinema1);
+			Show chow62= new Show( LocalDateTime.of(2021,9,16, 21,30), 60,StarWars,cinemaHall1,cinema1);
+			Show chow63= new Show( LocalDateTime.of(2021,9,18, 21,30), 60,StarWars,cinemaHall,cinema1);
+
+			Show chow7= new Show( LocalDateTime.of(2021,8,24, 19,0), 60,Inception,cinemaHall1,cinema1);
+			Show chow72= new Show( LocalDateTime.of(2021,8,25, 19,0), 60,Inception,cinemaHall1,cinema1);
+			Show chow73= new Show( LocalDateTime.of(2021,8,26, 19,0), 60,Inception,cinemaHall,cinema1);
+
+			Show chow8= new Show( LocalDateTime.of(2021,8,23, 19,0), 60,TheDarKnight,cinemaHall2,cinema1);
+			Show chow82= new Show( LocalDateTime.of(2021,8,24, 23,0), 60,TheDarKnight,cinemaHall1,cinema1);
+			Show chow83= new Show( LocalDateTime.of(2021,8,25, 19,0), 60,TheDarKnight,cinemaHall,cinema1);
+
+			Show chow9= new Show( LocalDateTime.of(2021,11,7, 18,45), 60,CaptainAmerica,cinemaHall2,cinema1);
+			Show chow92= new Show( LocalDateTime.of(2021,11,8, 18,45), 60,CaptainAmerica,cinemaHall1,cinema1);
+			Show chow93= new Show( LocalDateTime.of(2021,11,9, 18,45), 60,CaptainAmerica,cinemaHall,cinema1);
+
+			Show chow10= new Show( LocalDateTime.of(2021,10,5, 0,0), 60,Avatar,cinemaHall2,cinema1);
+			Show chow102= new Show( LocalDateTime.of(2021,10,6, 0,0), 60,Avatar,cinemaHall1,cinema1);
+			Show chow103= new Show( LocalDateTime.of(2021,10,7, 0,0), 60,Avatar,cinemaHall,cinema1);
+
+			Show chow11= new Show( LocalDateTime.of(2021,9,7, 21,30), 60,Jaws,cinemaHall2,cinema1);
+			Show chow11_2= new Show( LocalDateTime.of(2021,9,9, 21,30), 60,Jaws,cinemaHall1,cinema1);
+			Show chow11_3= new Show( LocalDateTime.of(2021,9,10, 21,30), 60,Jaws,cinemaHall,cinema1);
+
+			Show chow12= new Show( LocalDateTime.of(2021,8,5, 22,20), 60,Rocky,cinemaHall2,cinema1);
+			Show chow12_2= new Show( LocalDateTime.of(2021,8,6, 22,20), 60,Rocky,cinemaHall1,cinema1);
+			Show chow12_3= new Show( LocalDateTime.of(2021,8,7, 22,20), 60,Rocky,cinemaHall,cinema1);
+
+
+			chow1.setHall(cinemaHall_2);
+			chow43.setHall(cinemaHall_2);
+			chow53.setHall(cinemaHall_2);
+			chow63.setHall(cinemaHall_2);
+			chow73.setHall(cinemaHall_2);
+			chow83.setHall(cinemaHall_2);
+			chow93.setHall(cinemaHall_2);
+			chow103.setHall(cinemaHall_2);
+			chow11_3.setHall(cinemaHall_2);
+			chow12_3.setHall(cinemaHall_2);
+
+			chow2.setHall(cinemaHall1_2);
+			chow7.setHall(cinemaHall1_2);
+			chow42.setHall(cinemaHall1_2);
+			chow52.setHall(cinemaHall1_2);
+			chow62.setHall(cinemaHall1_2);
+			chow72.setHall(cinemaHall1_2);
+			chow82.setHall(cinemaHall1_2);
+			chow92.setHall(cinemaHall1_2);
+			chow102.setHall(cinemaHall1_2);
+			chow11_2.setHall(cinemaHall1_2);
+			chow12_2.setHall(cinemaHall1_2);
+
+			chow3.setHall(cinemaHall2);
+			chow4.setHall(cinemaHall2);
+			chow5.setHall(cinemaHall2);
+			chow6.setHall(cinemaHall2);
+			chow8.setHall(cinemaHall2);
+			chow9.setHall(cinemaHall2);
+			chow10.setHall(cinemaHall2);
+			chow11.setHall(cinemaHall2);
+			chow12.setHall(cinemaHall2);
+
+			List<Show> shows2 = new LinkedList<Show>();
+			shows2.add(show1);
+			shows2.add(show112);
+			shows2.add(show113);
+			shows2.add(show2);
+			shows2.add(show22);
+			shows2.add(show23);
+			shows2.add(show3);
+			shows2.add(show32);
+			shows2.add(show33);
+			shows2.add(show4);
+			shows2.add(show42);
+			shows2.add(show43);
+			shows2.add(show5);
+			shows2.add(show52);
+			shows2.add(show53);
+			shows2.add(show6);
+			shows2.add(show62);
+			shows2.add(show63);
+			shows2.add(show7);
+			shows2.add(show72);
+			shows2.add(show73);
+			shows2.add(show8);
+			shows2.add(show82);
+			shows2.add(show83);
+			shows2.add(show9);
+			shows2.add(show92);
+			shows2.add(show93);
+			shows2.add(show10);
+			shows2.add(show102);
+			shows2.add(show103);
+			shows2.add(show11);
+			shows2.add(show11_2);
+			shows2.add(show11_3);
+			shows2.add(show12);
+			shows2.add(show12_2);
+			shows2.add(show12_3);
+
+			cinemaHalls2.add(cinemaHall2_2);
+			cinemaHalls2.add(cinemaHall_2);
+			cinemaHalls2.add(cinemaHall1_2);
+			cinema2.setMovies(moviesList);
+			cinema2.setShows(shows2);
+			cinema2.setHalls(cinemaHalls2);
 
 			List<Show> HarryPotter7_shows = new LinkedList<Show>();
 			HarryPotter7_shows.add(show1);
 			HarryPotter7_shows.add(show112);
 			HarryPotter7_shows.add(show113);
+			HarryPotter7_shows.add(chow1);
+			HarryPotter7_shows.add(chow112);
+			HarryPotter7_shows.add(chow113);
 			HarryPotter7.setShows(HarryPotter7_shows);
-
-
-			List<Show> Titanic_shows = new LinkedList<Show>();
-			Titanic_shows.add(show3);
-			Titanic_shows.add(show32);
-			Titanic_shows.add(show33);
-			Titanic.setShows(Titanic_shows);
-
 
 			List<Show> LordOfTheRings_shows = new LinkedList<Show>();
 			LordOfTheRings_shows.add(show2);
 			LordOfTheRings_shows.add(show22);
 			LordOfTheRings_shows.add(show23);
+			LordOfTheRings_shows.add(chow2);
+			LordOfTheRings_shows.add(chow22);
+			LordOfTheRings_shows.add(chow23);
+			LordOfTheRings.setShows(LordOfTheRings_shows);
 
-			Joker.setShows(Collections.singletonList(show4));
-			TheAvengers.setShows(Collections.singletonList(show5));
-			StarWars.setShows(Collections.singletonList(show6));
-			Inception.setShows(Collections.singletonList(show7));
-			TheDarKnight.setShows(Collections.singletonList(show8));
-			CaptainAmerica.setShows(Collections.singletonList(show9));
-			Avatar.setShows(Collections.singletonList(show10));
-			Jaws.setShows(Collections.singletonList(show11));
-			Rocky.setShows(Collections.singletonList(show12));
+			List<Show> Titanic_shows = new LinkedList<Show>();
+			Titanic_shows.add(show3);
+			Titanic_shows.add(show32);
+			Titanic_shows.add(show33);
+			Titanic_shows.add(chow3);
+			Titanic_shows.add(chow32);
+			Titanic_shows.add(chow33);
+			Titanic.setShows(Titanic_shows);
 
-			//cinemaHall.setShows(shows1);
-			//cinemaHall1.setShows(shows2);
-			//cinemaHall2.setShows(shows);
-			cinemaHall.setSeats(tempseats);
-			cinemaHall1.setSeats(tempseats1);
-			cinemaHall2.setSeats(tempseats2);
+			List<Show> Joker_shows = new LinkedList<Show>();
+			Joker_shows.add(show4);
+			Joker_shows.add(show42);
+			Joker_shows.add(show43);
+			Joker_shows.add(chow4);
+			Joker_shows.add(chow42);
+			Joker_shows.add(chow43);
+			Joker.setShows(Joker_shows);
+
+			List<Show> TheAvengers_shows = new LinkedList<Show>();
+			TheAvengers_shows.add(show5);
+			TheAvengers_shows.add(show52);
+			TheAvengers_shows.add(show53);
+			TheAvengers_shows.add(chow5);
+			TheAvengers_shows.add(chow52);
+			TheAvengers_shows.add(chow53);
+			TheAvengers.setShows(TheAvengers_shows);
+
+			List<Show> StarWars_shows = new LinkedList<Show>();
+			StarWars_shows.add(show6);
+			StarWars_shows.add(show62);
+			StarWars_shows.add(show63);
+			StarWars_shows.add(chow6);
+			StarWars_shows.add(chow62);
+			StarWars_shows.add(chow63);
+			StarWars.setShows(StarWars_shows);
+
+			List<Show> Inception_shows = new LinkedList<Show>();
+			Inception_shows.add(show7);
+			Inception_shows.add(show72);
+			Inception_shows.add(show73);
+			Inception_shows.add(chow7);
+			Inception_shows.add(chow72);
+			Inception_shows.add(chow73);
+			Inception.setShows(Inception_shows);
+
+			List<Show> TheDarKnight_shows = new LinkedList<Show>();
+			TheDarKnight_shows.add(show8);
+			TheDarKnight_shows.add(show82);
+			TheDarKnight_shows.add(show83);
+			TheDarKnight_shows.add(chow8);
+			TheDarKnight_shows.add(chow82);
+			TheDarKnight_shows.add(chow83);
+			TheDarKnight.setShows(TheDarKnight_shows);
+
+			List<Show> CaptainAmerica_shows = new LinkedList<Show>();
+			CaptainAmerica_shows.add(show9);
+			CaptainAmerica_shows.add(show92);
+			CaptainAmerica_shows.add(show93);
+			CaptainAmerica_shows.add(chow9);
+			CaptainAmerica_shows.add(chow92);
+			CaptainAmerica_shows.add(chow93);
+			CaptainAmerica.setShows(CaptainAmerica_shows);
+
+			List<Show> Avatar_shows = new LinkedList<Show>();
+			Avatar_shows.add(show10);
+			Avatar_shows.add(show102);
+			Avatar_shows.add(show103);
+			Avatar_shows.add(chow10);
+			Avatar_shows.add(chow102);
+			Avatar_shows.add(chow103);
+			Avatar.setShows(Avatar_shows);
+
+			List<Show> Jaws_shows = new LinkedList<Show>();
+			Jaws_shows.add(show11);
+			Jaws_shows.add(show11_2);
+			Jaws_shows.add(show11_3);
+			Jaws_shows.add(chow11);
+			Jaws_shows.add(chow11_2);
+			Jaws_shows.add(chow11_3);
+			Jaws.setShows(Jaws_shows);
+
+			List<Show> Rocky_shows = new LinkedList<Show>();
+			Rocky_shows.add(show12);
+			Rocky_shows.add(show12_2);
+			Rocky_shows.add(show12_3);
+			Rocky_shows.add(chow12);
+			Rocky_shows.add(chow12_2);
+			Rocky_shows.add(chow12_3);
+			Rocky.setShows(Rocky_shows);
 
 			for (int k=1; k<=2*10; k++){
-				Seat seat = new Seat(true, 1, 1/10 +1,cinemaHall);
-				tempseats.add(seat);
-			}
-			for(int o=0;o<tempseats.size();o++){
-				tempseats.get(o).setHall(cinemaHall);
+				Seat seat = new Seat(true, k, k/11+1,cinemaHall_2);
+				tempseats_2.add(seat);
 			}
 
-
-
-			for (int k=1; k<=2*2*10; k++){
-				Seat seat = new Seat(true, 2%10, 2/10 +1,cinemaHall1);
-				tempseats1.add(seat);
-			}
-			for(int o=0;o<tempseats1.size();o++){
-				tempseats1.get(o).setHall(cinemaHall1);
+			for (int k=1; k<=4*10; k++){
+				Seat seat = new Seat(true, k, k/11 +1,cinemaHall1_2);
+				tempseats1_2.add(seat);
 			}
 
-			for (int k=1; k<=2*2*2*10; k++){
-				Seat seat = new Seat(true, 3%10, 3/10 +1,cinemaHall2);
-				tempseats2.add(seat);
+			for (int k=1; k<=6*10; k++){
+				Seat seat = new Seat(true, k, k/11 +1,cinemaHall2_2);
+				tempseats2_2.add(seat);
 			}
-			for(int o=0;o<tempseats2.size();o++){
-				tempseats2.get(o).setHall(cinemaHall2);
-			}
-
-			ShowsController.addShow(CinemaServer.session,show1);
-
-
-
-			cinemaHall1.setCinema(cinema1);
-			cinemaHall.setCinema(cinema1);
-			cinemaHall2.setCinema(cinema1);
-			//cinemaHall.setShows(emptyShowList);
-			//cinemaHall1.setShows(emptyShowList);
-			//cinemaHall2.setShows(emptyShowList);
-			//cinemaHall2.addShow(show1);
-			cinema1.setHalls(cinemaHalls);
-			Cinema cinema2=new Cinema();
-			CinemaController.addCinema(CinemaServer.session,cinema2);
-//			HallController.addHall(CinemaServer.session,cinemaHall);
-//			HallController.addHall(CinemaServer.session,cinemaHall1);
-//			HallController.addHall(CinemaServer.session,cinemaHall2);
-
-//			Regulations reg=new Regulations();
-//			RegulationsController.addRegulations(session,reg);
-//			RegulationsController.activateRegulations(session,15);
-			//CinemaController.calcMaxSeats(session,cinema1);
-
-
-
-			for(int i=0;i<tempseats.size();i++){
-				SeatController.addSeat(CinemaServer.session,tempseats.get(i));
-			}
-			for(int i=0;i<tempseats1.size();i++){
-				SeatController.addSeat(CinemaServer.session,tempseats1.get(i));
-			}
-			for(int i=0;i<tempseats2.size();i++){
-				SeatController.addSeat(CinemaServer.session,tempseats2.get(i));
-			}
-			for(int i=0;i<moviesList.size();i++){
-				MoviesController.addMovie(CinemaServer.session,moviesList.get(i));
-			}
-
-
-
+*/
+			CinemaController.addCinema(session,cinema1);
+			//CinemaController.addCinema(session,cinema2);
 
 
 

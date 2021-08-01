@@ -33,11 +33,11 @@ public class Show implements Serializable{
 
     
     
-    public Show(LocalDateTime date, String status, double price, Movie movie, Hall hall,Cinema cinema) {
+    public Show(LocalDateTime date, double price, Movie movie, Hall hall,Cinema cinema) {
         super();
         this.dateTime = date;
         //this.isOnline = isOnline;
-        this.status = status;
+        this.status = "AVAILABLE";
         this.price = price;
         this.movies = movie;
         this.hall = hall;
@@ -68,14 +68,6 @@ public class Show implements Serializable{
     public void setTime(LocalTime time) {
     	this.setDateTime(LocalDateTime.of(this.getDate(), time));
     }
-
-    /*public boolean getIsOnline() {
-        return isOnline;
-    }
-
-    public void setOnline(boolean online) {
-        isOnline = online;
-    }*/
 
     public String getStatus() {
         return status;
