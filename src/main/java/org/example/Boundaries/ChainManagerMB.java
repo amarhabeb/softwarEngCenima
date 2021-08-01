@@ -60,6 +60,7 @@ public class ChainManagerMB extends EmployeeMainBoundary implements Initializabl
   		params.add(month);
   		params.add(year);
   		params.add(cinema);
+  		params.add("ChainManagerMB");
   		
   		// pass selected paramaters to view boundary
   		App.setRoot("ViewReportBoundary",params, stage);

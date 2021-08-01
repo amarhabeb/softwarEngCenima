@@ -52,6 +52,9 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 
     @FXML
     private Button RemoveMoviesBtn;
+    
+    @FXML
+    private Button SetRemoveOnlineMoviesBtn;
 	
     
 	@FXML private TableView<Show> ShowsTable;
@@ -79,6 +82,11 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 	void clickUpdateShowsTimesBtn(ActionEvent event) throws IOException {
 		 App.setRoot("UpdateTimeBoundary",null, stage);
 	}
+	
+	@FXML
+    void clickSetRemoveOnlineMoviesBtn(ActionEvent event) throws IOException {
+		App.setRoot("UpdateAvailableOnlineBoundary",null, stage);
+    }
 	
 	@FXML
     void clickAddMoviesBtn(ActionEvent event) throws IOException {

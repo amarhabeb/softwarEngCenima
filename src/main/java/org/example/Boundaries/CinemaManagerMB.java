@@ -51,6 +51,7 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
   		params.add(month);
   		params.add(year);
   		params.add(cinema);
+  		params.add("CinemaManagerMB");
   		
   		// pass selected paramaters to view boundary
   		App.setRoot("ViewReportBoundary",params, stage);

@@ -3,6 +3,8 @@ package org.example.Boundaries;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -20,10 +22,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
-import java.time.Month;
-import java.time.Year;
 import java.time.YearMonth;
 
 import javafx.scene.control.Label;
@@ -42,7 +43,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     private Button viewDetailsBtn;
     
     @FXML
-    private LineChart<Number, Number> reports_chart;
+    private LineChart<Integer, Number> reports_chart;
     
     @FXML
     private Text bestSalesText;
@@ -55,6 +56,12 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     @FXML
     private Text refundedText;
     
+    @FXML
+    private NumberAxis Yaxis;
+    @FXML
+    private NumberAxis Xaxis;
+
+    
     // will hold the tickets of the chosen report if needed
     List<Ticket> tickets = null;
     // will hold the packages of the chosen report if needed
@@ -66,9 +73,11 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     // will hold the complaints of the chosen report if needed
     List<Complaint> complaints = null;
     
+    String main_boundary;	// will hold the name of boundary we came from
+    
     @FXML
     void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-    	App.setRoot("ChainManagerMB",null, stage);
+    	App.setRoot(main_boundary,null, stage);
     }
     
     @FXML
@@ -76,14 +85,21 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     	
     }
     
-    // given a data array, tis method will fill the chart with this data
-    void fillChart(int[] data, XYChart.Series<Number, Number> series){
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	// given a data array, tis method will fill the chart with this data
+    void fillChart(int[] data, XYChart.Series<Integer, Number> series){
     	int idx = 1;
     	for(int val:data) {
-    		series.getData().add(new XYChart.Data<>(idx, val));	// add (x,y) value to series
+    		series.getData().add(new XYChart.Data(idx, val));	// add (x,y) value to series
     		idx++;
     	}
     	// fill chart with series
+    	Xaxis.setAutoRanging(false);
+    	Xaxis.setAutoRanging(false);
+    	Yaxis.setUpperBound(data[getIndexOfLargest(data)]);
+    	Xaxis.setTickUnit(5);
+    	Yaxis.setTickUnit(5);
+    	Xaxis.setMinorTickVisible(false);
     	reports_chart.getData().add(series);
     }
     
@@ -115,22 +131,22 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 
 		Platform.runLater(() -> {
 			// get passsed parameters
+			String report_type = (String) params.get(0);
 			Integer month = (Integer) params.get(1);
 	  		Integer year = (Integer) params.get(2);
 	  		Cinema cinema = (Cinema) params.get(3);
-	  		String report_type = (String) params.get(0);
+	  		main_boundary = (String) params.get(4);
 	  		// set title according to chosen report type
 	  		title.setText(report_type);
 	  		
-	  	    
 	  		// if the report is of Tickets Sales type
 	  		if(report_type == "Tickets Sales") {
 	  			// data represented in chart
-	  	  		XYChart.Series<Number, Number> series = new XYChart.Series<>();
+	  	  		XYChart.Series<Integer, Number> series = new XYChart.Series<>();
 	  	  	    series.setName("Tickets sold per day, " + cinema.toString() + ", "+ month.toString() + ", " + year.toString());
-		  		// get needed tickets
+	  	  	    // get needed tickets
 		  		synchronized(CinemaClient.TicketsReportDataLock) {
-			  		UpdateTicketsReportData(cinema.getID(), Month.of(month), Year.of(year));
+			  		UpdateTicketsReportData(cinema.getID(), month, year);
 	    		  		tickets = CinemaClient.TicketsReportData;
 		  		}
 	
@@ -164,25 +180,25 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 		  		profitsText.setText("Profits: " + Double.toString(profits) + "₪");
 	
 		  		refundedText.setText("");
-	
+		  			
 	  		}
 	  		
 	
 	  		// if the report is of Packages and Online Shows Sales type
 	  		if(report_type == "Packages and Online Shows Sales") {
 	  			// data represented in chart
-	  	  		XYChart.Series<Number, Number> series_p = new XYChart.Series<>();
+	  			XYChart.Series<Integer, Number> series_p = new XYChart.Series<>();
 	  	  	    series_p.setName("Packages sold per day, "+ month.toString() + ", " + year.toString());
-	  	  	    XYChart.Series<Number, Number> series_l = new XYChart.Series<>();
+	  	  	    XYChart.Series<Integer, Number> series_l = new XYChart.Series<>();
 		  	    series_l.setName("Online shows sold per day, "+ month.toString() + ", " + year.toString());
 		  		// get needed packages
 		  		synchronized(CinemaClient.PackagesReportDataLock) {
-			  		UpdatePackagesReportData(Month.of(month), Year.of(year));
+			  		UpdatePackagesReportData(month, year);
 			  		packages = CinemaClient.PackagesReportData;
 		  		}
 		  		// get needed packages
 		  		synchronized(CinemaClient.LinksReportDataLock) {
-			  		org.example.Boundaries.Boundary.UpdateLinksReportData(Month.of(month), Year.of(year));
+			  		org.example.Boundaries.Boundary.UpdateLinksReportData(month, year);
 			  		links = CinemaClient.LinksReportData;
 		  		}
 	
@@ -233,11 +249,11 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		// if the report is of Refunds type
 	  		if(report_type == "Refunds") {
 	  			// data represented in chart
-	  	  		XYChart.Series<Number, Number> series = new XYChart.Series<>();
+	  			XYChart.Series<Integer, Number> series = new XYChart.Series<>();
 	  	  	    series.setName("Refunded money per day, " + month.toString() + ", " + year.toString());
 		  		// get needed refunds
 		  		synchronized(CinemaClient.RefundsReportDataLock) {
-			  		org.example.Boundaries.Boundary.UpdateRefundsReportData(Month.of(month), Year.of(year));
+			  		org.example.Boundaries.Boundary.UpdateRefundsReportData(month, year);
 			  		refunds = CinemaClient.RefundsReportData;
 		  		}
 	
@@ -277,11 +293,11 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		// if the report is of Refunds type
 	  		if(report_type == "Complaints") {
 	  			// data represented in chart
-	  	  		XYChart.Series<Number, Number> series = new XYChart.Series<>();
+	  			XYChart.Series<Integer, Number> series = new XYChart.Series<>();
 	  	  	    series.setName("Complaints per day, " + month.toString() + ", " + year.toString());
 		  		// get needed complaints
 		  		synchronized(CinemaClient.ComplaintsReportDataLock) {
-			  		org.example.Boundaries.Boundary.UpdateComplaintsReportData(Month.of(month), Year.of(year));
+			  		org.example.Boundaries.Boundary.UpdateComplaintsReportData(month, year);
 			  		complaints = CinemaClient.ComplaintsReportData;
 		  		}
 	
@@ -314,6 +330,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 		  		// find the refunded amount
 		  		refundedText.setText("");
 	  		}
+	  		
 		});
 	}
 
