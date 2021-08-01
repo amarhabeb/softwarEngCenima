@@ -1598,115 +1598,115 @@ public class CinemaServer extends AbstractServer{
 			cinema2.setMovies(moviesList);
 			cinema2.setShows(shows2);
 			cinema2.setHalls(cinemaHalls2);
-
+*/
 			List<Show> HarryPotter7_shows = new LinkedList<Show>();
 			HarryPotter7_shows.add(show1);
 			HarryPotter7_shows.add(show112);
 			HarryPotter7_shows.add(show113);
-			HarryPotter7_shows.add(chow1);
-			HarryPotter7_shows.add(chow112);
-			HarryPotter7_shows.add(chow113);
+//			HarryPotter7_shows.add(chow1);
+//			HarryPotter7_shows.add(chow112);
+//			HarryPotter7_shows.add(chow113);
 			HarryPotter7.setShows(HarryPotter7_shows);
 
 			List<Show> LordOfTheRings_shows = new LinkedList<Show>();
 			LordOfTheRings_shows.add(show2);
 			LordOfTheRings_shows.add(show22);
 			LordOfTheRings_shows.add(show23);
-			LordOfTheRings_shows.add(chow2);
-			LordOfTheRings_shows.add(chow22);
-			LordOfTheRings_shows.add(chow23);
+//			LordOfTheRings_shows.add(chow2);
+//			LordOfTheRings_shows.add(chow22);
+//			LordOfTheRings_shows.add(chow23);
 			LordOfTheRings.setShows(LordOfTheRings_shows);
 
 			List<Show> Titanic_shows = new LinkedList<Show>();
 			Titanic_shows.add(show3);
 			Titanic_shows.add(show32);
 			Titanic_shows.add(show33);
-			Titanic_shows.add(chow3);
-			Titanic_shows.add(chow32);
-			Titanic_shows.add(chow33);
+//			Titanic_shows.add(chow3);
+//			Titanic_shows.add(chow32);
+//			Titanic_shows.add(chow33);
 			Titanic.setShows(Titanic_shows);
 
 			List<Show> Joker_shows = new LinkedList<Show>();
 			Joker_shows.add(show4);
 			Joker_shows.add(show42);
 			Joker_shows.add(show43);
-			Joker_shows.add(chow4);
-			Joker_shows.add(chow42);
-			Joker_shows.add(chow43);
+//			Joker_shows.add(chow4);
+//			Joker_shows.add(chow42);
+//			Joker_shows.add(chow43);
 			Joker.setShows(Joker_shows);
 
 			List<Show> TheAvengers_shows = new LinkedList<Show>();
 			TheAvengers_shows.add(show5);
 			TheAvengers_shows.add(show52);
 			TheAvengers_shows.add(show53);
-			TheAvengers_shows.add(chow5);
-			TheAvengers_shows.add(chow52);
-			TheAvengers_shows.add(chow53);
+//			TheAvengers_shows.add(chow5);
+//			TheAvengers_shows.add(chow52);
+//			TheAvengers_shows.add(chow53);
 			TheAvengers.setShows(TheAvengers_shows);
 
 			List<Show> StarWars_shows = new LinkedList<Show>();
 			StarWars_shows.add(show6);
 			StarWars_shows.add(show62);
 			StarWars_shows.add(show63);
-			StarWars_shows.add(chow6);
-			StarWars_shows.add(chow62);
-			StarWars_shows.add(chow63);
+//			StarWars_shows.add(chow6);
+//			StarWars_shows.add(chow62);
+//			StarWars_shows.add(chow63);
 			StarWars.setShows(StarWars_shows);
 
 			List<Show> Inception_shows = new LinkedList<Show>();
 			Inception_shows.add(show7);
 			Inception_shows.add(show72);
 			Inception_shows.add(show73);
-			Inception_shows.add(chow7);
-			Inception_shows.add(chow72);
-			Inception_shows.add(chow73);
+//			Inception_shows.add(chow7);
+//			Inception_shows.add(chow72);
+//			Inception_shows.add(chow73);
 			Inception.setShows(Inception_shows);
 
 			List<Show> TheDarKnight_shows = new LinkedList<Show>();
 			TheDarKnight_shows.add(show8);
 			TheDarKnight_shows.add(show82);
 			TheDarKnight_shows.add(show83);
-			TheDarKnight_shows.add(chow8);
-			TheDarKnight_shows.add(chow82);
-			TheDarKnight_shows.add(chow83);
+//			TheDarKnight_shows.add(chow8);
+//			TheDarKnight_shows.add(chow82);
+//			TheDarKnight_shows.add(chow83);
 			TheDarKnight.setShows(TheDarKnight_shows);
 
 			List<Show> CaptainAmerica_shows = new LinkedList<Show>();
 			CaptainAmerica_shows.add(show9);
 			CaptainAmerica_shows.add(show92);
 			CaptainAmerica_shows.add(show93);
-			CaptainAmerica_shows.add(chow9);
-			CaptainAmerica_shows.add(chow92);
-			CaptainAmerica_shows.add(chow93);
+//			CaptainAmerica_shows.add(chow9);
+//			CaptainAmerica_shows.add(chow92);
+//			CaptainAmerica_shows.add(chow93);
 			CaptainAmerica.setShows(CaptainAmerica_shows);
 
 			List<Show> Avatar_shows = new LinkedList<Show>();
 			Avatar_shows.add(show10);
 			Avatar_shows.add(show102);
 			Avatar_shows.add(show103);
-			Avatar_shows.add(chow10);
-			Avatar_shows.add(chow102);
-			Avatar_shows.add(chow103);
+//			Avatar_shows.add(chow10);
+//			Avatar_shows.add(chow102);
+//			Avatar_shows.add(chow103);
 			Avatar.setShows(Avatar_shows);
 
 			List<Show> Jaws_shows = new LinkedList<Show>();
 			Jaws_shows.add(show11);
 			Jaws_shows.add(show11_2);
 			Jaws_shows.add(show11_3);
-			Jaws_shows.add(chow11);
-			Jaws_shows.add(chow11_2);
-			Jaws_shows.add(chow11_3);
+//			Jaws_shows.add(chow11);
+//			Jaws_shows.add(chow11_2);
+//			Jaws_shows.add(chow11_3);
 			Jaws.setShows(Jaws_shows);
 
 			List<Show> Rocky_shows = new LinkedList<Show>();
 			Rocky_shows.add(show12);
 			Rocky_shows.add(show12_2);
 			Rocky_shows.add(show12_3);
-			Rocky_shows.add(chow12);
-			Rocky_shows.add(chow12_2);
-			Rocky_shows.add(chow12_3);
+//			Rocky_shows.add(chow12);
+//			Rocky_shows.add(chow12_2);
+//			Rocky_shows.add(chow12_3);
 			Rocky.setShows(Rocky_shows);
-
+/*
 			for (int k=1; k<=2*10; k++){
 				Seat seat = new Seat(true, k, k/11+1,cinemaHall_2);
 				tempseats_2.add(seat);
