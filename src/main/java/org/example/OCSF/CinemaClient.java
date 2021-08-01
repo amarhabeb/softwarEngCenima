@@ -274,6 +274,17 @@ public class CinemaClient extends AbstractClient {
 				MoviesDataLock.notifyAll();
 			}
 		}
+//		if(message.get(0).equals("OnlineMovieSetOn")) {
+//			boolean success = (boolean)message.get(1);
+//			if(!success){
+//				throw new Exception("Controller failed");
+//			}
+//			synchronized(MoviesDataLock) {
+//				UpdateAvailableOnlineBoundary.MovieAdded = true;
+//				MoviesDataUpdated = false;	// client's ShowsData is now not updated
+//				MoviesDataLock.notifyAll();
+//			}
+//		}
 		if(message.get(0).equals("OrdersLoaded")) {
 			synchronized(OrdersDataLock) {
 				OrdersData = (List<Order>) message.get(1);
