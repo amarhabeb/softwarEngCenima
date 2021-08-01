@@ -79,6 +79,7 @@ public class RegulationsController {
             CriteriaUpdate<Regulations> update_query=builder.createCriteriaUpdate(Regulations.class);
             Root<Regulations> root=update_query.from(Regulations.class);
             update_query.set("status", false);
+            update_query.set("Y", 0);
             update_query.where(builder.equal(root.get("status"),true));
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
