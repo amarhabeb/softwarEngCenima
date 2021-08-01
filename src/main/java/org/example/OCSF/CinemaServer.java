@@ -1160,8 +1160,8 @@ public class CinemaServer extends AbstractServer{
 		PaymentController.makePayment(session,payment);
 
 		/////// Testing Cinema
-		List<Show> cinema_shows=CinemaController.loadCinemaShows(session,2);
-		System.out.println(cinema_shows.size());
+//		List<Show> cinema_shows=CinemaController.loadCinemaShows(session,2);
+//		System.out.println(cinema_shows.size());
 
 		/////// Testing Regulations
 		int Y=49;
@@ -1441,10 +1441,11 @@ public class CinemaServer extends AbstractServer{
 			//cinemaHall2.setShows(emptyShowList);
 			//cinemaHall2.addShow(show1);
 			cinema1.setHalls(cinemaHalls);
-			CinemaController.addCinema(CinemaServer.session,cinema1);
-			HallController.addHall(CinemaServer.session,cinemaHall);
-			HallController.addHall(CinemaServer.session,cinemaHall1);
-			HallController.addHall(CinemaServer.session,cinemaHall2);
+			Cinema cinema2=new Cinema();
+			CinemaController.addCinema(CinemaServer.session,cinema2);
+//			HallController.addHall(CinemaServer.session,cinemaHall);
+//			HallController.addHall(CinemaServer.session,cinemaHall1);
+//			HallController.addHall(CinemaServer.session,cinemaHall2);
 
 //			Regulations reg=new Regulations();
 //			RegulationsController.addRegulations(session,reg);
