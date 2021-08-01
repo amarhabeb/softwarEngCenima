@@ -738,8 +738,8 @@ public class CinemaServer extends AbstractServer{
 					String mail = (String) message.get(2);
 					String topic = (String) message.get(3);
 					// load data
-					MailController.sendMail(mesasge1, mail, topic);
 					try {
+						MailController.sendMail(mesasge1, mail, topic);
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("mailSent");
@@ -760,6 +760,38 @@ public class CinemaServer extends AbstractServer{
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("NewMoviesLoaded");
 						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (message.get(0).equals("setOnlineMovieON")) {
+					session.clear();
+					int movie_id=(int)message.get(1);
+					// load data
+					try {
+						boolean answer = MoviesController.setOnlineMovieON(session,movie_id);
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("OnlineMovieSetOn");
+						messageToClient.add(answer);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (message.get(0).equals("setOnlineMovieOFF")) {
+					session.clear();
+					int movie_id=(int)message.get(1);
+					// load data
+					try {
+						boolean answer = MoviesController.setOnlineMovieOFF(session,movie_id);
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("OnlineMovieSetOFF");
+						messageToClient.add(answer);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
