@@ -26,7 +26,7 @@
                 <Cursor fx:constant="SE_RESIZE" />
             </cursor>
         </ImageView>
-        <Button fx:id="ChooseShowBtn" layoutX="30.0" layoutY="195.0" mnemonicParsing="false" onAction="#clickChooseShowBtn" prefHeight="55.0" prefWidth="172.0" text="Choose Show" textAlignment="CENTER" textFill="#b71b1b">
+        <Button fx:id="ChooseShowBtn" layoutX="419.0" layoutY="422.0" mnemonicParsing="false" onAction="#clickChooseShowBtn" prefHeight="25.0" prefWidth="171.0" text="Choose Show" textAlignment="CENTER" textFill="#b71b1b">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>
@@ -41,14 +41,15 @@
                 <Font name="System Bold Italic" size="45.0" />
             </font>
         </Label>
-        <TableView fx:id="ShowsTable" layoutX="266.0" layoutY="91.0" prefHeight="318.0" prefWidth="493.0">
+        <TableView fx:id="ShowsTable" disable="true" layoutX="210.0" layoutY="91.0" prefHeight="318.0" prefWidth="588.0">
             <columns>
                 <TableColumn fx:id="movie_name" prefWidth="105.5999755859375" text="Movie Title" />
-                <TableColumn fx:id="date" prefWidth="72.79998779296875" text="Date" />
-                <TableColumn fx:id="time" prefWidth="56.79998779296875" text="Time" />
-                <TableColumn fx:id="hall_number" prefWidth="45.5999755859375" text="Hall" />
-                <TableColumn fx:id="price" prefWidth="78.4000244140625" text="Price" />
-                <TableColumn fx:id="cinema" prefWidth="128.79998779296875" text="Cinema" />
+                <TableColumn fx:id="date" prefWidth="100.0" text="Date" />
+                <TableColumn fx:id="time" prefWidth="89.0" text="Time" />
+                <TableColumn fx:id="hall_number" minWidth="9.0" prefWidth="36.0" text="Hall" />
+                <TableColumn fx:id="price" prefWidth="59.0" text="Price" />
+                <TableColumn fx:id="cinema" prefWidth="97.0" text="Cinema" />
+            <TableColumn id="details" fx:id="cinema1" prefWidth="100.0" text="MovieDetails" />
             </columns>
         </TableView>
         <Button fx:id="BackBtn" layoutX="261.0" layoutY="424.0" mnemonicParsing="false" onAction="#clickBackBtn" text="Back">
@@ -56,9 +57,15 @@
                 <Font name="System Italic" size="12.0" />
             </font>
         </Button>
-      <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="383.0" layoutY="419.0" prefHeight="36.0" prefWidth="238.0" textAlignment="CENTER" textFill="#cdf81e">
+      <Label layoutX="6.0" layoutY="41.0" text="Please Choose Cinema" textFill="#f2eeee">
          <font>
-            <Font name="System Bold" size="19.0" />
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="cinemas" layoutX="33.0" layoutY="91.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="31.0" prefWidth="136.0" />
+      <Label fx:id="label" layoutX="419.0" layoutY="464.0" prefHeight="27.0" prefWidth="267.0" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
     </children>
