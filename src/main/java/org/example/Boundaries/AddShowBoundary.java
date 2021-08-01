@@ -111,7 +111,7 @@ public class AddShowBoundary extends ContentManagerDisplayBoundary implements In
   		Double price = Double.valueOf(priceTextField.getText());
   		
   		// create show object
-  		Show show = new Show(LocalDateTime.of(date, time), "AVAILABLE", price, movie, hall,cinema);
+  		Show show = new Show(LocalDateTime.of(date, time), price, movie, hall,cinema);
   		
   		try {
 	  		// add new show object to database
