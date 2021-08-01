@@ -50,6 +50,8 @@ import java.util.ResourceBundle;
         @FXML Label label;
 
 
+
+
         @FXML private TableView<Show> ShowsTable;
         @FXML private TableColumn<Show, String> movie_name;
         @FXML private TableColumn<Show, String> date;
@@ -111,6 +113,8 @@ import java.util.ResourceBundle;
 
 
 
+
+
         @Override
         public void initialize(URL url, ResourceBundle rb) {
             ObservableList<Cinema> DataList1;
@@ -165,7 +169,7 @@ import java.util.ResourceBundle;
 
                 }
                 ObservableList<Show> DataList5 = FXCollections.observableArrayList(DataList3);
-                ShowsTable.setDisable(false);
+                ShowsTable.setVisible(true);
                ShowsTable.setItems( DataList5);
 
 
