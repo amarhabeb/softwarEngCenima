@@ -634,14 +634,29 @@ public class CinemaServer extends AbstractServer{
 						session.clear();
 						String username = (String) message.get(1);
 						String password = (String) message.get(2);
-						Employee Data = EmployeeController.logIn(session, username, password);
+						Employee Data = EmployeeController.verifyLogIn(session, username, password);
+						boolean isNotLoggedIn;
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
-						if (Data != null) {
-							messageToClient.add("LogInCompleted");
-							messageToClient.add(Data);
-						} else {
-							messageToClient.add("Username or Password are wrong");
+						if(Data!=null){
+							isNotLoggedIn=EmployeeController.checkIfNotLoggedIn(session,Data.getID());
+							if (isNotLoggedIn) {
+								if(EmployeeController.logIn(session,Data.getID())){
+									messageToClient.add("LogInCompleted");
+									messageToClient.add(Data);
+								}
+								else{
+									messageToClient.add("LogIn Failed");
+								}
+							}
+							else{
+								messageToClient.add("User is already Logged in");
+							}
 						}
+						else {
+								messageToClient.add("Username or Password are wrong");
+							}
+
+
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -1078,7 +1093,25 @@ public class CinemaServer extends AbstractServer{
 		//intialize employees
 		ChainManager chainManager=new ChainManager("cersei lannister", "0534727563",
 				"Lannister@gmail.com", "clannister","1212");
+		/*chainManager.setOnline(true);
 		EmployeeController.addEmployee(CinemaServer.session,chainManager);
+		Employee cM=EmployeeController.verifyLogIn(session,"annister","1212");
+		boolean answer;
+		if(cM!=null) {
+			answer = EmployeeController.checkIfNotLoggedIn(session, chainManager.getID());
+			if (answer) {
+				if(EmployeeController.logIn(session,chainManager.getID()))
+					System.out.println("Login:" + answer);
+				else
+					System.out.println("FAIL");
+			}
+			else
+				System.out.println("already logged in");
+		}
+		else
+			System.out.println("log in details are wrong");
+*/
+
 
 		ContentManager contentManager=new ContentManager("Sirina Williams", "0533264563",
 				"williams@gmail.com", "sWilliams","7yg2");
@@ -1185,12 +1218,12 @@ public class CinemaServer extends AbstractServer{
 		//MailController.sendMail("Testing our project","rayah.khatib.2@gmail.com","Test");
 
 		/////// Testing UpdatePriceRequestController
-//		UpdatePriceRequest req1=new UpdatePriceRequest(2,7,130);
-//		UpdatePriceRequestController.addRequest(session,req1);
-//		UpdatePriceRequest req2=new UpdatePriceRequest(2,5,20);
-//		UpdatePriceRequestController.addRequest(session,req2);
-//		UpdatePriceRequestController.approveRequest(session, req1);
-//		UpdatePriceRequestController.declineRequest(session, req2.getID());
+		UpdatePriceRequest req1=new UpdatePriceRequest(2,7,130);
+		UpdatePriceRequestController.addRequest(session,req1);
+		UpdatePriceRequest req2=new UpdatePriceRequest(2,5,20);
+		UpdatePriceRequestController.addRequest(session,req2);
+		//UpdatePriceRequestController.approveRequest(session, req1);
+		//UpdatePriceRequestController.declineRequest(session, req2.getID());
 
 		/////// Testing NewMovies
 		List<Movie> newMovies=MoviesController.loadNewMovies(session);
