@@ -15,15 +15,14 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
-import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.*;
 
-
+import static java.util.concurrent.TimeUnit.*;
 
 public class CinemaServer extends AbstractServer{
 	
@@ -940,13 +939,14 @@ public class CinemaServer extends AbstractServer{
     }
 
 	protected static void activatingLoop() throws IOException {
+
 		activateThread = new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				List<Link> links;
 
-				while (true) {
+
 
 
 
@@ -962,12 +962,14 @@ public class CinemaServer extends AbstractServer{
 						}
 						threadLock.notifyAll();
 					}
-				}
+
 			}
 		});
 		activateThread.setPriority(Thread.MIN_PRIORITY);
+		final ScheduledFuture<?> scheduler =  Executors.newScheduledThreadPool(1).scheduleAtFixedRate(activateThread,0,60, SECONDS);
 
-		activateThread.start();
+
+
 
 
 	}
