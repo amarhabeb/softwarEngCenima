@@ -32,7 +32,7 @@ public class App extends Application {
 
     	stage.setTitle("Cinema");
 
-        scene = new Scene(loadFXML("TempBoundary", null, stage), 800, 488);
+        scene = new Scene(loadFXML("CustomerMain", null, stage), 800, 488);
         stage.setScene(scene);
         stage.show();
         System.out.println("Client's boundary displayed");

@@ -93,7 +93,48 @@ public class MoviesController {
            return false;
        }
    }
-    /// still something wrong with SQL condition //////
+    public static boolean setOnlineMovieOFF(Session session, int movie_id){
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaUpdate<Movie> update_query=builder.createCriteriaUpdate(Movie.class);
+            Root<Movie> root=update_query.from(Movie.class);
+            update_query.set("availableOnline", false);
+            update_query.where(builder.equal(root.get("ID"),movie_id));
+            Transaction transaction = session.beginTransaction();
+            session.createQuery(update_query).executeUpdate();
+            transaction.commit();
+            return true;
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occured, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+    }
+    public static boolean setOnlineMovieON(Session session, int movie_id){
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaUpdate<Movie> update_query=builder.createCriteriaUpdate(Movie.class);
+            Root<Movie> root=update_query.from(Movie.class);
+            update_query.set("availableOnline", true);
+            update_query.where(builder.equal(root.get("ID"),movie_id));
+            Transaction transaction = session.beginTransaction();
+            session.createQuery(update_query).executeUpdate();
+            transaction.commit();
+            return true;
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occured, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+    }
     public static List<Movie> loadNewMovies(Session session) throws Exception {
         try {
             Transaction transaction = session.beginTransaction();
