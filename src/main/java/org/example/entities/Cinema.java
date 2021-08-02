@@ -13,7 +13,6 @@ public class Cinema implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int ID;
-    
     String branch_name;
     
     @OneToMany(targetEntity = Show.class, cascade = CascadeType.ALL)

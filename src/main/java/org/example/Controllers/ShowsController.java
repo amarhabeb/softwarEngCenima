@@ -1,5 +1,6 @@
 package org.example.Controllers;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -192,5 +193,30 @@ public class ShowsController {
     	 }
     	 return null;
  	}
+
+    public static List<Show> loadShowsByDate(Session session, LocalDate date) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Show> query = builder.createQuery(Show.class);
+            Root<Show> root=query.from(Show.class);
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("status"),"AVAILABLE");
+            predicates[1]=builder.equal(builder.function("MONTH", Integer.class, root.get("dateTime")),date.getMonth().getValue());
+            predicates[2]=builder.equal(builder.function("DAY", Integer.class, root.get("dateTime")),date.getDayOfMonth());
+            query.where(predicates);
+            List<Show> data = session.createQuery(query).getResultList();
+            transaction.commit();
+            session.clear();
+            return data;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occured, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
+    }
 
 }

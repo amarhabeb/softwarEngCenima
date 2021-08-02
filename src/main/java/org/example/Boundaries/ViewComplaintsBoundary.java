@@ -92,7 +92,7 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
     	ComplaintDeleted = false;	// complaint isn't deleted yet
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
-		message.add("DeleteComplaint");
+		message.add("MarkComplaintAsDone");
 		message.add(complaint_id);
 		synchronized(CinemaClient.ComplaintsDataLock)
 		{	
@@ -118,7 +118,7 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
     		UpdateComplaintsData();
     		complaints = CinemaClient.ComplaintsData;
     	}		
-    	if(complaints==null) {
+    	if(complaints.size()==0) {
     		loadEmpty();
     	}else {
     		loadComplaint(0);
@@ -157,7 +157,7 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
 
 	@FXML
 	void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-		App.setRoot("CustomeServiceMB",null,stage);
+		App.setRoot("CustomerServiceMB",null,stage);
 	}
 
 	@FXML
@@ -195,7 +195,7 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
 		refundTextField.setText(null);
 		refundTextField.setDisable(true);
 		applyBtn.setDisable(true);
-		complaintContent.setText("**THERE ARE NO COMPLAINTS AT THE MOMENT**");
+		complaintContent.setText("**THERE ARE NO COMPLAINTS \nAT THE MOMENT**");
 	}
 	 
 	private void loadComplaint(int i) {
@@ -214,7 +214,7 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
 		// set content in text area
 		Complaint comp = complaints.get(i);
 		String dateTime = comp.getCreationDate().toString();
-		complaintContent.setText(comp.getText() + "\ncreated at: " + dateTime);
+		complaintContent.setText("\"" + comp.getText() + "\"" + "\ncreated at: " + dateTime);
 		
 		// initialize choice boxes, text, and textfield for refunding
 		idxText.setText(Integer.toString(i+1)+"/"+Integer.toString(complaints.size()));
@@ -245,7 +245,7 @@ public class ViewComplaintsBoundary  extends EmployeeBoundary implements Initial
 			complaints = CinemaClient.ComplaintsData;
 		}
 		
-		if(complaints==null) {
+		if(complaints.size()==0) {
 			loadEmpty();
 		}else {
 			loadComplaint(0);

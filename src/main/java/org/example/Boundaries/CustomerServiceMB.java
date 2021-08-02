@@ -1,5 +1,6 @@
 package org.example.Boundaries;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javafx.event.ActionEvent;
@@ -9,6 +10,7 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
+import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
 import org.example.OCSF.CinemaServer;
@@ -132,8 +134,8 @@ public class CustomerServiceMB extends EmployeeMainBoundary implements Initializ
     }
 
     @FXML
-    void clickViewComplaintsBtn(ActionEvent event) {
-
+    void clickViewComplaintsBtn(ActionEvent event) throws IOException {
+    	App.setRoot("ViewComplaintsBoundary", null, stage);
     }
     
     void CheckIfFilled() {

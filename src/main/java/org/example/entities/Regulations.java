@@ -6,7 +6,9 @@ import java.io.Serializable;
 @Table(name ="regulations")
 
 public class Regulations implements Serializable {
-    @Id
+    
+	@Id
+	private int reg_id;
     private boolean status;	// will be false if there is no limitations
     private int Y;	// this is the same Y described in the requirements file
     public Regulations (boolean status, int Y){
@@ -32,5 +34,13 @@ public class Regulations implements Serializable {
 
 	public void setY(int y) {
 		Y = y;
+	}
+
+	public int getReg_id() {
+		return reg_id;
+	}
+
+	public void setReg_id(int reg_id) {
+		this.reg_id = reg_id;
 	}
 }
