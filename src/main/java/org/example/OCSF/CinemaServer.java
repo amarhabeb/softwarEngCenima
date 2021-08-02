@@ -28,6 +28,7 @@ public class CinemaServer extends AbstractServer{
 	
 	private static Session session;
 	private static Thread activateThread;
+	private static Thread packageMsgTHr;
 
 	public static Object threadLock = new Object();
 
@@ -455,7 +456,7 @@ public class CinemaServer extends AbstractServer{
 					messageToClient.add(success);
 					client.sendToClient(messageToClient);
 				}
-				
+
 				if (message.get(0).equals("LoadTickets")) {
 					// load data
 					try {
@@ -1003,7 +1004,7 @@ public class CinemaServer extends AbstractServer{
 			}
 			threadLock.notifyAll();
 		}
-    
+
 
     }
 
@@ -1043,6 +1044,40 @@ public class CinemaServer extends AbstractServer{
 
 	}
 
+	protected static void sendNewMoviesToPackagesCostumers() throws IOException {
+
+		packageMsgTHr = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+
+
+
+
+
+
+				synchronized (threadLock) {
+					try {
+
+						MailController.sendNewMoviesMail(session);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					threadLock.notifyAll();
+				}
+
+			}
+		});
+
+		final ScheduledFuture<?> scheduler =  Executors.newScheduledThreadPool(1).scheduleAtFixedRate(packageMsgTHr,0,7, DAYS);
+
+
+
+
+
+	}
+
     @Override
     protected void serverClosed() {
     	session.close();   // close session when server closes
@@ -1062,13 +1097,13 @@ public class CinemaServer extends AbstractServer{
         super.clientConnected(client);
         System.out.println("Client connected: " + client.getInetAddress());
     }
-    
+
     // get random object from array
     public static String getRandom(String[] array) {	// for picking random element from an array of Strings
 	    int rnd = new Random().nextInt(array.length);
 	    return array[rnd];
 	}
-    
+
     // round double to #places
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
@@ -1079,7 +1114,7 @@ public class CinemaServer extends AbstractServer{
         return (double) tmp / factor;
     }
 
-    
+
     private static void InitializeDataBase() throws Exception {
     	SessionFactory sessionFactory = getSessionFactory();
 		session = sessionFactory.openSession();
@@ -1166,13 +1201,21 @@ public class CinemaServer extends AbstractServer{
 
 
 
-		/////// Testing PackageController
-		PackageOrder pack=new PackageOrder(150,2);
+		Customer cus1 = new Customer("Ali","0502700998", "aliaculielun@gmail.com");
+		CustomerController.addCustomer(session,cus1);
+		Customer cus2 = new Customer("Mosa","0502700998", "amar.habiballah@hotmail.com");
+		CustomerController.addCustomer(session,cus2);
+		Customer cus3 = new Customer("Ammar","0502700998", "amarha157@gmail.com");
+		CustomerController.addCustomer(session,cus3);
+		/////// Testing PackageControlle
+		PackageOrder pack=new PackageOrder(150,cus1.getID());
 		PackagesController.addPackage(session, pack);
-		PackageOrder pack2=new PackageOrder(150,1);
+		PackageOrder pack2=new PackageOrder(150,cus2.getID());
 		PackagesController.addPackage(session, pack2);
-		PackageOrder pack3=new PackageOrder(150,1);
+		PackageOrder pack3=new PackageOrder(150,cus3.getID());
 		PackagesController.addPackage(session, pack3);
+
+
 
 		List<PackageOrder> cust_pacs=PackagesController.loadCustomersPackages(session,1);
 		//System.out.println(cust_pacs.size());
@@ -1778,7 +1821,9 @@ public class CinemaServer extends AbstractServer{
 				// initialize the DataBase
 				InitializeDataBase();
 
-				//activatingLoop();
+				sendNewMoviesToPackagesCostumers();
+				activatingLoop();
+
 				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
 				server.listen();
 
