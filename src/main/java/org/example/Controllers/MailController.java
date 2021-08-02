@@ -89,7 +89,7 @@ public class MailController{
                 List<PackageOrder> packageOrderList=PackagesController.loadValidPackages(session);
                 if (!packageOrderList.isEmpty())
                 for(PackageOrder pac: packageOrderList) {
-                        System.out.println(pac.getCusomer_id());
+
                         String email = CustomerController.loadCustomerMail(session, pac.getCusomer_id());
                         if (email != null)
                             sendMail(newMoviesText, email, "Don't Miss! New Movies Coming Soon");
