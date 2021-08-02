@@ -82,17 +82,21 @@ public class MailController{
                 newMoviesText+="Name: "+ m.getName_en() +"\n"+
                                "Summary: " +m.getSummary()+"\n"+
                                 "Director: " +m.getDirector()+"\n"+
-                                "Launch Date: " +m.getLanuch_date().toString()+
+                                "Launch Date: " +m.getLanuch_date().toString()+"\n"+
                                 "*********************"+"\n\n\n";
             }
             if(newMovies!=null){
                 List<PackageOrder> packageOrderList=PackagesController.loadValidPackages(session);
-                for(PackageOrder pac: packageOrderList){
-                    String email=CustomerController.loadCustomerMail(session,pac.getCusomer_id());
-                    sendMail(newMoviesText, email, "Don't Miss! New Movies Coming Soon");
+                if (!packageOrderList.isEmpty())
+                for(PackageOrder pac: packageOrderList) {
+                        System.out.println(pac.getCusomer_id());
+                        String email = CustomerController.loadCustomerMail(session, pac.getCusomer_id());
+                        if (email != null)
+                            sendMail(newMoviesText, email, "Don't Miss! New Movies Coming Soon");
+                    }
+                    return true;
                 }
-                return true;
-            }
+
             return false;
 
         }
