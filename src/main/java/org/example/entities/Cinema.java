@@ -15,7 +15,7 @@ public class Cinema implements Serializable {
     private int ID;
     String branch_name;
     
-    @OneToMany(targetEntity = Show.class, cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = Show.class, cascade = CascadeType.ALL)
     private List<Show> shows;
     @OneToMany(targetEntity = Movie.class, cascade = CascadeType.ALL)
     private List<Movie> movies;
@@ -40,6 +40,14 @@ public class Cinema implements Serializable {
     }
 
     public Cinema(List<Show> shows, List<Movie> movies, List<Hall> halls) {
+        this.shows = shows;
+        this.movies = movies;
+        this.halls = halls;
+        this.active=true;
+    }
+
+    public Cinema(String branch_name, List<Show> shows, List<Movie> movies, List<Hall> halls) {
+        this.branch_name = branch_name;
         this.shows = shows;
         this.movies = movies;
         this.halls = halls;
