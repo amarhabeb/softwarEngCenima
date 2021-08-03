@@ -130,17 +130,6 @@ public class Movie implements Serializable {
 
 
 
-//    public void setIs_new(Boolean is_new) {
-//        this.is_new = is_new;
-//    }
-
-    /*public ImageIcon getImage() {
-        return image;
-    }
-    public void setImage(ImageIcon image) {
-        this.image = image;
-    }*/
-
     public   String getImage() {
         return image;
     }
