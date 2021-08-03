@@ -122,10 +122,10 @@ public class PaymentLink extends  Boundary implements Initializable, Serializabl
     public void initialize(URL url, ResourceBundle rb) {
 
         // set-up the columns in the table
-        for (int hour = 0; hour <= 23; hour++) {
+        for (int hour = 0; hour <= 12; hour++) {
             hoursChoice.getItems().add(hour);
         }
-        for (int min = 0; min <= 59; min++) {
+        for (int min = 2021; min <= 2030; min++) {
             minsChoice.getItems().add(min);
         }
 

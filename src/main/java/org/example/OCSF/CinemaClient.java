@@ -353,6 +353,7 @@ public class CinemaClient extends AbstractClient {
 			synchronized(PaymentDataLock) {
 				PaymenyTicket.PaymentAdded = true;
 				PaymentLink.PaymentAdded=true;
+				PaymentPackage.PaymentAdded=true;
 				PaymentDataUpdated = false;	// client's ShowsData is now not updated
 				PaymentDataLock.notifyAll();
 			}
@@ -679,17 +680,17 @@ public class CinemaClient extends AbstractClient {
 				PackageDataLock.notifyAll();
 			}
 		}
-//		if(message.get(0).equals("PackageAdded")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( PackageDataLock) {
-//                addPackageBoundary.Added=true;
-//				PackageDataUpdated = false;	// client's ShowsData is now not updated
-//				PackageDataLock.notifyAll();
-//			}
-//		}
+		if(message.get(0).equals("PackageAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized( PackageDataLock) {
+                PaymentPackage.PackageAdded=true;
+				PackageDataUpdated = false;	// client's ShowsData is now not updated
+				PackageDataLock.notifyAll();
+			}
+		}
 
 //		if(message.get(0).equals("SeatAdded")) {
 //			boolean success = (boolean)message.get(1);

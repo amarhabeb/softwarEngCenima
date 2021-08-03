@@ -101,6 +101,8 @@ public class CustomerMainBoundary extends EmployeeMainBoundary implements Initia
 
     @FXML
     void clickBuypackageBtn(ActionEvent event) throws IOException {
+        App.setRoot("PaymentPackage",null, stage);
+
 
     }
 
