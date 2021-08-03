@@ -33,7 +33,7 @@ public class Movie implements Serializable {
     //private Boolean is_new;
     private int price;
     @Column(length = 5000)
-    private byte[] image;
+    private String image;
     private String status; // can be AVAILABLE / NOT_AVAILABLE
     private boolean availableOnline;
     @OneToMany(targetEntity = Show.class, cascade = CascadeType.ALL)
@@ -45,7 +45,7 @@ public class Movie implements Serializable {
 
 
     public Movie(String name_en, String name_heb, String director, List<String> cast, String summary,
-                 LocalDate lanuch_date,  byte[] image, List<Show> shows, boolean availableOnline) {
+                 LocalDate lanuch_date,  String image, List<Show> shows, boolean availableOnline) {
         this.name_en = name_en;
         this.name_heb = name_heb;
         this.director = director;
@@ -141,11 +141,11 @@ public class Movie implements Serializable {
         this.image = image;
     }*/
 
-    public   byte[] getImage() {
+    public   String getImage() {
         return image;
     }
 
-    public void setImage( byte[] image) {
+    public void setImage( String image) {
         this.image = image;
     }
 
@@ -205,8 +205,5 @@ public class Movie implements Serializable {
 		ID = iD;
 	}
 	
-	public Image getImageFX() {
-		Image img = new Image(new ByteArrayInputStream(image));
-		return img;
-	}
+
 }
