@@ -16,7 +16,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -1008,7 +1007,7 @@ public class CinemaServer extends AbstractServer{
 
     }
 
-	protected static void activatingLoop() throws IOException {
+	protected static void loopPerOneMinute() throws IOException {
 
 		activateThread = new Thread(new Runnable() {
 
@@ -1025,6 +1024,7 @@ public class CinemaServer extends AbstractServer{
 
 							LinkController.activateLinksWhenTimeCome(session);
 							ComplaintsController.deactivateAllComplaintsAfter24Hours(session);
+							MailController.sendReminderLink(session);
 
 
 						} catch (Exception e) {
@@ -1201,11 +1201,11 @@ public class CinemaServer extends AbstractServer{
 
 
 
-		Customer cus1 = new Customer("Ali","0502700998", "aliaculielun@gmail.com");
+		Customer cus1 = new Customer("Ali","0502700998", "liabulielun@gmail.com");
 		CustomerController.addCustomer(session,cus1);
-		Customer cus2 = new Customer("Mosa","0502700998", "amar.habiballah@hotmail.com");
+		Customer cus2 = new Customer("Mosa","0502700998", "mar.habiballah@hotmail.com");
 		CustomerController.addCustomer(session,cus2);
-		Customer cus3 = new Customer("Ammar","0502700998", "amarha157@gmail.com");
+		Customer cus3 = new Customer("Ammar","0502700998", "marha157@gmail.com");
 		CustomerController.addCustomer(session,cus3);
 		/////// Testing PackageControlle
 		PackageOrder pack=new PackageOrder(150,cus1.getID());
@@ -1228,8 +1228,8 @@ public class CinemaServer extends AbstractServer{
 		//System.out.println(n);
 
 		/////// Testing LinkController
-		Link link1=new Link("www.cinema.com",LocalDateTime.of(2021,7,31,18,0),
-				LocalDateTime.of(2021,7,31,21,0), 11, 80,3);
+		Link link1=new Link("www.cinema.com",LocalDateTime.now().plusHours(1).plusMinutes(2),
+				LocalDateTime.of(2021,7,31,21,0), 11, 80,9);
 		LinkController.addLink(session,link1);
 		Link link2=new Link("www.cinema.com",LocalDateTime.of(2021,7,30,23,0),
 				LocalDateTime.of(2021,7,31,1,30), 12, 80,3);
@@ -1822,7 +1822,7 @@ public class CinemaServer extends AbstractServer{
 				InitializeDataBase();
 
 				sendNewMoviesToPackagesCostumers();
-				activatingLoop();
+				loopPerOneMinute();
 
 				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
 				server.listen();
