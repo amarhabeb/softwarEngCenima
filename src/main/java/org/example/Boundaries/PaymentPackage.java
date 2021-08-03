@@ -1,37 +1,33 @@
 package org.example.Boundaries;
 
-
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
-import javafx.util.Callback;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
+import org.example.entities.Link;
+import org.example.entities.Movie;
+import org.example.entities.PackageOrder;
 import org.example.entities.Payment;
-import org.example.entities.Show;
-import org.example.entities.Ticket;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class PaymenyTicket extends Boundary implements Initializable, Serializable {
-    public static Boolean ticketAdded = true;
+public class PaymentPackage extends  Boundary implements Initializable, Serializable {
+    public static Boolean PackageAdded = true;
 
     @FXML // fx:id="refreshBtn"
-    private Button payBtn; // Value injected by FXMLLoader
+    private Button payBtn1; // Value injected by FXMLLoader
 
     @FXML // fx:id="UpdateShowsTimesBtn"
     private Button BackBtn; // Value injected by FXMLLoader
@@ -65,32 +61,23 @@ public class PaymenyTicket extends Boundary implements Initializable, Serializab
 
         } else {
             if (isNumeric(IdText.getText()) == true && isNumeric(CCV.getText()) == true && isNumeric(CardText.getText()) == true) {
-                int seats = (int)App.getParams().get(1);
-                Show show = (Show) App.getParams().get(App.getParams().size()-1);
+
+
 //                int cinema_id, int hall_id,int seat_id, int show_id,LocalDateTime show_time,
 //                double price, int customer_id
-                List<Ticket> tickets = new LinkedList<>();
-                for(int i=1;i<(int)App.getParams().get(0)+1;i++){
+                String l = "https//www.cinema.com/"+IdText.getText();
+                PackageOrder link= new PackageOrder(500,Integer.parseInt(IdText.getText()));
 
-                    Ticket ticket = new Ticket(show.getCinema().getID(), show.getHall().getID(), (int)App.getParams().get(i), show.getID(), show.getDateTime(), show.getPrice(), Integer.parseInt(IdText.getText()));
-
-                    tickets.add(ticket);
-
-                }
                 try {
-                    for(int i=0;i<tickets.size();i++){
-                        AddTicket(tickets.get(i));
-                        String mail = Email.getText();
-                        String Message = "ID is "+tickets.get(i).getID()+"Movie  is :"+show.getMovie().getName_en()+ " Seat is: "+tickets.get(i).getSeat_id()+ " Price is "+tickets.get(i).getPrice()+" Hall is  "+show.getHall().getNumber();
-                        org.example.Controllers.MailController.sendMail(Message,mail,"Your Ticket");
-                        Payment pay= new Payment(show.getPrice(),Integer.parseInt(IdText.getText()));
-                        AddPayment(pay);
-
-                    }
-                    List<Object> l =new LinkedList<>();
-                    App.setParams(l);
-                    MessageBoundaryEmployee.displayInfo("Tickets has been sent to you by Email ");
-
+                    AddPackage(link);
+                    MessageBoundaryEmployee.displayInfo("Package has been sent to you by Email ");
+                    List<Object> l1 =new LinkedList<>();
+                    App.setParams(l1);
+                    String mail = Email.getText();
+                    String Message = "ID is "+link.getID()+ " Link is: "+l1;
+                    org.example.Controllers.MailController.sendMail(Message,mail,"Your Link");
+                    Payment pay= new Payment(500,Integer.parseInt(IdText.getText()));
+                    AddPayment(pay);
 
                     App.setRoot("CustomerMain",params,stage);
                 }
@@ -139,20 +126,20 @@ public class PaymenyTicket extends Boundary implements Initializable, Serializab
         System.out.println("initializing done");
     }
 
-    synchronized void AddTicket(Ticket ticket) {
-        ticketAdded = false;	// show isn't added yet
+    synchronized void AddPackage(PackageOrder link) {
+        PackageAdded = false;	// show isn't added yet
         // create message and send it to the server
         LinkedList<Object> message = new LinkedList<Object>();
-        message.add("AddTicket");
-        message.add(ticket);
-        synchronized(CinemaClient.TicketsDataLock)
+        message.add("AddPackage");
+        message.add(link);
+        synchronized(CinemaClient.PackageDataLock)
         {
             CinemaClientCLI.sendMessage(message);
 
             // wait for Data to be changed
-            while(!ticketAdded) {
+            while(!PackageAdded) {
                 try {
-                    CinemaClient.TicketsDataLock.wait();
+                    CinemaClient.PackageDataLock.wait();
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
