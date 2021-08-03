@@ -81,7 +81,10 @@ import java.util.ResourceBundle;
 
             } else {
                 label.setText("");
+
                 int show_id = ShowsTable.getSelectionModel().getSelectedItem().getID();
+                System.out.println("Selected Id  is "+ShowsTable.getSelectionModel().getSelectedItem().getID());
+                System.out.println("Selected index is "+ShowsTable.getSelectionModel().getSelectedIndex());
                 //System.out.println(show_id);
                 List<Object> params = new LinkedList<Object>();
                 params.add(show_id);
