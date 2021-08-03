@@ -1317,29 +1317,29 @@ public class CinemaServer extends AbstractServer{
     		and when we create the shows list we set its in the movie
     		 */
 
-			String im = ("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/1.jpg");
+			String im = "file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/1.jpg";
 
-			String im1 = ("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/2.jpg");
+			String im1 = "file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/2.jpg";
 
-			String im2 = ("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/3.jpg");
+			String im2 ="file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/3.jpeg";
 
-			String im3 =("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/4.jpg");
+			String im3 ="file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/4.jpg";
 
-			String im4 =("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/5.jpg");
+			String im4 ="file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/5.jpg";
 
-			String im5 = ("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/6.jpg");
+			String im5 = "file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/6.jpeg";
 
-			String im6 = ("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/7.jpg");
+			String im6 = "file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/7.jpg";
 
-			String im7 = ("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/8.jpg");
+			String im7 = "file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/8.jpg";
 
-			String im8 = ("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/9.jpg");
+			String im8 = "file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/9.png";
 
-			String im9 = ("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/10.jpg");
+			String im9 = "file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/10.jpeg";
 
-			String im10 = ("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/11.jpg");
+			String im10 ="file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/11.jpg";
 
-			String im11= ("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/12.jpg");
+			String im11= "file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/12.jpeg";
 
 
 			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2021-07-31"),  im, emptyShowList,false);
