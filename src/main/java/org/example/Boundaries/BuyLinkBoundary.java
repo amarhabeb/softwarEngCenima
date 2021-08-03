@@ -172,8 +172,8 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
                 ImageView m = new ImageView();
                 m.setFitWidth(150);
                 m.setFitHeight(150);
-                System.out.println(movie.getValue().getImage().substring(11));
-                m.setImage(new Image(movie.getValue().getImage().substring(11)));
+                System.out.println(movie.getValue().getImage());
+                m.setImage(new Image(movie.getValue().getImage()));
 
                 return (new SimpleObjectProperty(m));
             }
