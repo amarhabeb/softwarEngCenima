@@ -26,8 +26,6 @@ import static java.util.concurrent.TimeUnit.*;
 
 public class CinemaServer extends AbstractServer{
 	
-	public static Regulations currentRegs = null;	// this is the regulations of the cinema chain
-	
 	private static Session session;
 	private static Thread activateThread;
 	private static Thread packageMsgTHr;
@@ -184,17 +182,21 @@ public class CinemaServer extends AbstractServer{
 					try {
 						session.clear();
 						List<Link> Data = LinkController.loadLinks(session);
-
+<
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("LinksLoaded");
 						messageToClient.add(Data);
 						client.sendToClient(messageToClient);
-					} catch (IOException e) {
+
+
+					catch (IOException e) {
+
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
+
 
 				if (message.get(0).equals("LoadCostumersLinks")) {
 					// load data
@@ -362,7 +364,9 @@ public class CinemaServer extends AbstractServer{
 					client.sendToClient(messageToClient);
 				}
 
-				if (message.get(0).equals("LoadReagulations")) {
+
+				if (message.get(0).equals("LoadRegulations")) {
+
 					// load data
 					try {
 						session.clear();
@@ -474,6 +478,7 @@ public class CinemaServer extends AbstractServer{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+
 				}
 
 				if (message.get(0).equals("LoadCustomersTickets")) {
@@ -493,6 +498,7 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
 
 				if (message.get(0).equals("AddTicket")) {
 					Ticket newticket = (Ticket) message.get(1);
@@ -566,6 +572,7 @@ public class CinemaServer extends AbstractServer{
 						session.clear();
 						List<Cinema> Data = CinemaController.loadCinemas(session);
 
+
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("CinemasLoaded");
@@ -576,6 +583,7 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
 
 				if (message.get(0).equals("LoadHalls")) {
 					// load data
@@ -663,6 +671,7 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
 
 				if (message.get(0).equals("AddLink")) {
 					session.clear();
@@ -764,6 +773,7 @@ public class CinemaServer extends AbstractServer{
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+
 					}
 				}
 				if (message.get(0).equals("setOnlineMovieON")) {
@@ -782,6 +792,7 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
 				if (message.get(0).equals("setOnlineMovieOFF")) {
 					session.clear();
 					int movie_id=(int)message.get(1);
@@ -935,17 +946,22 @@ public class CinemaServer extends AbstractServer{
 					}
 				}
 
+
+
+
 				if (message.get(0).equals("LoadLinksReport")) {
 					// load data
 					try {
 						session.clear();
 						Integer month = (Integer) message.get(1);
 						Integer year = (Integer) message.get(2);
+
 						List<Link> Data = LinkController.makeLinksReportByMonth(session, month, year);
 
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("LinksReportLoaded");
+
 						messageToClient.add(Data);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
@@ -953,6 +969,8 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
+
 
 				if (message.get(0).equals("LoadRefundsReport")) {
 					// load data
@@ -972,6 +990,7 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
 
 				if (message.get(0).equals("LoadComplaintsReport")) {
 					// load data
@@ -999,10 +1018,13 @@ public class CinemaServer extends AbstractServer{
 				}
 				System.err.println("An error occured, changes have been rolled back.");
 				exception.printStackTrace();
+
+
 			}
 			threadLock.notifyAll();
 		}
-    
+
+
 
     }
 
@@ -1042,6 +1064,7 @@ public class CinemaServer extends AbstractServer{
 
 	}
 
+
 	protected static void sendNewMoviesToPackagesCostumers() throws IOException {
 
 		packageMsgTHr = new Thread(new Runnable() {
@@ -1074,6 +1097,7 @@ public class CinemaServer extends AbstractServer{
 
 
 
+
 	}
 
     @Override
@@ -1095,13 +1119,13 @@ public class CinemaServer extends AbstractServer{
         super.clientConnected(client);
         System.out.println("Client connected: " + client.getInetAddress());
     }
-    
+
     // get random object from array
     public static String getRandom(String[] array) {	// for picking random element from an array of Strings
 	    int rnd = new Random().nextInt(array.length);
 	    return array[rnd];
 	}
-    
+
     // round double to #places
     public static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
@@ -1112,7 +1136,7 @@ public class CinemaServer extends AbstractServer{
         return (double) tmp / factor;
     }
 
-    
+
     private static void InitializeDataBase() throws Exception {
     	SessionFactory sessionFactory = getSessionFactory();
 		session = sessionFactory.openSession();
@@ -1176,8 +1200,10 @@ public class CinemaServer extends AbstractServer{
 
 		Complaint complaint2=new Complaint("I paid but didn't receive confirmation!!",2);
 		ComplaintsController.addComplaint(session,complaint2);
-		Complaint complaint3=new Complaint("All hals are full there's no place for me",3);
+		Complaint complaint3=new Complaint("All halls are full there's no place for me",3);
 		ComplaintsController.addComplaint(session,complaint3);
+		Complaint complaint4=new Complaint("Movie sound was awful",2);
+		ComplaintsController.addComplaint(session,complaint4);
 		ComplaintsController.markComplaintAsDone(session,1);
 
 		/////// Testing TicketController
@@ -1191,6 +1217,9 @@ public class CinemaServer extends AbstractServer{
 				LocalDateTime.of(2021,7,30,21,00),60,2);
 		TicketsController.addTicket(session,ticket3);
 		TicketsController.cancelTicket(session,ticket2.getID());
+
+		List<Ticket> reportTicket=TicketsController.makeTicketsReportByMonth(session,2,8,2021);
+		System.out.println("success"+reportTicket.size());
 
 
 
@@ -1619,6 +1648,7 @@ public class CinemaServer extends AbstractServer{
 			chow11.setHall(cinemaHall2);
 			chow12.setHall(cinemaHall2);
 
+
 			List<Show> shows2 = new LinkedList<Show>();
 			shows2.add(show1);
 			shows2.add(show112);
@@ -1814,8 +1844,12 @@ public class CinemaServer extends AbstractServer{
 			} else {
 				// initialize the DataBase
 				InitializeDataBase();
+
+
 				sendNewMoviesToPackagesCostumers();
 				activatingLoop();
+
+
 				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
 				server.listen();
 

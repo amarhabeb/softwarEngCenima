@@ -32,6 +32,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
 
     	stage.setTitle("Cinema");
+
         scene = new Scene(loadFXML("CustomerMain", null, stage), 800, 488);
         stage.setScene(scene);
         stage.show();
