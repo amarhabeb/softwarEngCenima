@@ -182,12 +182,16 @@ public class CinemaServer extends AbstractServer{
 					try {
 						session.clear();
 						List<Link> Data = LinkController.loadLinks(session);
+<
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("LinksLoaded");
 						messageToClient.add(Data);
 						client.sendToClient(messageToClient);
-					}catch (IOException e) {
+
+
+					catch (IOException e) {
+
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -360,7 +364,9 @@ public class CinemaServer extends AbstractServer{
 					client.sendToClient(messageToClient);
 				}
 
+
 				if (message.get(0).equals("LoadRegulations")) {
+
 					// load data
 					try {
 						session.clear();
@@ -472,6 +478,7 @@ public class CinemaServer extends AbstractServer{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+
 				}
 
 				if (message.get(0).equals("LoadCustomersTickets")) {
@@ -491,6 +498,7 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
 
 				if (message.get(0).equals("AddTicket")) {
 					Ticket newticket = (Ticket) message.get(1);
@@ -564,6 +572,7 @@ public class CinemaServer extends AbstractServer{
 						session.clear();
 						List<Cinema> Data = CinemaController.loadCinemas(session);
 
+
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("CinemasLoaded");
@@ -574,6 +583,7 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
 
 				if (message.get(0).equals("LoadHalls")) {
 					// load data
@@ -625,7 +635,6 @@ public class CinemaServer extends AbstractServer{
 				}
 
 
-
 				if (message.get(0).equals("LogIn")) {
 					// load data
 
@@ -662,6 +671,7 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
 
 				if (message.get(0).equals("AddLink")) {
 					session.clear();
@@ -763,6 +773,7 @@ public class CinemaServer extends AbstractServer{
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+
 					}
 				}
 				if (message.get(0).equals("setOnlineMovieON")) {
@@ -781,6 +792,7 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
 				if (message.get(0).equals("setOnlineMovieOFF")) {
 					session.clear();
 					int movie_id=(int)message.get(1);
@@ -903,6 +915,7 @@ public class CinemaServer extends AbstractServer{
 						Integer month = (Integer) message.get(2);
 						Integer year = (Integer) message.get(3);
 						List<Ticket> Data = TicketsController.makeTicketsReportByMonth(session, cinema_id, month, year);
+
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("TicketsReportLoaded");
@@ -935,17 +948,20 @@ public class CinemaServer extends AbstractServer{
 
 
 
+
 				if (message.get(0).equals("LoadLinksReport")) {
 					// load data
 					try {
 						session.clear();
 						Integer month = (Integer) message.get(1);
 						Integer year = (Integer) message.get(2);
+
 						List<Link> Data = LinkController.makeLinksReportByMonth(session, month, year);
 
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("LinksReportLoaded");
+
 						messageToClient.add(Data);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
@@ -953,6 +969,7 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
 
 
 				if (message.get(0).equals("LoadRefundsReport")) {
@@ -973,6 +990,7 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+
 
 				if (message.get(0).equals("LoadComplaintsReport")) {
 					// load data
@@ -1001,9 +1019,11 @@ public class CinemaServer extends AbstractServer{
 				System.err.println("An error occured, changes have been rolled back.");
 				exception.printStackTrace();
 
+
 			}
 			threadLock.notifyAll();
 		}
+
 
 
     }
@@ -1044,6 +1064,7 @@ public class CinemaServer extends AbstractServer{
 
 	}
 
+
 	protected static void sendNewMoviesToPackagesCostumers() throws IOException {
 
 		packageMsgTHr = new Thread(new Runnable() {
@@ -1071,6 +1092,7 @@ public class CinemaServer extends AbstractServer{
 		});
 
 		final ScheduledFuture<?> scheduler =  Executors.newScheduledThreadPool(1).scheduleAtFixedRate(packageMsgTHr,0,7, DAYS);
+
 
 
 
@@ -1198,6 +1220,7 @@ public class CinemaServer extends AbstractServer{
 
 		List<Ticket> reportTicket=TicketsController.makeTicketsReportByMonth(session,2,8,2021);
 		System.out.println("success"+reportTicket.size());
+
 
 
 
@@ -1625,6 +1648,7 @@ public class CinemaServer extends AbstractServer{
 			chow11.setHall(cinemaHall2);
 			chow12.setHall(cinemaHall2);
 
+
 			List<Show> shows2 = new LinkedList<Show>();
 			shows2.add(show1);
 			shows2.add(show112);
@@ -1821,8 +1845,10 @@ public class CinemaServer extends AbstractServer{
 				// initialize the DataBase
 				InitializeDataBase();
 
+
 				sendNewMoviesToPackagesCostumers();
 				activatingLoop();
+
 
 				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
 				server.listen();

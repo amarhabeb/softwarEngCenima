@@ -1,17 +1,21 @@
 package org.example.Controllers;
 
+import org.example.entities.Complaint;
 import org.example.entities.Link;
 
 
+import org.example.entities.Movie;
 import org.example.entities.Refund;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.criteria.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
 import java.time.temporal.ChronoUnit;
+import java.util.LinkedList;
 import java.util.List;
 
 public class LinkController {
@@ -151,6 +155,7 @@ public class LinkController {
             session.clear();
             transaction.commit();
             session.clear();
+
             return true;
             // Save everything.
         } catch (Exception exception) {
@@ -177,6 +182,7 @@ public class LinkController {
             session.clear();
             transaction.commit();
             session.clear();
+
             deactivateLinksWhenTimePassed(session);
             return true;
             // Save everything.
@@ -187,6 +193,36 @@ public class LinkController {
             System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
             return false;
+        }
+    }
+
+    public static List<Link> LoadLinksToRemind(Session session){
+        try {
+
+            List<Link> allLinks = LinkController.loadLinks(session);
+            List<Link> data = new LinkedList<>();
+            if(allLinks!=null){
+
+
+
+                for(Link link: allLinks) {
+                    if(link.getFromTime().truncatedTo(ChronoUnit.MINUTES).equals(LocalDateTime.now().plusHours(1).truncatedTo(ChronoUnit.MINUTES)))
+                    {
+                        data.add(link);
+
+                    }
+
+                }}
+            return data;
+
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
         }
     }
 
