@@ -80,7 +80,7 @@ public class PaymentLink extends  Boundary implements Initializable, Serializabl
                     List<Object> l1 =new LinkedList<>();
                     App.setParams(l1);
                     String mail = Email.getText();
-                    String Message = "Movie  is :"+m.getName_en()+ " Link is: "+" Available untill  "+LocalDateTime.now().plusWeeks(4);
+                    String Message = "ID is "+link.getID()+" Movie  is :"+m.getName_en()+ " Link is: "+" Available untill  "+LocalDateTime.now().plusWeeks(4);
                     org.example.Controllers.MailController.sendMail(Message,mail,"Your Link");
                     Payment pay= new Payment(m.getPrice(),Integer.parseInt(IdText.getText()));
                     AddPayment(pay);

@@ -562,7 +562,6 @@ public class CinemaServer extends AbstractServer{
 					try {
 						session.clear();
 						List<Cinema> Data = CinemaController.loadCinemas(session);
-
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("CinemasLoaded");
@@ -800,9 +799,10 @@ public class CinemaServer extends AbstractServer{
 				if (message.get(0).equals("LoadPackages")) {
 					// load data
 					try {
+						System.out.println("Enter seerver");
+
 						session.clear();
 						List<PackageOrder> Data = PackagesController.loadPackages(session);
-
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("PackagesLoaded");
