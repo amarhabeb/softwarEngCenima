@@ -74,4 +74,50 @@ public class SeatController {
             return false;
         }
     }
+
+    public static boolean bookSeat(Session session, int seat_id){
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaUpdate<Seat> update_query = builder.createCriteriaUpdate(Seat.class);
+            Root<Seat> root=update_query.from(Seat.class);
+            update_query.set("available", false);
+            update_query.where(builder.equal(root.get("ID"),seat_id));
+            Transaction transaction = session.beginTransaction();
+            session.createQuery(update_query).executeUpdate();
+            transaction.commit();
+            //session.clear();
+            return true;
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+    }
+    public static boolean unbookSeat(Session session, int seat_id){
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaUpdate<Seat> update_query = builder.createCriteriaUpdate(Seat.class);
+            Root<Seat> root=update_query.from(Seat.class);
+            update_query.set("available", true);
+            update_query.where(builder.equal(root.get("ID"),seat_id));
+            Transaction transaction = session.beginTransaction();
+            session.createQuery(update_query).executeUpdate();
+            transaction.commit();
+            //session.clear();
+            return true;
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+    }
+
 }

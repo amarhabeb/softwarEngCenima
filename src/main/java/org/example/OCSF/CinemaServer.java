@@ -1119,6 +1119,7 @@ public class CinemaServer extends AbstractServer{
     	SessionFactory sessionFactory = getSessionFactory();
 		session = sessionFactory.openSession();
 		generateMovies(session);
+		generateMovies(session);
 
 		//intialize regulations
 		Regulations regulations=new Regulations();
