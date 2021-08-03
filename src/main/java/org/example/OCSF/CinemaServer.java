@@ -1519,17 +1519,17 @@ public class CinemaServer extends AbstractServer{
 
 
 			for (int k=1; k<=2*10; k++){
-				Seat seat = new Seat(true, k, k/11+1,cinemaHall);
+				Seat seat = new Seat(k%2==0 ? true:false, k, k/11+1,cinemaHall);
 				tempseats.add(seat);
 			}
 
 			for (int k=1; k<=4*10; k++){
-				Seat seat = new Seat(true, k, k/11 +1,cinemaHall1);
+				Seat seat = new Seat(k%2==0 ? true:false, k, k/11 +1,cinemaHall1);
 				tempseats1.add(seat);
 			}
 
 			for (int k=1; k<=6*10; k++){
-				Seat seat = new Seat(true, k, k/11 +1,cinemaHall2);
+				Seat seat = new Seat(k%2==0 ? true:false, k, k/11 +1,cinemaHall2);
 				tempseats2.add(seat);
 			}
 

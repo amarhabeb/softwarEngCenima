@@ -65,21 +65,32 @@ public class PaymenyTicket extends Boundary implements Initializable, Serializab
 
         } else {
             if (isNumeric(IdText.getText()) == true && isNumeric(CCV.getText()) == true && isNumeric(CardText.getText()) == true) {
-                Show show = (Show) App.getParams().get(0);
-                int seat_id = (int) App.getParams().get(1);
+                int seats = (int)App.getParams().get(1);
+                Show show = (Show) App.getParams().get(App.getParams().size()-1);
 //                int cinema_id, int hall_id,int seat_id, int show_id,LocalDateTime show_time,
 //                double price, int customer_id
-                Ticket ticket = new Ticket(show.getCinema().getID(), show.getHall().getID(), seat_id, show.getID(), show.getDateTime(), show.getPrice(), Integer.parseInt(IdText.getText()));
+                List<Ticket> tickets = new LinkedList<>();
+                for(int i=1;i<(int)App.getParams().get(0)+1;i++){
+
+                    Ticket ticket = new Ticket(show.getCinema().getID(), show.getHall().getID(), (int)App.getParams().get(i), show.getID(), show.getDateTime(), show.getPrice(), Integer.parseInt(IdText.getText()));
+
+                    tickets.add(ticket);
+
+                }
                 try {
-                    AddTicket(ticket);
-                    MessageBoundaryEmployee.displayInfo("Ticket has been sent to you by Email ");
+                    for(int i=0;i<tickets.size();i++){
+                        AddTicket(tickets.get(i));
+                        String mail = Email.getText();
+                        String Message = "Movie  is :"+show.getMovie().getName_en()+ " Seat is: "+tickets.get(i).getSeat_id()+ " Price is "+tickets.get(i).getPrice()+" Hall is  "+show.getHall().getNumber();
+                        org.example.Controllers.MailController.sendMail(Message,mail,"Your Ticket");
+                        Payment pay= new Payment(show.getPrice(),Integer.parseInt(IdText.getText()));
+                        AddPayment(pay);
+
+                    }
                     List<Object> l =new LinkedList<>();
                     App.setParams(l);
-                    String mail = Email.getText();
-                    String Message = "Movie  is :"+show.getMovie().getName_en()+ " Seat is: "+ticket.getSeat_id()+ " Price is "+ticket.getPrice()+" Hall is  "+show.getHall().getNumber();
-                    org.example.Controllers.MailController.sendMail(Message,mail,"Your Ticket");
-                    Payment pay= new Payment(show.getPrice(),Integer.parseInt(IdText.getText()));
-                    AddPayment(pay);
+                    MessageBoundaryEmployee.displayInfo("Tickets has been sent to you by Email ");
+
 
                     App.setRoot("CustomerMain",params,stage);
                 }
