@@ -12,12 +12,14 @@ import java.util.List;
 public class PackagesController {
     public static List<PackageOrder> loadPackages(Session session) throws Exception{
         try {
+            System.out.println("Enter");
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<PackageOrder> query = builder.createQuery(PackageOrder.class);
             query.from(PackageOrder.class);
             List<PackageOrder> data = session.createQuery(query).getResultList();
             transaction.commit();
+            System.out.println("size is "+data.size());
             return data;
         } catch (Exception exception) {
             if (session != null) {

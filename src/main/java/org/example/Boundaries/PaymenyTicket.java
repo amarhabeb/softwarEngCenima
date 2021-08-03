@@ -81,7 +81,7 @@ public class PaymenyTicket extends Boundary implements Initializable, Serializab
                     for(int i=0;i<tickets.size();i++){
                         AddTicket(tickets.get(i));
                         String mail = Email.getText();
-                        String Message = "Movie  is :"+show.getMovie().getName_en()+ " Seat is: "+tickets.get(i).getSeat_id()+ " Price is "+tickets.get(i).getPrice()+" Hall is  "+show.getHall().getNumber();
+                        String Message = "ID is "+tickets.get(i).getID()+"Movie  is :"+show.getMovie().getName_en()+ " Seat is: "+tickets.get(i).getSeat_id()+ " Price is "+tickets.get(i).getPrice()+" Hall is  "+show.getHall().getNumber();
                         org.example.Controllers.MailController.sendMail(Message,mail,"Your Ticket");
                         Payment pay= new Payment(show.getPrice(),Integer.parseInt(IdText.getText()));
                         AddPayment(pay);

@@ -212,17 +212,17 @@ public class CinemaClient extends AbstractClient {
 				ComplaintsDataLock.notifyAll();
 			}
 		}
-//		if(message.get(0).equals("AddComplaint")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized(ComplaintsDataLock) {
-//				AddComplaintBoundary.compalintsAdded = true;	// complaint added
-//				ComplaintsDataUpdated = false;	//  Complaint added
-//				ComplaintsDataLock.notifyAll();
-//			}
-//		}
+		if(message.get(0).equals("ComplaintAdded")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(ComplaintsDataLock) {
+				AddComplaintBoundary .ComplaintAdded= true;	// complaint added
+				ComplaintsDataUpdated = false;	//  Complaint added
+				ComplaintsDataLock.notifyAll();
+			}
+		}
 //		if(message.get(0).equals("LinksLoaded")) {
 //			boolean success = (boolean)message.get(1);
 //			if(!success){
@@ -246,6 +246,13 @@ public class CinemaClient extends AbstractClient {
 //			}
 //		}
 		if(message.get(0).equals("MoviesLoaded")) {
+			synchronized(MoviesDataLock) {
+				MoviesData = (List<Movie>) message.get(1);
+				MoviesDataUpdated = true;	// client's ShowsData is now not updated
+				MoviesDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("OrdersLoaded")) {
 			synchronized(MoviesDataLock) {
 				MoviesData = (List<Movie>) message.get(1);
 				MoviesDataUpdated = true;	// client's ShowsData is now not updated
@@ -649,15 +656,17 @@ public class CinemaClient extends AbstractClient {
 			}
 		}
 		if(message.get(0).equals("PackagesLoaded")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
-				throw new Exception("Controller failed");
-			}
+			System.out.println("Loaded packages");
+			List<PackageOrder> s1 = (List<PackageOrder>) message.get(1);
+			PackageData=s1;
+
 			synchronized( PackageDataLock) {
 
 				PackageDataUpdated = true;	// client's ShowsData is now not updated
 				PackageDataLock.notifyAll();
+				System.out.println("notified");
 			}
+
 		}
 		if(message.get(0).equals("Costumer'sPackagesLoaded")) {
 			boolean success = (boolean)message.get(1);

@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -13,7 +20,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Boundaries.AddComplaintBoundary">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Boundaries.AddComplaintBoundary">
     <children>
         <AnchorPane>
             <children>
@@ -27,17 +34,12 @@
                                 <Cursor fx:constant="SE_RESIZE" />
                             </cursor>
                         </ImageView>
-                        <TextArea fx:id="complaintContent" editable="false" layoutX="228.0" layoutY="167.0" prefHeight="174.0" prefWidth="331.0">
-                            <font>
-                                <Font size="15.0" />
-                            </font>
-                        </TextArea>
                         <Label layoutX="137.0" layoutY="30.0" text="our customers our priority" textFill="WHITE">
                             <font>
                                 <Font name="System Bold Italic" size="45.0" />
                             </font>
                         </Label>
-                        <Button fx:id="SubmitBtn" layoutX="528.0" layoutY="354.0" mnemonicParsing="false" onAction="#clickSubmitBtn" text="Submit" textFill="#961717">
+                        <Button fx:id="SubmitBtn" layoutX="359.0" layoutY="380.0" mnemonicParsing="false" onAction="#clickSubmitBtn" prefHeight="30.0" prefWidth="70.0" text="Submit" textFill="#961717">
                             <font>
                                 <Font name="System Bold" size="14.0" />
                             </font>
@@ -67,30 +69,25 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
+                  <Button fx:id="refreshbtn" layoutX="211.0" layoutY="380.0" mnemonicParsing="false" onAction="#clickrefreshBtn" text="Refresh" textFill="#961717">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="label" alignment="CENTER" layoutX="187.0" layoutY="346.0" prefHeight="21.0" prefWidth="414.0" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Arial Bold" size="16.0" />
+                     </font>
+                  </Label>
+                    <Button fx:id="GoBackToMainBtn" layoutX="517.0" layoutY="380.0" mnemonicParsing="false" onAction="#clickGoBackToMainBtn" prefHeight="28.0" prefWidth="84.0" text="Back" textFill="#961717">
+                        <font>
+                            <Font name="System Bold Italic" size="14.0" />
+                        </font>
+                    </Button>
+                  <TextField fx:id="complaintContent" layoutX="228.0" layoutY="167.0" prefHeight="115.0" prefWidth="178.0" />
                     </children>
                 </AnchorPane>
             </children>
         </AnchorPane>
-        <Button fx:id="GoBackToMainBtn" layoutX="23.0" layoutY="21.0" mnemonicParsing="false" onAction="#clickGoBackToMainBtn" prefHeight="26.0" prefWidth="123.0" text="&lt;&lt; go back to main">
-            <font>
-                <Font name="System Bold Italic" size="11.0" />
-            </font>
-            <textFill>
-                <LinearGradient endX="1.0" endY="1.0">
-                    <stops>
-                        <Stop>
-                            <color>
-                                <Color red="0.35478729009628296" green="0.6100000143051147" blue="0.32330000400543213" />
-                            </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                            <color>
-                                <Color red="0.6736842393875122" green="0.00499025359749794" blue="0.5510903000831604" />
-                            </color>
-                        </Stop>
-                    </stops>
-                </LinearGradient>
-            </textFill>
-        </Button>
     </children>
 </AnchorPane>

@@ -163,6 +163,50 @@ public abstract class Boundary {
 			}	
 		}	
 	}
+	static synchronized void UpdateOrdersData() {
+		// add message to ClientInput so it could be sent to server
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadOrders");
+		synchronized(CinemaClient.OrdersDataLock)
+		{
+			CinemaClient.OrdersDataUpdated = false;
+			CinemaClientCLI.sendMessage(message);
+
+			// wait for Data to be updated
+			while(!CinemaClient.OrdersDataUpdated) {
+				try {
+					CinemaClient.OrdersDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	static synchronized void UpdatePackagesData() {
+		// add message to ClientInput so it could be sent to server
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadPackages");
+		synchronized(CinemaClient.PackageDataLock)
+		{
+			CinemaClient.PackageDataUpdated = false;
+			CinemaClientCLI.sendMessage(message);
+
+			// wait for Data to be updated
+			System.out.println("Wait");
+
+			while(!CinemaClient.PackageDataUpdated) {
+				try {
+					System.out.println("Wait");
+
+					CinemaClient.PackageDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 	
 	static synchronized void UpdateTicketsData() {
 		// add message to ClientInput so it could be sent to server
