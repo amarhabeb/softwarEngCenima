@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.example.Boundaries.*;
+import org.example.entities.Show;
 
 /**
  * JavaFX App
@@ -20,10 +21,20 @@ public class App extends Application {
     private static Scene scene;
 
     static List<Object> p;
+    static List<Show> shows;
 
+
+    public static List<Show> getShows() {
+        return shows;
+    }
+
+    public static void setShows(List<Show> shows) {
+        App.shows = shows;
+    }
 
     public App() {
         this.p=new LinkedList<>();
+        this.shows= new LinkedList<>();
 
     }
 
