@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 
 import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class ComplaintsController {
@@ -80,7 +81,7 @@ public class ComplaintsController {
             Root<Complaint> root=update_query.from(Complaint.class);
             update_query.set("active", false);
             Predicate[] predicates=new Predicate[2];
-            predicates[0]=builder.equal(root.get("creationDate"), LocalDateTime.now().minusHours(24));
+            predicates[0]=builder.equal(root.get("creationDate."), LocalDateTime.now().minusHours(24).truncatedTo(ChronoUnit.MINUTES));
             predicates[1]=builder.equal(root.get("handled"),false);
             update_query.where();
             Transaction transaction = session.beginTransaction();
