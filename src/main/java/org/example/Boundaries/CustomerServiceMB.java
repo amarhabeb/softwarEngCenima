@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.example.App;
@@ -135,7 +136,9 @@ public class CustomerServiceMB extends EmployeeMainBoundary implements Initializ
 
     @FXML
     void clickViewComplaintsBtn(ActionEvent event) throws IOException {
-    	App.setRoot("ViewComplaintsBoundary", null, stage);
+    	List<Object> params = new LinkedList<>();
+    	params.add(employee);
+    	App.setRoot("ViewComplaintsBoundary", params, stage);
     }
     
     void CheckIfFilled() {
