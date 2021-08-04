@@ -189,6 +189,7 @@ public class CustomerMainBoundary extends EmployeeMainBoundary implements Initia
 
         // set-up the columns in the table
 
+
         System.out.println("initializing done");
     }
 }

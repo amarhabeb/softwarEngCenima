@@ -26,7 +26,9 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.App;
+import org.example.Controllers.RegulationsController;
 import org.example.OCSF.CinemaClient;
+import org.example.OCSF.CinemaServer;
 import org.example.entities.Hall;
 import org.example.entities.Regulations;
 import org.example.entities.Seat;
@@ -212,23 +214,9 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
     @FXML
     void clickChooseSeatBtn(ActionEvent event) throws IOException {
 //        Show show =load_shows((int)App.getParams().get(0));
-        int z = (int) App.getParams().get(0);
-        List<Show> d = null;
-        synchronized (CinemaClient.ShowsDataLock) {
-            org.example.Boundaries.Boundary.UpdateShowsData();
-            // set items in table
-            d = CinemaClient.ShowsData;
-//            SeatTable.setItems(DataList);
-            //System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
-        }
-        Show sh = null;
-        for (int i = 0; i < d.size(); i++) {
-            if (d.get(i).getID() == z) {
-                sh = d.get(i);
-                //System.out.print(h.getID());
 
-            }
-        }
+        Show sh = (Show)App.getParams().get(0);
+
             List<Object> p = new LinkedList<>();
 //        p.add(show);
 //        int id = SeatTable.getSelectionModel().getSelectedItem().getNumber();
@@ -345,7 +333,7 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
             //System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
         }
         Regulations re = r.get(0);
-        if (re.getStatus() == false) {
+        if (re.getStatus()==false) {
             System.out.print("Regulations is false");
 
 
@@ -395,8 +383,8 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
                     seat.setLayoutY(y);
                     pane.getChildren().add(seat);
                     i += 1;
-                    s = Data.get(i);
                     if (i < Data1.size()) {
+                        s = Data.get(i);
                         seat = Data1.get(i);
 
                     } else {
