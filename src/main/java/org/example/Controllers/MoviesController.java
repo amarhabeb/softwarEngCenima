@@ -20,6 +20,7 @@ public class MoviesController {
             CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
             Root<Movie> root=query.from(Movie.class);
             query.where(builder.equal(root.get("status"),"AVAILABLE"));
+            query.groupBy(root.get("name_en"));
             List<Movie> data = session.createQuery(query).getResultList();
             transaction.commit();
             return data;
@@ -61,6 +62,7 @@ public class MoviesController {
 
     public static List<Movie> loadOnlineMovies(Session session){
         try {
+            Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Movie> query = builder.createQuery(Movie.class);
             Root<Movie> root=query.from(Movie.class);
@@ -68,8 +70,9 @@ public class MoviesController {
             predicates[0]=builder.equal(root.get("status"),"AVAILABLE");
             predicates[1]=builder.equal(root.get("availableOnline"),true);
             query.where(predicates);
+            query.groupBy(root.get("name_en"));
             List<Movie> data = session.createQuery(query).getResultList();
-            session.getTransaction().commit();
+            transaction.commit();
             return data;
         } catch (Exception exception) {
             if (session != null) {
