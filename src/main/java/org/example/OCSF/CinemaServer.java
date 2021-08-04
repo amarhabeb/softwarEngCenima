@@ -1425,7 +1425,7 @@ public class CinemaServer extends AbstractServer{
 		//System.out.println(pacs.size());
 
 		pack2.setCounter(12);
-		int n=PackagesController.getNumberOfTicketsLeft(session,4);
+		int n=PackagesController.getNumberOfTicketsLeft(session,pack2.getID());
 		//System.out.println(n);
 
 		/////// Testing LinkController
