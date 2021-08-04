@@ -7,6 +7,7 @@ import java.util.List;
 import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
+import org.example.entities.Employee;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,6 +45,7 @@ public abstract class EmployeeMainBoundary extends EmployeeBoundary{
 
     @FXML
     void clickBackBtn(ActionEvent event) throws IOException {
+    	employee = (Employee) params.get(0);
     	logOut();
     	MessageBoundary.displayInfo("You logged out from your account. You are now in customer mode.");
     	App.setRoot("CustomerMain", null, stage);
