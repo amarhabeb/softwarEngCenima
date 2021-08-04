@@ -118,7 +118,7 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
 
                 if (Data.get(i).getHall().getNumber() == h.getNumber()) {
 
-                    Seat1 seat = new Seat1(Data.get(i).getNumber(), Data.get(i).isAvailable());
+                    Seat1 seat = new Seat1(Data.get(i).getNumber(), Data.get(i).isAvailable(),Data.get(i).getID());
                     Data1.add(seat);
 
                 }
@@ -222,7 +222,7 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
 //        int id = SeatTable.getSelectionModel().getSelectedItem().getNumber();
 //        p.add(id);
 //        App.setParams(p);
-            Seat1 s = new Seat1(1, false);
+            Seat1 s = new Seat1(1, false,1);
             s.getSelected();
             p.add(s.getSelected().size());
             for (int i = 0; i < s.getSelected().size(); i++) {
@@ -256,11 +256,13 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
         BooleanProperty iamReserved = new SimpleBooleanProperty(false);
         int myNo;
         Boolean res;
+        int id;
          public static List<Integer> selected = new LinkedList<>() ;
 
-        public Seat1(int no, Boolean res) {
+        public Seat1(int no, Boolean res,int id) {
             myNo = no;
             this.res=res;
+            this.id=id;
             Circle pillow = new Circle(12);
             if(res==true){
                 pillow.setFill(reservedColor);
@@ -291,12 +293,27 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
                     iamReserved.set(!iamReserved.get());
                     if(iamReserved.get()==true){
                         selected.add(no);
+                        synchronized (CinemaClient.SeatDataLock) {
+                            org.example.Boundaries.Boundary.BookSeat(this.id);
+                            // set items in table
+                            //r = CinemaClient.RegulationsData;
+//            SeatTable.setItems(DataList);
+                            //System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
+                        }
+
 
 
                     }
                     else {
 
                         selected.remove(selected.indexOf(no));
+                        synchronized (CinemaClient.SeatDataLock) {
+                            org.example.Boundaries.Boundary.UnBookSeat(this.id);
+                            // set items in table
+                            //r = CinemaClient.RegulationsData;
+//            SeatTable.setItems(DataList);
+                            //System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
+                        }
                     }
                     for(int i=0;i<getSelected().size();i++){
                         //System.out.println(" number selected is "+getSelected().get(i));
@@ -357,7 +374,7 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
             for (int i = 0; i < Data.size(); i++) {
 
 
-                    Seat1 seat = new Seat1(Data.get(i).getNumber(), Data.get(i).isAvailable());
+                    Seat1 seat = new Seat1(Data.get(i).getNumber(), Data.get(i).isAvailable(),Data.get(i).getID());
                     Data1.add(seat);
 
 
@@ -417,7 +434,7 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
                 //System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
             }
             System.out.println(" Hall is " + h.getID());
-            Seat1 s = new Seat1(1,false);
+            Seat1 s = new Seat1(1,false,0);
             for(int i=0;i<Data.size();i++){
                 if(Data.get(i).getAvailable()==true){
                     MessageBoundaryEmployee.displayInfo("Your seat number is  "+Data.get(i).getNumber()+ " Please Click Choose seat ");

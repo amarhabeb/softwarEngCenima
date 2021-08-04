@@ -1011,6 +1011,40 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+				if (message.get(0).equals("BookSeat")) {
+					// load data
+					try {
+						session.clear();
+						Boolean Data = SeatController.bookSeat(session,(int) message.get(1));
+
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("SeatBooked");
+						//messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (message.get(0).equals("UnBookSeat")) {
+					// load data
+					try {
+						session.clear();
+						Boolean Data = SeatController.unbookSeat(session,(int) message.get(1));
+
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("SeatUnBooked");
+						//messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				if (message.get(0).equals("LoadSeatsHall")) {
 					System.out.println(" enter load seats hall");
 					// load data
