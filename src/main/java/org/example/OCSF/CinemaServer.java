@@ -768,6 +768,21 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+				if(message.get(0).equals("LogOut")){
+					try{
+						session.clear();
+						int emp_id=(int)message.get(1);
+						EmployeeController.logOut(session,emp_id);
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("LoggedOut");
+						client.sendToClient(messageToClient);
+
+					}
+					catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 
 				if (message.get(0).equals("AddLink")) {
 					session.clear();
@@ -1324,7 +1339,7 @@ public class CinemaServer extends AbstractServer{
 		ChainManager chainManager=new ChainManager("cersei lannister", "0534727563",
 				"Lannister@gmail.com", "clannister","1212");
 		//chainManager.setOnline(true);
-//		EmployeeController.addEmployee(CinemaServer.session,chainManager);
+		EmployeeController.addEmployee(CinemaServer.session,chainManager);
 //		Employee cM=EmployeeController.verifyLogIn(session,"clannister","1212");
 //		boolean answer;
 //		if(cM!=null) {
