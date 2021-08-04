@@ -3,6 +3,7 @@ package org.example.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Timer;
 
 @Entity
@@ -22,7 +23,7 @@ public class Complaint implements Serializable {
 
     public Complaint(String text, int order_id) {
         this.text = text;
-        this.creationDate= LocalDateTime.now();
+        this.creationDate= LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES);
         this.active = true;
         this.handled = false;
         this.order_id = order_id;
