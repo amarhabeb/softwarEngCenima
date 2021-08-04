@@ -32,6 +32,29 @@ public class TicketsController {
             return null;
         }
     }
+    public static List<Ticket> loadTicketsByShowID(Session session,int show_id) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
+            Root<Ticket> root=query.from(Ticket.class);
+            Predicate[] predicates=new Predicate[3];
+            predicates[0]=builder.equal(root.get("status"),true);
+            predicates[1]=builder.equal(root.get("active"),true);
+            predicates[2]=builder.equal(root.get("show_id"),show_id);
+            query.where(predicates);
+            List<Ticket> data = session.createQuery(query).getResultList();
+            transaction.commit();
+            return data;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
+    }
     public static List<Ticket> loadCustomersTickets(Session session,int cust_id) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
@@ -73,7 +96,7 @@ public class TicketsController {
         }
     }
     //cancel ticket in data base, calculate refund, add it to data base, then return it
-    public static Refund cancelTicket(Session session, int ticket_id){
+    public static boolean cancelTicket(Session session, int ticket_id){
         try {
 
             CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -86,7 +109,7 @@ public class TicketsController {
             session.createQuery(update_query).executeUpdate();
             transaction.commit();
             session.clear();
-            return calcRefund(session,ticket_id);
+            return true;
             // Save everything.
         } catch (Exception exception) {
             if (session != null) {
@@ -94,7 +117,31 @@ public class TicketsController {
             }
             System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
-            return null;
+            return false;
+        }
+    }
+    public static boolean cancelTicketByShowID(Session session, int show_id){
+        try {
+
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaUpdate<Ticket> update_query=builder.createCriteriaUpdate(Ticket.class);
+            Root<Ticket> root=update_query.from(Ticket.class);
+            update_query.set("status", false);
+            update_query.set("active", false);
+            update_query.where(builder.equal(root.get("show_id"),show_id));
+            Transaction transaction = session.beginTransaction();
+            session.createQuery(update_query).executeUpdate();
+            transaction.commit();
+            session.clear();
+            return true;
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
         }
     }
 
@@ -142,6 +189,28 @@ public class TicketsController {
             query.where(builder.equal(root.get("ID"),ticket_id));
             List<Ticket> data = session.createQuery(query).getResultList();
             double res=data.get(0).getPrice();
+            transaction.commit();
+            return res;
+        }
+        catch (Exception exception){
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return -1;
+        }
+
+    }
+    public static int loadTicketCustomerID(Session session, int ticket_id){
+        try{
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Ticket> query = builder.createQuery(Ticket.class);
+            Root<Ticket> root=query.from(Ticket.class);
+            query.where(builder.equal(root.get("ID"),ticket_id));
+            List<Ticket> data = session.createQuery(query).getResultList();
+            int res=data.get(0).getCusomer_id();
             transaction.commit();
             return res;
         }

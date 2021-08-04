@@ -106,6 +106,7 @@ public class ShowsController {
             CriteriaUpdate<Show> update_query = builder.createCriteriaUpdate(Show.class);
             Root<Show> root=update_query.from(Show.class);
             update_query.set("status", "NOT_AVAILABLE");
+            update_query.set("status", "NOT_AVAILABLE");
             update_query.where(builder.equal(root.get("ID"),show_id));
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
