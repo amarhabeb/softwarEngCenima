@@ -115,6 +115,25 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+				if (message.get(0).equals("LoadCinemasShows")) {
+					// load data
+					try {
+						System.out.println("Enter Cinema Shows server ");
+						session.clear();
+						List<Show> Data = CinemaController.loadCinemaShows(session,(int)message.get(1));
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("CinemaShowsLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+						System.out.println("Exit Cinema Shows server ");
+
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				if (message.get(0).equals("LoadShowByID")) {
 					// load data
 					int show_id=(int) message.get(1);

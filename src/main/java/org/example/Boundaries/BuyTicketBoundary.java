@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
     public class BuyTicketBoundary extends Boundary implements Initializable, Serializable {
+        static  List<Show> shows = new LinkedList<>();
 
         @FXML // fx:id="refreshBtn"
         private Button refreshBtn; // Value injected by FXMLLoader
@@ -66,11 +67,12 @@ import java.util.ResourceBundle;
         @FXML
         void clickRefreshBtn(ActionEvent event) {
             synchronized(CinemaClient.ShowsDataLock) {
-                org.example.Boundaries.Boundary.UpdateShowsData();
-                // set items in table
-                ObservableList<Show> DataList = FXCollections.observableArrayList(CinemaClient.ShowsData);
-                ShowsTable.setItems(DataList);
-            }
+
+
+                ObservableList<Show> DataList5 = FXCollections.observableArrayList(this.shows);
+                ShowsTable.getSelectionModel().clearSelection();
+                ShowsTable.setVisible(true);
+                ShowsTable.setItems( DataList5);            }
         }
 
 
@@ -82,17 +84,17 @@ import java.util.ResourceBundle;
             } else {
                 label.setText("");
 
-                int show_id = ShowsTable.getSelectionModel().getSelectedItem().getID();
+                Show show= ShowsTable.getSelectionModel().getSelectedItem();
                 System.out.println("Selected Id  is "+ShowsTable.getSelectionModel().getSelectedItem().getID());
                 System.out.println("Selected index is "+ShowsTable.getSelectionModel().getSelectedIndex());
                 //System.out.println(show_id);
                 List<Object> params = new LinkedList<Object>();
-                params.add(show_id);
-                params.add(ShowsTable.getSelectionModel().getSelectedItem().getMovie());
+                params.add(show);
+                //params.add(ShowsTable.getSelectionModel().getSelectedItem().getMovie());
 
                 // Step 5
                 List<Object> l = App.getParams();
-                l.add(show_id);
+                l.add(show);
                 App.setParams(l);
                 // Step 6
 
@@ -128,6 +130,7 @@ import java.util.ResourceBundle;
                  DataList1 = FXCollections.observableArrayList(CinemaClient.CinemasData);
 
             }
+            System.out.println("cinemas size is  "+DataList1.size());
 
 
 
@@ -155,23 +158,25 @@ import java.util.ResourceBundle;
                         c=DataList.get(i);
                     }
                 }
+                System.out.println(c.getBranch_name());
                 synchronized(CinemaClient.ShowsDataLock) {
-                    org.example.Boundaries.Boundary.UpdateShowsData();
+                    org.example.Boundaries.Boundary.UpdateCinemaShowsData(c.getID());
                     // set items in table
                    DataList2 = FXCollections.observableArrayList(CinemaClient.ShowsData);
 
                     // System.out.println(DataList.get(0).getMovie().getName_en());
                 }
-                for(int i=0;i<DataList2.size();i++){
-                     //System.out.println(DataList2.get(i).getCinema().getID());
-                    if(DataList2.get(i).getCinema().getID()==c.getID()){
-                        DataList3.add(DataList2.get(i));
-
-
-                    }
-
-                }
-                ObservableList<Show> DataList5 = FXCollections.observableArrayList(DataList3);
+//                for(int i=0;i<DataList2.size();i++){
+//                     //System.out.println(DataList2.get(i).getCinema().getID());
+//                    if(DataList2.get(i).getCinema().getID()==c.getID()){
+//                        DataList3.add(DataList2.get(i));
+//
+//
+//                    }
+//
+//                }
+                this.shows = DataList2;
+                ObservableList<Show> DataList5 = FXCollections.observableArrayList(DataList2);
                 ShowsTable.setVisible(true);
                ShowsTable.setItems( DataList5);
 

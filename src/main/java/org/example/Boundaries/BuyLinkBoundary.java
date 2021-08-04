@@ -67,53 +67,46 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
 
     @FXML
     void clickRefreshBtn(ActionEvent event) {
+        MoviesTable.setVisible(true);
+
+        tablesum.setVisible(false);
 
     }
 
 
     @FXML
     void clickChooseMovieBtn(ActionEvent event) throws IOException {
-//        if(MoviesTable.getSelectionModel().getSelectedItem() == null ){
-//            label.setText("Please Choose Movie");
-//        }
-//        else {
-//            int movie_id = MoviesTable.getSelectionModel().getSelectedItem().getID();
-//            List<Object> l = new LinkedList<>();
-//            l.add(movie_id);
-//            App.setParams(l);
-//            App.setRoot("PaymentLink", params, stage);
-//
-//        }
-//        int show_id =  MoviesTable.getSelectionModel().getSelectedItem().getID();
-//        //System.out.println(show_id);
-//        List<Object> params = new LinkedList<Object>();
-//        params.add(show_id);
-//        params.add(MoviesTable.getSelectionModel().getSelectedItem().getMovie());
-//
-//        // Step 5
-//        List<Object> l = App.getParams();
-//        l.add(show_id);
-//        App.setParams(l);
-        // Step 6
+        if(MoviesTable.getSelectionModel().getSelectedItem() == null ){
+            label.setText("Please Choose Movie");
+        }
+        else {
+            Movie m  =  MoviesTable.getSelectionModel().getSelectedItem();
+            List<Object> l = new LinkedList<>();
+            l.add(m);
+            App.setParams(l);
+            App.setRoot("PaymentLink", params, stage);
+
+        }
+
+         //Step 6
 
 
 
-        //App.setRoot("PaymentLink", params, stage);
     }
 
 
     @FXML
     void clickBackBtn(ActionEvent event) throws IOException {
-//        List<Object> l = new LinkedList<>();
-//        App.setParams(l);
-//        App.setRoot("CustomerMain",null, stage);
+        List<Object> l = new LinkedList<>();
+        App.setParams(l);
+        App.setRoot("CustomerMain",null, stage);
 
     }
     @FXML
     void clickcak(ActionEvent event) {
-//        MoviesTable.setVisible(true);
-//        tablesum.setVisible(false);
-//        bakbtn.setVisible(false);
+        MoviesTable.setVisible(true);
+        tablesum.setVisible(false);
+        bakbtn.setVisible(false);
 
 
     }
@@ -122,12 +115,7 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ImageView im = new ImageView();
-        im.setImage(new Image("file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/1.jpg"));
-        im.setFitWidth(250);
-        im.setFitHeight(250);
-        im.setX(250);
-        im.setY(100);
+
 
         MoviesTable.setVisible(true);
 
@@ -172,7 +160,7 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
                 ImageView m = new ImageView();
                 m.setFitWidth(150);
                 m.setFitHeight(150);
-                System.out.println(movie.getValue().getImage());
+                //System.out.println(movie.getValue().getImage());
                 m.setImage(new Image(movie.getValue().getImage()));
 
                 return (new SimpleObjectProperty(m));
@@ -198,7 +186,7 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
                         tablesum.setVisible(true);
                         bakbtn.setVisible(true);
                           Movie mo=null;
-                        synchronized(CinemaClient.ShowsDataLock) {
+                        synchronized(CinemaClient.MoviesDataLock) {
                             org.example.Boundaries.Boundary.UpdateMoviesData();
                             // set items in table
                             List<Movie> movies =CinemaClient.MoviesData;
@@ -244,15 +232,15 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
         List <Movie> mov = new LinkedList<>();
 
         synchronized(CinemaClient.MoviesDataLock) {
-            org.example.Boundaries.Boundary.UpdateMoviesData();
+            org.example.Boundaries.Boundary.UpdateOnlineMoviesData();
             // set items in table
             List<Movie> movies =CinemaClient.MoviesData;
-            for(int i=0;i<movies.size();i++){
-                if(movies.get(i).isAvailableOnline()==true){
-                    mov.add(movies.get(i));
-                }
-            }
-            ObservableList<Movie> DataList = FXCollections.observableArrayList(mov);
+//            for(int i=0;i<movies.size();i++){
+//                if(movies.get(i).isAvailableOnline()==true){
+//                    mov.add(movies.get(i));
+//                }
+//            }
+            ObservableList<Movie> DataList = FXCollections.observableArrayList(movies);
             MoviesTable.setItems(DataList);
 //             System.out.println(DataList.get(0).getMovie().getName_en());
         }

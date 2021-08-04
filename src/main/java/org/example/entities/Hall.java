@@ -112,6 +112,13 @@ public class Hall implements Serializable {
         return cinema;
     }
 
+    public int getID() {
+        return ID;
+    }
+
+
+
+
     public void setCinema(Cinema cinema) {
         this.cinema = cinema;
     }
@@ -120,17 +127,12 @@ public class Hall implements Serializable {
         return capacity == maxSeats;
     }
 
-    public int getID() {
-        return ID;
-    }
 
 	public boolean isActive() {
 		return active;
 	}
 
-	public void setID(int iD) {
-		ID = iD;
-	}
+
 	
 	@Override
 	public String toString() {
