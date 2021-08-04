@@ -1276,6 +1276,7 @@ public class CinemaServer extends AbstractServer{
 		Regulations regulations=new Regulations();
 		regulations.setStatus(false);
 		RegulationsController.addRegulations(CinemaServer.session,regulations);
+		RegulationsController.deactivateRegulations(session);
 
 		//intialize employees
 		ChainManager chainManager=new ChainManager("cersei lannister", "0534727563",
@@ -1431,7 +1432,7 @@ public class CinemaServer extends AbstractServer{
 
 		/////// Testing Regulations
 		int Y=49;
-		RegulationsController.activateRegulations(session, Y);
+		//RegulationsController.activateRegulations(session, Y);
 		List<Hall> hallsList=HallController.loadHalls(session);
 		for(Hall h : hallsList){
 			int capacity=h.getCapacity();
