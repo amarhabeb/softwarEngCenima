@@ -78,7 +78,7 @@ public class EmployeeController {
             Predicate[] predicates = new Predicate[2];
             predicates[0]=builder.equal(root.get("userName"),username);
             predicates[1]=builder.equal(root.get("password"),password);
-            //predicates[2]=builder.equal(root.get("isOnline"),false);
+            //predicates[2]=builder.equal(root.get(""),false);
             query.where(predicates);
             Employee data = session.createQuery(query).uniqueResult();
             transaction.commit();

@@ -1,4 +1,5 @@
 package org.example.entities;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -6,9 +7,9 @@ import javax.persistence.Table;
 @Table(name ="employee")
 
 public class Employee extends Person {
-    protected   String userName;
-    protected   String password;
-    protected boolean isOnline;
+    protected String userName;
+    protected String password;
+    protected Boolean isOnline;
     protected int role;  // ContentManager: -1 , CustomerService: 0, ChainManager: 1 , CinemaManager: 2
     protected boolean active;
 
@@ -23,6 +24,7 @@ public class Employee extends Person {
     }
     public Employee(){
         super();
+        this.isOnline=false;
     }
 
       public String getUserName() {
@@ -47,15 +49,7 @@ public class Employee extends Person {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public boolean isOnline() {
-        return isOnline;
-    }
-
-    public void setOnline(boolean online) {
-        isOnline = online;
-    }
+    }    
 
     public int getRole() {
         return role;
@@ -64,4 +58,11 @@ public class Employee extends Person {
     public void setRole(int role) {
         this.role = role;
     }
+    
+	public boolean isOnline() {
+		return isOnline;
+	}
+	public void setOnline(boolean isOnline) {
+		this.isOnline = isOnline;
+	}
 }

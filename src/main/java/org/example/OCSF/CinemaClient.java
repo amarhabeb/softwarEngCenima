@@ -609,13 +609,9 @@ public class CinemaClient extends AbstractClient {
 			}
 		}
 		if(message.get(0).equals("EmployeesLoaded")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
-				throw new Exception("Controller failed");
-			}
-			synchronized( EmployeeDataLock) {
-
-				EmployeeDataUpdated = true;	// client's ShowsData is now not updated
+			synchronized(EmployeeDataLock) {
+				EmployeeData = (List<Employee>) message.get(1);
+				EmployeeDataUpdated = true;	// client's HallsData is now not updated
 				EmployeeDataLock.notifyAll();
 			}
 		}

@@ -927,7 +927,7 @@ public class CinemaServer extends AbstractServer{
 						boolean answer = MoviesController.setOnlineMovieON(session,movieName_en);
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
-						messageToClient.add("OnlineMovieSetON");
+						messageToClient.add("OnlineMovieSetOn");
 						messageToClient.add(answer);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
@@ -1532,7 +1532,6 @@ public class CinemaServer extends AbstractServer{
 		System.out.println("Seats:" +seatsList.size());
 
 
-
 	}
 
 
@@ -2038,8 +2037,10 @@ public class CinemaServer extends AbstractServer{
 			} else {
 				// initialize the DataBase
 				InitializeDataBase();
+
 				sendNewMoviesToPackagesCostumers();
 				loopPerOneMinute();
+
 				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
 				server.listen();
 
