@@ -81,7 +81,7 @@ public class HallController {
             Root<Hall> root = query.from(Hall.class);
             Predicate[] predicates=new Predicate[2];
             predicates[0]=builder.equal(root.get("active"), true);
-            predicates[1]=builder.equal(root.get("id"), hall_id);
+            predicates[1]=builder.equal(root.get("ID"), hall_id);
             query.where(predicates);
             List<Seat> data = session.createQuery(query).getResultList().get(0).getSeats();
             for(Seat s:data){
