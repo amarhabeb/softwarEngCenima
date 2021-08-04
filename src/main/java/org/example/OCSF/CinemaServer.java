@@ -1439,6 +1439,9 @@ public class CinemaServer extends AbstractServer{
 		List<Seat> seats=HallController.loadSeats(session,3);
 		System.out.println(seats.size());
 
+		List<Seat> seatsList=HallController.loadSeats(session,3);
+		System.out.println("Seats:" +seatsList.size());
+
 
 
 	}
