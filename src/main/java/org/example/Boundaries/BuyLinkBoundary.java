@@ -70,6 +70,19 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
         MoviesTable.setVisible(true);
 
         tablesum.setVisible(false);
+        synchronized(CinemaClient.MoviesDataLock) {
+            org.example.Boundaries.Boundary.UpdateOnlineMoviesData();
+            // set items in table
+            List<Movie> movies =CinemaClient.MoviesData;
+//            for(int i=0;i<movies.size();i++){
+//                if(movies.get(i).isAvailableOnline()==true){
+//                    mov.add(movies.get(i));
+//                }
+//            }
+            ObservableList<Movie> DataList = FXCollections.observableArrayList(movies);
+            MoviesTable.setItems(DataList);
+//             System.out.println(DataList.get(0).getMovie().getName_en());
+        }
 
     }
     @FXML
