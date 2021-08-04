@@ -115,6 +115,87 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+				if (message.get(0).equals("LoadShowByID")) {
+					// load data
+					int show_id=(int) message.get(1);
+					try {
+						session.clear();
+						Show Data = ShowsController.loadShowByID(session,show_id);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("ShowLoadedByID");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (message.get(0).equals("loadShowsByStartDate")) {
+					// load data
+					LocalDateTime startTime=(LocalDateTime) message.get(1);
+					try {
+						session.clear();
+						List<Show> Data = ShowsController.loadShows(session);
+						for(Show sh:Data){
+							if(sh.getDateTime().isBefore(startTime))
+								Data.remove(sh);
+						}
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("ShowsLoadedByStartDate");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (message.get(0).equals("loadShowsByEndDate")) {
+					// load data
+					LocalDateTime endTime=(LocalDateTime) message.get(1);
+					try {
+						session.clear();
+						List<Show> Data = ShowsController.loadShows(session);
+						for(Show sh:Data){
+							if(sh.getDateTime().isAfter(endTime))
+								Data.remove(sh);
+						}
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("ShowsLoadedByEndDate");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (message.get(0).equals("loadShowsByStart&EndDate")) {
+					// load data
+					LocalDateTime startTime=(LocalDateTime) message.get(1);
+					LocalDateTime endTime=(LocalDateTime) message.get(2);
+					try {
+						session.clear();
+						List<Show> Data = ShowsController.loadShows(session);
+						for(Show sh:Data){
+							if(sh.getDateTime().isAfter(endTime) || sh.getDateTime().isBefore(startTime))
+								Data.remove(sh);
+						}
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("ShowsLoadedByStart&EndDate");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 
 				if (message.get(0).equals("LoadComplaints")) {
 					// load data
@@ -244,10 +325,10 @@ public class CinemaServer extends AbstractServer{
 				}
 
 				if (message.get(0).equals("DeleteMovie")) {
-					int movie_id = (int) message.get(1);
+					String movie_name = (String) message.get(1);
 					// delete movie from database
 					session.clear();
-					boolean success = MoviesController.deleteMovie(session, movie_id);
+					boolean success = MoviesController.deleteMovie(session, movie_name);
 					//session.refresh(Movie.class);
 					if (!success) {
 						throw new Exception("the Movie couldnt be deleted");
@@ -763,12 +844,45 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
-				if (message.get(0).equals("setOnlineMovieON")) {
+				if (message.get(0).equals("LoadOnlineMovies")) {
 					session.clear();
-					int movie_id=(int)message.get(1);
 					// load data
 					try {
-						boolean answer = MoviesController.setOnlineMovieON(session,movie_id);
+						List<Movie> Data = MoviesController.loadOnlineMovies(session);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("OnlineMoviesLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (message.get(0).equals("LoadMovieByName")) {
+					session.clear();
+					String movie_name=(String) message.get(1);
+					// load data
+					try {
+						Movie Data = MoviesController.loadMovieByName(session,movie_name);
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("MovieLoadedByName");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (message.get(0).equals("setOnlineMovieON")) {
+					session.clear();
+					String movieName_en=(String)message.get(1);
+					// load data
+					try {
+						boolean answer = MoviesController.setOnlineMovieON(session,movieName_en);
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("OnlineMovieSetOn");
@@ -781,10 +895,10 @@ public class CinemaServer extends AbstractServer{
 				}
 				if (message.get(0).equals("setOnlineMovieOFF")) {
 					session.clear();
-					int movie_id=(int)message.get(1);
+					String movie_name=(String) message.get(1);
 					// load data
 					try {
-						boolean answer = MoviesController.setOnlineMovieOFF(session,movie_id);
+						boolean answer = MoviesController.setOnlineMovieOFF(session,movie_name);
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("OnlineMovieSetOFF");
@@ -847,9 +961,9 @@ public class CinemaServer extends AbstractServer{
 				}
 
 				if (message.get(0).equals("LoadMovieShows")) {
-					int movie_id = (int) message.get(1);
+					String movie_name = (String) message.get(1);
 					// load data
-					List<Show> Data = MoviesController.loadMovieShows(session, movie_id);
+					List<Show> Data = MoviesController.loadMovieShows(session, movie_name);
 					try {
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
@@ -1118,9 +1232,10 @@ public class CinemaServer extends AbstractServer{
     private static void InitializeDataBase() throws Exception {
     	SessionFactory sessionFactory = getSessionFactory();
 		session = sessionFactory.openSession();
-		generateMovies(session);
-		generateMovies(session);
-
+		generateMovies(session,"Lev Hamefratz");
+		generateMovies(session,"Azriele");
+		List<Movie> bbb=MoviesController.loadNewMovies(session);
+		System.out.println("Number of new movies is: "+ bbb.size());
 		//intialize regulations
 		Regulations regulations=new Regulations();
 		RegulationsController.addRegulations(CinemaServer.session,regulations);
@@ -1296,11 +1411,11 @@ public class CinemaServer extends AbstractServer{
 			}
 		}
 
-		RegulationsController.deactivateRegulations(session);
-		List<Hall> hallsList2=HallController.loadHalls(session);
-		for(Hall h : hallsList2){
-			HallController.resetMaxSeats(session,h.getID(),h.getCapacity());
-		}
+//		RegulationsController.deactivateRegulations(session);
+//		List<Hall> hallsList2=HallController.loadHalls(session);
+//		for(Hall h : hallsList2){
+//			HallController.resetMaxSeats(session,h.getID(),h.getCapacity());
+//		}
 
 
 
@@ -1308,10 +1423,11 @@ public class CinemaServer extends AbstractServer{
 
 
 
-	private static void generateMovies(Session session) throws Exception {
+	private static void generateMovies(Session session,String cinema_name) throws Exception {
     	try {
 			List<Movie> moviesList = new LinkedList<Movie>();
 			List<Show> emptyShowList = new LinkedList<Show>();
+			Cinema cinema1 = new Cinema(cinema_name);
 
     		/*when we create the movie we give its empty list of shows
     		and when we create the shows list we set its in the movie
@@ -1342,32 +1458,31 @@ public class CinemaServer extends AbstractServer{
 			String im11= ("new Image(\"file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/12.jpg");
 
 
-			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2021-07-31"),  im, emptyShowList,false);
+			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2021-08-08"),  im, emptyShowList,false,cinema1);
 			moviesList.add(HarryPotter7);
-			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2021-08-07"), im1, emptyShowList,false);
+			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2021-08-07"), im1, emptyShowList,false,cinema1);
 			moviesList.add(Joker);
-			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), LocalDate.parse("2021-05-18"), im3, emptyShowList,false);
+			Movie TheAvengers=new Movie("The Avengers","הנוקמים","Kevin Feige",init.TheAvengersCast(), init.TheAvengersSummary(), LocalDate.parse("2021-05-18"), im3, emptyShowList,false,cinema1);
 			moviesList.add(TheAvengers);
-			Movie StarWars=new Movie("Star Wars","מלחמת הכוכבים","George Lucas",init.StarWarsCast(), init.StarWarsSummary(), LocalDate.parse("2021-06-19"), im2, emptyShowList,false);
+			Movie StarWars=new Movie("Star Wars","מלחמת הכוכבים","George Lucas",init.StarWarsCast(), init.StarWarsSummary(), LocalDate.parse("2021-06-19"), im2, emptyShowList,false,cinema1);
 			moviesList.add(StarWars);
-			Movie Inception=new Movie("Incepteion","התחלה","Emma Thomas",init.InceptionCast(), init.InceptionSummary(), LocalDate.parse("2021-02-13"), im4, emptyShowList,false);
+			Movie Inception=new Movie("Incepteion","התחלה","Emma Thomas",init.InceptionCast(), init.InceptionSummary(), LocalDate.parse("2021-02-13"), im4, emptyShowList,false,cinema1);
 			moviesList.add(Inception);
-			Movie TheDarKnight=new Movie("The Dark Knight","האביר האפל","Emma Thomas,Charles Roven,Christopher Nolan",init.TheDarkKnightCast(), init.TheDarkKnightSummary(), LocalDate.parse("2021-12-18"), im5, emptyShowList,false);
+			Movie TheDarKnight=new Movie("The Dark Knight","האביר האפל","Emma Thomas,Charles Roven,Christopher Nolan",init.TheDarkKnightCast(), init.TheDarkKnightSummary(), LocalDate.parse("2021-12-18"), im5, emptyShowList,false,cinema1);
 			moviesList.add(TheDarKnight);
-			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), LocalDate.parse("2021-07-11"), im6, emptyShowList,false);
+			Movie CaptainAmerica=new Movie("Captain America","קפטן אמריקה","Kevin Feige",init.CaptainAmericaCast(), init.CaptainAmericaSummary(), LocalDate.parse("2021-07-11"), im6, emptyShowList,false,cinema1);
 			moviesList.add(CaptainAmerica);
-			Movie Avatar=new Movie("Avatar","אווטאר","James Cameron,Jon Landau",init.AvatarCast(), init.AvatarSummary(), LocalDate.parse("2021-07-18"), im7, emptyShowList,false);
+			Movie Avatar=new Movie("Avatar","אווטאר","James Cameron,Jon Landau",init.AvatarCast(), init.AvatarSummary(), LocalDate.parse("2021-07-18"), im7, emptyShowList,false,cinema1);
 			moviesList.add(Avatar);
-			Movie Jaws=new Movie("Jaws","מלתעות","Steven Spielberg",init.JawsCast(), init.JawsSummary(), LocalDate.parse("2019-08-14"), im8, emptyShowList,false);
+			Movie Jaws=new Movie("Jaws","מלתעות","Steven Spielberg",init.JawsCast(), init.JawsSummary(), LocalDate.parse("2019-08-14"), im8, emptyShowList,false,cinema1);
 			moviesList.add(Jaws);
-			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), LocalDate.parse("2021-01-16"), im9, emptyShowList,false);
+			Movie Rocky=new Movie("Rocky","רוקי","John G. Avildsen",init.RockyCast(), init.RockySummary(), LocalDate.parse("2021-01-16"), im9, emptyShowList,false,cinema1);
 			moviesList.add(Rocky);
-			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("2021-02-18"), im10, emptyShowList,true);
+			Movie Titanic=new Movie("Titanic","טיטניק","James Cameron",init.TitanicCast(), init.TitanicSummary(), LocalDate.parse("2021-02-18"), im10, emptyShowList,true,cinema1);
 			moviesList.add(Titanic);
-			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"), im11, emptyShowList,true);
+			Movie LordOfTheRings=new Movie("Lord Of The Rings","שר הטבעות","Peter Jackson",init.LordOfTheRingsCast(), init.LordOfTheRingsSummary(), LocalDate.parse("2021-06-18"), im11, emptyShowList,true,cinema1);
 			moviesList.add(LordOfTheRings);
 
-			Cinema cinema1 = new Cinema("לב המפרץ");
 			List<Hall> cinemaHalls = new LinkedList<Hall>();
 			List<Seat> tempseats = new LinkedList<Seat>();
 			List<Seat> tempseats1 = new LinkedList<Seat>();
