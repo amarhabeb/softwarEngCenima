@@ -144,13 +144,6 @@ public class Movie implements Serializable {
     }
 
 
-    /*public ImageIcon getImage() {
-        return image;
-    }
-    public void setImage(ImageIcon image) {
-        this.image = image;
-    }*/
-
     public   String getImage() {
         return image;
     }
