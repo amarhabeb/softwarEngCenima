@@ -59,20 +59,15 @@ public class PaymentLink extends  Boundary implements Initializable, Serializabl
 
         } else {
             if (isNumeric(IdText.getText()) == true && isNumeric(CCV.getText()) == true && isNumeric(CardText.getText()) == true) {
-                int movie_id = (int) App.getParams().get(0);
+                Movie movie_id = (Movie) App.getParams().get(0);
                 org.example.Boundaries.Boundary.UpdateMoviesData();
                 List<Movie> movies = CinemaClient.MoviesData;
-                Movie m = null;
-                for(int i=0;i<movies.size();i++){
-                    if(movies.get(i).getID()==movie_id){
-                        m=movies.get(i);
-                    }
-                }
+                Movie m = movie_id;
 
 //                int cinema_id, int hall_id,int seat_id, int show_id,LocalDateTime show_time,
 //                double price, int customer_id
                 String l = "https//www.cinema.com/"+m.getID()+"/"+IdText.getText();
-                Link link= new Link(l, LocalDateTime.now(), LocalDateTime.now().plusWeeks(4),movie_id,m.getPrice(),Integer.parseInt(IdText.getText()));
+                Link link= new Link(l, LocalDateTime.now(), LocalDateTime.now().plusWeeks(4),movie_id.getID(),m.getPrice(),Integer.parseInt(IdText.getText()));
 
                 try {
                     AddLink(link);
