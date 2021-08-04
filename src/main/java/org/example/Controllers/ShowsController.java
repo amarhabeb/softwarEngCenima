@@ -40,8 +40,32 @@ public class ShowsController {
 		}
 	}
 
-	
-	// to add a show to the database
+    public static Show loadShowByID(Session session, int show_id) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Show> query = builder.createQuery(Show.class);
+            Root<Show> root=query.from(Show.class);
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("status"),"AVAILABLE");
+            predicates[1]=builder.equal(root.get("ID"),show_id);
+            query.where(predicates);
+            Show data = session.createQuery(query).getResultList().get(0);
+            transaction.commit();
+            session.clear();
+            return data;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occured, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
+    }
+
+
+    // to add a show to the database
 	@SuppressWarnings("exports")
 	public static boolean addShow(Session session, Show show) throws Exception{
 		try {
@@ -98,35 +122,6 @@ public class ShowsController {
             return false;
         } 
     }
-    //get the available shows in cinema branch
-    //the implementation is still wrong in the "id" part
-    //another implementation is in CinemaController and I think that's the true one
-    public static List<Show> loadCinemaShows(Session session, int cinema_id) throws Exception{
-        try {
-            Transaction transaction = session.beginTransaction();
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Show> query = builder.createQuery(Show.class);
-            Root<Show> TicketRoot = query.from(Show.class);
-            Join<Show, Hall> hall_join = TicketRoot.join("hall");
-            Join<Hall, Cinema> cinema_join = hall_join.join("id");
-            query.from(Show.class);
-            Predicate[] predicates=new Predicate[2];
-            predicates[0]=builder.equal(cinema_join.get("id"),cinema_id);
-            predicates[1]=builder.equal(cinema_join.get("status"), "AVAILABLE");
-            query.select(TicketRoot).where(predicates);
-            List<Show> data = session.createQuery(query).getResultList();
-            transaction.commit();
-            session.clear();
-            return data;
-        } catch (Exception exception) {
-            if (session != null) {
-                session.getTransaction().rollback();
-            }
-            System.err.println("An error occurred, changes have been rolled back.");
-            exception.printStackTrace();
-            return null;
-        }
-    }
 
 	// update price of a show in the data base
 	@SuppressWarnings("exports")
@@ -162,9 +157,7 @@ public class ShowsController {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaUpdate<Show> update_query=builder.createCriteriaUpdate(Show.class);
             Root<Show> root=update_query.from(Show.class);
-            Show show = idToShow(show_id, session);
-            LocalDateTime newlocalDateTime = LocalDateTime.of(show.getDate(), newTime);
-            update_query.set("dateTime", newlocalDateTime);
+            update_query.set("dateTime", newTime);
             update_query.where(builder.equal(root.get("ID"),show_id));
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
@@ -182,19 +175,8 @@ public class ShowsController {
             return false;
         } 
     }
-    
-    // return show given id
- 	static public Show idToShow(int id, Session session) throws Exception {
- 		List<Show> Data = loadShows(session);
- 		for(Show show:Data) {
-    	 	if(show.getID()==id) {
-    	 		return show;
-    	 	}
-    	 }
-    	 return null;
- 	}
 
-    public static List<Show> loadShowsByDate(Session session, LocalDate date) throws Exception{
+    public static List<Show> loadShowsByStartDate(Session session, LocalDateTime start) throws Exception{
         try {
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -202,8 +184,31 @@ public class ShowsController {
             Root<Show> root=query.from(Show.class);
             Predicate[] predicates=new Predicate[2];
             predicates[0]=builder.equal(root.get("status"),"AVAILABLE");
-            predicates[1]=builder.equal(builder.function("MONTH", Integer.class, root.get("dateTime")),date.getMonth().getValue());
-            predicates[2]=builder.equal(builder.function("DAY", Integer.class, root.get("dateTime")),date.getDayOfMonth());
+            predicates[1]=builder.greaterThanOrEqualTo(root.get("dateTime"),start);
+            query.where(predicates);
+            List<Show> data = session.createQuery(query).getResultList();
+            transaction.commit();
+            session.clear();
+            return data;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occured, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
+    }
+
+    public static List<Show> loadShowsByEndDate(Session session, LocalDateTime endTime) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Show> query = builder.createQuery(Show.class);
+            Root<Show> root=query.from(Show.class);
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("status"),"AVAILABLE");
+            predicates[1]=builder.lessThanOrEqualTo(root.get("dateTime"),endTime);
             query.where(predicates);
             List<Show> data = session.createQuery(query).getResultList();
             transaction.commit();
