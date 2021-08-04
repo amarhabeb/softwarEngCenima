@@ -281,17 +281,31 @@ public class CinemaClient extends AbstractClient {
 				MoviesDataLock.notifyAll();
 			}
 		}
-//		if(message.get(0).equals("OnlineMovieSetOn")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized(MoviesDataLock) {
-//				UpdateAvailableOnlineBoundary.MovieAdded = true;
-//				MoviesDataUpdated = false;	// client's ShowsData is now not updated
-//				MoviesDataLock.notifyAll();
-//			}
-//		}
+		
+		if(message.get(0).equals("OnlineMovieSetON")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(MoviesDataLock) {
+				UpdateAvailableOnlineBoundary.MovieSetAvilable = true;
+				MoviesDataUpdated = false;	// client's ShowsData is now not updated
+				MoviesDataLock.notifyAll();
+			}
+		}
+		
+		if(message.get(0).equals("OnlineMovieSetOFF")) {
+			boolean success = (boolean)message.get(1);
+			if(!success){
+				throw new Exception("Controller failed");
+			}
+			synchronized(MoviesDataLock) {
+				UpdateAvailableOnlineBoundary.MovieSetUnavilable = true;
+				MoviesDataUpdated = false;	// client's ShowsData is now not updated
+				MoviesDataLock.notifyAll();
+			}
+		}
+		
 		if(message.get(0).equals("OrdersLoaded")) {
 			synchronized(OrdersDataLock) {
 				OrdersData = (List<Order>) message.get(1);
@@ -569,17 +583,41 @@ public class CinemaClient extends AbstractClient {
 //				EmployeeDataLock.notifyAll();
 //			}
 //		}
-//		if(message.get(0).equals("LogInCompleted")) {
-//			boolean success = (boolean)message.get(1);
-//			if(!success){
-//				throw new Exception("Controller failed");
-//			}
-//			synchronized( EmployeeDataLock) {
-//				logInBoundary.logged=true;
-//				EmployeeDataUpdated = true;	// client's ShowsData is now not updated
-//				EmployeeDataLock.notifyAll();
-//			}
-//		}
+		
+		// LOGIN MESSAGE HANDLERS
+		if(message.get(0).equals("LogInCompleted")) {
+			CustomerMainBoundary.user = (Employee)message.get(1);	// to remeber which employee logged in
+			
+			synchronized(EmployeeDataLock) {
+				CustomerMainBoundary.logInDone=true;
+				CustomerMainBoundary.success_status=0;
+				EmployeeDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("LogIn Failed")) {
+			synchronized(EmployeeDataLock) {
+				CustomerMainBoundary.logInDone=true;
+				CustomerMainBoundary.success_status=1;
+				EmployeeDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("User is already Logged in")) {
+			synchronized(EmployeeDataLock) {
+				CustomerMainBoundary.logInDone=true;
+				CustomerMainBoundary.success_status=2;
+				EmployeeDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("Username or Password are wrong")) {
+			synchronized(EmployeeDataLock) {
+				CustomerMainBoundary.logInDone=true;
+				CustomerMainBoundary.success_status=3;
+				EmployeeDataLock.notifyAll();
+			}
+		}
+		
+		
+		
 		if(message.get(0).equals("HallDeleted")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){

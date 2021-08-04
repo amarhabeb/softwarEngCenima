@@ -1,6 +1,8 @@
 package org.example.Boundaries;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.example.App;
 
@@ -15,7 +17,8 @@ public abstract class EmployeeMainBoundary extends EmployeeBoundary{
 
     @FXML
     void clickBackBtn(ActionEvent event) throws IOException {
-    	App.setRoot("TempBoundary", null, stage);
+    	MessageBoundary.displayInfo("You logged out from your account. You are now in customer mode.");
+    	App.setRoot("CustomerMainBoundary", null, stage);
     }
 	
 }
