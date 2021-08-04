@@ -289,6 +289,7 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
 
             });
             setOnMouseClicked(m -> {
+                System.out.println("Seat id is "+ this.id);
                 if(res==false) {
                     iamReserved.set(!iamReserved.get());
                     if(iamReserved.get()==true){
@@ -307,6 +308,7 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
                     else {
 
                         selected.remove(selected.indexOf(no));
+                        System.out.println(id);
                         synchronized (CinemaClient.SeatDataLock) {
                             org.example.Boundaries.Boundary.UnBookSeat(this.id);
                             // set items in table
