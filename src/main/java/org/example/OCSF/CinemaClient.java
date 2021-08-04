@@ -215,6 +215,13 @@ public class CinemaClient extends AbstractClient {
 				SeatDataLock.notifyAll();
 			}
 		}
+		if(message.get(0).equals("HallSeatsLoaded")) {
+			synchronized(SeatDataLock) {
+				SeatData = (List<Seat>) message.get(1);
+				SeatDataUpdated = true;	// client's ShowsData is now not updated
+				SeatDataLock.notifyAll();
+			}
+		}
 		if(message.get(0).equals("SeatsHallLoaded")) {
 			System.out.println("Enter seat Hall client");
 			synchronized(SeatDataLock) {

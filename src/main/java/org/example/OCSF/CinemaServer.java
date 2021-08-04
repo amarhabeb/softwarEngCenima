@@ -1011,6 +1011,23 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+				if (message.get(0).equals("LoadSeatsHall")) {
+					System.out.println(" enter load seats hall");
+					// load data
+					try {
+						session.clear();
+						List<Seat> Data = HallController.loadSeats(session,(int)message.get(1));
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("HallSeatsLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 
 
 				if (message.get(0).equals("AddUpdatePriceRequest")) {
@@ -1257,6 +1274,7 @@ public class CinemaServer extends AbstractServer{
 		System.out.println("Number of new movies is: "+ bbb.size());
 		//intialize regulations
 		Regulations regulations=new Regulations();
+		regulations.setStatus(false);
 		RegulationsController.addRegulations(CinemaServer.session,regulations);
 
 		//intialize employees
