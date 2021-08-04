@@ -608,10 +608,19 @@ public class CinemaClient extends AbstractClient {
 				ComplaintsDataLock.notifyAll();
 			}
 		}
+		
 		if(message.get(0).equals("EmployeesLoaded")) {
 			synchronized(EmployeeDataLock) {
 				EmployeeData = (List<Employee>) message.get(1);
 				EmployeeDataUpdated = true;	// client's HallsData is now not updated
+				EmployeeDataLock.notifyAll();
+			}
+		}
+		
+		if(message.get(0).equals("LoggedOut")) {
+			synchronized(EmployeeDataLock) {
+				EmployeeMainBoundary.loggedOut=true;
+				EmployeeDataUpdated = false;	// client's ShowsData is now not updated
 				EmployeeDataLock.notifyAll();
 			}
 		}

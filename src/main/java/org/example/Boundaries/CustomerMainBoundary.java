@@ -75,7 +75,7 @@ public class CustomerMainBoundary extends EmployeeMainBoundary implements Initia
     @FXML private TableColumn<Show, String> cinema;
     @FXML private ImageView Background;
     
-    public static Boolean logInDone = true;	// holds if the show is added yet
+    public static Boolean logInDone = false;	// holds if the show is added yet
     public static int success_status = 1;	// succeeded/failed/alreadyLoggedIn/UsernameOrPasswordWrong
     public static Employee user = null;	// will hold employee user that logged in
     // add show in DataBase and brings the Shows from the DataBase and updates 
