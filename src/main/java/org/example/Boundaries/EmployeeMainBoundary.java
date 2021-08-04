@@ -1,8 +1,11 @@
 package org.example.Boundaries;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.example.App;
 import org.example.OCSF.CinemaClient;
@@ -11,9 +14,13 @@ import org.example.entities.Employee;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-public abstract class EmployeeMainBoundary extends EmployeeBoundary{
+@SuppressWarnings("serial")
+public abstract class EmployeeMainBoundary extends EmployeeBoundary implements Initializable, Serializable{
 	
 	@FXML
     private Button backBtn;
@@ -49,6 +56,17 @@ public abstract class EmployeeMainBoundary extends EmployeeBoundary{
     	logOut();
     	MessageBoundary.displayInfo("You logged out from your account. You are now in customer mode.");
     	App.setRoot("CustomerMain", null, stage);
+    }
+    
+    @Override
+	public void initialize(URL location, ResourceBundle resources) {
+    	//Creating a graphic (image)
+        Image img = new Image("src/main/resources.example.org.login.ico");
+        ImageView view = new ImageView(img);
+        view.setFitHeight(80);
+        view.setPreserveRatio(true);
+        //Setting a graphic to the button
+        backBtn.setGraphic(view);
     }
 	
 }
