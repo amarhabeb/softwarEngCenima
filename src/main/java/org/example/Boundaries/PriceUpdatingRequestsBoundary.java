@@ -155,7 +155,7 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
 		        	// approve and delete request
 		        	ApproveRequest(upr);
 		    	}
-		    	MessageBoundaryEmployee.displayInfo("Shows' prices successfully changed.");
+		    	MessageBoundaryEmployee.displayInfo("All shows' prices successfully changed.");
 	    	}catch(Exception e) {	// server threw exception while trying to delete show
 	    		MessageBoundaryEmployee.displayError("An error occured. Shows couldn't be updated.");
 	    	}
@@ -169,8 +169,13 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     @FXML
     void clickDeclineSelectedBtn(ActionEvent event) {
 		synchronized(UpdatePriceRequestsDataLock) {
-	    	// decline and delete request
-	    	DeclineRequest(selected_request.getID());
+			try {
+		    	// decline and delete request
+		    	DeclineRequest(selected_request.getID());
+		    	MessageBoundaryEmployee.displayInfo("Price updating request succefuly declined. Show's price wasn't changed.");
+			}catch(Exception e) {
+				MessageBoundaryEmployee.displayError("An error occured. Price updating request couldn't be declined.");
+			}
 	    	
 	    	// set items in table
 	    	ObservableList<UpdatePriceRequest> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
@@ -181,10 +186,15 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     @FXML
     void clickDeclineAllBtn(ActionEvent event) {
     	synchronized(UpdatePriceRequestsDataLock) {
-		    for (UpdatePriceRequest upr:CinemaClient.UpdatePriceRequestsData) {
-		        	// approve and delete request
-		        	DeclineRequest(upr.getID());
-		    }
+    		try {
+			    for (UpdatePriceRequest upr:CinemaClient.UpdatePriceRequestsData) {
+			        	// approve and delete request
+			        	DeclineRequest(upr.getID());
+			    }
+			    MessageBoundaryEmployee.displayInfo("All price updating requests succefuly declined. Shows' price weren't changed.");
+    		}catch(Exception e) {
+    			MessageBoundaryEmployee.displayError("An error occured. Price updating requests couldn't be declined.");
+    		}
 	  
 	    	// set items in table
 	    	ObservableList<UpdatePriceRequest> DataList = FXCollections.observableArrayList(CinemaClient.UpdatePriceRequestsData);
