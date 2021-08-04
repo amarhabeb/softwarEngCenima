@@ -772,7 +772,7 @@ public class CinemaServer extends AbstractServer{
 						boolean answer = MoviesController.setOnlineMovieON(session,movie_id);
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
-						messageToClient.add("OnlineMovieSetOn");
+						messageToClient.add("OnlineMovieSetON");
 						messageToClient.add(answer);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
@@ -1778,7 +1778,7 @@ public class CinemaServer extends AbstractServer{
 				// initialize the DataBase
 				InitializeDataBase();
 
-				//activatingLoop();
+				activatingLoop();
 				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
 				server.listen();
 

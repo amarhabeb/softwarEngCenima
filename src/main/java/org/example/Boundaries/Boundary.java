@@ -342,6 +342,27 @@ public abstract class Boundary {
 			}
 		}
 	}
+	
+	static synchronized void UpdateEmployeesData() {
+		// add message to ClientInput so it could be sent to server
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadEmployees");
+		synchronized(CinemaClient.EmployeeDataLock)
+		{
+			CinemaClient.EmployeeDataUpdated = false;
+			CinemaClientCLI.sendMessage(message);
+
+			// wait for Data to be updated
+			while(!CinemaClient.EmployeeDataUpdated) {
+				try {
+						CinemaClient.EmployeeDataLock.wait();
+				} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+				}
+			}
+		}
+	}
 
 	
 
