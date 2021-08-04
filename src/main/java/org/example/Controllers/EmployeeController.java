@@ -142,4 +142,29 @@ public class EmployeeController {
             return false;
         }
     }
+    public static boolean logOut(Session session, int emp_id){
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaUpdate<Employee> update_query = builder.createCriteriaUpdate(Employee.class);
+            Root<Employee> root=update_query.from(Employee.class);
+            update_query.set("isOnline", false);
+            Predicate[] predicates = new Predicate[2];
+            predicates[0]=builder.equal(root.get("id"),emp_id);
+            predicates[1]=builder.equal(root.get("isOnline"),true);
+            update_query.where(predicates);
+            session.createQuery(update_query).executeUpdate();
+            transaction.commit();
+            //session.clear();
+            return true;
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+    }
 }
