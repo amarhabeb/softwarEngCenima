@@ -13,7 +13,6 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.io.Serializable;
 
@@ -81,52 +80,38 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 
 	@FXML
 	void clickUpdateShowsTimesBtn(ActionEvent event) throws IOException {
-		List<Object> params = new LinkedList<>();
-    	params.add(employee);
-		 App.setRoot("UpdateTimeBoundary",params, stage);
+		 App.setRoot("UpdateTimeBoundary",null, stage);
 	}
 	
 	@FXML
     void clickSetRemoveOnlineMoviesBtn(ActionEvent event) throws IOException {
-		List<Object> params = new LinkedList<>();
-    	params.add(employee);
-		App.setRoot("UpdateAvailableOnlineBoundary",params, stage);
+		App.setRoot("UpdateAvailableOnlineBoundary",null, stage);
     }
 	
 	@FXML
     void clickAddMoviesBtn(ActionEvent event) throws IOException {
-		List<Object> params = new LinkedList<>();
-    	params.add(employee);
-		App.setRoot("AddMovieBoundary",params, stage);
+		App.setRoot("AddMovieBoundary",null, stage);
 
     }
 
     @FXML
     void clickAddShowsBtn(ActionEvent event) throws IOException{
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
-    	App.setRoot("AddShowBoundary",params, stage);
+    	App.setRoot("AddShowBoundary",null, stage);
     }
     
     @FXML
     void clickRemoveMoviesBtn(ActionEvent event) throws IOException {
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
-    	App.setRoot("DeleteMovieBoundary",params,stage);
+    	App.setRoot("DeleteMovieBoundary",null,stage);
     }
 
     @FXML
     void clickRemoveShowsBtn(ActionEvent event) throws IOException  {
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
-    	App.setRoot("DeleteShowBoundary",params, stage);
+    	App.setRoot("DeleteShowBoundary",null, stage);
     }
 
     @FXML
     void clickUpdateShowsPricesBtn(ActionEvent event) throws IOException{
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
-    	App.setRoot("UpdatePriceBoundary",params, stage);
+    	App.setRoot("UpdatePriceBoundary",null, stage);
     }
 	
 	

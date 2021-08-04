@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -13,7 +12,6 @@ import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.entities.Cinema;
 import org.example.entities.Complaint;
-import org.example.entities.Employee;
 import org.example.entities.Link;
 import org.example.entities.Ticket;
 import org.example.entities.PackageOrder;
@@ -79,9 +77,7 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
     
     @FXML
     void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
-    	App.setRoot(main_boundary,params, stage);
+    	App.setRoot(main_boundary,null, stage);
     }
     
     @FXML
@@ -140,7 +136,6 @@ public class ViewReportBoundary extends EmployeeBoundary implements Initializabl
 	  		Integer year = (Integer) params.get(2);
 	  		Cinema cinema = (Cinema) params.get(3);
 	  		main_boundary = (String) params.get(4);
-	  		this.employee = (Employee) params.get(5);
 	  		// set title according to chosen report type
 	  		title.setText(report_type);
 	  		
