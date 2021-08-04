@@ -185,9 +185,59 @@ public class CinemaClient extends AbstractClient {
 				ShowsDataUpdated = true;	// client's ShowsData is now not updated
 				ShowsDataLock.notifyAll();
 			}
-			
+
+		}
+		if(message.get(0).equals("CinemaShowsLoaded")) {
+			System.out.println("Enter Cinema Shows client ");
+
+			synchronized(ShowsDataLock) {
+				ShowsData = (List<Show>) message.get(1);
+				ShowsDataUpdated = true;	// client's ShowsData is now not updated
+				ShowsDataLock.notifyAll();
+				System.out.println("Exit Cinema Shows client ");
+
+			}
+
+		}
+		if(message.get(0).equals("CinemasShowsLoaded")) {
+			synchronized(ShowsDataLock) {
+				System.out.println("Enter load cinemas shows client ");
+				ShowsData = (List<Show>) message.get(1);
+				ShowsDataUpdated = true;	// client's ShowsData is now not updated
+				ShowsDataLock.notifyAll();
+			}
+
 		}
 		if(message.get(0).equals("SeatsLoaded")) {
+			synchronized(SeatDataLock) {
+				SeatData = (List<Seat>) message.get(1);
+				SeatDataUpdated = true;	// client's ShowsData is now not updated
+				SeatDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("HallSeatsLoaded")) {
+			synchronized(SeatDataLock) {
+				SeatData = (List<Seat>) message.get(1);
+				SeatDataUpdated = true;	// client's ShowsData is now not updated
+				SeatDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("SeatUnBooked")) {
+			synchronized(SeatDataLock) {
+				//SeatData = (List<Seat>) message.get(1);
+				SeatDataUpdated = true;	// client's ShowsData is now not updated
+				SeatDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("SeatBooked")) {
+			synchronized(SeatDataLock) {
+				//SeatData = (List<Seat>) message.get(1);
+				SeatDataUpdated = true;	// client's ShowsData is now not updated
+				SeatDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("SeatsHallLoaded")) {
+			System.out.println("Enter seat Hall client");
 			synchronized(SeatDataLock) {
 				SeatData = (List<Seat>) message.get(1);
 				SeatDataUpdated = true;	// client's ShowsData is now not updated
@@ -246,6 +296,14 @@ public class CinemaClient extends AbstractClient {
 //			}
 //		}
 		if(message.get(0).equals("MoviesLoaded")) {
+			synchronized(MoviesDataLock) {
+				MoviesData = (List<Movie>) message.get(1);
+				MoviesDataUpdated = true;	// client's ShowsData is now not updated
+				MoviesDataLock.notifyAll();
+			}
+		}
+		if(message.get(0).equals("OnlineMoviesLoaded")) {
+			System.out.println("Enter client ");
 			synchronized(MoviesDataLock) {
 				MoviesData = (List<Movie>) message.get(1);
 				MoviesDataUpdated = true;	// client's ShowsData is now not updated

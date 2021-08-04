@@ -28,8 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-
-public class BuyLinkBoundary extends Boundary implements Initializable, Serializable {
+public class MovieB extends Boundary implements Initializable, Serializable {
 
     @FXML // fx:id="refreshBtn"
     private Button refreshBtn; // Value injected by FXMLLoader
@@ -99,7 +98,7 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
 
         }
 
-         //Step 6
+        //Step 6
 
 
 
@@ -108,9 +107,8 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
 
     @FXML
     void clickBackBtn(ActionEvent event) throws IOException {
-        List<Object> l = new LinkedList<>();
-        App.setParams(l);
-        App.setRoot("CustomerMain",null, stage);
+
+        App.setRoot("BuyTicket",null, stage);
 
     }
     @FXML
@@ -128,6 +126,7 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
     public void initialize(URL url, ResourceBundle rb) {
         MoviesTable.setVisible(true);
         tablesum.setVisible(false);
+        int movie_id= (int)App.getParams().get(1);
         // set-up the columns in the table
         english.setStyle( "-fx-alignment: CENTER;");
         english.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movie, String>, ObservableValue<String>>() {
@@ -190,7 +189,7 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
                         MoviesTable.setVisible(false);
                         tablesum.setVisible(true);
                         bakbtn.setVisible(true);
-                          Movie mo=null;
+                        Movie mo=null;
                         synchronized(CinemaClient.MoviesDataLock) {
                             org.example.Boundaries.Boundary.UpdateMoviesData();
                             // set items in table
@@ -219,13 +218,13 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
                                 return (new SimpleStringProperty(movie.getValue()));
                             }
                         });
-                       //ScrollBar verticalBar = (ScrollBar) tablesum.lookup(".scroll-bar:horizontal");
+                        //ScrollBar verticalBar = (ScrollBar) tablesum.lookup(".scroll-bar:horizontal");
 
 
                         List<String> ll = new LinkedList<>();
                         ll.add(mo.getSummary());
                         ObservableList<String> DataList = FXCollections.observableArrayList(ll);
-                       tablesum.setItems(DataList);
+                        tablesum.setItems(DataList);
                         autoResizeColumns( tablesum );
 
 
@@ -236,7 +235,7 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
         });
         List <Movie> mov = new LinkedList<>();
         synchronized(CinemaClient.MoviesDataLock) {
-            org.example.Boundaries.Boundary.UpdateOnlineMoviesData();
+            org.example.Boundaries.Boundary.UpdateMoviesData();
             // set items in table
             List<Movie> movies =CinemaClient.MoviesData;
 //            for(int i=0;i<movies.size();i++){
@@ -244,7 +243,16 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
 //                    mov.add(movies.get(i));
 //                }
 //            }
-            ObservableList<Movie> DataList = FXCollections.observableArrayList(movies);
+            Movie mo=null;
+            for(int i=0;i<movies.size();i++){
+                if(movies.get(i).getID()==movie_id){
+                    mo=movies.get(i);
+                }
+
+            }
+            List<Movie>j = new LinkedList<>();
+            j.add(mo);
+            ObservableList<Movie> DataList = FXCollections.observableArrayList(mo);
             MoviesTable.setItems(DataList);
 //             System.out.println(DataList.get(0).getMovie().getName_en());
         }

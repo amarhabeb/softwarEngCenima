@@ -26,7 +26,9 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.App;
+import org.example.Controllers.RegulationsController;
 import org.example.OCSF.CinemaClient;
+import org.example.OCSF.CinemaServer;
 import org.example.entities.Hall;
 import org.example.entities.Regulations;
 import org.example.entities.Seat;
@@ -116,7 +118,7 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
 
                 if (Data.get(i).getHall().getNumber() == h.getNumber()) {
 
-                    Seat1 seat = new Seat1(Data.get(i).getNumber(), Data.get(i).isAvailable());
+                    Seat1 seat = new Seat1(Data.get(i).getNumber(), Data.get(i).isAvailable(),Data.get(i).getID());
                     Data1.add(seat);
 
                 }
@@ -212,29 +214,15 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
     @FXML
     void clickChooseSeatBtn(ActionEvent event) throws IOException {
 //        Show show =load_shows((int)App.getParams().get(0));
-        int z = (int) App.getParams().get(0);
-        List<Show> d = null;
-        synchronized (CinemaClient.ShowsDataLock) {
-            org.example.Boundaries.Boundary.UpdateShowsData();
-            // set items in table
-            d = CinemaClient.ShowsData;
-//            SeatTable.setItems(DataList);
-            //System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
-        }
-        Show sh = null;
-        for (int i = 0; i < d.size(); i++) {
-            if (d.get(i).getID() == z) {
-                sh = d.get(i);
-                //System.out.print(h.getID());
 
-            }
-        }
+        Show sh = (Show)App.getParams().get(0);
+
             List<Object> p = new LinkedList<>();
 //        p.add(show);
 //        int id = SeatTable.getSelectionModel().getSelectedItem().getNumber();
 //        p.add(id);
 //        App.setParams(p);
-            Seat1 s = new Seat1(1, false);
+            Seat1 s = new Seat1(1, false,1);
             s.getSelected();
             p.add(s.getSelected().size());
             for (int i = 0; i < s.getSelected().size(); i++) {
@@ -268,11 +256,13 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
         BooleanProperty iamReserved = new SimpleBooleanProperty(false);
         int myNo;
         Boolean res;
-         static List<Integer> selected = new LinkedList<>() ;
+        int id;
+         public static List<Integer> selected = new LinkedList<>() ;
 
-        public Seat1(int no, Boolean res) {
+        public Seat1(int no, Boolean res,int id) {
             myNo = no;
             this.res=res;
+            this.id=id;
             Circle pillow = new Circle(12);
             if(res==true){
                 pillow.setFill(reservedColor);
@@ -299,16 +289,33 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
 
             });
             setOnMouseClicked(m -> {
+                System.out.println("Seat id is "+ this.id);
                 if(res==false) {
                     iamReserved.set(!iamReserved.get());
                     if(iamReserved.get()==true){
                         selected.add(no);
+                        synchronized (CinemaClient.SeatDataLock) {
+                            org.example.Boundaries.Boundary.BookSeat(this.id);
+                            // set items in table
+                            //r = CinemaClient.RegulationsData;
+//            SeatTable.setItems(DataList);
+                            //System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
+                        }
+
 
 
                     }
                     else {
 
                         selected.remove(selected.indexOf(no));
+                        System.out.println(id);
+                        synchronized (CinemaClient.SeatDataLock) {
+                            org.example.Boundaries.Boundary.UnBookSeat(this.id);
+                            // set items in table
+                            //r = CinemaClient.RegulationsData;
+//            SeatTable.setItems(DataList);
+                            //System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
+                        }
                     }
                     for(int i=0;i<getSelected().size();i++){
                         //System.out.println(" number selected is "+getSelected().get(i));
@@ -334,9 +341,6 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
             return selected;
         }
     }
-
-
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         List<Regulations> r = null;
@@ -348,7 +352,7 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
             //System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
         }
         Regulations re = r.get(0);
-        if (re.getStatus() == false) {
+        if (re.getStatus()==false) {
             System.out.print("Regulations is false");
 
 
@@ -357,32 +361,13 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
 
             List<Seat> Data = null;
             List<Seat1> Data1 = new LinkedList<>();
-            int x = 0;
-            int z = (int) App.getParams().get(0);
-            List<Show> d = null;
-            synchronized (CinemaClient.ShowsDataLock) {
-                org.example.Boundaries.Boundary.UpdateShowsData();
-                // set items in table
-                d = CinemaClient.ShowsData;
-//            SeatTable.setItems(DataList);
-                //System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
-            }
-            System.out.println("Show is "+z);
+            Show s1=(Show)App.getParams().get(0);
+            System.out.println("Show is "+s1.getMovie().getName_en());
+            Hall h = s1.getHall();
 
-            Hall h = null;
-            for (int i = 0; i < d.size(); i++) {
-                if (d.get(i).getID() == z) {
-
-                    h = d.get(i).getHall();
-
-                    //System.out.print(h.getID());
-
-                }
-
-            }
             System.out.println(" Hall is " + h.getNumber());
             synchronized (CinemaClient.SeatDataLock) {
-                org.example.Boundaries.Boundary.UpdateSeatsData();
+                org.example.Boundaries.Boundary.UpdateSeatsHallData(h.getID());
                 // set items in table
                 Data = CinemaClient.SeatData;
 //            SeatTable.setItems(DataList);
@@ -390,12 +375,11 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
             }
             for (int i = 0; i < Data.size(); i++) {
 
-                if (Data.get(i).getHall().getNumber() == h.getNumber()) {
 
-                    Seat1 seat = new Seat1(Data.get(i).getNumber(), Data.get(i).isAvailable());
+                    Seat1 seat = new Seat1(Data.get(i).getNumber(), Data.get(i).isAvailable(),Data.get(i).getID());
                     Data1.add(seat);
 
-                }
+
 
 
                 //pane.getChildren().add(seat);
@@ -418,8 +402,8 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
                     seat.setLayoutY(y);
                     pane.getChildren().add(seat);
                     i += 1;
-                    s = Data.get(i);
                     if (i < Data1.size()) {
+                        s = Data.get(i);
                         seat = Data1.get(i);
 
                     } else {
@@ -439,26 +423,30 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
             System.out.println("initializing done regulation is on ");
             List<Seat> Data = null;
             List<Seat1> Data1 = new LinkedList<>();
-            int x = 0;
-            int z = (int) App.getParams().get(0);
-            List<Show> d = null;
-            synchronized (CinemaClient.ShowsDataLock) {
-                org.example.Boundaries.Boundary.UpdateShowsData();
+            Show s1=(Show)App.getParams().get(0);
+            System.out.println("Show is "+s1.getMovie().getName_en());
+            Hall h = s1.getHall();
+
+            System.out.println(" Hall is " + h.getNumber());
+            synchronized (CinemaClient.SeatDataLock) {
+                org.example.Boundaries.Boundary.UpdateSeatsHallData(h.getID());
                 // set items in table
-                d = CinemaClient.ShowsData;
+                Data = CinemaClient.SeatData;
 //            SeatTable.setItems(DataList);
                 //System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
             }
-            Hall h = null;
-            for (int i = 0; i < d.size(); i++) {
-                if (d.get(i).getID() == z) {
-                    h = d.get(i).getHall();
-                    //System.out.print(h.getID());
+            System.out.println(" Hall is " + h.getID());
+            Seat1 s = new Seat1(1,false,0);
+            for(int i=0;i<Data.size();i++){
+                if(Data.get(i).getAvailable()==true){
+                    MessageBoundaryEmployee.displayInfo("Your seat number is  "+Data.get(i).getNumber()+ " Please Click Choose seat ");
+
+                    s.selected.add(Data.get(i).getNumber());
+                    break;
+
 
                 }
-
             }
-            System.out.println(" Hall is " + h.getID());
 
         }
 

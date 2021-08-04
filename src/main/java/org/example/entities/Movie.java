@@ -195,4 +195,10 @@ public class Movie implements Serializable {
 	}
 	
 
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+
+
 }

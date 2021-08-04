@@ -115,6 +115,25 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+				if (message.get(0).equals("LoadCinemasShows")) {
+					// load data
+					try {
+						System.out.println("Enter Cinema Shows server ");
+						session.clear();
+						List<Show> Data = CinemaController.loadCinemaShows(session,(int)message.get(1));
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("CinemaShowsLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+						System.out.println("Exit Cinema Shows server ");
+
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				if (message.get(0).equals("LoadShowByID")) {
 					// load data
 					int show_id=(int) message.get(1);
@@ -249,12 +268,20 @@ public class CinemaServer extends AbstractServer{
 					Complaint comp = (Complaint) message.get(1);
 					// adding complaine into  database
 					session.clear();
-					boolean success = ComplaintsController.addComplaint(session, comp);
-					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("ComplaintAdded");
-					messageToClient.add(success);
-					client.sendToClient(messageToClient);
+					Order o=OrderController.loadOrderByID(session, comp.getOrder_id());
+					if(o!=null){
+						boolean success = ComplaintsController.addComplaint(session, comp);
+						// reply to client
+
+						messageToClient.add("ComplaintAdded");
+						messageToClient.add(success);
+						client.sendToClient(messageToClient);
+					}
+					else{
+						messageToClient.add("No such Order found");
+						client.sendToClient(messageToClient);
+					}
 				}
 
 				if (message.get(0).equals("LoadLinks")) {
@@ -741,6 +768,21 @@ public class CinemaServer extends AbstractServer{
 						e.printStackTrace();
 					}
 				}
+				if(message.get(0).equals("LogOut")){
+					try{
+						session.clear();
+						int emp_id=(int)message.get(1);
+						EmployeeController.logOut(session,emp_id);
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("LoggedOut");
+						client.sendToClient(messageToClient);
+
+					}
+					catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 
 				if (message.get(0).equals("AddLink")) {
 					session.clear();
@@ -762,14 +804,14 @@ public class CinemaServer extends AbstractServer{
 					// load data
 					try {
 						session.clear();
-						boolean Data = LinkController.cancelLink(session, link_id);
-						LocalDateTime DT = LinkController.loadLinkTime(session, link_id);
-						//if there is refund to be done
-						if (ChronoUnit.HOURS.between(LocalDateTime.now(), DT) > 1) {
-							double price = LinkController.loadLinkPrice(session, link_id);
-							Refund refund = new Refund(price * 0.5, link_id, 0, LocalDateTime.now());
-							RefundController.addRefund(session, refund);
-						}
+						Refund Data = LinkController.cancelLink(session, link_id);
+//						LocalDateTime DT = LinkController.loadLinkTime(session, link_id);
+//						//if there is refund to be done
+//						if (ChronoUnit.HOURS.between(LocalDateTime.now(), DT) > 1) {
+//							double price = LinkController.loadLinkPrice(session, link_id);
+//							Refund refund = new Refund(price * 0.5, link_id, 0, LocalDateTime.now());
+//							RefundController.addRefund(session, refund);
+//						}
 
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
@@ -985,6 +1027,57 @@ public class CinemaServer extends AbstractServer{
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("SeatsLoaded");
+						messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (message.get(0).equals("BookSeat")) {
+					// load data
+					try {
+						session.clear();
+						Boolean Data = SeatController.bookSeat(session,(int) message.get(1));
+
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("SeatBooked");
+						//messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (message.get(0).equals("UnBookSeat")) {
+					// load data
+					try {
+						session.clear();
+						Boolean Data = SeatController.unbookSeat(session,(int) message.get(1));
+
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("SeatUnBooked");
+						//messageToClient.add(Data);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (message.get(0).equals("LoadSeatsHall")) {
+					System.out.println(" enter load seats hall");
+					// load data
+					try {
+						session.clear();
+						List<Seat> Data = HallController.loadSeats(session,(int)message.get(1));
+
+						// reply to client
+						LinkedList<Object> messageToClient = new LinkedList<Object>();
+						messageToClient.add("HallSeatsLoaded");
 						messageToClient.add(Data);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
@@ -1238,29 +1331,31 @@ public class CinemaServer extends AbstractServer{
 		System.out.println("Number of new movies is: "+ bbb.size());
 		//intialize regulations
 		Regulations regulations=new Regulations();
+		regulations.setStatus(false);
 		RegulationsController.addRegulations(CinemaServer.session,regulations);
+		RegulationsController.deactivateRegulations(session);
 
 		//intialize employees
 		ChainManager chainManager=new ChainManager("cersei lannister", "0534727563",
 				"Lannister@gmail.com", "clannister","1212");
-		/*chainManager.setOnline(true);
+		//chainManager.setOnline(true);
 		EmployeeController.addEmployee(CinemaServer.session,chainManager);
-		Employee cM=EmployeeController.verifyLogIn(session,"annister","1212");
-		boolean answer;
-		if(cM!=null) {
-			answer = EmployeeController.checkIfNotLoggedIn(session, chainManager.getID());
-			if (answer) {
-				if(EmployeeController.logIn(session,chainManager.getID()))
-					System.out.println("Login:" + answer);
-				else
-					System.out.println("FAIL");
-			}
-			else
-				System.out.println("already logged in");
-		}
-		else
-			System.out.println("log in details are wrong");
-*/
+//		Employee cM=EmployeeController.verifyLogIn(session,"clannister","1212");
+//		boolean answer;
+//		if(cM!=null) {
+//			answer = EmployeeController.checkIfNotLoggedIn(session, chainManager.getID());
+//			if (answer) {
+//				if(EmployeeController.logIn(session,chainManager.getID()))
+//					System.out.println("Login:" + answer);
+//				else
+//					System.out.println("FAIL");
+//			}
+//			else
+//				System.out.println("already logged in");
+//		}
+//		else
+//			System.out.println("log in details are wrong");
+//
 
 
 		ContentManager contentManager=new ContentManager("Sirina Williams", "0533264563",
@@ -1312,6 +1407,19 @@ public class CinemaServer extends AbstractServer{
 		TicketsController.addTicket(session,ticket3);
 		TicketsController.cancelTicket(session,ticket2.getID());
 
+		Ticket ticket4=new Ticket(2,2,23,8,
+				LocalDateTime.now().plusHours(4),35,1);
+		TicketsController.addTicket(session,ticket4);
+		Ticket ticket5=new Ticket(2,2,24,8,
+				LocalDateTime.now().plusHours(2),60,4);
+		TicketsController.addTicket(session,ticket5);
+		Ticket ticket6=new Ticket(2,2,24,8,
+				LocalDateTime.now().plusMinutes(5),60,2);
+		TicketsController.addTicket(session,ticket6);
+		TicketsController.cancelTicket(session,ticket4.getID());
+		TicketsController.cancelTicket(session,ticket5.getID());
+		TicketsController.cancelTicket(session,ticket6.getID());
+
 		List<Ticket> reportTicket=TicketsController.makeTicketsReportByMonth(session,2,8,2021);
 		System.out.println("success"+reportTicket.size());
 
@@ -1340,7 +1448,7 @@ public class CinemaServer extends AbstractServer{
 		//System.out.println(pacs.size());
 
 		pack2.setCounter(12);
-		int n=PackagesController.getNumberOfTicketsLeft(session,4);
+		int n=PackagesController.getNumberOfTicketsLeft(session,pack2.getID());
 		//System.out.println(n);
 
 		/////// Testing LinkController
@@ -1358,14 +1466,14 @@ public class CinemaServer extends AbstractServer{
 		List<Link> clinks=LinkController.loadCustomerLinks(session,3);
 		//System.out.println(clinks.size());
 
-		boolean Data = LinkController.cancelLink(session,link1.getID());
+		Refund Data = LinkController.cancelLink(session,link1.getID());
 		LocalDateTime DT = LinkController.loadLinkTime(session, link1.getID());
 		//if there is refund to be done
-		if (ChronoUnit.HOURS.between(LocalDateTime.now(),DT) >1){
-			double price=LinkController.loadLinkPrice(session,link1.getID());
-			Refund refund=new Refund(price*0.5, link1.getID(), 0, LocalDateTime.now());
-			RefundController.addRefund(session,refund);
-		}
+//		if (ChronoUnit.HOURS.between(LocalDateTime.now(),DT) >1){
+//			double price=LinkController.loadLinkPrice(session,link1.getID());
+//			Refund refund=new Refund(price*0.5, link1.getID(), 0, LocalDateTime.now());
+//			RefundController.addRefund(session,refund);
+//		}
 
 
 		/////// Testing MailController
@@ -1394,7 +1502,7 @@ public class CinemaServer extends AbstractServer{
 
 		/////// Testing Regulations
 		int Y=49;
-		RegulationsController.activateRegulations(session, Y);
+		//RegulationsController.activateRegulations(session, Y);
 		List<Hall> hallsList=HallController.loadHalls(session);
 		for(Hall h : hallsList){
 			int capacity=h.getCapacity();
@@ -1417,6 +1525,11 @@ public class CinemaServer extends AbstractServer{
 //			HallController.resetMaxSeats(session,h.getID(),h.getCapacity());
 //		}
 
+		List<Seat> seats=HallController.loadSeats(session,3);
+		System.out.println(seats.size());
+
+		List<Seat> seatsList=HallController.loadSeats(session,3);
+		System.out.println("Seats:" +seatsList.size());
 
 
 	}

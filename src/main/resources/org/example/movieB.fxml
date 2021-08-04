@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchor" prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Boundaries.BuyLinkBoundary">
+<AnchorPane fx:id="anchor" prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Boundaries.MovieB">
     <children>
         <ImageView fitHeight="488.0" fitWidth="800.0">
             <image>
@@ -26,11 +26,6 @@
                 <Cursor fx:constant="SE_RESIZE" />
             </cursor>
         </ImageView>
-        <Button fx:id="refreshBtn" layoutX="732.0" layoutY="425.0" mnemonicParsing="false" onAction="#clickRefreshBtn" text="Refresh">
-            <font>
-                <Font name="System Italic" size="12.0" />
-            </font>
-        </Button>
         <Label layoutX="344.0" layoutY="25.0" text="Movies" textFill="WHITE">
             <font>
                 <Font name="System Bold Italic" size="45.0" />
@@ -46,7 +41,7 @@
                 <TableColumn id="image" fx:id="image" prefWidth="110.0" text="Image " />
             </columns>
         </TableView>
-        <Button fx:id="BackBtn" layoutX="60.0" layoutY="425.0" mnemonicParsing="false" onAction="#clickBackBtn" text="Back">
+        <Button fx:id="BackBtn" layoutX="245.0" layoutY="424.0" mnemonicParsing="false" onAction="#clickBackBtn" prefHeight="25.0" prefWidth="260.0" text="Back to Shows">
             <font>
                 <Font name="System Italic" size="12.0" />
             </font>

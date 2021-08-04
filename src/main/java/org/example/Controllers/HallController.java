@@ -68,7 +68,7 @@ public class HallController {
             if (session != null) {
                 session.getTransaction().rollback();
             }
-            System.err.println("An error occurred, changes have been rolled back.");
+            System.err.println("An errxor occurred, changes have been rolled back.");
             exception.printStackTrace();
             return false;
         }
@@ -108,7 +108,7 @@ public class HallController {
             Root<Hall> root = query.from(Hall.class);
             Predicate[] predicates=new Predicate[2];
             predicates[0]=builder.equal(root.get("active"), true);
-            predicates[1]=builder.equal(root.get("id"), hall_id);
+            predicates[1]=builder.equal(root.get("ID"), hall_id);
             query.where(predicates);
             List<Seat> data = session.createQuery(query).getResultList().get(0).getSeats();
             for(Seat s:data){
@@ -129,6 +129,7 @@ public class HallController {
 
     public static boolean limitMaxSeats(Session session, int hall_id, int maxSeats) {
         try {
+            session.clear();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaUpdate<Hall> update_query = builder.createCriteriaUpdate(Hall.class);
             Root<Hall> root = update_query.from(Hall.class);
