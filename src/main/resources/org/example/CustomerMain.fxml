@@ -26,12 +26,12 @@
                 <Cursor fx:constant="SE_RESIZE" />
             </cursor>
         </ImageView>
-        <Button fx:id="showMoviesBtn" layoutX="183.0" layoutY="189.0" mnemonicParsing="false" onAction="#clickshowMoviesBtn" prefHeight="55.0" prefWidth="172.0" text="Show Movies" textAlignment="CENTER" textFill="#b71b1b">
+        <Button fx:id="showMoviesBtn" layoutX="67.0" layoutY="259.0" mnemonicParsing="false" onAction="#clickshowMoviesBtn" prefHeight="55.0" prefWidth="172.0" text="Show Movies" textAlignment="CENTER" textFill="#b71b1b">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>
         </Button>
-        <Button fx:id="FillacomplaintBtn" layoutX="415.0" layoutY="189.0" mnemonicParsing="false" onAction="#clickFillacomplaintBtn" prefHeight="55.0" prefWidth="172.0" text="Fill a complaint" textAlignment="CENTER" textFill="#b71b1b">
+        <Button fx:id="FillacomplaintBtn" layoutX="501.0" layoutY="259.0" mnemonicParsing="false" onAction="#clickFillacomplaintBtn" prefHeight="55.0" prefWidth="172.0" text="Fill a complaint" textAlignment="CENTER" textFill="#b71b1b">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>
@@ -57,6 +57,16 @@
             </font>
         </Label>
       <Button fx:id="LoginBtn" layoutY="450.0" mnemonicParsing="false" onAction="#clickLoginBtn" prefHeight="38.0" prefWidth="92.0" text="Log in" textAlignment="CENTER" textFill="#b71b1b">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="checkpackage" layoutX="294.0" layoutY="189.0" mnemonicParsing="false" onAction="#clickchecktBtn" prefHeight="55.0" prefWidth="172.0" text="Check Package " textAlignment="CENTER" textFill="#b71b1b">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="Cancelorder" layoutX="294.0" layoutY="259.0" mnemonicParsing="false" onAction="#clickcancelBtn" prefHeight="55.0" prefWidth="172.0" text="Cancel order" textAlignment="CENTER" textFill="#b71b1b">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

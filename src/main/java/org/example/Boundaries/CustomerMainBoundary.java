@@ -51,6 +51,20 @@ public class CustomerMainBoundary extends EmployeeMainBoundary implements Initia
 
     @FXML
     private Button LoginBtn;
+    @FXML
+    private Button checkpackage;
+    @FXML
+    private Button Cancelorder;
+    @FXML
+    void clickchecktBtn(ActionEvent event) throws IOException {
+        App.setRoot("checkPackage",params,stage);
+
+    }
+    @FXML
+    void clickcancelBtn(ActionEvent event) {
+
+    }
+
 
     @FXML private TableView<Show> ShowsTable;
     @FXML private TableColumn<Show, String> movie_name;
@@ -145,7 +159,7 @@ public class CustomerMainBoundary extends EmployeeMainBoundary implements Initia
 
     @FXML
     void clickFillacomplaintBtn(ActionEvent event) throws IOException {
-        App.setRoot("UpdateTimeBoundary",null, stage);
+        App.setRoot("AddComplaint",null, stage);
     }
 
     @FXML
@@ -162,6 +176,8 @@ public class CustomerMainBoundary extends EmployeeMainBoundary implements Initia
 
     @FXML
     void clickBuypackageBtn(ActionEvent event) throws IOException {
+        App.setRoot("PaymentPackage",null, stage);
+
 
     }
 

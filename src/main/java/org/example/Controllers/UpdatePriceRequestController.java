@@ -90,7 +90,7 @@ public class UpdatePriceRequestController {
             CriteriaUpdate<Show> update_query2=builder.createCriteriaUpdate(Show.class);
             Root<Show> root2=update_query2.from(Show.class);
             update_query2.set("price",upRequest.getUpdatedPrice());
-            update_query2.where(builder.equal(root.get("ID"),upRequest.getShow_id()));
+            update_query2.where(builder.equal(root2.get("ID"),upRequest.getShow_id()));
             Transaction transaction2 = session.beginTransaction();
             session.createQuery(update_query2).executeUpdate();
             session.clear();

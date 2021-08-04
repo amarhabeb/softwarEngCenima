@@ -113,7 +113,7 @@ public class AddMovieBoundary extends ContentManagerDisplayBoundary implements I
     	
     	// create new chosen movie
     	Movie movie = new Movie(name_en, name_heb, director, cast, summary,
-                launch_date,  image_bytes, shows, availableOnline);
+                launch_date,  "image_bytes", shows, availableOnline,null);
     	
     	try {
 	  		// add new show object to database

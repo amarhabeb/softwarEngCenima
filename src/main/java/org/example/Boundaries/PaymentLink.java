@@ -71,17 +71,16 @@ public class PaymentLink extends  Boundary implements Initializable, Serializabl
 
 //                int cinema_id, int hall_id,int seat_id, int show_id,LocalDateTime show_time,
 //                double price, int customer_id
-                String l = "https//www.cinema.com/"+m.getID();
+                String l = "https//www.cinema.com/"+m.getID()+"/"+IdText.getText();
                 Link link= new Link(l, LocalDateTime.now(), LocalDateTime.now().plusWeeks(4),movie_id,m.getPrice(),Integer.parseInt(IdText.getText()));
 
                 try {
                     AddLink(link);
-                    System.out.println("5555555555555555");
                     MessageBoundaryEmployee.displayInfo("Link has been sent to you by Email ");
                     List<Object> l1 =new LinkedList<>();
                     App.setParams(l1);
                     String mail = Email.getText();
-                    String Message = "Movie  is :"+m.getName_en()+ " Link is: "+l+ " Price is "+m.getPrice()+" Available untill  "+LocalDateTime.now().plusWeeks(4);
+                    String Message = "ID is "+link.getID()+" Movie  is :"+m.getName_en()+ " Link is: "+" Available untill  "+LocalDateTime.now().plusWeeks(4);
                     org.example.Controllers.MailController.sendMail(Message,mail,"Your Link");
                     Payment pay= new Payment(m.getPrice(),Integer.parseInt(IdText.getText()));
                     AddPayment(pay);
@@ -123,10 +122,10 @@ public class PaymentLink extends  Boundary implements Initializable, Serializabl
     public void initialize(URL url, ResourceBundle rb) {
 
         // set-up the columns in the table
-        for (int hour = 0; hour <= 23; hour++) {
+        for (int hour = 0; hour <= 12; hour++) {
             hoursChoice.getItems().add(hour);
         }
-        for (int min = 0; min <= 59; min++) {
+        for (int min = 2021; min <= 2030; min++) {
             minsChoice.getItems().add(min);
         }
 

@@ -21,6 +21,7 @@ public class App extends Application {
 
     static List<Object> p;
 
+
     public App() {
         this.p=new LinkedList<>();
 

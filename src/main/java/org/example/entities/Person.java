@@ -15,7 +15,7 @@ public abstract class Person implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    protected int ID;
+    protected int id;
     protected String name;
     protected String phoneNum;
     protected String email;
@@ -30,7 +30,7 @@ public abstract class Person implements Serializable {
         }
 
         public  int getID() {
-            return ID;
+            return id;
         }
 
         public String getName() {
@@ -63,6 +63,6 @@ public abstract class Person implements Serializable {
         }
 
 		public void setID(int iD) {
-			ID = iD;
+			id = iD;
 		}
     }

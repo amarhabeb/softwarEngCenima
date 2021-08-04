@@ -33,11 +33,13 @@ public class Movie implements Serializable {
     //private Boolean is_new;
     private int price;
     @Column(length = 5000)
-    private byte[] image;
+    private String image;
     private String status; // can be AVAILABLE / NOT_AVAILABLE
     private boolean availableOnline;
     @OneToMany(targetEntity = Show.class, cascade = CascadeType.ALL)
     private List<Show> shows;
+    @ManyToOne(targetEntity = Cinema.class)
+    private Cinema cinema;
 
     public Movie() {    
     	this.status = "AVAILABLE";
@@ -45,7 +47,7 @@ public class Movie implements Serializable {
 
 
     public Movie(String name_en, String name_heb, String director, List<String> cast, String summary,
-                 LocalDate lanuch_date,  byte[] image, List<Show> shows, boolean availableOnline) {
+                 LocalDate lanuch_date,  String image, List<Show> shows, boolean availableOnline, Cinema cinema) {
         this.name_en = name_en;
         this.name_heb = name_heb;
         this.director = director;
@@ -58,6 +60,23 @@ public class Movie implements Serializable {
         this.availableOnline=true;
         this.status = "AVAILABLE";
         this.price= (int)Math.floor(Math.random()*(100-50+1)+50);
+        this.cinema=cinema;
+    }
+
+    public LocalDate getLaunch_date() {
+        return launch_date;
+    }
+
+    public void setLaunch_date(LocalDate launch_date) {
+        this.launch_date = launch_date;
+    }
+
+    public Cinema getCinema() {
+        return cinema;
+    }
+
+    public void setCinema(Cinema cinema) {
+        this.cinema = cinema;
     }
 
     public String getStatus() {
@@ -67,10 +86,6 @@ public class Movie implements Serializable {
     public void setStatus(String status) {
         this.status = status;
     }
-
-//    public Boolean getIs_new() {
-//        return is_new;
-//    }
 
     public List<Show> getShows() {
         return shows;
@@ -129,23 +144,11 @@ public class Movie implements Serializable {
     }
 
 
-
-//    public void setIs_new(Boolean is_new) {
-//        this.is_new = is_new;
-//    }
-
-    /*public ImageIcon getImage() {
-        return image;
-    }
-    public void setImage(ImageIcon image) {
-        this.image = image;
-    }*/
-
-    public   byte[] getImage() {
+    public   String getImage() {
         return image;
     }
 
-    public void setImage( byte[] image) {
+    public void setImage( String image) {
         this.image = image;
     }
 
@@ -180,15 +183,6 @@ public class Movie implements Serializable {
     public void deleteShow(Show sh){
         shows.remove(sh);
     }
-
-    //calculate number of days between the movie's launch date and today, if less than 7, it's soon
-//    public boolean isSoon(){
-//        long diff= ChronoUnit.DAYS.between(LocalDate.now(), launch_date);
-//        if(diff<=7){
-//            return true;
-//        }
-//        return false;
-//    }
     
     @Override
     public String toString() {
@@ -199,14 +193,6 @@ public class Movie implements Serializable {
 	public int getID() {
 		return ID;
 	}
-
-
-	public void setID(int iD) {
-		ID = iD;
-	}
 	
-	public Image getImageFX() {
-		Image img = new Image(new ByteArrayInputStream(image));
-		return img;
-	}
+
 }

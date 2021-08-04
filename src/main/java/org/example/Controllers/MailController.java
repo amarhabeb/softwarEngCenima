@@ -1,8 +1,10 @@
 package org.example.Controllers;
 import org.example.entities.Customer;
+import org.example.entities.Link;
 import org.example.entities.Movie;
 import org.example.entities.PackageOrder;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Properties;
 
@@ -82,17 +84,21 @@ public class MailController{
                 newMoviesText+="Name: "+ m.getName_en() +"\n"+
                                "Summary: " +m.getSummary()+"\n"+
                                 "Director: " +m.getDirector()+"\n"+
-                                "Launch Date: " +m.getLanuch_date().toString()+
+                                "Launch Date: " +m.getLanuch_date().toString()+"\n"+
                                 "*********************"+"\n\n\n";
             }
             if(newMovies!=null){
                 List<PackageOrder> packageOrderList=PackagesController.loadValidPackages(session);
-                for(PackageOrder pac: packageOrderList){
-                    String email=CustomerController.loadCustomerMail(session,pac.getCusomer_id());
-                    sendMail(newMoviesText, email, "Don't Miss! New Movies Coming Soon");
+                if (!packageOrderList.isEmpty())
+                for(PackageOrder pac: packageOrderList) {
+
+                        String email = CustomerController.loadCustomerMail(session, pac.getCusomer_id());
+                        if (email != null)
+                            sendMail(newMoviesText, email, "Don't Miss! New Movies Coming Soon");
+                    }
+                    return true;
                 }
-                return true;
-            }
+
             return false;
 
         }
@@ -106,5 +112,43 @@ public class MailController{
         }
 
     }
+
+    public static boolean sendReminderLink(org.hibernate.Session session){
+        try{
+            List<Link> LinksToremind=LinkController.LoadLinksToRemind(session);
+            String linkReminderTxt="";
+            for(Link L: LinksToremind){
+                linkReminderTxt+="Link: "+ L.getLink() +"\n"+
+                        "You can start watching from: " +L.getFromTime().truncatedTo(ChronoUnit.MINUTES)+"\n" +
+                        "until: " +L.getToTime().truncatedTo(ChronoUnit.MINUTES)+"."+"\n"+
+                        "ENJOY!! \n" +
+                        "*********************"+"\n\n\n";
+            }
+            if(LinksToremind!=null){
+
+                for(Link link: LinksToremind) {
+
+
+                    String email = CustomerController.loadCustomerMail(session, link.getCusomer_id());
+                    if (email != null)
+                        sendMail(linkReminderTxt, email, "Don't Miss! Your Movie Will Be Online After Only One Hour");
+                }
+                return true;
+            }
+
+            return false;
+
+        }
+        catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return false;
+        }
+
+    }
+
 
 }

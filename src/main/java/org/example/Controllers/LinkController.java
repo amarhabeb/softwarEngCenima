@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
 import java.time.temporal.ChronoUnit;
+import java.util.LinkedList;
 import java.util.List;
 
 public class LinkController {
@@ -151,7 +152,6 @@ public class LinkController {
             session.clear();
             transaction.commit();
             session.clear();
-            //System.out.println("deactievate");
             return true;
             // Save everything.
         } catch (Exception exception) {
@@ -178,7 +178,6 @@ public class LinkController {
             session.clear();
             transaction.commit();
             session.clear();
-            //System.out.println("actiavate");
             deactivateLinksWhenTimePassed(session);
             return true;
             // Save everything.
@@ -191,6 +190,41 @@ public class LinkController {
             return false;
         }
     }
+
+    public static List<Link> LoadLinksToRemind(Session session){
+        try {
+
+            List<Link> allLinks = LinkController.loadLinks(session);
+            List<Link> data = new LinkedList<>();
+            if(allLinks!=null){
+
+
+
+                for(Link link: allLinks) {
+                    if(link.getFromTime().truncatedTo(ChronoUnit.MINUTES).equals(LocalDateTime.now().plusHours(1).truncatedTo(ChronoUnit.MINUTES)))
+                    {
+                        data.add(link);
+
+                    }
+
+                }}
+            return data;
+
+            // Save everything.
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+
+
 
 
 

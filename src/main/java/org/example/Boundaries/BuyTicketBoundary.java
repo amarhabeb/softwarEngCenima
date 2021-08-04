@@ -50,6 +50,8 @@ import java.util.ResourceBundle;
         @FXML Label label;
 
 
+
+
         @FXML private TableView<Show> ShowsTable;
         @FXML private TableColumn<Show, String> movie_name;
         @FXML private TableColumn<Show, String> date;
@@ -79,7 +81,10 @@ import java.util.ResourceBundle;
 
             } else {
                 label.setText("");
+
                 int show_id = ShowsTable.getSelectionModel().getSelectedItem().getID();
+                System.out.println("Selected Id  is "+ShowsTable.getSelectionModel().getSelectedItem().getID());
+                System.out.println("Selected index is "+ShowsTable.getSelectionModel().getSelectedIndex());
                 //System.out.println(show_id);
                 List<Object> params = new LinkedList<Object>();
                 params.add(show_id);
@@ -104,6 +109,8 @@ import java.util.ResourceBundle;
 
 
             }
+
+
 
 
 
@@ -165,7 +172,7 @@ import java.util.ResourceBundle;
 
                 }
                 ObservableList<Show> DataList5 = FXCollections.observableArrayList(DataList3);
-                ShowsTable.setDisable(false);
+                ShowsTable.setVisible(true);
                ShowsTable.setItems( DataList5);
 
 
