@@ -68,5 +68,16 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
+      <ChoiceBox fx:id="endYear" layoutX="89.0" layoutY="394.0" prefHeight="31.0" prefWidth="71.0" />
+      <ChoiceBox fx:id="startyear" layoutX="6.0" layoutY="394.0" prefHeight="31.0" prefWidth="71.0" />
+      <ChoiceBox fx:id="startmonth" layoutX="40.0" layoutY="326.0" prefHeight="31.0" prefWidth="71.0" />
+      <Label layoutX="37.0" layoutY="297.0" text=" Month" textFill="WHITE" />
+      <Label layoutX="10.0" layoutY="373.0" text="Start Year" textFill="WHITE" />
+      <Label layoutX="95.0" layoutY="373.0" text="End Year" textFill="WHITE" />
+      <Button fx:id="searchBtn" layoutX="4.0" layoutY="437.0" mnemonicParsing="false" onAction="#clickSearchBtn" prefHeight="25.0" prefWidth="171.0" text="Search" textAlignment="CENTER" textFill="#b71b1b">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>
