@@ -358,31 +358,11 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
             List<Seat> Data = null;
             List<Seat1> Data1 = new LinkedList<>();
             int x = 0;
-            int z = (int) App.getParams().get(0);
-            List<Show> d = null;
-            synchronized (CinemaClient.ShowsDataLock) {
-                org.example.Boundaries.Boundary.UpdateShowsData();
-                // set items in table
-                d = CinemaClient.ShowsData;
-//            SeatTable.setItems(DataList);
-                //System.out.println(DataList.get(0).getHall().getCinema().getBranch_name());
-            }
-            System.out.println("Show is "+z);
-
-            Hall h = null;
-            for (int i = 0; i < d.size(); i++) {
-                if (d.get(i).getID() == z) {
-
-                    h = d.get(i).getHall();
-
-                    //System.out.print(h.getID());
-
-                }
-
-            }
+            Show s1 = (Show) App.getParams().get(0);
+            Hall h =s1.getHall();
             System.out.println(" Hall is " + h.getNumber());
             synchronized (CinemaClient.SeatDataLock) {
-                org.example.Boundaries.Boundary.UpdateSeatsData();
+                org.example.Boundaries.Boundary.UpdateSeatsHallData(h.getID());
                 // set items in table
                 Data = CinemaClient.SeatData;
 //            SeatTable.setItems(DataList);
@@ -390,12 +370,11 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
             }
             for (int i = 0; i < Data.size(); i++) {
 
-                if (Data.get(i).getHall().getNumber() == h.getNumber()) {
 
                     Seat1 seat = new Seat1(Data.get(i).getNumber(), Data.get(i).isAvailable());
                     Data1.add(seat);
 
-                }
+
 
 
                 //pane.getChildren().add(seat);
@@ -407,6 +386,7 @@ public class ChooseSeatBoundary extends BuyTicketBoundary implements Initializab
             int j = 1;
             int count = 120;
             int y = 120;
+            System.out.println(Data.size());
 
 
             while (i < h.getMaxSeats() - 1) {

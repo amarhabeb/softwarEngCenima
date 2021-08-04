@@ -75,6 +75,31 @@ public abstract class Boundary {
 
 		}
 	}
+	static synchronized void UpdateSeatsHallData(int id ) {
+		// add message to ClientInput so it could be sent to server
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadSeatsHall");
+		message.add(id);
+		synchronized(CinemaClient.SeatDataLock)
+		{
+			CinemaClient.SeatDataUpdated = false;
+			CinemaClientCLI.sendMessage(message);
+
+			// wait for Data to be updated
+			while(!CinemaClient.SeatDataUpdated) {
+				try {
+					CinemaClient.SeatDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+
+
+			}
+
+		}
+	}
 
 			
 	// brings the Movies from the DataBase and updates the MoviesData local list
@@ -97,6 +122,47 @@ public abstract class Boundary {
 		 		}
 		 	}	
 		 }
+	}
+	static synchronized void UpdateCinemaShowsData(int id ) {
+		// add message to ClientInput so it could be sent to server
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadCinemasShows");
+		message.add(id);
+		synchronized(CinemaClient.ShowsDataLock)
+		{
+			CinemaClient.ShowsDataUpdated = false;
+			CinemaClientCLI.sendMessage(message);
+
+			// wait for Data to be updated
+			while(!CinemaClient.ShowsDataUpdated) {
+				try {
+					CinemaClient.ShowsDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	static synchronized void UpdateOnlineMoviesData() {
+		// add message to ClientInput so it could be sent to server
+		LinkedList<Object> message = new LinkedList<Object>();
+		message.add("LoadOnlineMovies");
+		synchronized(CinemaClient.MoviesDataLock)
+		{
+			CinemaClient.MoviesDataUpdated = false;
+			CinemaClientCLI.sendMessage(message);
+
+			// wait for Data to be updated
+			while(!CinemaClient.MoviesDataUpdated) {
+				try {
+					CinemaClient.MoviesDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 		 	
 	// brings the Halls from the DataBase and updates the MoviesData local list
@@ -213,7 +279,7 @@ public abstract class Boundary {
 		LinkedList<Object> message = new LinkedList<Object>();
 		message.add("LoadTickets");
 		synchronized(CinemaClient.TicketsDataLock)
-		{	
+		{
 			CinemaClient.TicketsDataUpdated = false;
 			CinemaClientCLI.sendMessage(message);
 										

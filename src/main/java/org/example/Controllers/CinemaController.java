@@ -73,6 +73,8 @@ public class CinemaController {
     }
     public static List<Show> loadCinemaShows(Session session, int cinema_id){
         try {
+            System.out.println("Enter load cinemas shows controller ");
+
             Transaction transaction = session.beginTransaction();
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Cinema> query = builder.createQuery(Cinema.class);
@@ -86,6 +88,8 @@ public class CinemaController {
                 if(sh.getStatus()=="NOT_AVAILABLE")
                     data.remove(sh);
             }
+            System.out.println("Exit load cinemas shows client ");
+
             transaction.commit();
             return data;
         } catch (Exception exception) {

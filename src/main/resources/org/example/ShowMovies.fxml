@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Boundaries.ShowMoviesBoundary">
+<AnchorPane fx:id="anchor" prefHeight="488.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.Boundaries.BuyLinkBoundary">
     <children>
         <ImageView fitHeight="488.0" fitWidth="800.0">
             <image>
@@ -26,15 +26,41 @@
                 <Cursor fx:constant="SE_RESIZE" />
             </cursor>
         </ImageView>
-        <Label layoutX="288.0" layoutY="29.0" text="Shows" textFill="WHITE">
+        <Button fx:id="refreshBtn" layoutX="732.0" layoutY="425.0" mnemonicParsing="false" onAction="#clickRefreshBtn" text="Refresh">
+            <font>
+                <Font name="System Italic" size="12.0" />
+            </font>
+        </Button>
+        <Label layoutX="344.0" layoutY="25.0" text="Movies" textFill="WHITE">
             <font>
                 <Font name="System Bold Italic" size="45.0" />
             </font>
         </Label>
-      <ImageView fx:id="im" fitHeight="316.0" fitWidth="435.0" layoutX="126.0" layoutY="95.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@1.jpg" />
-         </image>
-      </ImageView>
+        <TableView fx:id="MoviesTable" layoutX="-10.0" layoutY="91.0" prefHeight="318.0" prefWidth="817.0">
+            <columns>
+                <TableColumn id="english" fx:id="english" prefWidth="147.0" text=" English Title" />
+                <TableColumn id="hebrew" fx:id="hebrew" prefWidth="175.0" text="Hebrew Title" />
+                <TableColumn id="director" fx:id="director" prefWidth="75.0" text="Director" />
+                <TableColumn id="cast" fx:id="cast" prefWidth="139.0" text="Cast Team" />
+                <TableColumn id="summary" fx:id="summary" prefWidth="170.0" text="Summary" />
+                <TableColumn id="image" fx:id="image" prefWidth="110.0" text="Image " />
+            </columns>
+        </TableView>
+        <Button fx:id="BackBtn" layoutX="60.0" layoutY="425.0" mnemonicParsing="false" onAction="#clickBackBtn" text="Back">
+            <font>
+                <Font name="System Italic" size="12.0" />
+            </font>
+        </Button>
+        <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="281.0" layoutY="449.0" prefHeight="36.0" prefWidth="238.0" textAlignment="CENTER" textFill="#cdf81e">
+            <font>
+                <Font name="System Bold" size="19.0" />
+            </font>
+        </Label>
+        <TableView fx:id="tablesum" layoutX="14.0" layoutY="87.0" prefHeight="57.0" prefWidth="777.0">
+            <columns>
+                <TableColumn id="sum" fx:id="sumcol" prefWidth="776.0" text="Summary" />
+            </columns>
+        </TableView>
+        <Button fx:id="bakbtn" layoutX="349.0" layoutY="357.0" mnemonicParsing="false" onAction="#clickcak" text="Back" visible="false" />
     </children>
 </AnchorPane>
