@@ -72,8 +72,6 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
         tablesum.setVisible(false);
 
     }
-
-
     @FXML
     void clickChooseMovieBtn(ActionEvent event) throws IOException {
         if(MoviesTable.getSelectionModel().getSelectedItem() == null ){
@@ -115,14 +113,8 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-
         MoviesTable.setVisible(true);
-
         tablesum.setVisible(false);
-
-
-
         // set-up the columns in the table
         english.setStyle( "-fx-alignment: CENTER;");
         english.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movie, String>, ObservableValue<String>>() {
@@ -230,7 +222,6 @@ public class BuyLinkBoundary extends Boundary implements Initializable, Serializ
             }
         });
         List <Movie> mov = new LinkedList<>();
-
         synchronized(CinemaClient.MoviesDataLock) {
             org.example.Boundaries.Boundary.UpdateOnlineMoviesData();
             // set items in table
