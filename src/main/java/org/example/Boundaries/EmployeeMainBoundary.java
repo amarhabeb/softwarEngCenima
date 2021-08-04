@@ -18,7 +18,8 @@ public abstract class EmployeeMainBoundary extends EmployeeBoundary{
     @FXML
     void clickBackBtn(ActionEvent event) throws IOException {
     	MessageBoundary.displayInfo("You logged out from your account. You are now in customer mode.");
-    	App.setRoot("CustomerMainBoundary", null, stage);
+    	
+    	App.setRoot("CustomerMain", null, stage);
     }
 	
 }

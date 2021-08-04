@@ -885,7 +885,7 @@ public class CinemaServer extends AbstractServer{
 						boolean answer = MoviesController.setOnlineMovieON(session,movieName_en);
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
-						messageToClient.add("OnlineMovieSetON");
+						messageToClient.add("OnlineMovieSetOn");
 						messageToClient.add(answer);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
@@ -1243,24 +1243,24 @@ public class CinemaServer extends AbstractServer{
 		//intialize employees
 		ChainManager chainManager=new ChainManager("cersei lannister", "0534727563",
 				"Lannister@gmail.com", "clannister","1212");
-		//chainManager.setOnline(true);
-//		EmployeeController.addEmployee(CinemaServer.session,chainManager);
-//		Employee cM=EmployeeController.verifyLogIn(session,"clannister","1212");
-//		boolean answer;
-//		if(cM!=null) {
-//			answer = EmployeeController.checkIfNotLoggedIn(session, chainManager.getID());
-//			if (answer) {
-//				if(EmployeeController.logIn(session,chainManager.getID()))
-//					System.out.println("Login:" + answer);
-//				else
-//					System.out.println("FAIL");
-//			}
-//			else
-//				System.out.println("already logged in");
-//		}
-//		else
-//			System.out.println("log in details are wrong");
-//
+		/*chainManager.setOnline(true);
+		EmployeeController.addEmployee(CinemaServer.session,chainManager);
+		Employee cM=EmployeeController.verifyLogIn(session,"annister","1212");
+		boolean answer;
+		if(cM!=null) {
+			answer = EmployeeController.checkIfNotLoggedIn(session, chainManager.getID());
+			if (answer) {
+				if(EmployeeController.logIn(session,chainManager.getID()))
+					System.out.println("Login:" + answer);
+				else
+					System.out.println("FAIL");
+			}
+			else
+				System.out.println("already logged in");
+		}
+		else
+			System.out.println("log in details are wrong");
+*/
 
 
 		ContentManager contentManager=new ContentManager("Sirina Williams", "0533264563",
@@ -1416,9 +1416,6 @@ public class CinemaServer extends AbstractServer{
 //		for(Hall h : hallsList2){
 //			HallController.resetMaxSeats(session,h.getID(),h.getCapacity());
 //		}
-
-		List<Seat> seats=HallController.loadSeats(session,3);
-		System.out.println(seats.size());
 
 
 
@@ -1927,8 +1924,10 @@ public class CinemaServer extends AbstractServer{
 			} else {
 				// initialize the DataBase
 				InitializeDataBase();
+
 				sendNewMoviesToPackagesCostumers();
 				loopPerOneMinute();
+
 				CinemaServer server = new CinemaServer(Integer.parseInt(args[0]));
 				server.listen();
 
