@@ -114,7 +114,7 @@ public class LinkController {
             return -1;
         }
     }
-    public static boolean cancelLink(Session session, int link_id) {
+    public static Refund cancelLink(Session session, int link_id) {
         try {
 
             CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -127,7 +127,7 @@ public class LinkController {
             session.createQuery(update_query).executeUpdate();
             transaction.commit();
             session.clear();
-            return true;
+            return calcRefund(session,link_id);
         }
         catch (Exception exception) {
             if (session != null) {
@@ -135,8 +135,17 @@ public class LinkController {
             }
             System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
-            return false;
+            return null;
         }
+    }
+
+    private static Refund calcRefund(Session session, int link_id) throws Exception {
+        Refund refund = new Refund(0,link_id,0,LocalDateTime.now());
+        if(loadLinkTime(session,link_id).isAfter(LocalDateTime.now().plusHours(1))){
+            refund.setAmount(loadLinkPrice(session,link_id)/2);
+            RefundController.addRefund(session,refund);
+        }
+        return refund;
     }
 
     public static boolean deactivateLinksWhenTimePassed(Session session){
