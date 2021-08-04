@@ -1,15 +1,11 @@
 package org.example.Controllers;
 
 import org.example.entities.*;
-import org.example.Controllers.RefundController;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.persistence.Query;
 import javax.persistence.criteria.*;
 import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -77,7 +73,7 @@ public class TicketsController {
         }
     }
     //cancel ticket in data base, calculate refund, add it to data base, then return it
-    public static boolean cancelTicket(Session session, int ticket_id){
+    public static Refund cancelTicket(Session session, int ticket_id){
         try {
 
             CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -90,7 +86,7 @@ public class TicketsController {
             session.createQuery(update_query).executeUpdate();
             transaction.commit();
             session.clear();
-            return true;
+            return calcRefund(session,ticket_id);
             // Save everything.
         } catch (Exception exception) {
             if (session != null) {
@@ -98,9 +94,23 @@ public class TicketsController {
             }
             System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
-            return false;
+            return null;
         }
     }
+
+    private static Refund calcRefund(Session session, int ticket_id) throws Exception {
+        Refund refund = new Refund(0,ticket_id,0,LocalDateTime.now());
+        if(loadTicketShowTime(session,ticket_id).isAfter(LocalDateTime.now().plusHours(3))){
+            refund.setAmount(loadTicketPrice(session,ticket_id));
+            RefundController.addRefund(session,refund);
+        }
+        else if(loadTicketShowTime(session,ticket_id).isAfter(LocalDateTime.now().plusHours(1))){
+            refund.setAmount(loadTicketPrice(session,ticket_id)/2);
+            RefundController.addRefund(session,refund);
+        }
+        return refund;
+    }
+
     public static LocalDateTime loadTicketShowTime(Session session, int ticket_id){
         try{
             Transaction transaction = session.beginTransaction();
