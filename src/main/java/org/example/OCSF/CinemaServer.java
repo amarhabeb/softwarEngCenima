@@ -268,12 +268,20 @@ public class CinemaServer extends AbstractServer{
 					Complaint comp = (Complaint) message.get(1);
 					// adding complaine into  database
 					session.clear();
-					boolean success = ComplaintsController.addComplaint(session, comp);
-					// reply to client
 					LinkedList<Object> messageToClient = new LinkedList<Object>();
-					messageToClient.add("ComplaintAdded");
-					messageToClient.add(success);
-					client.sendToClient(messageToClient);
+					Order o=OrderController.loadOrderByID(session, comp.getOrder_id());
+					if(o!=null){
+						boolean success = ComplaintsController.addComplaint(session, comp);
+						// reply to client
+
+						messageToClient.add("ComplaintAdded");
+						messageToClient.add(success);
+						client.sendToClient(messageToClient);
+					}
+					else{
+						messageToClient.add("No such Order found");
+						client.sendToClient(messageToClient);
+					}
 				}
 
 				if (message.get(0).equals("LoadLinks")) {
