@@ -14,7 +14,6 @@ import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.entities.Cinema;
 import org.example.entities.CinemaManager;
-import org.example.entities.Employee;
 import org.example.entities.Hall;
 
 import javafx.fxml.FXML;
@@ -55,7 +54,6 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
   		params.add("CinemaManagerMB");
   		
   		// pass selected paramaters to view boundary
-    	params.add(employee);
   		App.setRoot("ViewReportBoundary",params, stage);
     }
     
@@ -110,20 +108,11 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
     	    String type = report_typeChoice.getValue();
     	    if(type=="Tickets Sales") {
     	    	synchronized(CinemaClient.CinemasDataLock) {
-    	    		this.employee = (Employee) params.get(0);
 	    	    	// update data
 	    			org.example.Boundaries.Boundary.UpdateCinemasData();
 	    	    	cinemaChoice.setDisable(false);
 	    	    	cinemaChoice.getItems().clear();
-	    	    	if((employee)!=null){
-	    	    		try {
-	    	    			cinemaChoice.getItems().add(org.example.Boundaries.Boundary.idToCinema(((CinemaManager)employee).getCinema()));
-	    	    		}catch(Exception e){
-	    	    			MessageBoundary.displayWarning("No cinema reports can be accessed.");
-	    	    		}
-	    	    	}else {
-	    	    		MessageBoundary.displayWarning("No cinema reports can be accessed.");
-	    	    	}
+		            cinemaChoice.getItems().add(org.example.Boundaries.Boundary.idToCinema(((CinemaManager)employee).getCinema()));
     	    	}
     	    }
     	    else {

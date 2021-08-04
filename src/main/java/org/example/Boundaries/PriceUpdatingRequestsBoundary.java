@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import org.example.App;
@@ -124,9 +123,7 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     
     @FXML
     void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
-    	App.setRoot("ChainManagerMB",params, stage);
+    	App.setRoot("ChainManagerMB",null, stage);
     }
     
     @FXML

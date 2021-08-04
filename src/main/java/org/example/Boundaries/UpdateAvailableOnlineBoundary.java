@@ -2,11 +2,9 @@ package org.example.Boundaries;
 
 import java.io.Serializable;
 import java.net.URL;
-import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import org.example.OCSF.CinemaClient;
-import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Movie;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -63,71 +61,13 @@ public class UpdateAvailableOnlineBoundary extends ContentManagerDisplayBoundary
 
     @FXML
     private CheckBox onlineCB;
-    
-    Movie selected_movie = null;
-    
-    public static Boolean MovieSetAvilable = true;	// holds if the movie is added yet
-    public static Boolean MovieSetUnavilable = true;	// holds if the movie is added yet
-    // add movie in DataBase and brings the Movies from the DataBase and updates 
- 	// the MoviesData local list
-    synchronized void SetAvailableOnline(int movie_id, boolean available) {
-		// create message and send it to the server
-    	LinkedList<Object> message = new LinkedList<Object>();
-    	if(available) {
-    		message.add("setOnlineMovieON");
-    		message.add(movie_id);
-    		synchronized(CinemaClient.MoviesDataLock)
-    		{	
-    			CinemaClientCLI.sendMessage(message);
-    							
-    			// wait for Data to be changed
-    			while(!MovieSetAvilable) {
-    				try {
-    					CinemaClient.MoviesDataLock.wait();
-    				} catch (InterruptedException e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				}
-    			}	
-    		}
-    	}else {
-    		message.add("setOnlineMovieOFF");
-    		message.add(movie_id);
-    		synchronized(CinemaClient.MoviesDataLock)
-    		{	
-    			CinemaClientCLI.sendMessage(message);
-    							
-    			// wait for Data to be changed
-    			while(!MovieSetUnavilable) {
-    				try {
-    					CinemaClient.MoviesDataLock.wait();
-    				} catch (InterruptedException e) {
-    					// TODO Auto-generated catch block
-    					e.printStackTrace();
-    				}
-    			}	
-    		}
-    	}
-		
-		// update MovieData
-		UpdateMoviesData();
-	}
-    
+
     @FXML
     void clickApplyChangesBtn(ActionEvent event) {
-    	String sentence;
-    	try {
-    		if(onlineCB.isSelected()) {
-    			sentence = "added to";
-    		}else {
-    			sentence = "removed from";
-    		}
-    		SetAvailableOnline(selected_movie.getId(), onlineCB.isSelected());
-			MessageBoundaryEmployee.displayInfo("Movie was succefully " + sentence + " online movies.");
-		}catch(Exception e) {
-			MessageBoundaryEmployee.displayError("An error occured. Changes in movie werent succefully made.");
-		}
+    	//*FILL CODE*//
     }
+    
+    Movie selected_movie = null;
     
     @FXML
     void clickRefreshBtn2(ActionEvent event) {
