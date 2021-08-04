@@ -829,22 +829,23 @@ public class CinemaServer extends AbstractServer{
 					// load data
 					try {
 						session.clear();
-						TicketsController.cancelTicket(session, ticket_id);
-						LocalDateTime dt = TicketsController.loadTicketShowTime(session, ticket_id);
-						double price = TicketsController.loadTicketPrice(session, ticket_id);
-						double r = TicketsController.calcRefund(dt);
-						//if refund is 50%
-						if (r == 0.5) {
-							price *= 0.5;
-						}
+						Refund DATA=TicketsController.cancelTicket(session, ticket_id);
+//						LocalDateTime dt = TicketsController.loadTicketShowTime(session, ticket_id);
+//						double price = TicketsController.loadTicketPrice(session, ticket_id);
+//						double r = TicketsController.calcRefund(dt);
+//						//if refund is 50%
+//						if (r == 0.5) {
+//							price *= 0.5;
+//						}
 						//if refund is not 0
-						if (r != 0) {
-							Refund refund = new Refund(price, ticket_id, 0, LocalDateTime.now());
-							RefundController.addRefund(session, refund);
-						}
+//						if (r != 0) {
+//							Refund refund = new Refund(price, ticket_id, 0, LocalDateTime.now());
+//							RefundController.addRefund(session, refund);
+//						}
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
-						messageToClient.add("linkCanceled");
+						messageToClient.add("ticketCanceled");
+						messageToClient.add(DATA);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
