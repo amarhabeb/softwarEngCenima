@@ -32,6 +32,32 @@ public class OrderController {
         }
 
     }
+
+    public  static Order loadOrderByID(Session session,int order_id) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Order> query = builder.createQuery(Order.class);
+            Root<Order> root =query.from(Order.class);
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("active"), true);
+            predicates[1]=builder.equal(root.get("ID"), order_id);
+            query.where(predicates);
+            Order data = session.createQuery(query).getResultList().get(0);
+            transaction.commit();
+            return data;
+
+        }
+        catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occured, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
+
+    }
     public static List<Order> loadCutomersOrders(int cust_id,Session session) throws  Exception{
         try {
             Transaction transaction = session.beginTransaction();
