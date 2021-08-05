@@ -18,6 +18,7 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 import org.example.App;
 import org.example.OCSF.CinemaClient;
+import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Movie;
 
 import java.io.IOException;
@@ -48,35 +49,101 @@ public class CancleOrderBoundary extends Boundary implements Initializable, Seri
     private Button GoBackToMainBtn;
 
     @FXML
-    private TextField movieTitleTextField;
+    private TextField customerTitleTextField;
 
     @FXML
     private Label label;
+    
+    public static Boolean linkCancelled;
+    public static Boolean ticketCancelled;
+    
+    synchronized void cancelLink(int order_id) {	
+		// create message and send it to the server
+    	LinkedList<Object> message = new LinkedList<Object>();
+		message.add("CancelLink");
+		message.add(order_id);
+		synchronized(CinemaClient.LinksDataLock)
+		{	
+			linkCancelled = false;
+			CinemaClientCLI.sendMessage(message);
+							
+			// wait for Data to be changed
+			while(!linkCancelled) {
+				try {
+					CinemaClient.LinksDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+			// update Data
+			org.example.Boundaries.Boundary.UpdateOrdersData();
+		}	
+	}
+    
+    synchronized void cancelTicket(int order_id) {	
+		// create message and send it to the server
+    	LinkedList<Object> message = new LinkedList<Object>();
+		message.add("CancelTicket");
+		message.add(order_id);
+		synchronized(CinemaClient.TicketsDataLock)
+		{	
+			ticketCancelled = false;
+			CinemaClientCLI.sendMessage(message);
+							
+			// wait for Data to be changed
+			while(!ticketCancelled) {
+				try {
+					CinemaClient.TicketsDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+			// update Data
+			org.example.Boundaries.Boundary.UpdateOrdersData();
+		}	
+	}
+    	
+    
 
     @FXML
     void clickSubmitBtn(ActionEvent event) {
         if(orderTypeChoiceBox.getSelectionModel().getSelectedItem().equals("Cancel Link")){
             String order_id = ordersNumberTextField1.getText();
             if(!isNumeric(order_id)){
-                label.setText(" Please Insert a number for order number ");
-
+                label.setText("Invalid input. Please Insert a number for order number.");
             }
             else {
-
+            	try {
+            		synchronized(CinemaClient.OrdersDataLock) {
+            			cancelLink(Integer.parseInt(order_id));
+            			MessageBoundary.displayError("Order successfully cancelled. You've been refunded.");
+            		}
+            	}catch(Exception e) {
+            		MessageBoundary.displayError("Order cancelling failed.");
+            	}
+            	
             }
-
-
-
 
         }
         else  {
             String order_id = ordersNumberTextField1.getText();
 
             if(!isNumeric(order_id)){
-                label.setText(" Please Insert a number for order number ");
-
+                label.setText("Invalid input. Please Insert a number for order number.");
+            }else {
+            	try {
+	            	synchronized(CinemaClient.OrdersDataLock) {
+	            		cancelTicket(Integer.parseInt(order_id));
+	            		MessageBoundary.displayError("Order successfully cancelled. You've been refunded.");
+	            	}
+            	}catch(Exception e) {
+            		MessageBoundary.displayError("Order cancelling failed.");
+            	}
             }
 
+            
         }
 
     }
@@ -101,10 +168,12 @@ public class CancleOrderBoundary extends Boundary implements Initializable, Seri
 
 
     }
+    
     public static boolean isNumeric(String str) {
         for (char c : str.toCharArray()) {
             if (Character.isDigit(c) == false) return false;
         }
         return true;
     }
+    
 }
