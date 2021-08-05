@@ -85,10 +85,12 @@ public class CinemaServer extends AbstractServer{
 
 				if (message.get(0).equals("ChangeShowTime")) {
 					int show_id = (int) message.get(1);
-					LocalDateTime newTime = (LocalDateTime) message.get(2);
+					LocalTime newTime = (LocalTime) message.get(2);
+					LocalDateTime showTime=ShowsController.loadShowTime(session,show_id);
+					LocalDateTime dateTime=showTime.with(newTime);
 					// change time of show in database
 					session.clear();
-					boolean success = ShowsController.updateTime(session, show_id, newTime);
+					boolean success = ShowsController.updateTime(session, show_id, dateTime);
 					//session.refresh(Show.class);
 
 					// reply to client
@@ -1396,7 +1398,7 @@ public class CinemaServer extends AbstractServer{
 
 
 		ContentManager contentManager=new ContentManager("Sirina Williams", "0533264563",
-				"williams@gmail.com", "sWilliams","7yg2");
+				"williams@gmail.com", "sw","1111");
 		EmployeeController.addEmployee(CinemaServer.session,contentManager);
 
 		CustomerService customerService1=new CustomerService("Nina Dobrev", "0576514563",
