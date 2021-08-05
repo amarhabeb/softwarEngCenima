@@ -19,7 +19,7 @@ abstract public class Order implements Serializable {
     @Column(length = 500)
     protected int customer_id;
     protected boolean active;   //true if active, false if "deleted" from database
-    public static int orderId_counter=0;
+    public static int orderId_counter=12;
 
     public Order( double price, int cusomer_id) {
         super();
@@ -28,11 +28,18 @@ abstract public class Order implements Serializable {
         this.price = price;
         this.customer_id=cusomer_id;
         this.active = true;
+        this.orderId_counter++;
     }
     public Order() {
         super();
         this.status = true;
         this.active = true;
+        this.orderId_counter++;
+
+    }
+
+    public static int getOrderId_counter() {
+        return orderId_counter;
     }
 
     public LocalDateTime getOrderDate() {

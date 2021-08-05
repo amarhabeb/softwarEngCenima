@@ -16,9 +16,7 @@ import javafx.util.Callback;
 import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
-import org.example.entities.Payment;
-import org.example.entities.Show;
-import org.example.entities.Ticket;
+import org.example.entities.*;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -71,8 +69,9 @@ public class PaymenyTicket extends Boundary implements Initializable, Serializab
 //                double price, int customer_id
                 List<Ticket> tickets = new LinkedList<>();
                 for(int i=1;i<(int)App.getParams().get(0)+1;i++){
-
-                    Ticket ticket = new Ticket(show.getCinema().getID(), show.getHall().getID(), (int)App.getParams().get(i), show.getID(), show.getDateTime(), show.getPrice(), Integer.parseInt(IdText.getText()));
+                    Customer p = new Customer("buy","050",Email.getText());
+                    Ticket ticket = new Ticket(show.getCinema().getID(), show.getHall().getID(), (int)App.getParams().get(i), show.getID(), show.getDateTime(), show.getPrice(),p.getID() );
+                    System.out.println("Ticket counter is "+ticket.getId_counter());
 
                     tickets.add(ticket);
 
@@ -81,7 +80,7 @@ public class PaymenyTicket extends Boundary implements Initializable, Serializab
                     for(int i=0;i<tickets.size();i++){
                         AddTicket(tickets.get(i));
                         String mail = Email.getText();
-                        String Message = "ID is "+tickets.get(i).getID()+"Movie  is :"+show.getMovie().getName_en()+ " Seat is: "+tickets.get(i).getSeat_id()+ " Price is "+tickets.get(i).getPrice()+" Hall is  "+show.getHall().getNumber();
+                        String Message = "ID is "+tickets.get(i).getId_counter()+"Movie  is :"+show.getMovie().getName_en()+ " Seat is: "+tickets.get(i).getSeat_id()+ " Price is "+tickets.get(i).getPrice()+" Hall is  "+show.getHall().getNumber();
                         org.example.Controllers.MailController.sendMail(Message,mail,"Your Ticket");
                         Payment pay= new Payment(show.getPrice(),Integer.parseInt(IdText.getText()));
                         AddPayment(pay);
@@ -89,6 +88,9 @@ public class PaymenyTicket extends Boundary implements Initializable, Serializab
                     }
                     List<Object> l =new LinkedList<>();
                     App.setParams(l);
+                    List<Show> l1 =new LinkedList<>();
+                    App.setShows(l1);
+
                     MessageBoundaryEmployee.displayInfo("Tickets has been sent to you by Email ");
 
 

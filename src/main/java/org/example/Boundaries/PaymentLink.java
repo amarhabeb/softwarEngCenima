@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -67,7 +68,10 @@ public class PaymentLink extends  Boundary implements Initializable, Serializabl
 //                int cinema_id, int hall_id,int seat_id, int show_id,LocalDateTime show_time,
 //                double price, int customer_id
                 String l = "https//www.cinema.com/"+m.getID()+"/"+IdText.getText();
-                Link link= new Link(l, LocalDateTime.now(), LocalDateTime.now().plusWeeks(4),movie_id.getID(),m.getPrice(),Integer.parseInt(IdText.getText()));
+                Customer p = new Customer("buy","050",Email.getText());
+
+                Link link= new Link(l, LocalDateTime.now().minusDays(4), LocalDateTime.now().plusWeeks(4),movie_id.getID(),m.getPrice(),p.getID());
+                System.out.println(link.getId_counter());
 
                 try {
                     AddLink(link);
@@ -75,7 +79,8 @@ public class PaymentLink extends  Boundary implements Initializable, Serializabl
                     List<Object> l1 =new LinkedList<>();
                     App.setParams(l1);
                     String mail = Email.getText();
-                    String Message = "ID is "+link.getID()+" Movie  is :"+m.getName_en()+ " Link is: "+" Available untill  "+LocalDateTime.now().plusWeeks(4);
+
+                    String Message = "ID is "+link.getCusomer_id()+" Movie  is :"+m.getName_en()+ " Link is: "+link.getLink()+"Available from  "+link.getFromTime().truncatedTo(ChronoUnit.MINUTES)+" Available untill  "+link.getToTime().truncatedTo(ChronoUnit.MINUTES);
                     org.example.Controllers.MailController.sendMail(Message,mail,"Your Link");
                     Payment pay= new Payment(m.getPrice(),Integer.parseInt(IdText.getText()));
                     AddPayment(pay);

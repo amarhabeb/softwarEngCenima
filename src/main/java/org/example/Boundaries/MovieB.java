@@ -124,9 +124,12 @@ public class MovieB extends Boundary implements Initializable, Serializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         MoviesTable.setVisible(true);
         tablesum.setVisible(false);
         int movie_id= (int)App.getParams().get(1);
+
+        System.out.println(" movie id is "+movie_id);
         // set-up the columns in the table
         english.setStyle( "-fx-alignment: CENTER;");
         english.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movie, String>, ObservableValue<String>>() {
@@ -234,17 +237,24 @@ public class MovieB extends Boundary implements Initializable, Serializable {
             }
         });
         List <Movie> mov = new LinkedList<>();
+        List<Movie> movies;
         synchronized(CinemaClient.MoviesDataLock) {
             org.example.Boundaries.Boundary.UpdateMoviesData();
             // set items in table
-            List<Movie> movies =CinemaClient.MoviesData;
+             movies = CinemaClient.MoviesData;
 //            for(int i=0;i<movies.size();i++){
 //                if(movies.get(i).isAvailableOnline()==true){
 //                    mov.add(movies.get(i));
 //                }
 //            }
+        }
             Movie mo=null;
+        int size = movies.size();
+        if(movie_id>size){
+            movie_id=movie_id/2;
+        }
             for(int i=0;i<movies.size();i++){
+                System.out.println(movies.get(i).getID());
                 if(movies.get(i).getID()==movie_id){
                     mo=movies.get(i);
                 }
@@ -255,7 +265,7 @@ public class MovieB extends Boundary implements Initializable, Serializable {
             ObservableList<Movie> DataList = FXCollections.observableArrayList(mo);
             MoviesTable.setItems(DataList);
 //             System.out.println(DataList.get(0).getMovie().getName_en());
-        }
+
 //        tablesum.setVisible(false);
         //tablesum.managedProperty().bind(tablesum.visibleProperty());
 
