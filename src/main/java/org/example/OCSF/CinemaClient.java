@@ -727,6 +727,7 @@ public class CinemaClient extends AbstractClient {
 			}
 		}
 		if(message.get(0).equals("LinkCanceled")) {
+			System.out.println("Enter Client ");
 			synchronized( LinksDataLock) {
 				CancleOrderBoundary.linkCancelled = true;
 				LinksDataUpdated = false;	// client's ShowsData is now not updated

@@ -818,6 +818,8 @@ public class CinemaServer extends AbstractServer{
 
 
 				if (message.get(0).equals("CancelLink")) {
+					System.out.println("Enter server ");
+
 					int link_id = (int) message.get(1);
 					// load data
 					try {
@@ -837,9 +839,9 @@ public class CinemaServer extends AbstractServer{
 
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
-						messageToClient.add("linkCanceled");
-						messageToClient.add( m);
+						messageToClient.add("LinkCanceled");
 //						messageToClient.add(Data);
+						System.out.println("Exit server ");
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -1277,7 +1279,7 @@ public class CinemaServer extends AbstractServer{
 						try {
 
 							LinkController.activateLinksWhenTimeCome(session);
-							ComplaintsController.deactivateAllComplaintsAfter24Hours(session);
+							//ComplaintsController.deactivateAllComplaintsAfter24Hours(session);
 							MailController.sendReminderLink(session);
 
 
