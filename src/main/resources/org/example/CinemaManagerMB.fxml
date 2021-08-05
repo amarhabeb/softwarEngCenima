@@ -7,6 +7,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -67,10 +70,26 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <Button fx:id="backBtn" layoutX="14.0" layoutY="431.0" mnemonicParsing="false" onAction="#clickBackBtn" prefHeight="34.0" prefWidth="69.0" text="&lt; Back" textAlignment="CENTER">
+      <Button fx:id="backBtn" layoutX="14.0" layoutY="431.0" mnemonicParsing="false" onAction="#clickBackBtn" prefHeight="34.0" prefWidth="82.0" text="&lt; Log out" textAlignment="CENTER">
          <font>
-            <Font name="System Italic" size="13.0" />
+            <Font name="System Bold Italic" size="13.0" />
          </font>
+         <textFill>
+            <RadialGradient centerX="0.18444449106852226" centerY="0.5419847473843407" focusDistance="-1.0" radius="0.9766355051058475">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.0748538002371788" green="0.10697855800390244" blue="0.31578946113586426" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.041559454053640366" green="0.7399181127548218" blue="0.8631578683853149" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </textFill>
       </Button>
    </children>
 </AnchorPane>

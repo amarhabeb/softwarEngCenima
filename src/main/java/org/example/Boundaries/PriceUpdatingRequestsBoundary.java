@@ -124,8 +124,6 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     
     @FXML
     void clickGoBackToMainBtn(ActionEvent event) throws IOException {
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
     	App.setRoot("ChainManagerMB",params, stage);
     }
     
