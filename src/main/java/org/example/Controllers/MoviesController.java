@@ -110,6 +110,7 @@ public class MoviesController {
            Transaction transaction = session.beginTransaction();
            session.createQuery(update_query).executeUpdate();
            transaction.commit();
+           session.clear();
            return true;
            // Save everything.
        } catch (Exception exception) {
@@ -131,6 +132,7 @@ public class MoviesController {
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
             transaction.commit();
+            session.clear();
             return true;
             // Save everything.
         } catch (Exception exception) {
@@ -152,6 +154,7 @@ public class MoviesController {
             Transaction transaction = session.beginTransaction();
             session.createQuery(update_query).executeUpdate();
             transaction.commit();
+            session.clear();
             return true;
             // Save everything.
         } catch (Exception exception) {
