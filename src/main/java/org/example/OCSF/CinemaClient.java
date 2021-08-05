@@ -726,8 +726,8 @@ public class CinemaClient extends AbstractClient {
 			}
 		}
 		if(message.get(0).equals("LinkCanceled")) {
-			boolean success = (boolean)message.get(1);
-			if(!success){
+			Refund DATA = (Refund) message.get(1);
+			if(DATA==null){
 				throw new Exception("Controller failed");
 			}
 			synchronized( LinksDataLock) {
@@ -735,6 +735,21 @@ public class CinemaClient extends AbstractClient {
 				LinksDataLock.notifyAll();
 			}
 		}
+
+		if(message.get(0).equals("ticketCanceled")) {
+			Refund DATA = (Refund) message.get(1);
+			if(DATA==null){
+				throw new Exception("Controller failed");
+			}
+			synchronized( TicketsDataLock) {
+				TicketsDataUpdated = true;	// client's ShowsData is now not updated
+				TicketsDataLock.notifyAll();
+			}
+		}
+
+
+
+
 		if(message.get(0).equals("MailSent")) {
 			boolean success = (boolean)message.get(1);
 			if(!success){

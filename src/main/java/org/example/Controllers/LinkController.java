@@ -114,7 +114,27 @@ public class LinkController {
             return -1;
         }
     }
-    public static Refund cancelLink(Session session, int link_id) {
+    public static int loadLinkCustomerID(Session session, int link_id) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Link> query = builder.createQuery(Link.class);
+            Root<Link> root=query.from(Link.class);
+            query.where(builder.equal(root.get("ID"),link_id));
+            List<Link> data = session.createQuery(query).getResultList();
+            int price=data.get(0).getCusomer_id();
+            transaction.commit();
+            return price;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occurred, changes have been rolled back.");
+            exception.printStackTrace();
+            return -1;
+        }
+    }
+    public static boolean cancelLink(Session session, int link_id) {
         try {
 
             CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -127,7 +147,7 @@ public class LinkController {
             session.createQuery(update_query).executeUpdate();
             transaction.commit();
             session.clear();
-            return calcRefund(session,link_id);
+            return true;
         }
         catch (Exception exception) {
             if (session != null) {
@@ -135,7 +155,7 @@ public class LinkController {
             }
             System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
-            return null;
+            return false;
         }
     }
 

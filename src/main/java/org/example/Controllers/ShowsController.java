@@ -64,6 +64,30 @@ public class ShowsController {
         }
     }
 
+    public static LocalDateTime loadShowTime(Session session, int show_id) throws Exception{
+        try {
+            Transaction transaction = session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Show> query = builder.createQuery(Show.class);
+            Root<Show> root=query.from(Show.class);
+            Predicate[] predicates=new Predicate[2];
+            predicates[0]=builder.equal(root.get("status"),"AVAILABLE");
+            predicates[1]=builder.equal(root.get("ID"),show_id);
+            query.where(predicates);
+            LocalDateTime data = session.createQuery(query).getResultList().get(0).getDateTime();
+            transaction.commit();
+            session.clear();
+            return data;
+        } catch (Exception exception) {
+            if (session != null) {
+                session.getTransaction().rollback();
+            }
+            System.err.println("An error occured, changes have been rolled back.");
+            exception.printStackTrace();
+            return null;
+        }
+    }
+
 
     // to add a show to the database
 	@SuppressWarnings("exports")
@@ -105,6 +129,7 @@ public class ShowsController {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaUpdate<Show> update_query = builder.createCriteriaUpdate(Show.class);
             Root<Show> root=update_query.from(Show.class);
+            update_query.set("status", "NOT_AVAILABLE");
             update_query.set("status", "NOT_AVAILABLE");
             update_query.where(builder.equal(root.get("ID"),show_id));
             Transaction transaction = session.beginTransaction();
@@ -152,7 +177,7 @@ public class ShowsController {
 	
 	// update time of a show in the data base
     @SuppressWarnings("exports")
-	public static boolean updateTime(Session session, int show_id, LocalTime newTime){
+	public static boolean updateTime(Session session, int show_id, LocalDateTime newTime){
         try {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaUpdate<Show> update_query=builder.createCriteriaUpdate(Show.class);

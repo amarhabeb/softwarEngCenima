@@ -86,9 +86,11 @@ public class CinemaServer extends AbstractServer{
 				if (message.get(0).equals("ChangeShowTime")) {
 					int show_id = (int) message.get(1);
 					LocalTime newTime = (LocalTime) message.get(2);
+					LocalDateTime showTime=ShowsController.loadShowTime(session,show_id);
+					LocalDateTime dateTime=showTime.with(newTime);
 					// change time of show in database
 					session.clear();
-					boolean success = ShowsController.updateTime(session, show_id, newTime);
+					boolean success = ShowsController.updateTime(session, show_id, dateTime);
 					//session.refresh(Show.class);
 
 					// reply to client
@@ -555,6 +557,15 @@ public class CinemaServer extends AbstractServer{
 					// delete Show from database
 					session.clear();
 					boolean success = ShowsController.deleteShow(session, show_id);
+					List<Ticket> show_tickets=TicketsController.loadTicketsByShowID(session,show_id);
+					for(Ticket t: show_tickets){
+						TicketsController.cancelTicket(session,t.getID());
+						Refund refund=new Refund(t.getPrice(),t.getID(),-1,LocalDateTime.now());
+						RefundController.addRefund(session,refund);
+						String email=CustomerController.loadCustomerMail(session,t.getCusomer_id());
+						String txt="Due to show cancellation, you got a full refund of amount: "+t.getPrice();
+						MailController.sendMail(txt,email,"Refund due to Cancellation");
+					}
 					//session.refresh(Show.class);
 
 					// reply to client
@@ -804,19 +815,23 @@ public class CinemaServer extends AbstractServer{
 					// load data
 					try {
 						session.clear();
-						Refund Data = LinkController.cancelLink(session, link_id);
-//						LocalDateTime DT = LinkController.loadLinkTime(session, link_id);
-//						//if there is refund to be done
-//						if (ChronoUnit.HOURS.between(LocalDateTime.now(), DT) > 1) {
-//							double price = LinkController.loadLinkPrice(session, link_id);
-//							Refund refund = new Refund(price * 0.5, link_id, 0, LocalDateTime.now());
-//							RefundController.addRefund(session, refund);
-//						}
+						LinkController.cancelLink(session, link_id);
+						LocalDateTime DT = LinkController.loadLinkTime(session, link_id);
+						int customer_id=LinkController.loadLinkCustomerID(session,link_id);
+						//if there is refund to be done
+						if (ChronoUnit.HOURS.between(LocalDateTime.now(), DT) > 1) {
+							double price = LinkController.loadLinkPrice(session, link_id);
+							Refund refund = new Refund(price * 0.5, link_id, 0, LocalDateTime.now());
+							RefundController.addRefund(session, refund);
+							String email=CustomerController.loadCustomerMail(session,customer_id);
+							String txt="Due to your link cancellation, you got a refund of amount: "+price*0.5;
+							MailController.sendMail(txt,email,"Refund due to Cancellation");
+						}
 
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("linkCanceled");
-						messageToClient.add(Data);
+//						messageToClient.add(Data);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -832,6 +847,7 @@ public class CinemaServer extends AbstractServer{
 						TicketsController.cancelTicket(session, ticket_id);
 						LocalDateTime dt = TicketsController.loadTicketShowTime(session, ticket_id);
 						double price = TicketsController.loadTicketPrice(session, ticket_id);
+						int customer_id=TicketsController.loadTicketCustomerID(session,ticket_id);
 						double r = TicketsController.calcRefund(dt);
 						//if refund is 50%
 						if (r == 0.5) {
@@ -841,10 +857,16 @@ public class CinemaServer extends AbstractServer{
 						if (r != 0) {
 							Refund refund = new Refund(price, ticket_id, 0, LocalDateTime.now());
 							RefundController.addRefund(session, refund);
+							String email=CustomerController.loadCustomerMail(session,customer_id);
+							String txt="Due to your ticket cancellation, you got a refund of amount: "+price;
+							MailController.sendMail(txt,email,"Refund due to Cancellation");
 						}
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
-						messageToClient.add("linkCanceled");
+						messageToClient.add("ticketCanceled");
+
+						//messageToClient.add(DATA);
+
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -965,6 +987,23 @@ public class CinemaServer extends AbstractServer{
 						messageToClient.add(Data);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if (message.get(0).equals("GetNumberOfTicketsLeftInPackage")) {
+					// load data
+					int package_id=(int) message.get(1);
+					LinkedList<Object> messageToClient = new LinkedList<Object>();
+					try {
+						session.clear();
+						int n = PackagesController.getNumberOfTicketsLeft(session,package_id);
+						// reply to client
+						messageToClient.add("GotNumberOfTicketsLeftInPackage");
+						messageToClient.add(n);
+						client.sendToClient(messageToClient);
+					} catch (IOException e) {
+						messageToClient.add("No such package found");
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -1359,7 +1398,7 @@ public class CinemaServer extends AbstractServer{
 
 
 		ContentManager contentManager=new ContentManager("Sirina Williams", "0533264563",
-				"williams@gmail.com", "sWilliams","7yg2");
+				"williams@gmail.com", "sw","1111");
 		EmployeeController.addEmployee(CinemaServer.session,contentManager);
 
 		CustomerService customerService1=new CustomerService("Nina Dobrev", "0576514563",
@@ -1374,7 +1413,7 @@ public class CinemaServer extends AbstractServer{
 				"Jonas@gmail.com", "jJonas","8h2s");
 		EmployeeController.addEmployee(CinemaServer.session,customerService3);
 
-		Customer customer=new Customer("Bob", "050000000", "a@com");
+		Customer customer=new Customer("Bob", "050000000", "softwareengp@gmail.com");
 		CustomerController.addCustomer(CinemaServer.session, customer);
 
 		CinemaManager cinemaManager1=new CinemaManager("Anna Neeson", "0576773322",
@@ -1397,39 +1436,39 @@ public class CinemaServer extends AbstractServer{
 
 		/////// Testing TicketController
 		Ticket ticket=new Ticket(2,2,23,8,
-				LocalDateTime.of(2021,7,30,22,30),35,1);
+				LocalDateTime.of(2021,7,30,22,30),35,9);
 		TicketsController.addTicket(session,ticket);
 		Ticket ticket2=new Ticket(2,2,24,8,
-				LocalDateTime.of(2021,7,30,21,00),60,4);
+				LocalDateTime.of(2021,7,30,21,00),60,6);
 		TicketsController.addTicket(session,ticket2);
 		Ticket ticket3=new Ticket(2,2,24,8,
-				LocalDateTime.of(2021,7,30,21,00),60,2);
+				LocalDateTime.of(2021,7,30,21,00),60,10);
 		TicketsController.addTicket(session,ticket3);
-		TicketsController.cancelTicket(session,ticket2.getID());
+		//TicketsController.cancelTicket(session,ticket2.getID());
 
 		Ticket ticket4=new Ticket(2,2,23,8,
-				LocalDateTime.now().plusHours(4),35,1);
+				LocalDateTime.now().plusHours(4),35,10);
 		TicketsController.addTicket(session,ticket4);
 		Ticket ticket5=new Ticket(2,2,24,8,
-				LocalDateTime.now().plusHours(2),60,4);
+				LocalDateTime.now().plusHours(2),60,9);
 		TicketsController.addTicket(session,ticket5);
 		Ticket ticket6=new Ticket(2,2,24,8,
-				LocalDateTime.now().plusMinutes(5),60,2);
+				LocalDateTime.now().plusMinutes(5),60,11);
 		TicketsController.addTicket(session,ticket6);
-		TicketsController.cancelTicket(session,ticket4.getID());
-		TicketsController.cancelTicket(session,ticket5.getID());
-		TicketsController.cancelTicket(session,ticket6.getID());
+//		TicketsController.cancelTicket(session,ticket4.getID());
+//		TicketsController.cancelTicket(session,ticket5.getID());
+//		TicketsController.cancelTicket(session,ticket6.getID());
 
 		List<Ticket> reportTicket=TicketsController.makeTicketsReportByMonth(session,2,8,2021);
 		System.out.println("success"+reportTicket.size());
 
 
 
-		Customer cus1 = new Customer("Ali","0502700998", "liabulielun@gmail.com");
+		Customer cus1 = new Customer("Ali","0502700998", "softwareengp@gmail.com");
 		CustomerController.addCustomer(session,cus1);
-		Customer cus2 = new Customer("Mosa","0502700998", "mar.habiballah@hotmail.com");
+		Customer cus2 = new Customer("Mosa","0502700998", "softwareengp@gmail.com");
 		CustomerController.addCustomer(session,cus2);
-		Customer cus3 = new Customer("Ammar","0502700998", "marha157@gmail.com");
+		Customer cus3 = new Customer("Ammar","0502700998", "softwareengp@gmail.com");
 		CustomerController.addCustomer(session,cus3);
 		/////// Testing PackageControlle
 		PackageOrder pack=new PackageOrder(150,cus1.getID());
@@ -1456,17 +1495,17 @@ public class CinemaServer extends AbstractServer{
 				LocalDateTime.of(2021,7,31,21,0), 11, 80,9);
 		LinkController.addLink(session,link1);
 		Link link2=new Link("www.cinema.com",LocalDateTime.of(2021,7,30,23,0),
-				LocalDateTime.of(2021,7,31,1,30), 12, 80,3);
+				LocalDateTime.of(2021,7,31,1,30), 12, 80,10);
 		LinkController.addLink(session,link2);
 		Link link3=new Link("www.cinema.com",LocalDateTime.of(2021,7,31,2,45),
-				LocalDateTime.of(2021,7,31,5,30), 11, 80,1);
+				LocalDateTime.of(2021,7,31,5,30), 11, 80,11);
 		LinkController.addLink(session,link3);
 		List<Link> links=LinkController.loadLinks(session);
 		//System.out.println(links.size());
 		List<Link> clinks=LinkController.loadCustomerLinks(session,3);
 		//System.out.println(clinks.size());
 
-		Refund Data = LinkController.cancelLink(session,link1.getID());
+		//LinkController.cancelLink(session,link1.getID());
 		LocalDateTime DT = LinkController.loadLinkTime(session, link1.getID());
 		//if there is refund to be done
 //		if (ChronoUnit.HOURS.between(LocalDateTime.now(),DT) >1){
@@ -1531,7 +1570,8 @@ public class CinemaServer extends AbstractServer{
 		List<Seat> seatsList=HallController.loadSeats(session,3);
 		System.out.println("Seats:" +seatsList.size());
 
-
+		ShowsController.updateTime(session,1,
+				LocalDateTime.of(2021,12,31,15,0));
 	}
 
 

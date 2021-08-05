@@ -51,12 +51,31 @@ public class CancleOrderBoundary extends Boundary implements Initializable, Seri
     private TextField movieTitleTextField;
 
     @FXML
+    private Label label;
+
+    @FXML
     void clickSubmitBtn(ActionEvent event) {
         if(orderTypeChoiceBox.getSelectionModel().getSelectedItem().equals("Cancel Link")){
+            String order_id = ordersNumberTextField1.getText();
+            if(!isNumeric(order_id)){
+                label.setText(" Please Insert a number for order number ");
+
+            }
+            else {
+
+            }
+
+
 
 
         }
         else  {
+            String order_id = ordersNumberTextField1.getText();
+
+            if(!isNumeric(order_id)){
+                label.setText(" Please Insert a number for order number ");
+
+            }
 
         }
 
@@ -81,5 +100,11 @@ public class CancleOrderBoundary extends Boundary implements Initializable, Seri
 
 
 
+    }
+    public static boolean isNumeric(String str) {
+        for (char c : str.toCharArray()) {
+            if (Character.isDigit(c) == false) return false;
+        }
+        return true;
     }
 }
