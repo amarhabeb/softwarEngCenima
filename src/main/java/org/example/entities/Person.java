@@ -19,14 +19,21 @@ public abstract class Person implements Serializable {
     protected String name;
     protected String phoneNum;
     protected String email;
+    public static int id_counter=0;
 
         public Person(String name, String phoneNum, String email) {
             this.name = name;
             this.phoneNum = phoneNum;
             this.email = email;
+            id_counter++;
+
         }
 
         public Person() {
+        }
+
+        public int getId_counter(){
+            return id_counter;
         }
 
         public  int getID() {
