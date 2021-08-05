@@ -396,7 +396,7 @@ public class BuyTicketBoundary extends Boundary implements Initializable, Serial
             public ObservableValue<Button> call(TableColumn.CellDataFeatures<Show, Button> movie) {
                 Button t = new Button();
                 t.setText("View Details");
-                t.setId(Integer.toString(movie.getValue().getID()));
+                t.setId(Integer.toString(movie.getValue().getMovie().getID()));
                 t.setMinWidth(30);
                 t.setMinHeight(30);
                 Font font = Font.font("Courier New", FontWeight.BOLD, 10);

@@ -19,7 +19,7 @@ public abstract class Person implements Serializable {
     protected String name;
     protected String phoneNum;
     protected String email;
-    public static int id_counter=0;
+    public static int id_counter=11;
 
         public Person(String name, String phoneNum, String email) {
             this.name = name;
@@ -28,6 +28,7 @@ public abstract class Person implements Serializable {
             id_counter++;
 
         }
+
 
         public Person() {
         }

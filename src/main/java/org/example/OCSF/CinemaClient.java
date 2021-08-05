@@ -726,8 +726,8 @@ public class CinemaClient extends AbstractClient {
 			}
 		}
 		if(message.get(0).equals("LinkCanceled")) {
-			Refund DATA = (Refund) message.get(1);
-			if(DATA==null){
+			//Refund DATA = (Refund) message.get(1);
+			if((Boolean)message.get(1)==false){
 				throw new Exception("Controller failed");
 			}
 			synchronized( LinksDataLock) {

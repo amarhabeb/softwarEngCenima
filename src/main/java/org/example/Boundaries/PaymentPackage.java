@@ -10,10 +10,7 @@ import javafx.scene.control.TextField;
 import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
-import org.example.entities.Link;
-import org.example.entities.Movie;
-import org.example.entities.PackageOrder;
-import org.example.entities.Payment;
+import org.example.entities.*;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -74,6 +71,7 @@ public class PaymentPackage extends  Boundary implements Initializable, Serializ
                     List<Object> l1 =new LinkedList<>();
                     App.setParams(l1);
                     String mail = Email.getText();
+                    Customer p = new Customer("buy","050",Email.getText());
                     String Message = "ID is "+link.getID()+ " Link is: "+l1;
                     org.example.Controllers.MailController.sendMail(Message,mail,"Your Link");
                     Payment pay= new Payment(500,Integer.parseInt(IdText.getText()));

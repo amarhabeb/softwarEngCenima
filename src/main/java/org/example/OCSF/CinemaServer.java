@@ -815,7 +815,7 @@ public class CinemaServer extends AbstractServer{
 					// load data
 					try {
 						session.clear();
-						LinkController.cancelLink(session, link_id);
+						Boolean m =LinkController.cancelLink(session, link_id);
 						LocalDateTime DT = LinkController.loadLinkTime(session, link_id);
 						int customer_id=LinkController.loadLinkCustomerID(session,link_id);
 						//if there is refund to be done
@@ -831,6 +831,7 @@ public class CinemaServer extends AbstractServer{
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("linkCanceled");
+						messageToClient.add( m);
 //						messageToClient.add(Data);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {

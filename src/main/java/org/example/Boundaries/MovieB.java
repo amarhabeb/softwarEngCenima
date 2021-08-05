@@ -124,9 +124,12 @@ public class MovieB extends Boundary implements Initializable, Serializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         MoviesTable.setVisible(true);
         tablesum.setVisible(false);
         int movie_id= (int)App.getParams().get(1);
+        System.out.println(" movie id is "+movie_id);
+
         // set-up the columns in the table
         english.setStyle( "-fx-alignment: CENTER;");
         english.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Movie, String>, ObservableValue<String>>() {
