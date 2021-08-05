@@ -70,12 +70,12 @@ public class UpdateAvailableOnlineBoundary extends ContentManagerDisplayBoundary
     public static Boolean MovieSetUnavilable = true;	// holds if the movie is added yet
     // add movie in DataBase and brings the Movies from the DataBase and updates 
  	// the MoviesData local list
-    synchronized void SetAvailableOnline(int movie_id, boolean available) {
+    synchronized void SetAvailableOnline(String movie_name, boolean available) {
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
     	if(available) {
     		message.add("setOnlineMovieON");
-    		message.add(movie_id);
+    		message.add(movie_name);
     		synchronized(CinemaClient.MoviesDataLock)
     		{	
     			CinemaClientCLI.sendMessage(message);
@@ -92,7 +92,7 @@ public class UpdateAvailableOnlineBoundary extends ContentManagerDisplayBoundary
     		}
     	}else {
     		message.add("setOnlineMovieOFF");
-    		message.add(movie_id);
+    		message.add(movie_name);
     		synchronized(CinemaClient.MoviesDataLock)
     		{	
     			CinemaClientCLI.sendMessage(message);
@@ -122,11 +122,23 @@ public class UpdateAvailableOnlineBoundary extends ContentManagerDisplayBoundary
     		}else {
     			sentence = "removed from";
     		}
-    		SetAvailableOnline(selected_movie.getId(), onlineCB.isSelected());
+    		SetAvailableOnline(selected_movie.getName_en(), onlineCB.isSelected());
 			MessageBoundaryEmployee.displayInfo("Movie was succefully " + sentence + " online movies.");
 		}catch(Exception e) {
 			MessageBoundaryEmployee.displayError("An error occured. Changes in movie werent succefully made.");
 		}
+    	synchronized(CinemaClient.ShowsDataLock) {
+	    	UpdateMoviesData();
+	    	ApplyChangesBtn.setDisable(true);
+	    	onlineCB.setDisable(true);
+	    	selected_movie = null;
+	    	selectedMovieEngText.setText("*no show selected*");
+	    	selectedMovieHebText.setText("");
+			// set items in table
+			ObservableList<Movie> DataList = FXCollections.observableArrayList(CinemaClient.MoviesData);
+			MoviesTable.setItems(DataList);
+			System.out.println("refreshed");
+    	}
     }
     
     @FXML

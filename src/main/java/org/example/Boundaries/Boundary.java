@@ -51,10 +51,11 @@ public abstract class Boundary {
 			}	
 		}	
 	}
-	static synchronized void UpdateSeatsData() {
+	static synchronized void BookSeat(int id) {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
-		message.add("LoadSeats");
+		message.add("BookSeat");
+		message.add(id);
 		synchronized(CinemaClient.SeatDataLock)
 		{
 			CinemaClient.SeatDataUpdated = false;
@@ -75,11 +76,10 @@ public abstract class Boundary {
 
 		}
 	}
-	static synchronized void BookSeat(int id) {
+	static synchronized void UpdateSeatsData() {
 		// add message to ClientInput so it could be sent to server
 		LinkedList<Object> message = new LinkedList<Object>();
-		message.add("BookSeat");
-		message.add(id);
+		message.add("LoadSeats");
 		synchronized(CinemaClient.SeatDataLock)
 		{
 			CinemaClient.SeatDataUpdated = false;

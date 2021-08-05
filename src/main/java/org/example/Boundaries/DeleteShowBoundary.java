@@ -1,15 +1,19 @@
 package org.example.Boundaries;
 
+import static org.example.OCSF.CinemaClient.UpdatePriceRequestsDataLock;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.OCSF.CinemaClientCLI;
 import org.example.entities.Show;
+import org.example.entities.UpdatePriceRequest;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -39,7 +43,8 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
 	@FXML private TableColumn<Show, String> cinema;
 	
 	Show selected_show = null;
-
+	List<Integer> uprs_of_selected_show = new LinkedList<Integer>();
+	
     @FXML // fx:id="refreshBtn2"
     private Button refreshBtn2; // Value injected by FXMLLoader
 
@@ -57,6 +62,34 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
 
     @FXML // fx:id="selectedTimeText"
     private Text selectedTimeText; // Value injected by FXMLLoader
+    
+    public static Boolean RequestDeclined = true;	// holds if the show is deleted yet
+    // delete request in DataBase and brings the Shows from the DataBase and updates 
+ 	// the RequestsData local list
+    synchronized void DeclineRequest(int request_id) {	
+		// create message and send it to the server
+    	LinkedList<Object> message = new LinkedList<Object>();
+		message.add("DeclineRequest");
+		message.add(request_id);
+		synchronized(UpdatePriceRequestsDataLock)
+		{	
+			RequestDeclined = false;
+			CinemaClientCLI.sendMessage(message);
+							
+			// wait for Data to be changed
+			while(!RequestDeclined) {
+				try {
+					UpdatePriceRequestsDataLock.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}	
+			// update Data
+			org.example.Boundaries.Boundary.UpdateUpdatePriceRequestsData();
+		}	
+	}
+    
     
     public static Boolean ShowDeleted = true;	// holds if the show is deleted yet
     // delete show in DataBase and brings the Shows from the DataBase and updates 
@@ -90,6 +123,7 @@ public class DeleteShowBoundary extends ContentManagerDisplayBoundary implements
     	int show_id = selected_show.getID();
 		
     	synchronized(CinemaClient.ShowsDataLock) {
+    		
 	    	try {
 	    		// delete show entity
 	        	DeleteShow(show_id);

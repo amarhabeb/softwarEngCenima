@@ -72,7 +72,7 @@ public class AddComplaintBoundary extends Boundary implements Initializable, Ser
             Complaint c = new Complaint(complaintContent.getText(),Integer.parseInt(ordersNumberTextField1.getText()));
             try {
                 AddComplaint(c);
-                MessageBoundaryEmployee.displayInfo("Complaint Added We, will contact you in 24 Hours ");
+                MessageBoundaryEmployee.displayInfo("Complaint sent. We will contact you in 24 Hours ");
                 List<Object> l1 =new LinkedList<>();
                 App.setParams(l1);
                 App.setRoot("CustomerMain",params,stage);

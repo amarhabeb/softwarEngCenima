@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CinemaController {
@@ -83,10 +84,11 @@ public class CinemaController {
             predicates[0]=builder.equal(root.get("ID"),cinema_id);
             predicates[1]=builder.equal(root.get("active"),true);
             query.where(predicates);
-            List<Show> data = session.createQuery(query).getResultList().get(0).getShows();
-            for(Show sh: data){
-                if(sh.getStatus()=="NOT_AVAILABLE")
-                    data.remove(sh);
+            List<Show> data1 = session.createQuery(query).getResultList().get(0).getShows();
+            List<Show> data = new LinkedList<>();
+            for(Show sh: data1){
+                if(sh.getStatus().equals("AVAILABLE"))
+                    data.add(sh);
             }
             System.out.println("Exit load cinemas shows client ");
 

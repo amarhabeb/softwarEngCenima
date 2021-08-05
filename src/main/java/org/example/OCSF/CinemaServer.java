@@ -558,6 +558,7 @@ public class CinemaServer extends AbstractServer{
 					session.clear();
 					boolean success = ShowsController.deleteShow(session, show_id);
 					List<Ticket> show_tickets=TicketsController.loadTicketsByShowID(session,show_id);
+					List<UpdatePriceRequest> uprs=UpdatePriceRequestController.loadRequests(session);
 					for(Ticket t: show_tickets){
 						TicketsController.cancelTicket(session,t.getID());
 						Refund refund=new Refund(t.getPrice(),t.getID(),-1,LocalDateTime.now());
@@ -565,6 +566,12 @@ public class CinemaServer extends AbstractServer{
 						String email=CustomerController.loadCustomerMail(session,t.getCusomer_id());
 						String txt="Due to show cancellation, you got a full refund of amount: "+t.getPrice();
 						MailController.sendMail(txt,email,"Refund due to Cancellation");
+					}
+					// delete price updating requests of the show too
+					for(UpdatePriceRequest upr: uprs){
+						if(upr.getShow_id() == show_id) {
+							UpdatePriceRequestController.deleteRequest(session, upr.getID());
+						}
 					}
 					//session.refresh(Show.class);
 
@@ -815,7 +822,7 @@ public class CinemaServer extends AbstractServer{
 					// load data
 					try {
 						session.clear();
-						LinkController.cancelLink(session, link_id);
+						Boolean m =LinkController.cancelLink(session, link_id);
 						LocalDateTime DT = LinkController.loadLinkTime(session, link_id);
 						int customer_id=LinkController.loadLinkCustomerID(session,link_id);
 						//if there is refund to be done
@@ -831,6 +838,7 @@ public class CinemaServer extends AbstractServer{
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("linkCanceled");
+						messageToClient.add( m);
 //						messageToClient.add(Data);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {

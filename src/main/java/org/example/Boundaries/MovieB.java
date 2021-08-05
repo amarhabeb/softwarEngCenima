@@ -124,6 +124,7 @@ public class MovieB extends Boundary implements Initializable, Serializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         MoviesTable.setVisible(true);
         tablesum.setVisible(false);
         int movie_id= (int)App.getParams().get(1);
