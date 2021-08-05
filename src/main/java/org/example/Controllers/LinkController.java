@@ -134,7 +134,7 @@ public class LinkController {
             return -1;
         }
     }
-    public static Refund cancelLink(Session session, int link_id) {
+    public static boolean cancelLink(Session session, int link_id) {
         try {
 
             CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -147,7 +147,7 @@ public class LinkController {
             session.createQuery(update_query).executeUpdate();
             transaction.commit();
             session.clear();
-            return calcRefund(session,link_id);
+            return true;
         }
         catch (Exception exception) {
             if (session != null) {
@@ -155,7 +155,7 @@ public class LinkController {
             }
             System.err.println("An error occurred, changes have been rolled back.");
             exception.printStackTrace();
-            return null;
+            return false;
         }
     }
 
