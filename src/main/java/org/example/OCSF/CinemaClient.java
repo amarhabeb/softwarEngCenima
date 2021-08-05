@@ -726,7 +726,7 @@ public class CinemaClient extends AbstractClient {
 				LinksDataLock.notifyAll();
 			}
 		}
-		if(message.get(0).equals("LinkCanceled")) {
+		if(message.get(0).equals("linkCanceled")) {
 			synchronized( LinksDataLock) {
 				CancleOrderBoundary.linkCancelled = true;
 				LinksDataUpdated = false;	// client's ShowsData is now not updated
