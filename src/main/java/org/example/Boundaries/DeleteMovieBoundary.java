@@ -75,12 +75,12 @@ public class DeleteMovieBoundary extends ContentManagerDisplayBoundary implement
     public static Boolean MovieDeleted = true;	// holds if the show is deleted yet
     // delete show in DataBase and brings the Shows from the DataBase and updates 
  	// the ShowsData local list
-    synchronized void DeleteMovie(int movie_id) {
+    synchronized void DeleteMovie(String movie_name) {
     	MovieDeleted = false;	// show isn't deleted yet
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
 		message.add("DeleteMovie");
-		message.add(movie_id);
+		message.add(movie_name);
 		synchronized(CinemaClient.MoviesDataLock)
 		{	
 			CinemaClientCLI.sendMessage(message);
@@ -129,12 +129,21 @@ public class DeleteMovieBoundary extends ContentManagerDisplayBoundary implement
 
     @FXML
     void clickDeleteMovieBtn(ActionEvent event) {
-    	int movie_id = selected_movie.getID();
+    	
+    	String movie_name = selected_movie.getName_en();
+    	synchronized(CinemaClient.ShowsDataLock) {
+    		UpdateShowsData();
+    		for(Show show:CinemaClient.ShowsData) {
+    			if(show.getMovie().getName_en().equals(movie_name)) {
+    				shows_of_selected_movie.add(show.getID());
+    			}
+    		}
+    	}
     	
     	synchronized(CinemaClient.MoviesDataLock) {
 	    	try {
 	    		// delete movie entity
-	        	DeleteMovie(movie_id);
+	        	DeleteMovie(movie_name);
 	    		MessageBoundaryEmployee.displayInfo("Movie successfully deleted.");
 	    	}catch(Exception e) {	// server threw exception while trying to delete show
 	    		MessageBoundaryEmployee.displayError("An error occured. Movie couldn't be deleted.");
@@ -146,18 +155,11 @@ public class DeleteMovieBoundary extends ContentManagerDisplayBoundary implement
     	}
     	
     	synchronized(CinemaClient.ShowsDataLock) {
-    		UpdateShowsData();
-    		for(Show show:CinemaClient.ShowsData) {
-    			if(show.getMovie().getID()==movie_id) {
-    				shows_of_selected_movie.add(show.getID());
-    			}
-    		}
     	
     		try {
     			for(Integer show_id:shows_of_selected_movie) {
     				// delete show entity
     				DeleteShow(show_id);
-    				System.out.println("deleted");
     			}
     			MessageBoundaryEmployee.displayInfo("Shows of selected movie successfully deleted.");
 	    	}catch(Exception e) {	// server threw exception while trying to delete show

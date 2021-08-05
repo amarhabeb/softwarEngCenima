@@ -16,6 +16,7 @@ public class Cinema implements Serializable {
     String branch_name;
     
     @ManyToMany(targetEntity = Show.class, cascade = CascadeType.ALL)
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Show> shows;
     @OneToMany(targetEntity = Movie.class, cascade = CascadeType.ALL)
     private List<Movie> movies;

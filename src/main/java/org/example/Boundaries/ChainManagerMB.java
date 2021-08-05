@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import org.example.App;
 import org.example.OCSF.CinemaClient;
 import org.example.entities.Cinema;
+import org.example.entities.Employee;
 import org.example.entities.Hall;
 
 import javafx.fxml.FXML;
@@ -63,6 +64,7 @@ public class ChainManagerMB extends EmployeeMainBoundary implements Initializabl
   		params.add("ChainManagerMB");
   		
   		// pass selected paramaters to view boundary
+  		employee = (Employee) this.params.get(0);
     	params.add(employee);
   		App.setRoot("ViewReportBoundary",params, stage);
     }
