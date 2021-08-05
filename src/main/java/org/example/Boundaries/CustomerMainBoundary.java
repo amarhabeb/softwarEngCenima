@@ -61,8 +61,8 @@ public class CustomerMainBoundary extends EmployeeMainBoundary implements Initia
 
     }
     @FXML
-    void clickcancelBtn(ActionEvent event) {
-
+    void clickcancelBtn(ActionEvent event) throws IOException {
+    	App.setRoot("CancelOrder",params,stage);
     }
 
 
