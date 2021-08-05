@@ -70,6 +70,7 @@
                             <Font name="System Bold Italic" size="14.0" />
                         </font>
                     </Button>
+                  <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="481.0" layoutY="159.0" prefHeight="21.0" prefWidth="198.0" textAlignment="CENTER" textOverrun="CENTER_WORD_ELLIPSIS" />
                     </children>
                 </AnchorPane>
             </children>

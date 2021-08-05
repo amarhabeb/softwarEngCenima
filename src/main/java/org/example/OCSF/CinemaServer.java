@@ -862,7 +862,9 @@ public class CinemaServer extends AbstractServer{
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("ticketCanceled");
-//						messageToClient.add(DATA);
+
+						//messageToClient.add(DATA);
+
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
