@@ -153,7 +153,7 @@ public class ShowsController {
 	
 	// update time of a show in the data base
     @SuppressWarnings("exports")
-	public static boolean updateTime(Session session, int show_id, LocalTime newTime){
+	public static boolean updateTime(Session session, int show_id, LocalDateTime newTime){
         try {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaUpdate<Show> update_query=builder.createCriteriaUpdate(Show.class);

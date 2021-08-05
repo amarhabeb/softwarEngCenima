@@ -85,7 +85,7 @@ public class CinemaServer extends AbstractServer{
 
 				if (message.get(0).equals("ChangeShowTime")) {
 					int show_id = (int) message.get(1);
-					LocalTime newTime = (LocalTime) message.get(2);
+					LocalDateTime newTime = (LocalDateTime) message.get(2);
 					// change time of show in database
 					session.clear();
 					boolean success = ShowsController.updateTime(session, show_id, newTime);
@@ -813,7 +813,7 @@ public class CinemaServer extends AbstractServer{
 					// load data
 					try {
 						session.clear();
-						Refund Data = LinkController.cancelLink(session, link_id);
+						LinkController.cancelLink(session, link_id);
 						LocalDateTime DT = LinkController.loadLinkTime(session, link_id);
 						int customer_id=LinkController.loadLinkCustomerID(session,link_id);
 						//if there is refund to be done
@@ -829,7 +829,7 @@ public class CinemaServer extends AbstractServer{
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("linkCanceled");
-						messageToClient.add(Data);
+//						messageToClient.add(Data);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -862,7 +862,7 @@ public class CinemaServer extends AbstractServer{
 						// reply to client
 						LinkedList<Object> messageToClient = new LinkedList<Object>();
 						messageToClient.add("ticketCanceled");
-						messageToClient.add(DATA);
+//						messageToClient.add(DATA);
 						client.sendToClient(messageToClient);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
@@ -1491,17 +1491,17 @@ public class CinemaServer extends AbstractServer{
 				LocalDateTime.of(2021,7,31,21,0), 11, 80,9);
 		LinkController.addLink(session,link1);
 		Link link2=new Link("www.cinema.com",LocalDateTime.of(2021,7,30,23,0),
-				LocalDateTime.of(2021,7,31,1,30), 12, 80,3);
+				LocalDateTime.of(2021,7,31,1,30), 12, 80,10);
 		LinkController.addLink(session,link2);
 		Link link3=new Link("www.cinema.com",LocalDateTime.of(2021,7,31,2,45),
-				LocalDateTime.of(2021,7,31,5,30), 11, 80,1);
+				LocalDateTime.of(2021,7,31,5,30), 11, 80,11);
 		LinkController.addLink(session,link3);
 		List<Link> links=LinkController.loadLinks(session);
 		//System.out.println(links.size());
 		List<Link> clinks=LinkController.loadCustomerLinks(session,3);
 		//System.out.println(clinks.size());
 
-		Refund Data = LinkController.cancelLink(session,link1.getID());
+		//LinkController.cancelLink(session,link1.getID());
 		LocalDateTime DT = LinkController.loadLinkTime(session, link1.getID());
 		//if there is refund to be done
 //		if (ChronoUnit.HOURS.between(LocalDateTime.now(),DT) >1){
@@ -1566,7 +1566,8 @@ public class CinemaServer extends AbstractServer{
 		List<Seat> seatsList=HallController.loadSeats(session,3);
 		System.out.println("Seats:" +seatsList.size());
 
-
+		ShowsController.updateTime(session,1,
+				LocalDateTime.of(2021,12,31,15,0));
 	}
 
 
