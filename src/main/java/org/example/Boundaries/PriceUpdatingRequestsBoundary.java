@@ -99,13 +99,13 @@ public class PriceUpdatingRequestsBoundary extends EmployeeMainBoundary implemen
     // delete request in DataBase and brings the Shows from the DataBase and updates 
  	// the RequestsData local list
     synchronized void DeclineRequest(int request_id) {
-    	RequestDeclined = false;	
 		// create message and send it to the server
     	LinkedList<Object> message = new LinkedList<Object>();
 		message.add("DeclineRequest");
 		message.add(request_id);
 		synchronized(UpdatePriceRequestsDataLock)
 		{	
+			RequestDeclined = false;	
 			CinemaClientCLI.sendMessage(message);
 							
 			// wait for Data to be changed

@@ -568,6 +568,7 @@ public class CinemaClient extends AbstractClient {
 			}
 			synchronized( UpdatePriceRequestsDataLock) {
 				PriceUpdatingRequestsBoundary.RequestDeclined=true;
+				DeleteShowBoundary.RequestDeclined=true;
 				UpdatePriceRequestsDataUpdated = false;	// client's ShowsData is now not updated
 				UpdatePriceRequestsDataLock.notifyAll();
 			}
@@ -726,23 +727,17 @@ public class CinemaClient extends AbstractClient {
 			}
 		}
 		if(message.get(0).equals("LinkCanceled")) {
-			Refund DATA = (Refund) message.get(1);
-			if(DATA==null){
-				throw new Exception("Controller failed");
-			}
 			synchronized( LinksDataLock) {
-				LinksDataUpdated = true;	// client's ShowsData is now not updated
+				CancleOrderBoundary.linkCancelled = true;
+				LinksDataUpdated = false;	// client's ShowsData is now not updated
 				LinksDataLock.notifyAll();
 			}
 		}
 
 		if(message.get(0).equals("ticketCanceled")) {
-			Refund DATA = (Refund) message.get(1);
-			if(DATA==null){
-				throw new Exception("Controller failed");
-			}
 			synchronized( TicketsDataLock) {
-				TicketsDataUpdated = true;	// client's ShowsData is now not updated
+				CancleOrderBoundary.ticketCancelled = true;
+				TicketsDataUpdated = false;	// client's ShowsData is now not updated
 				TicketsDataLock.notifyAll();
 			}
 		}
