@@ -39,6 +39,7 @@ import java.util.ResourceBundle;
 
 public class BuyTicketBoundary extends Boundary implements Initializable, Serializable {
     static  List<Show> shows = new LinkedList<>();
+    static String cinema_name = "";
 
     @FXML // fx:id="refreshBtn"
     private Button refreshBtn; // Value injected by FXMLLoader
@@ -224,6 +225,10 @@ public class BuyTicketBoundary extends Boundary implements Initializable, Serial
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if(cinema_name.equals("")==false){
+            cinemas.setValue(cinema_name);
+            cinema_name="";
+        }
         for(int i=0;i<=30;i++){
             startyear.getItems().add(i);
             endYear.getItems().add(i);
@@ -332,6 +337,7 @@ public class BuyTicketBoundary extends Boundary implements Initializable, Serial
                         c = DataList.get(i);
                     }
                 }
+                cinema_name=c.getBranch_name();
                 System.out.println(c.getBranch_name());
                 synchronized (CinemaClient.ShowsDataLock) {
                     org.example.Boundaries.Boundary.UpdateCinemaShowsData(c.getID());
@@ -406,6 +412,7 @@ public class BuyTicketBoundary extends Boundary implements Initializable, Serial
                 t.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
+
                         List<Object> l = new LinkedList<>();
                         l.add(-10);
                         l.add(Integer.parseInt(t.getId()));
