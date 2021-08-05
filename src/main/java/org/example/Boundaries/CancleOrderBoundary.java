@@ -109,16 +109,20 @@ public class CancleOrderBoundary extends Boundary implements Initializable, Seri
 
     @FXML
     void clickSubmitBtn(ActionEvent event) {
-        if(orderTypeChoiceBox.getSelectionModel().getSelectedItem().equals("Cancel Link")){
+        if(orderTypeChoiceBox.getSelectionModel().isEmpty()){
+            label.setText("Plesase Choose which ticket to cancel");
+        }
+
+        else if(orderTypeChoiceBox.getSelectionModel().getSelectedItem().equals("Cancel Link")){
             String order_id = ordersNumberTextField1.getText();
-            if(!isNumeric(order_id)){
+            if(order_id.isEmpty() ||!isNumeric(order_id)){
                 label.setText("Invalid input. Please Insert a number for order number.");
             }
             else {
             	try {
             		synchronized(CinemaClient.OrdersDataLock) {
             			cancelLink(Integer.parseInt(order_id));
-            			MessageBoundary.displayInfo("Order successfully cancelled. You've been refunded.");
+            			MessageBoundary.displayInfo("Order successfully cancelled. you will get mail about your refund ");
             		}
             	}catch(Exception e) {
             		MessageBoundary.displayError("Order cancelling failed.");
@@ -136,7 +140,7 @@ public class CancleOrderBoundary extends Boundary implements Initializable, Seri
             	try {
 	            	synchronized(CinemaClient.OrdersDataLock) {
 	            		cancelTicket(Integer.parseInt(order_id));
-	            		MessageBoundary.displayError("Order successfully cancelled. You've been refunded.");
+                        MessageBoundary.displayInfo("Order successfully cancelled. you will get mail about your refund ");
 	            	}
             	}catch(Exception e) {
             		MessageBoundary.displayError("Order cancelling failed.");
