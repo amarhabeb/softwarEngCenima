@@ -81,7 +81,7 @@ public class CinemaManagerMB extends EmployeeMainBoundary implements Initializab
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
+				
 		// initialize month and year choice boxes
 		// all months available (1-12)
 		for (int month = 1; month<=12; month++) {

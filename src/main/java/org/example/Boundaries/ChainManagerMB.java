@@ -45,8 +45,6 @@ public class ChainManagerMB extends EmployeeMainBoundary implements Initializabl
 
     @FXML
     void clickViewPriceUpdatingRequestsBtn(ActionEvent event) throws IOException {
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
     	App.setRoot("PriceUpdatingRequestsBoundary",params, stage);
     }
 

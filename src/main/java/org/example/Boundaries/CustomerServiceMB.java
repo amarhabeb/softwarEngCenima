@@ -136,8 +136,6 @@ public class CustomerServiceMB extends EmployeeMainBoundary implements Initializ
 
     @FXML
     void clickViewComplaintsBtn(ActionEvent event) throws IOException {
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
     	App.setRoot("ViewComplaintsBoundary", params, stage);
     }
     

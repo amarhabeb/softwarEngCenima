@@ -81,51 +81,37 @@ public class ContentManagerMB extends EmployeeMainBoundary implements Initializa
 
 	@FXML
 	void clickUpdateShowsTimesBtn(ActionEvent event) throws IOException {
-		List<Object> params = new LinkedList<>();
-    	params.add(employee);
 		 App.setRoot("UpdateTimeBoundary",params, stage);
 	}
 	
 	@FXML
     void clickSetRemoveOnlineMoviesBtn(ActionEvent event) throws IOException {
-		List<Object> params = new LinkedList<>();
-    	params.add(employee);
 		App.setRoot("UpdateAvailableOnlineBoundary",params, stage);
     }
 	
 	@FXML
     void clickAddMoviesBtn(ActionEvent event) throws IOException {
-		List<Object> params = new LinkedList<>();
-    	params.add(employee);
 		App.setRoot("AddMovieBoundary",params, stage);
 
     }
 
     @FXML
     void clickAddShowsBtn(ActionEvent event) throws IOException{
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
     	App.setRoot("AddShowBoundary",params, stage);
     }
     
     @FXML
     void clickRemoveMoviesBtn(ActionEvent event) throws IOException {
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
     	App.setRoot("DeleteMovieBoundary",params,stage);
     }
 
     @FXML
     void clickRemoveShowsBtn(ActionEvent event) throws IOException  {
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
     	App.setRoot("DeleteShowBoundary",params, stage);
     }
 
     @FXML
     void clickUpdateShowsPricesBtn(ActionEvent event) throws IOException{
-    	List<Object> params = new LinkedList<>();
-    	params.add(employee);
     	App.setRoot("UpdatePriceBoundary",params, stage);
     }
 	

@@ -132,6 +132,7 @@ public class CustomerMainBoundary extends EmployeeMainBoundary implements Initia
             				}
         				}
     				}
+    				MessageBoundary.displayInfo("Hey "+ user.getName() +"!\nYou are now in employee mode.");
     			}else {
     				if(success_status==1) {
     					MessageBoundary.displayError("Login failed.");
