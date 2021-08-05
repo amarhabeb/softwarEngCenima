@@ -145,18 +145,18 @@ public class TicketsController {
         }
     }
 
-    private static Refund calcRefund(Session session, int ticket_id) throws Exception {
-        Refund refund = new Refund(0,ticket_id,0,LocalDateTime.now());
-        if(loadTicketShowTime(session,ticket_id).isAfter(LocalDateTime.now().plusHours(3))){
-            refund.setAmount(loadTicketPrice(session,ticket_id));
-            RefundController.addRefund(session,refund);
-        }
-        else if(loadTicketShowTime(session,ticket_id).isAfter(LocalDateTime.now().plusHours(1))){
-            refund.setAmount(loadTicketPrice(session,ticket_id)/2);
-            RefundController.addRefund(session,refund);
-        }
-        return refund;
-    }
+//    private static Refund calcRefund(Session session, int ticket_id) throws Exception {
+//        Refund refund = new Refund(0,ticket_id,0,LocalDateTime.now());
+//        if(loadTicketShowTime(session,ticket_id).isAfter(LocalDateTime.now().plusHours(3))){
+//            refund.setAmount(loadTicketPrice(session,ticket_id));
+//            RefundController.addRefund(session,refund);
+//        }
+//        else if(loadTicketShowTime(session,ticket_id).isAfter(LocalDateTime.now().plusHours(1))){
+//            refund.setAmount(loadTicketPrice(session,ticket_id)/2);
+//            RefundController.addRefund(session,refund);
+//        }
+//        return refund;
+//    }
 
     public static LocalDateTime loadTicketShowTime(Session session, int ticket_id){
         try{
