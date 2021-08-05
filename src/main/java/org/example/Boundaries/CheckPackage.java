@@ -64,6 +64,7 @@ public class CheckPackage extends Boundary implements Initializable, Serializabl
                System.out.println(DataList.size());
 
                int id = Integer.parseInt(ordersNumberTextField1.getText());
+               int flag=0;
 
                 // System.out.println(DataList.get(0).getMovie().getName_en());
                 for(int i=0;i<DataList.size();i++){
@@ -72,9 +73,16 @@ public class CheckPackage extends Boundary implements Initializable, Serializabl
                     if(id == DataList.get(i).getID()){
                         System.out.println("suc");
                         label.setText("Your Balance is "+Integer.toString(DataList.get(i).getCounter()));
+                        flag=1;
 
 
                     }
+
+                }
+                if(flag==0) {
+                    label.setText("Please Enter a Package number ");
+
+
                 }
             }
 
