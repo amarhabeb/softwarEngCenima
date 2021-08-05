@@ -118,7 +118,7 @@ public class CancleOrderBoundary extends Boundary implements Initializable, Seri
             	try {
             		synchronized(CinemaClient.OrdersDataLock) {
             			cancelLink(Integer.parseInt(order_id));
-            			MessageBoundary.displayError("Order successfully cancelled. You've been refunded.");
+            			MessageBoundary.displayInfo("Order successfully cancelled. You've been refunded.");
             		}
             	}catch(Exception e) {
             		MessageBoundary.displayError("Order cancelling failed.");

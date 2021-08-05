@@ -131,7 +131,7 @@ public class PaymenyTicket extends Boundary implements Initializable, Serializab
     public void initialize(URL url, ResourceBundle rb) {
 
         // set-up the columns in the table
-        for (int hour = 0; hour <= 12; hour++) {
+        for (int hour = 1; hour <= 12; hour++) {
             hoursChoice.getItems().add(hour);
         }
         for (int min = 2021; min <= 2030; min++) {

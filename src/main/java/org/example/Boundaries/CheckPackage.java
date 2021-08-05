@@ -98,6 +98,7 @@ public class CheckPackage extends Boundary implements Initializable, Serializabl
     @FXML
     void clickrefreshBtn(ActionEvent event) {
         ordersNumberTextField1.setText("");
+        label.setText("");
 
 
     }
