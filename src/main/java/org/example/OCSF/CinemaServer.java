@@ -1381,6 +1381,8 @@ public class CinemaServer extends AbstractServer{
 		RegulationsController.addRegulations(CinemaServer.session,regulations);
 		RegulationsController.deactivateRegulations(session);
 
+		//MoviesController.setOnlineMovieOFF(session,"Joker");
+
 		//intialize employees
 		ChainManager chainManager=new ChainManager("cersei lannister", "0534727563",
 				"Lannister@gmail.com", "clannister","1212");
@@ -1618,7 +1620,7 @@ public class CinemaServer extends AbstractServer{
 			String im11= "file:/C:/Users/windows/Desktop/softareengcinema/target/classes/org/example/12.jpeg";
 
 
-			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),"bla bla bla", LocalDate.parse("2021-08-08"),  im, emptyShowList,false,cinema1);
+			Movie HarryPotter7= new Movie ("Harry Potter 7", "הארי פוטר 7", "David Yates", init.HarryPotterCast(),init.HarryPotterSummary(), LocalDate.parse("2021-08-08"),  im, emptyShowList,false,cinema1);
 			moviesList.add(HarryPotter7);
 			Movie Joker=new Movie("Joker","גוקר","Todd Phillips",init.JokerCast(), init.JokerSummary(), LocalDate.parse("2021-08-07"), im1, emptyShowList,false,cinema1);
 			moviesList.add(Joker);
